@@ -1,0 +1,283 @@
+<div class="container text-right">
+  <select ng-model="locale">
+    <option
+      ng-repeat="(code, desc) in locales"
+      value="{{code}}"
+      ng-bind="desc"
+    ></option>
+  </select>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-3">
+      <h2>Suche</h2>
+      <form>
+        <div class="form-group">
+          <input
+            class="form-control"
+            type="text"
+            placeholder="Volltextsuche"
+            ng-model="terms"
+          />
+        </div>
+        <div class="checkbox or-characteristic">
+          <label>
+            <input type="checkbox" />
+            <small>nur in Zusammenfassung suchen</small>
+          </label>
+        </div>
+
+        <hr />
+
+        <div class="or-criteria">
+          <ul class="list-inline">
+            <li class="label label-default">
+              Frankreich
+              <i class="glyphicon glyphicon-remove"></i>
+            </li>
+            <li class="label label-default">
+              DFK Paris
+              <i class="glyphicon glyphicon-remove"></i>
+            </li>
+            <li class="label label-default">
+              Elmira Morar
+              <i class="glyphicon glyphicon-remove"></i>
+            </li>
+          </ul>
+        </div>
+
+        <hr />
+
+        <div class="small">
+          <div
+            class="or-criteria"
+            ng-repeat="(key, agg) in data.aggregations"
+            ng-show="agg.buckets.length > 0"
+          >
+            <div class="pull-right text-right">
+              <span class="text-uppercase" ng-bind="key"></span><br />
+              <a href="#">... weitere</a>
+            </div>
+            <ul class="list-unstyled">
+              <li ng-repeat="bucket in agg.buckets">
+                <a
+                  href="#"
+                  ng-bind="lookup[bucket.key]._source.name[locale]"
+                ></a>
+                ({{bucket.doc_count}})
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <hr />
+        
+        <div class="form-group text-right">
+          <input type="submit" class="btn btn-primary" value="Suchen" />
+        </div>
+      </form>
+    </div>
+
+    <div class="col-md-9">
+
+      <div class="chronology hidden-xs hidden-sm">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="or-timeline bg-warning text-center">
+
+              <div class="row">
+                <div class="col-md-3">
+                  <div class="checkbox">
+                    <label>
+                      <input type="checkbox" />
+                      Ausstellung (1381)
+                    </label>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="checkbox">
+                    <label>
+                      <input type="checkbox" />
+                      Kultur-/Politisches Ereignis (118)
+                    </label>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="checkbox">
+                    <label>
+                      <input type="checkbox" />
+                      Reise (117)
+                    </label>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="checkbox">
+                    <label>
+                      <input type="checkbox" />
+                      Veröffentlichung (43)
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <h1>Zeitstrahl UI</h1>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <hr />
+
+      <div class="or-slider" or-slider-lower="lower" or-slider-upper="upper"></div>
+
+      <div class="text-muted">
+        <div class="pull-right">1989</div>
+        <div class="pull-left">1960</div>
+        <div class="text-center">
+          <span ng-bind="lower"></span>
+          –
+          <span ng-bind="upper"></span>
+        </div>
+      </div>
+
+      <hr />
+
+      <h2>
+        Aufsätze
+        <small>{{data.total}} gefunden</small>
+      </h2>
+
+      <hr class="invisible" />
+
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group text-right">
+            <input
+              class="form-control or-autocomplete-journals"
+              type="text"
+              placeholder="Zeitschriften"
+            />
+            <a
+              href="#"
+              data-toggle="modal"
+              data-target="#journal-modal"
+            >weitere ...</a>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group text-right">
+            <input
+              class="form-control or-autocomplete-people"
+              type="text"
+              placeholder="Autoren"
+            />
+            <a
+              href="#"
+              data-toggle="modal"
+              data-target="#people-modal"
+            >weitere ...</a>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="or-criteria text-right">
+            <ul class="list-inline">
+              <li class="label label-default">
+                Regan Reynolds
+                <i class="glyphicon glyphicon-remove"></i>
+              </li>
+              <li class="label label-default">
+                Pagac and Sons
+                <i class="glyphicon glyphicon-remove"></i>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <hr class="invisible" />
+      
+      <div class="row">
+        <div class="col-md-12">
+          <ul class="or-results list-unstyled">
+            <li class="bg-warning" ng-repeat="record in data.records">
+              <div class="or-box">
+                <div class="pull-right or-preview">
+                  <!-- <img src="sample.01.jpg"> -->
+                </div>
+                <h4>
+                  {{record._source.title[locale]}}<br />
+                  <small class="text-muted" ng-bind="">Chroniques de l'art vivant, n° 4, sept-oct 1969, p. 3</small>
+                </h4>
+                <div>
+                  Kowalski "Manipulateur 4", Claude Givaudan (vom 6. bis 11. Oktober)
+                </div>
+                <div>
+                  <em>
+                    Erwähnung im Kalender der Revue.
+                  </em>
+                </div>
+              </div>
+            </li>
+            <li class="bg-warning">
+              <div class="or-box">
+                <div class="pull-right or-preview">
+                  <!-- <img src="sample.02.jpg"> -->
+                </div>
+                <h4>
+                  Le Participe: une pièce de Miron Bialoszewski<br />
+                  <small class="text-muted">Opus International</small>
+                </h4>
+                <div>
+                  <em>
+                    Il s'agit d'un extrait traduit par Allan Kosko de la pièce "Le participe", de Miron Baloszevski, qui fut donnée à la Biennale de Paris de 1967 (5e Biennale de Paris) par les soins de Jean-Clarence Lambert.
+                  </em>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="people-modal" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Personen</h4>
+      </div>
+      <div class="modal-body">
+        <table class="table table-bordered">
+          <tr ng-repeat="row in ds().grouped_people">
+            <td ng-repeat="person in row" ng-bind="person" class="or-selectable"></td>
+          </tr>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" data-dismiss="modal">fertig</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="journal-modal" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Zeitschriften</h4>
+      </div>
+      <div class="modal-body">
+        <table class="table table-bordered">
+          <tr ng-repeat="row in ds().grouped_journals">
+            <td ng-repeat="person in row" ng-bind="person" class="or-selectable"></td>
+          </tr>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" data-dismiss="modal">fertig</button>
+      </div>
+    </div>
+  </div>
+</div>

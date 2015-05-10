@@ -1,0 +1,6 @@
+/.bundle
+/log/*
+!/log/.keep
+/tmp
+
+config/app.yml
