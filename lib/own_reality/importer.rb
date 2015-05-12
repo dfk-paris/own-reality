@@ -89,16 +89,48 @@ class OwnReality::Importer
           "title" => {
             "type" => "object",
             "properties" => {
-              "name" => {"type" => "string", "analyzer" => "folding"}
+              "de" => {"type" => "string", "analyzer" => "folding"},
+              "fr" => {"type" => "string", "analyzer" => "folding"},
+              "en" => {"type" => "string", "analyzer" => "folding"}
             }
           },
           "journal" => {
             "type" => "object",
             "properties" => {
-              "name" => {"type" => "string", "analyzer" => "folding"}
+              "de" => {"type" => "string", "analyzer" => "folding"},
+              "fr" => {"type" => "string", "analyzer" => "folding"},
+              "en" => {"type" => "string", "analyzer" => "folding"}
+            }
+          },
+          "content" => {
+            "type" => "object",
+            "properties" => {
+              "de" => {"type" => "string", "analyzer" => "folding"},
+              "fr" => {"type" => "string", "analyzer" => "folding"},
+              "en" => {"type" => "string", "analyzer" => "folding"}
+            }
+          },
+          "abstract" => {
+            "type" => "object",
+            "properties" => {
+              "de" => {"type" => "string", "analyzer" => "folding"},
+              "fr" => {"type" => "string", "analyzer" => "folding"},
+              "en" => {"type" => "string", "analyzer" => "folding"}
+            }
+          },
+          "interpretation" => {
+            "type" => "object",
+            "properties" => {
+              "de" => {"type" => "string", "analyzer" => "folding"},
+              "fr" => {"type" => "string", "analyzer" => "folding"},
+              "en" => {"type" => "string", "analyzer" => "folding"}
             }
           },
           "authors" => {"type" => "string", "analyzer" => "folding"},
+          "from_date" => {"type" => "date", "format" => "date_hour_minute_second"},
+          "to_date" => {"type" => "date", "format" => "date_hour_minute_second"},
+          "search_refs" => {"type" => "string", "analyzer" => "folding"},
+          "id_refs" => {"type" => "integer"},
           "refs" => {
             "type" => "object",
             "properties" => categories_mapping

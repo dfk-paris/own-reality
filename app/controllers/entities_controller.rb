@@ -6,7 +6,8 @@ class EntitiesController < ApplicationController
   end
 
   def lookup
-    @records = OwnReality::Query.new.lookup("attribs", params[:ids]).last['docs']
+    response = OwnReality::Query.new.lookup("attribs", params[:ids]).last
+    @records = (response.is_a?(Array) ? response : response['docs'])
     render :template => "api/entities/lookup"
   end
 

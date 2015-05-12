@@ -9,7 +9,8 @@ class OwnReality::Query
   end
 
   def search(criteria = {})
-    p criteria
+    # criteria.delete "lower"
+    # criteria.delete "upper"
 
     aggs = {
       # "journals" => {
@@ -35,11 +36,72 @@ class OwnReality::Query
     end
 
     data = {
-      "aggs" => aggs
+      "aggs" => aggs,
+      "query" => {
+        "bool" => {
+          "must" => []
+        }
+      }
     }
 
+    if criteria["lower"].present?
+      data["query"]["bool"]["must"] << {
+        "bool" => {
+          "should" => [
+            {
+              "constant_score" => {
+                "filter" => {
+                  "range" => {
+                    "to_date" => {
+                      "gte" => Time.mktime(criteria["lower"]).strftime("%Y-%m-%dT%H:%M:%S")
+                    }
+                  }
+                }
+              }
+            },{
+              "constant_score" => {
+                "filter" => {
+                  "missing" => {
+                    "field" => "to_date"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    end
+
+    if criteria["upper"].present?
+      data["query"]["bool"]["must"] << {
+        "bool" => {
+          "should" => [
+            {
+              "constant_score" => {
+                "filter" => {
+                  "range" => {
+                    "from_date" => {
+                      "lte" => Time.mktime(criteria["upper"]).strftime("%Y-%m-%dT%H:%M:%S")
+                    }
+                  }
+                }
+              }
+            },{
+              "constant_score" => {
+                "filter" => {
+                  "missing" => {
+                    "field" => "from_date"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    end
+
     if criteria["terms"].present?
-      data["query"] = {
+      data["query"]["bool"]["must"] << {
         "query_string" => {
           "query" => criteria["terms"],
           "default_operator" => "AND",
@@ -56,12 +118,25 @@ class OwnReality::Query
           #   'properties.label^2',
           #   'comment^1',
           #   '_all'
-          # ]
+          # 
         }
       }
     end
 
-    p data
+    if criteria["refs"].present?
+      data["query"]["bool"]["must"] << {
+        "constant_score" =>{
+          "filter" => {
+            "terms" => {
+              "id_refs" => criteria["refs"],
+              "execution" => "and"
+            }
+          }
+        }
+      }
+    end
+
+    pp data
 
     response = elastic.request "post", "/articles/_search", nil, data
 

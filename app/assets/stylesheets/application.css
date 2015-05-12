@@ -1,4 +1,6 @@
 /*
+ *= require vendor/font-awesome.min
+ *= require vendor/jquery-ui.min
  *= require_tree .
  *= require_self
  */

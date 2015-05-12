@@ -18,7 +18,7 @@
             class="form-control"
             type="text"
             placeholder="Volltextsuche"
-            ng-model="terms"
+            ng-model="form.terms"
           />
         </div>
         <div class="checkbox or-characteristic">
@@ -32,17 +32,9 @@
 
         <div class="or-criteria">
           <ul class="list-inline">
-            <li class="label label-default">
-              Frankreich
-              <i class="glyphicon glyphicon-remove"></i>
-            </li>
-            <li class="label label-default">
-              DFK Paris
-              <i class="glyphicon glyphicon-remove"></i>
-            </li>
-            <li class="label label-default">
-              Elmira Morar
-              <i class="glyphicon glyphicon-remove"></i>
+            <li class="label label-default" ng-repeat="ref in form.refs" ng-click="remove_ref(ref, $event)">
+              {{lookup[ref]._source.name[locale]}}
+              <i class="fa fa-remove"></i>
             </li>
           </ul>
         </div>
@@ -64,6 +56,7 @@
                 <a
                   href="#"
                   ng-bind="lookup[bucket.key]._source.name[locale]"
+                  ng-click="add_ref(bucket.key, $event)"
                 ></a>
                 ({{bucket.doc_count}})
               </li>
@@ -129,15 +122,15 @@
 
       <hr />
 
-      <div class="or-slider" or-slider-lower="lower" or-slider-upper="upper"></div>
+      <div class="or-slider" or-slider-lower="form.lower" or-slider-upper="form.upper"></div>
 
       <div class="text-muted">
         <div class="pull-right">1989</div>
         <div class="pull-left">1960</div>
         <div class="text-center">
-          <span ng-bind="lower"></span>
+          <span ng-bind="form.lower"></span>
           –
-          <span ng-bind="upper"></span>
+          <span ng-bind="form.upper"></span>
         </div>
       </div>
 
@@ -184,11 +177,11 @@
             <ul class="list-inline">
               <li class="label label-default">
                 Regan Reynolds
-                <i class="glyphicon glyphicon-remove"></i>
+                <i class="fa fa-remove"></i>
               </li>
               <li class="label label-default">
                 Pagac and Sons
-                <i class="glyphicon glyphicon-remove"></i>
+                <i class="fa fa-remove"></i>
               </li>
             </ul>
           </div>
@@ -207,22 +200,21 @@
                 </div>
                 <h4>
                   {{record._source.title[locale]}}<br />
-                  <small class="text-muted" ng-bind="">Chroniques de l'art vivant, n° 4, sept-oct 1969, p. 3</small>
+                  <small class="text-muted">
+                    {{record._source.journal[locale]}},
+                    {{record._source.volume[locale]}}
+                  </small>
                 </h4>
                 <div>
-                  Kowalski "Manipulateur 4", Claude Givaudan (vom 6. bis 11. Oktober)
+                  <strong ng-bind="record._source.content[locale]"></strong>
                 </div>
-                <div>
-                  <em>
-                    Erwähnung im Kalender der Revue.
-                  </em>
-                </div>
+                <div ng-bind="record._source.interpretation[locale]"></div>
               </div>
             </li>
-            <li class="bg-warning">
+            <!-- li class="bg-warning">
               <div class="or-box">
                 <div class="pull-right or-preview">
-                  <!-- <img src="sample.02.jpg"> -->
+                  <img src="sample.02.jpg">
                 </div>
                 <h4>
                   Le Participe: une pièce de Miron Bialoszewski<br />
@@ -234,7 +226,7 @@
                   </em>
                 </div>
               </div>
-            </li>
+            </li -->
           </ul>
         </div>
       </div>

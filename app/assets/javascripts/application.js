@@ -1,14 +1,11 @@
-//= require jquery
-//= require jquery-ui
-//= require angular
-//= require angular-route
-//= require twitter/bootstrap
+//= require vendor/jquery-2.1.4.min
+//= require vendor/jquery-ui.min
+//= require vendor/angular.min
+//= require vendor/angular-route.min
+//= require vendor/bootstrap.min
 //= require_self
-//= require_tree .
-
-jQuery.ready(function(event){
-  $("a[rel~=popover], .has-popover").popover();
-  $("a[rel~=tooltip], .has-tooltip").tooltip();
-});
+//= require_tree ./controllers
+//= require_tree ./services
+//= require_tree ./directives
 
 var app = angular.module("or", ["ngRoute"]);

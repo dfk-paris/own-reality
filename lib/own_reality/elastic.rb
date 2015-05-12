@@ -14,6 +14,7 @@ class OwnReality::Elastic
     unless index_exists?
       request 'put', '/', nil, {
         "settings" => {
+          "number_of_shards" => 1,
           "analysis" => {
             "analyzer" => {
               "folding" => {
@@ -51,7 +52,7 @@ class OwnReality::Elastic
 
   def request(method, path, query = {}, body = nil, headers = {})
     response = raw_request(method, path, query, body, headers)
-    Rails.logger.info "ELASTIC RESPONSE: #{response.inspect}"
+    # Rails.logger.info "ELASTIC RESPONSE: #{response.inspect}"
 
     if response.status >= 200 && response.status <= 299
       [response.status, response.headers, JSON.load(response.body)]
@@ -61,7 +62,7 @@ class OwnReality::Elastic
   end
 
   def raw_request(method, path, query = {}, body = nil, headers = {})
-    Rails.logger.info "ELASTIC REQUEST: #{method} #{path}\n#{body.inspect}"
+    # Rails.logger.info "ELASTIC REQUEST: #{method} #{path}\n#{body.inspect}"
 
     headers.reverse_merge 'content-type' => 'application/json', 'accept' => 'application/json'
     url = "http://#{config['host']}:#{config['port']}/#{config['index']}#{path}"
