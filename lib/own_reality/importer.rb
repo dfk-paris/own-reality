@@ -6,10 +6,12 @@ class OwnReality::Importer
     @elastic ||= OwnReality::Elastic.new
   end
 
+  def reader
+    @reader ||= OwnReality::ProwebReader.new
+  end
+
   def run
     elastic.reset_index
-
-    reader = OwnReality::ProwebReader.new
 
     mapping! reader.categories.folded_list
 
@@ -27,57 +29,9 @@ class OwnReality::Importer
         "folded_list" => reader.categories.folded_list,
       }
     }
-
-    # Proweb::Project.where(:id => project_ids).all.each do |project|
-    #   project.objects.each do |object|
-    #     index(object)
-    #   end
-    # end
-
-    # attribs = Proweb::Project.where(:id => project_ids).map do |project|
-    #   project.pw_attributes.where(:attribute_kind_id => 43).all
-    # end.flatten.uniq
-
-    # attribs.each do |attrib|
-    #   data = {
-    #     "name" => with_translations(attrib)
-    #   }
-
-    #   request 'put', "/attribs/#{attrib.id}", nil, data  
-    # end
   end
 
   def mapping!(folded_categories = [])
-    # request "put", "/entities/_mapping", nil, {
-    #   "entities" => {
-    #     "properties" => {
-    #       "name" => {"type" => "string", "analyzer" => "folding"},
-    #       "distinct_name" => {"type" => "string", "analyzer" => "folding"},
-    #       "synonyms" => {"type" => "string", "analyzer" => "folding"},
-    #       "comment" => {"type" => "string", "analyzer" => "folding"},
-    #       "dataset" => {
-    #         "type" => "object",
-    #         "properties" => {
-    #           "_default_" => {"type" => "string", "analyzer" => "folding"}
-    #         }
-    #       },
-    #       "properties" => {
-    #         "type" => "object", 
-    #         "properties" => {
-    #           "label" => {"type" => "string", "analyzer" => "folding"},
-    #           "value" => {"type" => "string", "analyzer" => "folding"}
-    #         }
-    #       },
-    #       "id" => {"type" => "string", "index" => "not_analyzed"},
-    #       "uuid" => {"type" => "string", "index" => "not_analyzed"},
-    #       "tags" => {"type" => "string", "analyzer" => "keyword"},
-    #       "related" => {"type" => "string", "analyzer" => "folding"},
-
-    #       "sort" => {"type" => "string", "index" => "not_analyzed"}
-    #     }
-    #   }
-    # }
-
     categories_mapping = {}
     folded_categories.each do |fc|
       categories_mapping[fc] = {"type" => "integer"}
