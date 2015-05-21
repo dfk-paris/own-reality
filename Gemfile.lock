@@ -4,6 +4,7 @@ PATH
     proweb (0.0.1)
       activerecord
       activerecord-sqlserver-adapter
+      byebug
       httpclient
       mysql2
       oj
