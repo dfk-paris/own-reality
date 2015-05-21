@@ -1,6 +1,6 @@
 Bundler.require :import
 
-class OwnReality::Importer
+class OwnReality::Import
 
   def elastic
     @elastic ||= OwnReality::Elastic.new

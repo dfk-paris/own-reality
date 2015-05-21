@@ -63,9 +63,11 @@ class OwnReality::Elastic
 
   def raw_request(method, path, query = {}, body = nil, headers = {})
     # Rails.logger.info "ELASTIC REQUEST: #{method} #{path}\n#{body.inspect}"
+    query ||= {}
+    query["token"] = config['token']
 
     headers.reverse_merge 'content-type' => 'application/json', 'accept' => 'application/json'
-    url = "http://#{config['host']}:#{config['port']}/#{config['index']}#{path}"
+    url = "#{config['url']}/#{config['index']}#{path}"
     client.request(method, url, query, (body ? JSON.dump(body) : nil), headers)      
   end
 
