@@ -9,6 +9,10 @@ gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'httpclient', '~> 2.6'
 
+gem 'jquery-rails'
+gem 'jquery-ui-rails'
+gem 'font-awesome-rails'
+
 group :import do
   if File.exists?("/var/storage/host/own_reality/shared/proweb")
     gem 'proweb', :path => "/var/storage/host/own_reality/shared/proweb"

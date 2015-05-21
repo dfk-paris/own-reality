@@ -1,5 +1,5 @@
-//= require vendor/jquery-2.1.4.min
-//= require vendor/jquery-ui.min
+//= require jquery
+//= require jquery-ui
 //= require vendor/angular.min
 //= require vendor/angular-route.min
 //= require vendor/bootstrap.min
