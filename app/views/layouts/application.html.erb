@@ -6,12 +6,11 @@
     <%= stylesheet_link_tag    'application', media: 'all' %>
     <%= javascript_include_tag 'application' %>
 
-    <!-- <link rel="stylesheet" href="https://bootswatch.com/journal/bootstrap.min.css">
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.3/themes/smoothness/jquery-ui.css"> -->
-
     <%= csrf_meta_tags %>
+
+    <%= render :partial => "layouts/templates" %>
   </head>
-  <body ng-app="or" ng-controller="root_controller">
+  <body ng-controller="root_controller" ng-view="true">
     <%= yield %>
   </body>
 </html>

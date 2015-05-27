@@ -22,7 +22,13 @@ class OwnReality::ProwebReader
   end
 
   def each_article(&block)
+    puts "caching articles"
+    counter = 0
+
     articles.find_each do |article|
+      counter += 1
+      puts "#{counter}/#{articles.count}" if counter % 10 == 0
+
       data = {
         "id" => article.id,
         "title" => with_translations(article, :title),
@@ -50,6 +56,11 @@ class OwnReality::ProwebReader
         data["search_refs"] += with_translations(a).values
         data["id_refs"] << a.id
       end
+
+      pfc = OwnReality::ProwebFileConverter.new(article['id'])
+      pfc.run
+
+      data["file_base_hash"] = pfc.hash
 
       yield data
     end

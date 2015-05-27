@@ -1,0 +1,5 @@
+de:
+  article:
+    one: Aufsatz
+    other: Aufsätze
+  amount_found: "%{o} gefunden"

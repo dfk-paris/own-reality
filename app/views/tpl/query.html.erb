@@ -1,11 +1,5 @@
 <div class="container text-right">
-  <select ng-model="locale">
-    <option
-      ng-repeat="(code, desc) in locales"
-      value="{{code}}"
-      ng-bind="desc"
-    ></option>
-  </select>
+  <select ng-model="locale" ng-options="k as v for (k, v) in locales"></select>
 </div>
 
 <div class="container">
@@ -19,6 +13,7 @@
             type="text"
             placeholder="Volltextsuche"
             ng-model="form.terms"
+            wu-delayed-model="true"
           />
         </div>
         <div class="checkbox or-characteristic">
@@ -32,8 +27,13 @@
 
         <div class="or-criteria">
           <ul class="list-inline">
-            <li class="label label-default" ng-repeat="ref in form.refs" ng-click="remove_ref(ref, $event)">
-              {{lookup[ref]._source.name[locale]}}
+            <li
+              class="label label-default"
+              ng-repeat="ref in form.refs"
+              ng-click="remove_ref(ref, $event)"
+              title="{{lookup[ref]._source.name[locale]}}"
+            >
+              {{lookup[ref]._source.name[locale] | limitTo:25}}
               <i class="fa fa-remove"></i>
             </li>
           </ul>
@@ -44,7 +44,7 @@
         <div class="small">
           <div
             class="or-criteria"
-            ng-repeat="(key, agg) in data.aggregations"
+            ng-repeat="(key, agg) in results.aggregations"
             ng-show="agg.buckets.length > 0"
           >
             <div class="pull-right text-right">
@@ -137,8 +137,8 @@
       <hr />
 
       <h2>
-        Aufsätze
-        <small>{{data.total}} gefunden</small>
+        {{ 'article' | t:{count: 'other', capitalize: true} }}
+        <small>{{ 'amount_found' | t:{interpolations: {o: results.total} } }}</small>
       </h2>
 
       <hr class="invisible" />
@@ -193,22 +193,20 @@
       <div class="row">
         <div class="col-md-12">
           <ul class="or-results list-unstyled">
-            <li class="bg-warning" ng-repeat="record in data.records">
+            <li class="bg-warning" ng-repeat="record in results.records">
               <div class="or-box">
                 <div class="pull-right or-preview">
                   <!-- <img src="sample.01.jpg"> -->
                 </div>
                 <h4>
-                  {{record._source.title[locale]}}<br />
+                  <div or-bind-translate="record._source.title"></div>
                   <small class="text-muted">
-                    {{record._source.journal[locale]}},
-                    {{record._source.volume[locale]}}
+                    <span or-bind-translate="record._source.journal"></span>,
+                    <span or-bind-translate="record._source.volume"></span>
                   </small>
                 </h4>
-                <div>
-                  <strong ng-bind="record._source.content[locale]"></strong>
-                </div>
-                <div ng-bind="record._source.interpretation[locale]"></div>
+                <p class="strong" or-bind-translate="record._source.content"></p>
+                <p class="small text-muted" or-bind-translate="record._source.interpretation"></p>
               </div>
             </li>
             <!-- li class="bg-warning">

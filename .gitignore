@@ -6,3 +6,5 @@
 config/app.yml
 config/secrets.yml
 *.sqlite3
+data
+public/files

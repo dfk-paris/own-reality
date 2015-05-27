@@ -30,6 +30,7 @@ class OwnReality::Query
           # "script" => "doc['refs']['#{c}'].values",
           "field" => "refs.#{fc}",
           # "lang" => "groovy",
+          "exclude" => criteria["refs"],
           "size" => 5
         }
       }
@@ -136,7 +137,7 @@ class OwnReality::Query
       }
     end
 
-    pp data
+    Rails.logger.debug data.inspect
 
     response = elastic.request "post", "/articles/_search", nil, data
 

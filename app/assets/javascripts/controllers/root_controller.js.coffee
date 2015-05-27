@@ -1,32 +1,35 @@
 app.controller "root_controller", [
-  "$scope", "data_service", "session_service",
-  (scope, ds, ss) ->
-    scope.form = {
+  "$scope", "data_service", "session_service", "wuBase64Location",
+  (scope, ds, ss, l) ->
+    scope.form = l.search("form") || {
       lower: 1961
       upper: 1980
       refs: []
     }
 
-    scope.ds = -> ds
-    # scope.random = (n) -> Math.floor(Math.random() * n)
+    scope.locales = ds.locales
+    scope.locale = ss.locale
 
-    scope.locales = ss.locales
-    scope.locale = "de"
+    scope.$on "$routeChangeSuccess", -> query()
+    scope.$on "$routeUpdate", ->
+      console.log("querying", scope.form)
+      query()
 
-    query = (new_form = {}) ->
-      ds.search(new_form).success (search_data) ->
+    query = ->
+      ds.search(scope.form).success (search_data) ->
         console.log(search_data)
-        ds.lookup_for(search_data).success (data) ->
+        ds.lookup_for(search_data, scope.form).success (data) ->
           lookup = {}
           for i in data
             lookup[i._id] = i
           scope.lookup = lookup
-          scope.data = search_data
-      
-    scope.$watch "form", query, true
-    scope.$watch "locale", (new_value) -> ss.locale = new_value
+          scope.results = search_data
 
-    # scope.set_locale = (locale) -> ss.locale = locale
+    urlUpdate = ->
+      l.search "form", scope.form
+      
+    scope.$watch "form", urlUpdate, true
+    scope.$watch "locale", (new_value) -> ss.locale = new_value
 
     scope.add_ref = (key, event) ->
       event.preventDefault()
@@ -37,5 +40,6 @@ app.controller "root_controller", [
       i = scope.form.refs.indexOf(key)
       scope.form.refs.splice i, 1
 
+    window.l = l
     window.s = scope
 ]
