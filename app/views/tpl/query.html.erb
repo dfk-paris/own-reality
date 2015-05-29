@@ -53,6 +53,11 @@
             </div>
             <ul class="list-unstyled">
               <li ng-repeat="bucket in agg.buckets">
+                <span
+                  ng-bind="bucket.key"
+                  ng-show="debug"
+                  class="text-muted"
+                ></span>
                 <a
                   href="#"
                   ng-bind="lookup[bucket.key]._source.name[locale]"
@@ -196,35 +201,38 @@
             <li class="bg-warning" ng-repeat="record in results.records">
               <div class="or-box">
                 <div class="pull-right or-preview">
-                  <!-- <img src="sample.01.jpg"> -->
+                  <a href="{{file_url(record, 'original')}}" target="_blank">
+                    <img
+                      ng-src="{{file_url(record)}}"
+                      ng-show="record._source.file_base_hash"
+                    >
+                  </a>
                 </div>
                 <h4>
-                  <div or-bind-translate="record._source.title"></div>
-                  <small class="text-muted">
-                    <span or-bind-translate="record._source.journal"></span>,
-                    <span or-bind-translate="record._source.volume"></span>
-                  </small>
+                  <div>
+                    <span
+                      ng-bind="record._source.id"
+                      ng-show="debug"
+                      class="text-muted"
+                    ></span>
+                    <span or-bind-translate="record._source.title"></span>
+                  </div>
+                  <small
+                    class="text-muted"
+                    ng-bind="bibliography(record)"
+                  ></small>
                 </h4>
+                <p>
+                  <small><em ng-bind="author_list(record)"></em></small>
+                </p>
                 <p class="strong" or-bind-translate="record._source.content"></p>
-                <p class="small text-muted" or-bind-translate="record._source.interpretation"></p>
+                <p
+                  class="small text-muted"
+                  or-bind-translate="record._source.interpretation"
+                ></p>
+                <div class="clearfix"></div>
               </div>
             </li>
-            <!-- li class="bg-warning">
-              <div class="or-box">
-                <div class="pull-right or-preview">
-                  <img src="sample.02.jpg">
-                </div>
-                <h4>
-                  Le Participe: une pièce de Miron Bialoszewski<br />
-                  <small class="text-muted">Opus International</small>
-                </h4>
-                <div>
-                  <em>
-                    Il s'agit d'un extrait traduit par Allan Kosko de la pièce "Le participe", de Miron Baloszevski, qui fut donnée à la Biennale de Paris de 1967 (5e Biennale de Paris) par les soins de Jean-Clarence Lambert.
-                  </em>
-                </div>
-              </div>
-            </li -->
           </ul>
         </div>
       </div>

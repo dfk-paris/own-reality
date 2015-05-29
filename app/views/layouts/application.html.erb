@@ -10,7 +10,7 @@
 
     <%= render :partial => "layouts/templates" %>
   </head>
-  <body ng-controller="root_controller" ng-view="true">
+  <body ng-controller="root_controller" ng-view="true" ng-keyup="shortcut($event)">
     <%= yield %>
   </body>
 </html>

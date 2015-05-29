@@ -5,6 +5,8 @@ app.service 'orTranslate', [
       current_locale: -> ss.locale
       capitalize: (string) -> string.charAt(0).toUpperCase() + string.slice(1)
       translate: (input, options = {}) ->
+        result = ""
+
         try
           options.count ||= 1
           parts = input.split(".")
@@ -22,10 +24,11 @@ app.service 'orTranslate', [
             value = tvalue if (tvalue != "" && tvalue != value)
             result = result.replace regex, value
 
-          if options.capitalize then service.capitalize(result) else result
+          result = service.capitalize(result) if options.capitalize
         catch error
           # console.log error
-          ""
+          
+        result
       localize: (input, format_name = 'default') ->
         try
           format = service.translate "date.formats.#{format_name}"

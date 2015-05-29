@@ -32,8 +32,8 @@ class OwnReality::ProwebReader
       data = {
         "id" => article.id,
         "title" => with_translations(article, :title),
-        "journal" => with_translations(article.journal),
-        "volume" => with_translations(article.volume),
+        "journal" => fold_translations(article.journal),
+        "volume" => fold_translations(article.volume),
         "authors" => article.people.map{|person| person.display_name},
         "from_date" => date_from(article.from_date),
         "to_date" => date_from(article.to_date),
@@ -58,9 +58,7 @@ class OwnReality::ProwebReader
       end
 
       pfc = OwnReality::ProwebFileConverter.new(article['id'])
-      pfc.run
-
-      data["file_base_hash"] = pfc.hash
+      data["file_base_hash"] = pfc.run
 
       yield data
     end
@@ -97,6 +95,18 @@ class OwnReality::ProwebReader
     end
 
     result
+  end
+
+  def fold_translations(o, column = :name)
+    if o.present?
+      o.translations.each do |t|
+        if t.send(column).present?
+          return t.send(column)
+        end
+      end
+    end
+
+    nil
   end
 
 end

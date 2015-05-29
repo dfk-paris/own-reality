@@ -48,14 +48,6 @@ class OwnReality::Import
               "en" => {"type" => "string", "analyzer" => "folding"}
             }
           },
-          "journal" => {
-            "type" => "object",
-            "properties" => {
-              "de" => {"type" => "string", "analyzer" => "folding"},
-              "fr" => {"type" => "string", "analyzer" => "folding"},
-              "en" => {"type" => "string", "analyzer" => "folding"}
-            }
-          },
           "content" => {
             "type" => "object",
             "properties" => {
@@ -80,7 +72,9 @@ class OwnReality::Import
               "en" => {"type" => "string", "analyzer" => "folding"}
             }
           },
+          "journal" => {"type" => "string", "analyzer" => "folding"},
           "authors" => {"type" => "string", "analyzer" => "folding"},
+          "volume" => {"type" => "string", "index" => "not_analyzed"},
           "from_date" => {"type" => "date", "format" => "date_hour_minute_second"},
           "to_date" => {"type" => "date", "format" => "date_hour_minute_second"},
           "search_refs" => {"type" => "string", "analyzer" => "folding"},
