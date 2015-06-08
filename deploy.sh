@@ -37,6 +37,8 @@ function deploy {
   # remote "ln -sfn $SHARED_PATH/database.yml $CURRENT_PATH/config/database.yml"
   remote "ln -sfn $SHARED_PATH/app.yml $CURRENT_PATH/config/app.yml"
   remote "ln -sfn $SHARED_PATH/secrets.yml $CURRENT_PATH/config/secrets.yml"
+  remote "ln -sfn $SHARED_PATH/data $CURRENT_PATH/data"
+  remote "ln -sfn $SHARED_PATH/public_files $CURRENT_PATH/public/files"
 
   # within_do $CURRENT_PATH "RAILS_ENV=production bundle exec rake db:migrate"
   within_do $CURRENT_PATH "RAILS_ENV=production bundle exec rake assets:precompile"

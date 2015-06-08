@@ -34,7 +34,7 @@ class OwnReality::ProwebReader
         "title" => with_translations(article, :title),
         "journal" => fold_translations(article.journal),
         "volume" => fold_translations(article.volume),
-        "authors" => article.people.map{|person| person.display_name},
+        "authors" => article.authors.map{|person| person.display_name},
         "from_date" => date_from(article.from_date),
         "to_date" => date_from(article.to_date),
         "content" => with_translations(article, :content),

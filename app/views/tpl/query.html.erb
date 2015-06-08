@@ -208,6 +208,12 @@
                     >
                   </a>
                 </div>
+                <div>
+                  <small
+                    class="text-muted"
+                    ng-bind="author_list(record)"
+                  ></small>
+                </div>
                 <h4>
                   <div>
                     <span
@@ -222,14 +228,9 @@
                     ng-bind="bibliography(record)"
                   ></small>
                 </h4>
-                <p>
-                  <small><em ng-bind="author_list(record)"></em></small>
+                <p class="small">
+                  <span or-bind-translate="record._source.interpretation"></span>
                 </p>
-                <p class="strong" or-bind-translate="record._source.content"></p>
-                <p
-                  class="small text-muted"
-                  or-bind-translate="record._source.interpretation"
-                ></p>
                 <div class="clearfix"></div>
               </div>
             </li>
