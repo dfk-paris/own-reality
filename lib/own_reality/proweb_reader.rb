@@ -35,8 +35,8 @@ class OwnReality::ProwebReader
         "journal" => fold_translations(article.journal),
         "volume" => fold_translations(article.volume),
         "authors" => article.authors.map{|person| person.display_name},
-        "from_date" => date_from(article.from_date),
-        "to_date" => date_from(article.to_date),
+        "from_date" => from_date_from(article),
+        "to_date" => to_date_from(article),
         "content" => with_translations(article, :content),
         "abstract" => with_translations(article, :abstract),
         "interpretation" => with_translations(article, :interpretation),
@@ -62,6 +62,40 @@ class OwnReality::ProwebReader
 
       yield data
     end
+  end
+
+  def from_date_from(article)
+    date_from(article.from_date) || if article.issued_on.present?
+      from_issued_on(article)     
+    else
+      puts "article #{article.id} doesn't have valid dates"
+      nil
+    end
+  end
+
+  def to_date_from(article)
+    date_from(article.to_date) || date_from(article.from_date) || if article.issued_on.present?
+      from_issued_on(article, false)
+    else
+      puts "article #{article.id} doesn't have valid dates"
+      nil
+    end
+  end
+
+  def from_issued_on(article, from = true)
+    addition = (from ? 0 : 1)
+    parts = article.issued_on.split(".").map{|i| i.to_i}
+    result = if article.ed_ignore_month
+      Time.mktime parts[0] + addition
+    elsif article.ed_ignore_day
+      Time.mktime parts[0], parts[1] + addition
+    else
+      Time.mktime parts[0], parts[1], parts[2] + addition
+    end
+    (result - addition.days).strftime("%Y-%m-%dT%H:%M:%S")
+  rescue ArgumentError => e
+    puts "article #{article.id} produced an argument error"
+    nil
   end
 
   def date_from(value)
