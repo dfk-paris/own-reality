@@ -3,3 +3,8 @@ de:
     one: Aufsatz
     other: Aufsätze
   amount_found: "%{o} gefunden"
+  summary: Zusammenfassung
+  people_involved: genannte Personen
+  author:
+    one: Autor
+    other: Autoren

@@ -168,4 +168,8 @@ class OwnReality::Query
     end
   end
 
+  def find(id)
+    elastic.request "get", "/articles/#{id}"
+  end
+
 end

@@ -15,6 +15,14 @@ class OwnReality::Import
 
     mapping! reader.categories.folded_list
 
+    elastic.request 'put', "/config/complete", nil, {
+      "categories" => {
+        "list" => reader.categories.list,
+        "folded_list" => reader.categories.folded_list,
+      },
+      "roles" => reader.roles
+    }
+    
     reader.each_article do |article|
       elastic.request 'put', "/articles/#{article['id']}", nil, article
     end
@@ -23,12 +31,6 @@ class OwnReality::Import
       elastic.request 'put', "/attribs/#{attrib['id']}", nil, attrib
     end
 
-    elastic.request 'put', "/config/complete", nil, {
-      "categories" => {
-        "list" => reader.categories.list,
-        "folded_list" => reader.categories.folded_list,
-      }
-    }
   end
 
   def mapping!(folded_categories = [])

@@ -11,4 +11,18 @@ class EntitiesController < ApplicationController
     render :template => "api/entities/lookup"
   end
 
+  def show
+    @record = OwnReality::Query.new.find(params[:id]).last
+    render :json => @record
+  end
+
+  def download
+    hash = params[:hash].gsub(/[\\\/]/, '')
+    path = "#{Rails.root}/public/files/#{hash}/original.pdf"
+    send_data(File.read(path),
+      :filename => "article.pdf",
+      :disposition => "attachment"
+    )
+  end
+
 end

@@ -1,16 +1,18 @@
 app.controller "root_controller", [
-  "$scope", "data_service", "session_service", "wuBase64Location",
-  (scope, ds, ss, l) ->
+  "$scope", "data_service", "session_service", "wuBase64Location", "$location",
+  (scope, ds, ss, l, lo) ->
     scope.debug = false
+
+    scope.config = {
+      locales: ds.locales
+      locale: ss.locale
+    }
 
     scope.form = l.search("form") || {
       lower: 1961
       upper: 1980
       refs: []
     }
-
-    scope.locales = ds.locales
-    scope.locale = ss.locale
 
     scope.$on "$routeChangeSuccess", -> query()
     scope.$on "$routeUpdate", ->
@@ -29,9 +31,14 @@ app.controller "root_controller", [
 
     urlUpdate = ->
       l.search "form", scope.form
-      
+
+    urlUpdateCurrent = ->
+      l.search "current_id", scope.current_id
+
     scope.$watch "form", urlUpdate, true
-    scope.$watch "locale", (new_value) -> ss.locale = new_value
+    scope.$watch "current_id", urlUpdateCurrent
+    scope.$watch "config.locale", (new_value) -> 
+      ss.locale = new_value
 
     scope.add_ref = (key, event) ->
       event.preventDefault()
@@ -60,7 +67,12 @@ app.controller "root_controller", [
         if event.which == 68
           scope.debug = !scope.debug
 
+    scope.set_current_id = (record, event) ->
+      event.preventDefault()
+      scope.current_id = record._source.id
 
     window.l = l
+    window.lo = lo
     window.s = scope
+    window.ss = ss
 ]

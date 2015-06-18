@@ -21,6 +21,15 @@ class OwnReality::ProwebReader
     data
   end
 
+  def roles
+    ids = Proweb::ObjectPerson.group(:kind_id).count.keys
+    results = {}
+    Proweb::Attribute.where(:id => ids).each do |a|
+      results[a.id] = with_translations(a)
+    end
+    results
+  end
+
   def each_article(&block)
     puts "caching articles"
     counter = 0
@@ -34,7 +43,7 @@ class OwnReality::ProwebReader
         "title" => with_translations(article, :title),
         "journal" => fold_translations(article.journal),
         "volume" => fold_translations(article.volume),
-        "authors" => article.authors.map{|person| person.display_name},
+        "people" => people_by_role(article),
         "from_date" => from_date_from(article),
         "to_date" => to_date_from(article),
         "content" => with_translations(article, :content),
@@ -141,6 +150,20 @@ class OwnReality::ProwebReader
     end
 
     nil
+  end
+
+  def people_by_role(article)
+    result = {}
+    article.people_by_role_ids.each do |k, v|
+      result[k] = v.map do |person|
+        r = {
+          "first_name" => person.first_name,
+          "last_name" => person.last_name,
+          "id" => person.id
+        }
+      end
+    end
+    result
   end
 
 end

@@ -19,6 +19,12 @@ group :import do
   else
     gem 'proweb', :path => "/home/schepp/Desktop/mws/projects/proweb/src"
   end
+
+  if File.exists?("/var/storage/host/own_reality/shared/dfk")
+    gem 'dfk', :path => "/var/storage/host/own_reality/shared/dfk"
+  else
+    gem 'dfk', :path => "/home/schepp/Desktop/mws/projects/scripts/src/dfk"
+  end
 end
 
 group :development, :test do

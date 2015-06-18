@@ -1,5 +1,5 @@
 <div class="container text-right">
-  <select ng-model="locale" ng-options="k as v for (k, v) in locales"></select>
+  <select ng-model="config.locale" ng-options="k as v for (k, v) in config.locales"></select>
 </div>
 
 <div class="container">
@@ -31,9 +31,9 @@
               class="label label-default"
               ng-repeat="ref in form.refs"
               ng-click="remove_ref(ref, $event)"
-              title="{{lookup[ref]._source.name[locale]}}"
+              title="{{lookup[ref]._source.name[config.locale]}}"
             >
-              {{lookup[ref]._source.name[locale] | limitTo:25}}
+              {{lookup[ref]._source.name[config.locale] | limitTo:25}}
               <i class="fa fa-remove"></i>
             </li>
           </ul>
@@ -60,7 +60,7 @@
                 ></span>
                 <a
                   href="#"
-                  ng-bind="lookup[bucket.key]._source.name[locale]"
+                  ng-bind="lookup[bucket.key]._source.name[config.locale]"
                   ng-click="add_ref(bucket.key, $event)"
                 ></a>
                 ({{bucket.doc_count}})
@@ -198,20 +198,29 @@
       <div class="row">
         <div class="col-md-12">
           <ul class="or-results list-unstyled">
-            <li class="bg-warning" ng-repeat="record in results.records">
+            <li class="or-source-list-item bg-warning" ng-repeat="record in results.records">
               <div class="or-box">
                 <div class="pull-right or-preview">
                   <a href="{{file_url(record, 'original')}}" target="_blank">
                     <img
                       ng-src="{{file_url(record)}}"
                       ng-show="record._source.file_base_hash"
+                      class="img-rounded"
                     >
                   </a>
+                  <div class="text-right or-icon-bar">
+                    <a
+                      href="/api/entities/download/{{record._source.file_base_hash}}"
+                      title="download"
+                    >
+                      <i class="fa fa-download"></i>
+                    </a>
+                  </div>
                 </div>
                 <div>
                   <small
                     class="text-muted"
-                    ng-bind="author_list(record)"
+                    ng-bind="record._source.people[12063] | people_list"
                   ></small>
                 </div>
                 <h4>
@@ -221,7 +230,13 @@
                       ng-show="debug"
                       class="text-muted"
                     ></span>
-                    <span or-bind-translate="record._source.title"></span>
+                    <a
+                      or-bind-translate="record._source.title"
+                      href="#"
+                      data-toggle="modal"
+                      data-target="#or-source-modal"
+                      ng-click="set_current_id(record, $event)"
+                    ></a>
                   </div>
                   <small
                     class="text-muted"
@@ -280,3 +295,8 @@
     </div>
   </div>
 </div>
+
+<div
+  or-source-dialog="current_id"
+  or-current="current"
+></div>

@@ -35,6 +35,15 @@
         no_param: function() {
           return l.search()[service.key] === void 0;
         },
+        url_to: function(obj) {
+          var k, result, v;
+          result = $.extend({}, service.get());
+          for (k in obj) {
+            v = obj[k];
+            result[k] = v;
+          }
+          return service.pack(result);
+        },
         update: function(obj) {
           var changes, k, result, v;
           result = $.extend({}, service.get());
