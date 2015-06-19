@@ -12,6 +12,22 @@ app.filter 'people_list', [ ->
 
     results = []
     for person in input
-      results.push "#{person.first_name} #{person.last_name}"
+      if person.last_name == "Anonyme"
+        results.push "Anonyme"
+      else
+        results.push "#{person.first_name} #{person.last_name}"
     results.join(', ')
+]
+
+app.filter 'capitalize', [
+  "orTranslate",
+  (ot) -> ot.capitalize
+]
+
+app.filter 'user', [
+  "data_service",
+  (ds) ->
+    (input) ->
+      person = ds.misc.people[input]
+      if person then "#{person.first_name} #{person.last_name}" else ""
 ]

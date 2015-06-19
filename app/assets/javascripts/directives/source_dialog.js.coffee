@@ -1,6 +1,6 @@
 app.directive "orSourceDialog", [
-  "templates_service", "data_service", "session_service",
-  (ts, ds, ss) ->
+  "templates_service", "data_service", "session_service", "orTranslate",
+  (ts, ds, ss, ot) ->
     directive = {
       scope: {
         "id": "=orSourceDialog"
@@ -8,11 +8,10 @@ app.directive "orSourceDialog", [
       template: ts.fetch "source-dialog"
       replace: "element"
       link: (scope, element) ->
+        scope.has_value = ot.has_value
         scope.misc = -> ds.misc
 
         scope.$watch "id", ->
-          console.log scope.misc()
-          console.log ss
           if scope.id
             ds.show(scope.id).success (data) -> 
               scope.object = data

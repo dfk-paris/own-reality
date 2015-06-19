@@ -17,34 +17,39 @@
         <div class="modal-body">
           <div class="row">
             <div class="col-md-4">
-              <strong>Author(en)</strong>
+              <strong ng-bind="'authors' | t | capitalize"></strong>
               <p ng-bind="object._source.people[12063] | people_list"></p>
 
-              <strong>Quelle</strong>
+              <strong ng-bind="'source' | t | capitalize"></strong>
               <p ng-bind="object._source.journal + ', '+ object._source.volume"></p>
 
               <div ng-repeat="(type_id, people) in object._source.people">
-                <strong or-bind-translate="misc().roles[type_id]"></strong>
-                <p ng-bind="people | people_list"></p>
+                <div ng-if="type_id != 12063">
+                  <strong or-bind-translate="misc().roles[type_id]"></strong>
+                  <p ng-bind="people | people_list"></p>
+                </div>
               </div>
             </div>
             <div class="col-md-8">
-              <strong>Interpretation</strong>
-              <p or-bind-translate="object._source.interpretation"></p>
+              <div ng-show="has_value(object._source.interpretation)">
+                <strong ng-bind="'interpretation' | t | capitalize"></strong>
+                <p or-bind-translate="object._source.interpretation"></p>
+              </div>
 
-              <strong>Inhalt</strong>
-              <p or-bind-translate="object._source.content"></p>
+              <div ng-show="has_value(object._source.content)">
+                <strong ng-bind="'content' | t | capitalize"></strong>
+                <p or-bind-translate="object._source.content"></p>
+              </div>
             </div>
           </div>
-          <!-- div class="row">
+          <div class="row">
             <div class="col-md-12">
               <div or-source-citation="object"></div>
             </div>
-          </div -->
+          </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-          <!-- button type="button" class="btn btn-primary">Save changes</button -->
         </div>
       </div>
     </div>
@@ -54,19 +59,47 @@
 <script type="text/x-ng-tpl" data-id="source-citation">
   <div class="citation">
     Recommended citation style
-    <div ng-show="locale == 'de'">
-      <span ng-bind="object.author"></span>,
-      „{{object.short_title}}“, in
-      <em>{{object.journal}},</em> {{object.volume}};
-      siehe Resümee von {{object.updated_by}},
-      online seit 12.9.2015, URL: {{object.url}}.
+    <div ng-show="locale() == 'de'">
+      <span ng-bind="object._source.people[12063] | people_list"></span>,
+      „{{object._source.short_title.de}}“, in
+      <em>{{object._source.journal}},</em> {{object._source.volume}};
+      siehe Resümee von {{object._source.updated_by | user}},
+      online seit 12.9.2015, URL: {{url_for(object)}}.
     </div>
-    <div ng-show="locale == 'fr'">
-      <span ng-bind="object.author"></span>,
-      « {{object.short_title}} », dans
-      <em>{{object.journal}},</em> {{object.volume}};
-      voir la présentation en ligne de {{object.updated_by}},
-      mise en ligne le 12.9.2015, URL: {{object.url}}.
+    <div ng-show="locale() == 'fr'">
+      <span ng-bind="object._source.people[12063] | people_list"></span>,
+      « {{object._source.short_title.fr}} », dans
+      <em>{{object._source.journal}},</em> {{object._source.volume}};
+      voir la présentation en ligne de {{object._source.updated_by | user}},
+      mise en ligne le 12.9.2015, URL: {{url_for(object)}}.
+    </div>
+  </div>
+</script>
+
+<script type="text/x-ng-tpl" data-id="document-dialog">
+  <div id="or-document-modal" class="modal fade">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-body">
+          <object
+            data="/files/{{hash}}/original.pdf"
+            type="application/pdf"
+            width="100%"
+            height="100%"
+          ></object>
+        </div>
+        <div class="modal-footer">
+          <a
+            href="/api/entities/download/{{hash}}.pdf"
+            type="button"
+            class="btn btn-primary"
+          >
+            <i class="fa fa-download"></i>
+            Download
+          </a>
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
     </div>
   </div>
 </script>

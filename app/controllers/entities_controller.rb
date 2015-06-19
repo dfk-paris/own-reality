@@ -21,7 +21,8 @@ class EntitiesController < ApplicationController
     path = "#{Rails.root}/public/files/#{hash}/original.pdf"
     send_data(File.read(path),
       :filename => "article.pdf",
-      :disposition => "attachment"
+      :disposition => "attachment",
+      :type => "application/pdf"
     )
   end
 

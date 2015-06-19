@@ -3,7 +3,10 @@ app.service 'orTranslate', [
   (ss, ts) ->
     service = {
       current_locale: -> ss.locale
-      capitalize: (string) -> string.charAt(0).toUpperCase() + string.slice(1)
+      other_locale: -> if ss.locale == 'de' then 'fr' else 'de'
+      capitalize: (string) -> 
+        return "" unless typeof string is "string"
+        string.charAt(0).toUpperCase() + string.slice(1)
       translate: (input, options = {}) ->
         result = ""
 
@@ -36,5 +39,9 @@ app.service 'orTranslate', [
           result.strftime format
         catch error
           ""
+      has_value: (object) ->
+        return false unless object
+        object[service.current_locale()] || object[service.other_locale()]
+
     }
 ]

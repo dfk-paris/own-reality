@@ -31,6 +31,9 @@ function deploy {
   RSYNC_OPTS="--recursive --times --rsh=ssh --compress --human-readable --progress"
   local "rsync $RSYNC_OPTS $PROWEB_PATH/ $HOST:$SHARED_PATH/proweb/"
 
+  DFK_PATH="/home/schepp/Desktop/mws/projects/scripts/src/dfk"
+  local "rsync $RSYNC_OPTS $DFK_PATH/ $HOST:$SHARED_PATH/dfk/"
+
   within_do $CURRENT_PATH "rm .ruby-version"
   within_do $CURRENT_PATH "bundle --clean --quiet --without test development --path /home/app/or_bundle"
 

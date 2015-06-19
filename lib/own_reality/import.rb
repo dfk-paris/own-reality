@@ -20,7 +20,8 @@ class OwnReality::Import
         "list" => reader.categories.list,
         "folded_list" => reader.categories.folded_list,
       },
-      "roles" => reader.roles
+      "roles" => reader.roles,
+      "people" => reader.people
     }
     
     reader.each_article do |article|

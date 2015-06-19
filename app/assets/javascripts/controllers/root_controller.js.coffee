@@ -71,8 +71,8 @@ app.controller "root_controller", [
       event.preventDefault()
       scope.current_id = record._source.id
 
-    window.l = l
-    window.lo = lo
-    window.s = scope
-    window.ss = ss
+    scope.set_current_hash = (record, event) ->
+      event.preventDefault()
+      scope.current_document_hash = record._source.file_base_hash
+
 ]

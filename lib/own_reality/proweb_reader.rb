@@ -30,6 +30,10 @@ class OwnReality::ProwebReader
     results
   end
 
+  def people
+    YAML.load_file Proweb.config["users_file"]
+  end
+
   def each_article(&block)
     puts "caching articles"
     counter = 0
@@ -41,6 +45,7 @@ class OwnReality::ProwebReader
       data = {
         "id" => article.id,
         "title" => with_translations(article, :title),
+        "short_title" => with_translations(article, :short_title),
         "journal" => fold_translations(article.journal),
         "volume" => fold_translations(article.volume),
         "people" => people_by_role(article),
@@ -114,7 +119,14 @@ class OwnReality::ProwebReader
   end
 
   def each_attrib(&block)
+    puts "caching attributes"
+    counter = 0
+
+
     attributes.find_each do |attrib|
+      counter += 1
+      puts "#{counter}/#{attributes.count}" if counter % 10 == 0
+
       data = {
         "id" => attrib.id,
         "name" => with_translations(attrib)

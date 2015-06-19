@@ -5,6 +5,7 @@
 //= require vendor/bootstrap.min
 //= require vendor/web-utils
 //= require vendor/web-utils-angular
+//= require vendor/pdfobject
 //= require_self
 //= require ./app
 //= require_tree ./controllers
