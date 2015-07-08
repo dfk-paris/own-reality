@@ -4,6 +4,7 @@ Rails.application.routes.draw do
 
   defaults :format => "html" do
     match "/query", :to => "tpl#query", :via => :get
+    match "/synthese", :to => "tpl#synthese", :via => :get
   end
 
   defaults :format => "json" do

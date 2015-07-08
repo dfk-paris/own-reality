@@ -8,6 +8,10 @@ class TplController < ApplicationController
 
   def query
     
-  end 
+  end
+
+  def synthese
+    
+  end
 
 end

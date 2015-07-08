@@ -122,10 +122,9 @@ class OwnReality::ProwebReader
     puts "caching attributes"
     counter = 0
 
-
     attributes.find_each do |attrib|
       counter += 1
-      puts "#{counter}/#{attributes.count}" if counter % 10 == 0
+      puts "#{counter}/#{attributes.count}" if counter % 100 == 0
 
       data = {
         "id" => attrib.id,

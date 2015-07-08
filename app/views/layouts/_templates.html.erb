@@ -58,17 +58,17 @@
 
 <script type="text/x-ng-tpl" data-id="source-citation">
   <div class="citation">
-    Recommended citation style
+    <strong ng-bind="'recommended_citation_style' | t | capitalize"></strong>
     <div ng-show="locale() == 'de'">
       <span ng-bind="object._source.people[12063] | people_list"></span>,
-      „{{object._source.short_title.de}}“, in
+      „{{object._source.title.de}}“, in
       <em>{{object._source.journal}},</em> {{object._source.volume}};
       siehe Resümee von {{object._source.updated_by | user}},
       online seit 12.9.2015, URL: {{url_for(object)}}.
     </div>
     <div ng-show="locale() == 'fr'">
       <span ng-bind="object._source.people[12063] | people_list"></span>,
-      « {{object._source.short_title.fr}} », dans
+      « {{object._source.title.fr}} », dans
       <em>{{object._source.journal}},</em> {{object._source.volume}};
       voir la présentation en ligne de {{object._source.updated_by | user}},
       mise en ligne le 12.9.2015, URL: {{url_for(object)}}.

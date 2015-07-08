@@ -1,0 +1,59 @@
+.article {
+  #ariane, .publiParente {
+    display: none;
+  }
+
+  margin: 3em;
+  margin-left: 6em;
+  width: 40em;
+
+  h3 {
+    .sousTitre {
+      font-size: 0.6em;
+      font-style: italic;
+    }
+  }
+
+  #enteteDocument {
+    .type:before {
+      content: "\2794";
+      font-weight: normal;
+    }
+  }
+
+  h4 {
+    margin-top: 2em;
+  }
+
+  div#texte {
+    p.texte {
+      span.paranumber {
+        display: block;
+        float: left;
+        margin-left: -2em;
+        color: #aea79f;
+      }
+
+      a.footnotecall {
+        vertical-align: super;
+        font-size: 0.7em;
+      }
+
+      img {
+        max-width: 100%;
+      }
+    }
+  }
+
+  @media screen {
+    #annexes {
+      h4:first-child {
+        display: none;
+      }
+    }
+
+    div.notes {
+      display: none;
+    }
+  }
+}
