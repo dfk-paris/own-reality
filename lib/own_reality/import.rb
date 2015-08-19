@@ -12,9 +12,55 @@ class OwnReality::Import
 
   def run
     elastic.reset_index
+    mapping
 
-    mapping! reader.categories.folded_list
+    config
+    articles
+    interviews
+    magazines
+    chronology
+    sources
 
+    attributes
+  end
+
+  def interviews
+    reader.each_interview do |i|
+      elastic.request 'put', "/interviews/#{i['id']}", nil, i
+    end
+  end
+
+  def magazines
+    reader.each_magazine do |m|
+      elastic.request 'put', "/magazines/#{m['id']}", nil, m
+    end
+  end
+
+  def articles
+    reader.each_article do |a|
+      elastic.request 'put', "/articles/#{a['id']}", nil, a
+    end
+  end
+
+  def chronology
+    reader.each_chrono do |c|
+      elastic.request 'put', "/chronology/#{c['id']}", nil, c
+    end
+  end
+
+  def sources
+    reader.each_source do |s|
+      elastic.request 'put', "/sources/#{s['id']}", nil, s
+    end
+  end
+
+  def attributes
+    reader.each_attrib do |a|
+      elastic.request 'put', "/attribs/#{a['id']}", nil, a
+    end
+  end
+
+  def config
     elastic.request 'put', "/config/complete", nil, {
       "categories" => {
         "list" => reader.categories.list,
@@ -23,72 +69,66 @@ class OwnReality::Import
       "roles" => reader.roles,
       "people" => reader.people
     }
-    
-    reader.each_article do |article|
-      elastic.request 'put', "/articles/#{article['id']}", nil, article
-    end
-
-    reader.each_attrib do |attrib|
-      elastic.request 'put', "/attribs/#{attrib['id']}", nil, attrib
-    end
-
   end
 
-  def mapping!(folded_categories = [])
+  def mapping
+    folded_categories = reader.categories.folded_list
+
     categories_mapping = {}
     folded_categories.each do |fc|
       categories_mapping[fc] = {"type" => "integer"}
     end
 
-    elastic.request "put", "/articles/_mapping", nil, {
-      "articles" => {
-        "properties" => {
-          "title" => {
-            "type" => "object",
-            "properties" => {
-              "de" => {"type" => "string", "analyzer" => "folding"},
-              "fr" => {"type" => "string", "analyzer" => "folding"},
-              "en" => {"type" => "string", "analyzer" => "folding"}
+    ["sources", "magazines", "interviews", "articles", "chronology"].each do |t|
+      elastic.request "put", "/#{t}/_mapping", nil, {
+        "#{t}" => {
+          "properties" => {
+            "title" => {
+              "type" => "object",
+              "properties" => {
+                "de" => {"type" => "string", "analyzer" => "folding"},
+                "fr" => {"type" => "string", "analyzer" => "folding"},
+                "en" => {"type" => "string", "analyzer" => "folding"}
+              }
+            },
+            "content" => {
+              "type" => "object",
+              "properties" => {
+                "de" => {"type" => "string", "analyzer" => "folding"},
+                "fr" => {"type" => "string", "analyzer" => "folding"},
+                "en" => {"type" => "string", "analyzer" => "folding"}
+              }
+            },
+            "abstract" => {
+              "type" => "object",
+              "properties" => {
+                "de" => {"type" => "string", "analyzer" => "folding"},
+                "fr" => {"type" => "string", "analyzer" => "folding"},
+                "en" => {"type" => "string", "analyzer" => "folding"}
+              }
+            },
+            "interpretation" => {
+              "type" => "object",
+              "properties" => {
+                "de" => {"type" => "string", "analyzer" => "folding"},
+                "fr" => {"type" => "string", "analyzer" => "folding"},
+                "en" => {"type" => "string", "analyzer" => "folding"}
+              }
+            },
+            "journal" => {"type" => "string", "analyzer" => "folding"},
+            "volume" => {"type" => "string", "index" => "not_analyzed"},
+            "from_date" => {"type" => "date", "format" => "date_hour_minute_second"},
+            "to_date" => {"type" => "date", "format" => "date_hour_minute_second"},
+            "search_refs" => {"type" => "string", "analyzer" => "folding"},
+            "id_refs" => {"type" => "integer"},
+            "refs" => {
+              "type" => "object",
+              "properties" => categories_mapping
             }
-          },
-          "content" => {
-            "type" => "object",
-            "properties" => {
-              "de" => {"type" => "string", "analyzer" => "folding"},
-              "fr" => {"type" => "string", "analyzer" => "folding"},
-              "en" => {"type" => "string", "analyzer" => "folding"}
-            }
-          },
-          "abstract" => {
-            "type" => "object",
-            "properties" => {
-              "de" => {"type" => "string", "analyzer" => "folding"},
-              "fr" => {"type" => "string", "analyzer" => "folding"},
-              "en" => {"type" => "string", "analyzer" => "folding"}
-            }
-          },
-          "interpretation" => {
-            "type" => "object",
-            "properties" => {
-              "de" => {"type" => "string", "analyzer" => "folding"},
-              "fr" => {"type" => "string", "analyzer" => "folding"},
-              "en" => {"type" => "string", "analyzer" => "folding"}
-            }
-          },
-          "journal" => {"type" => "string", "analyzer" => "folding"},
-          "authors" => {"type" => "string", "analyzer" => "folding"},
-          "volume" => {"type" => "string", "index" => "not_analyzed"},
-          "from_date" => {"type" => "date", "format" => "date_hour_minute_second"},
-          "to_date" => {"type" => "date", "format" => "date_hour_minute_second"},
-          "search_refs" => {"type" => "string", "analyzer" => "folding"},
-          "id_refs" => {"type" => "integer"},
-          "refs" => {
-            "type" => "object",
-            "properties" => categories_mapping
           }
         }
       }
-    }
+    end
 
     elastic.request "put", "/attribs/_mapping", nil, {
       "attribs" => {

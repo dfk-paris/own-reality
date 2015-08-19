@@ -1,0 +1,13 @@
+<div ng-controller="paper_controller">
+  <div class="container" ng-show="debug()">
+    <h1
+      ng-bind="object._source.id"
+      class="text-muted"
+    ></h1>
+  </div>
+
+  <div
+    or-bind-translate="object._source.html"
+    class="or-paper"
+  ></div>
+</div>

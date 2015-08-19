@@ -16,10 +16,11 @@ PATH
 PATH
   remote: /home/schepp/Desktop/mws/projects/scripts/src/dfk
   specs:
-    dfk (0.1.0)
+    dfk (0.2.0)
       httpclient
       mixlib-cli
       net-ldap
+      oj
       pry
 
 GEM
@@ -246,6 +247,7 @@ DEPENDENCIES
   jquery-ui-rails
   less-rails (~> 2.7)
   proweb!
+  pry
   rails (= 4.2.1)
   rspec-rails
   sdoc (~> 0.4.0)
@@ -253,3 +255,6 @@ DEPENDENCIES
   therubyracer
   uglifier (>= 1.3.0)
   web-console (~> 2.0)
+
+BUNDLED WITH
+   1.10.6

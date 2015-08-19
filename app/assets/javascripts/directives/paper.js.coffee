@@ -1,4 +1,4 @@
-app.directive "article", [
+app.directive "orPaper", [
   ->
     el = null
 
@@ -6,13 +6,12 @@ app.directive "article", [
       restrict: "C"
       link: (scope, element) ->
         $('body').on "click", (event) ->
-          console.log "remove"
-          if el
+          within_popover = $(event.target).parents(".popover").length
+          if el && !within_popover
             el.popover("destroy")
             el = null
 
         element.on "click", "a.footnotecall", (event) ->
-          console.log "add"
           event.preventDefault()
 
           unless el
@@ -21,7 +20,7 @@ app.directive "article", [
             el = $(event.currentTarget)
             id = el.attr("id").replace(/^body/, '')
             num = id.replace(/^ftn/, '')
-            text = $("a##{id}").parent().text()
+            text = $("a##{id}").parent().text().replace(/^\d* /, '')
             el.popover(
               title: "Footnote #{num}"
               content: text

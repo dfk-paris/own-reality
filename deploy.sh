@@ -28,7 +28,7 @@ function deploy {
   cleanup
 
   PROWEB_PATH="/home/schepp/Desktop/mws/projects/proweb/src"
-  RSYNC_OPTS="--recursive --times --rsh=ssh --compress --human-readable --progress"
+  RSYNC_OPTS="--recursive --times --rsh=ssh --compress --human-readable --progress -e 'ssh -p $PORT'"
   local "rsync $RSYNC_OPTS $PROWEB_PATH/ $HOST:$SHARED_PATH/proweb/"
 
   DFK_PATH="/home/schepp/Desktop/mws/projects/scripts/src/dfk"
@@ -82,7 +82,7 @@ function within_do {
 
 function remote {
   echo -e "${BLUE}$HOST${NOCOLOR}: ${LIGHTBLUE}$1${NOCOLOR}" 1>&2
-  ssh $HOST "bash -c \"$1\""
+  ssh -p $PORT $HOST "bash -c \"$1\""
   STATUS=$?
 
   if [[ $STATUS != 0 ]] ; then
@@ -114,7 +114,7 @@ function deploy_code {
   local "cd $TMPDIR && git checkout $COMMIT"
   local "tar czf deploy.tar.gz -C $TMPDIR ."
   local "rm -rf $TMPDIR"
-  local "scp deploy.tar.gz $HOST:$DEPLOY_TO/deploy.tar.gz"
+  local "scp -P $PORT deploy.tar.gz $HOST:$DEPLOY_TO/deploy.tar.gz"
   local "rm deploy.tar.gz"
 
   remote "mkdir $CURRENT_PATH"

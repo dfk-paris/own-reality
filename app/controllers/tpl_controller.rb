@@ -6,11 +6,19 @@ class TplController < ApplicationController
     render :layout => "application", :text => ""
   end
 
+  def home
+    
+  end
+
   def query
     
   end
 
-  def synthese
+  def papers
+    
+  end
+
+  def paper
     
   end
 

@@ -1,24 +1,186 @@
 class OwnReality::ProwebReader
 
   def initialize
-    @articles = Proweb::Project.find(16).objects
-    @chronologies = Proweb::Project.find(31).objects
-    @attributes = Proweb::Attribute.
-      joins(:objects => :project).
-      where("projects.id IN (16, 31)").
+    @sources = Proweb::Project.find(16).objects
+    @chronos = Proweb::Project.find(31).objects
+    @archives = Proweb::Project.find(36).objects
+    @articles = Proweb::Project.find(39).objects
+    @interviews = Proweb::Project.find(40).objects
+    @magazines = Proweb::Project.find(41).objects
+    @attributes = Proweb::Attribute.joins(:objects).
+      where("objects.project_id IN (?)", Proweb.config['project_ids']).
       where("attributes.attribute_kind_id = 43")
     @categories = Proweb::Categories.from_file
   end
 
-  attr_reader :articles
-  attr_reader :chronologies
-  attr_reader :attributes
   attr_reader :categories
+
+  def each_interview(&block)
+    puts "caching interviews"
+
+    @interviews.find_each do |i|
+      data = {
+        "id" => i.id,
+        "title" => with_translations(i, :title),
+        "url" => with_translations(i, :content, :fill_with_nil => false),
+        "people" => people_by_role(i, :except_roles => [16530]),
+        "authors" => people_by_role(i, :only_roles => [16530]),
+        "refs" => {},
+        "search_refs" => [],
+        "id_refs" => []
+      }
+
+      merge_refs(data, i)
+
+      pfc = OwnReality::ProwebFileConverter.new(i.id)
+      data["file_base_hash"] = pfc.run
+
+      add_lodel_html(data, i)
+
+      yield data
+    end
+  end
+
+  def each_article(&block)
+    puts "caching articles"
+
+    @articles.find_each do |a|
+      data = {
+        "id" => a.id,
+        "title" => with_translations(a, :title),
+        "url" => with_translations(a, :content, :fill_with_nil => false),
+        "people" => people_by_role(a, :except_roles => [16530]),
+        "authors" => people_by_role(a, :only_roles => [16530]),
+        "refs" => {},
+        "search_refs" => [],
+        "id_refs" => []
+      }
+
+      merge_refs(data, a)
+
+      pfc = OwnReality::ProwebFileConverter.new(a.id)
+      data["file_base_hash"] = pfc.run
+
+      add_lodel_html(data, a)
+
+      yield data
+    end
+  end
+
+  def each_magazine(&block)
+    puts "caching magazines"
+
+    @articles.find_each do |m|
+      data = {
+        "id" => m.id,
+        "title" => with_translations(m, :title),
+        "url" => with_translations(m, :content, :fill_with_nil => false),
+        "people" => people_by_role(m, :except_roles => [16530]),
+        "authors" => people_by_role(m, :only_roles => [16530]),
+        "refs" => {},
+        "search_refs" => [],
+        "id_refs" => []
+      }
+
+      merge_refs(data, m)
+
+      pfc = OwnReality::ProwebFileConverter.new(m.id)
+      data["file_base_hash"] = pfc.run
+
+      add_lodel_html(data, m)
+
+      yield data
+    end
+  end
+
+  def each_chrono(&block)
+    puts "caching chronology"
+    counter = 0
+
+    @chronos.find_each do |s|
+      counter += 1
+      puts "#{counter}/#{@chronos.count}" if counter % 10 == 0
+
+      data = {
+        "id" => s.id,
+        "title" => with_translations(s, :title),
+        "short_title" => with_translations(s, :short_title),
+        "journal" => fold_translations(s.journal),
+        "volume" => fold_translations(s.volume),
+        "people" => people_by_role(s),
+        "from_date" => from_date_from(s),
+        "to_date" => to_date_from(s),
+        "content" => with_translations(s, :content),
+        "abstract" => with_translations(s, :abstract),
+        "interpretation" => with_translations(s, :interpretation)
+      }
+
+      data["from_date"] ||= data["to_date"]
+      data["to_date"] ||= data["from_date"]
+
+      merge_refs(data, s)
+
+      pfc = OwnReality::ProwebFileConverter.new(s['id'])
+      data["file_base_hash"] = pfc.run
+
+      yield data
+    end
+  end
+
+  def each_source(&block)
+    puts "caching sources"
+    counter = 0
+
+    @sources.find_each do |s|
+      counter += 1
+      puts "#{counter}/#{@sources.count}" if counter % 10 == 0
+
+      data = {
+        "id" => s.id,
+        "title" => with_translations(s, :title),
+        "short_title" => with_translations(s, :short_title),
+        "journal" => fold_translations(s.journal),
+        "volume" => fold_translations(s.volume),
+        "people" => people_by_role(s),
+        "from_date" => from_date_from(s),
+        "to_date" => to_date_from(s),
+        "content" => with_translations(s, :content),
+        "abstract" => with_translations(s, :abstract),
+        "interpretation" => with_translations(s, :interpretation)
+      }
+
+      data["from_date"] ||= data["to_date"]
+      data["to_date"] ||= data["from_date"]
+
+      merge_refs(data, s)
+
+      pfc = OwnReality::ProwebFileConverter.new(s['id'])
+      data["file_base_hash"] = pfc.run
+
+      yield data
+    end
+  end
+
+  def each_attrib(&block)
+    puts "caching attributes"
+    counter = 0
+    
+    @attributes.all.each do |attrib|
+      counter += 1
+      puts "#{counter}/#{@attributes.count}" if counter % 100 == 0
+
+      data = {
+        "id" => attrib.id,
+        "name" => with_translations(attrib)
+      }
+
+      yield data
+    end
+  end
 
   def categories_hash
     data = {}
-    categories.
-    data
+    categories.data
   end
 
   def roles
@@ -34,47 +196,36 @@ class OwnReality::ProwebReader
     YAML.load_file Proweb.config["users_file"]
   end
 
-  def each_article(&block)
-    puts "caching articles"
-    counter = 0
 
-    articles.find_each do |article|
-      counter += 1
-      puts "#{counter}/#{articles.count}" if counter % 10 == 0
+  protected
 
-      data = {
-        "id" => article.id,
-        "title" => with_translations(article, :title),
-        "short_title" => with_translations(article, :short_title),
-        "journal" => fold_translations(article.journal),
-        "volume" => fold_translations(article.volume),
-        "people" => people_by_role(article),
-        "from_date" => from_date_from(article),
-        "to_date" => to_date_from(article),
-        "content" => with_translations(article, :content),
-        "abstract" => with_translations(article, :abstract),
-        "interpretation" => with_translations(article, :interpretation),
-        "refs" => {},
-        "search_refs" => [],
-        "id_refs" => []
-      }
-
-      data["from_date"] ||= data["to_date"]
-      data["to_date"] ||= data["from_date"]
-
-      article.pw_attributes.each do |a|
-        cat = (categories.by_id(a.id) || "")["category"]
-        cat = categories.fold_cat(cat)
-        data["refs"][cat] ||= []
-        data["refs"][cat] << a.id
-        data["search_refs"] += with_translations(a).values
-        data["id_refs"] << a.id
+  def add_lodel_html(data, object)
+    data["url"].each do |lang, url|
+      html = OwnReality::LodelParser.new(url).parse
+      if html
+        data["html"] ||= {}
+        data["html"][lang] = html
+        puts "Retrieved HTML for object #{object.id}"
+      else
+        puts "object #{object.id} didn't produce html for lang #{lang}"
       end
+    end
+  end
 
-      pfc = OwnReality::ProwebFileConverter.new(article['id'])
-      data["file_base_hash"] = pfc.run
+  def merge_refs(data, object)
+    data.merge!(
+      "refs" => {},
+      "search_refs" => [],
+      "id_refs" => []
+    )
 
-      yield data
+    object.pw_attributes.each do |a|
+      cat = (categories.by_id(a.id) || "")["category"]
+      cat = categories.fold_cat(cat)
+      data["refs"][cat] ||= []
+      data["refs"][cat] << a.id
+      data["search_refs"] += with_translations(a).values
+      data["id_refs"] << a.id
     end
   end
 
@@ -118,25 +269,14 @@ class OwnReality::ProwebReader
     end
   end
 
-  def each_attrib(&block)
-    puts "caching attributes"
-    counter = 0
+  def with_translations(o, column = :name, options = {})
+    options.reverse_merge! :fill_with_nil => true
 
-    attributes.find_each do |attrib|
-      counter += 1
-      puts "#{counter}/#{attributes.count}" if counter % 100 == 0
-
-      data = {
-        "id" => attrib.id,
-        "name" => with_translations(attrib)
-      }
-
-      yield data
+    result = if options[:fill_with_nil]
+      {"en" => nil, "de" => nil, "fr" => nil}
+    else
+      {}
     end
-  end
-
-  def with_translations(o, column = :name)
-    result = {"en" => nil, "de" => nil, "fr" => nil}
 
     if o.present?
       o.translations.each do |t|
@@ -163,7 +303,9 @@ class OwnReality::ProwebReader
     nil
   end
 
-  def people_by_role(article)
+  def people_by_role(article, options = {})
+    options.reverse_merge! :only_roles => [], :except_roles => []
+
     result = {}
     article.people_by_role_ids.each do |k, v|
       result[k] = v.map do |person|
@@ -174,6 +316,19 @@ class OwnReality::ProwebReader
         }
       end
     end
+
+    options[:except_roles].each do |id|
+      result.delete id
+    end
+
+    unless options[:only_roles].empty?
+      new_result = []
+      options[:only_roles].each do |role|
+        new_result += result[role]
+      end
+      result = new_result
+    end
+
     result
   end
 

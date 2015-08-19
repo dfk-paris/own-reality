@@ -1,4 +1,4 @@
-.article {
+.or-paper .article {
   #ariane, .publiParente {
     display: none;
   }
@@ -15,10 +15,13 @@
   }
 
   #enteteDocument {
-    .type:before {
-      content: "\2794";
-      font-weight: normal;
+    .type {
+      display: none;
     }
+    // .type:before {
+    //   content: "\2794";
+    //   font-weight: normal;
+    // }
   }
 
   h4 {
@@ -26,7 +29,7 @@
   }
 
   div#texte {
-    p.texte {
+    p {
       span.paranumber {
         display: block;
         float: left;

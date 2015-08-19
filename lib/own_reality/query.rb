@@ -8,7 +8,47 @@ class OwnReality::Query
     @config ||= elastic.request("get", "/config/complete").last['_source']
   end
 
-  def search(criteria = {})
+  def paper(type, id)
+    unless ["sources", "magazines", "articles", "interviews"].include?(type)
+      raise "unknown type #{type.inspect}"
+    end
+
+    response = elastic.request "get", "/#{type}/#{id}"
+
+    if response.first == 200
+      # JSON.pretty_generate(response)
+      response
+    else
+      p response
+      response
+    end    
+  end
+
+  def papers(type, criteria = {})
+    unless ["magazines", "articles", "interviews"].include?(type)
+      raise "unknown type #{type.inspect}"
+    end
+
+    data = {}
+
+    Rails.logger.debug data.inspect
+
+    response = elastic.request "post", "/#{type}/_search", nil, data
+
+    if response.first == 200
+      # JSON.pretty_generate(response)
+      response
+    else
+      p response
+      response
+    end
+  end
+
+  def search(type, criteria = {})
+    criteria ||= {}
+
+    criteria["page"] = (criteria["page"] || 1).to_i
+    criteria["per_page"] = (criteria["per_page"] || 10).to_i
     # criteria.delete "lower"
     # criteria.delete "upper"
 
@@ -30,10 +70,13 @@ class OwnReality::Query
           # "script" => "doc['refs']['#{c}'].values",
           "field" => "refs.#{fc}",
           # "lang" => "groovy",
-          "exclude" => criteria["refs"],
           "size" => 5
         }
       }
+
+      if criteria["refs"]
+        aggs[fc]["terms"]["exclude"] = criteria["refs"]
+      end
     end
 
     data = {
@@ -42,7 +85,9 @@ class OwnReality::Query
         "bool" => {
           "must" => []
         }
-      }
+      },
+      "size" => criteria["per_page"],
+      "from" => (criteria["page"] - 1) * criteria["per_page"]
     }
 
     if criteria["lower"].present?
@@ -139,7 +184,7 @@ class OwnReality::Query
 
     Rails.logger.debug data.inspect
 
-    response = elastic.request "post", "/articles/_search", nil, data
+    response = elastic.request "post", "/#{type}/_search", nil, data
 
     if response.first == 200
       # JSON.pretty_generate(response)
@@ -166,10 +211,6 @@ class OwnReality::Query
     else
       elastic.request "post", "/_mget", nil, {'docs' => docs}
     end
-  end
-
-  def find(id)
-    elastic.request "get", "/articles/#{id}"
   end
 
 end

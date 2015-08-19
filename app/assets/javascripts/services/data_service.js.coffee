@@ -21,11 +21,15 @@ app.service "data_service", [
         )
       lookup_for: (data, form) ->
         ids = []
-        for akey, aggregation of data.aggregations
-          for bucket in aggregation.buckets
-            ids.push(bucket.key)
-        for ref in form.refs
-          ids.push ref
+        if data.id_refs
+          ids = ids.concat(data.id_refs || [])
+        if data.aggregations
+          for akey, aggregation of data.aggregations
+            for bucket in aggregation.buckets
+              ids.push(bucket.key)
+        if form
+          for ref in form.refs
+            ids.push ref
         service.lookup(ids)
       init: ->
         http(

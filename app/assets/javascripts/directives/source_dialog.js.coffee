@@ -1,6 +1,6 @@
 app.directive "orSourceDialog", [
-  "templates_service", "data_service", "session_service", "orTranslate",
-  (ts, ds, ss, ot) ->
+  "templates_service", "data_service", "session_service", "orTranslate", "papers_service",
+  (ts, ds, ss, ot, ps) ->
     directive = {
       scope: {
         "id": "=orSourceDialog"
@@ -13,8 +13,9 @@ app.directive "orSourceDialog", [
 
         scope.$watch "id", ->
           if scope.id
-            ds.show(scope.id).success (data) -> 
+            ps.show("sources", scope.id).success (data) -> 
               scope.object = data
+              console.log data
 
     }
 ]

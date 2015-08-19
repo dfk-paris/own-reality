@@ -1,6 +1,6 @@
 app.directive "orBindTranslate", [
-  "data_service", "session_service", "templates_service", "orTranslate",
-  (ds, ss, ts, ot) ->
+  "data_service", "session_service", "templates_service", "orTranslate", "$sce"
+  (ds, ss, ts, ot, sce) ->
     directive = {
       scope: {
         "data": "=orBindTranslate"
@@ -36,7 +36,11 @@ app.directive "orBindTranslate", [
 
         scope.current_locale = -> ss.locale
 
+        scope.trusted_translation = -> sce.trustAsHtml(scope.translation)
+
         scope.$watch "data", update, true
         scope.$watch "current_locale()", update, true
+
+        window.sco = scope
     }
 ]

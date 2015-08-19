@@ -1,8 +1,4 @@
-<div class="container text-right">
-  <select ng-model="config.locale" ng-options="k as v for (k, v) in config.locales"></select>
-</div>
-
-<div class="container">
+<div class="container" ng-controller="query_controller">
   <div class="row">
     <div class="col-md-3">
       <h2>Suche</h2>
@@ -55,7 +51,7 @@
               <li ng-repeat="bucket in agg.buckets">
                 <span
                   ng-bind="bucket.key"
-                  ng-show="debug"
+                  ng-show="debug()"
                   class="text-muted"
                 ></span>
                 <a
@@ -232,7 +228,7 @@
                   <div>
                     <span
                       ng-bind="record._source.id"
-                      ng-show="debug"
+                      ng-show="debug()"
                       class="text-muted"
                     ></span>
                     <a
@@ -259,53 +255,53 @@
       </div>
     </div>
   </div>
-</div>
 
-<div id="people-modal" class="modal fade">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title">Personen</h4>
-      </div>
-      <div class="modal-body">
-        <table class="table table-bordered">
-          <tr ng-repeat="row in ds().grouped_people">
-            <td ng-repeat="person in row" ng-bind="person" class="or-selectable"></td>
-          </tr>
-        </table>
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn-primary" data-dismiss="modal">fertig</button>
+  <div id="people-modal" class="modal fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Personen</h4>
+        </div>
+        <div class="modal-body">
+          <table class="table table-bordered">
+            <tr ng-repeat="row in ds().grouped_people">
+              <td ng-repeat="person in row" ng-bind="person" class="or-selectable"></td>
+            </tr>
+          </table>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary" data-dismiss="modal">fertig</button>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
-<div id="journal-modal" class="modal fade">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title">Zeitschriften</h4>
-      </div>
-      <div class="modal-body">
-        <table class="table table-bordered">
-          <tr ng-repeat="row in ds().grouped_journals">
-            <td ng-repeat="person in row" ng-bind="person" class="or-selectable"></td>
-          </tr>
-        </table>
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn-primary" data-dismiss="modal">fertig</button>
+  <div id="journal-modal" class="modal fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Zeitschriften</h4>
+        </div>
+        <div class="modal-body">
+          <table class="table table-bordered">
+            <tr ng-repeat="row in ds().grouped_journals">
+              <td ng-repeat="person in row" ng-bind="person" class="or-selectable"></td>
+            </tr>
+          </table>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary" data-dismiss="modal">fertig</button>
+        </div>
       </div>
     </div>
   </div>
+
+  <div
+    or-source-dialog="current_id"
+    or-current="current"
+  ></div>
+
+  <div
+    or-document-dialog="current_document_hash"
+  ></div>
 </div>
-
-<div
-  or-source-dialog="current_id"
-  or-current="current"
-></div>
-
-<div
-  or-document-dialog="current_document_hash"
-></div>

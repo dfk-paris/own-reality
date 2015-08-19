@@ -1,0 +1,22 @@
+<div class="container">
+  <div ng-controller="papers_controller">
+    <ul>
+      <li ng-repeat="o in objects">
+        <span
+          ng-bind="o._source.id"
+          ng-show="debug()"
+          class="text-muted"
+        ></span>
+        <a
+          ng-show="o._source.html"
+          or-bind-translate="o._source.title"
+          href="#/papers/{{o._type}}/{{o._source.id}}"
+        ></a>
+        <span
+          ng-hide="o._source.html"
+          or-bind-translate="o._source.title"
+        ></span>
+      </li>
+    </ul>
+  </div>
+</div>
