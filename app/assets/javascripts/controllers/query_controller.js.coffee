@@ -10,9 +10,6 @@ app.controller "query_controller", [
       refs: []
     }
 
-    scope.$on "$routeChangeSuccess", query
-    scope.$on "$routeUpdate", query
-
     query = ->
       ds.search(scope.form).success (search_data) ->
         console.log(search_data)
@@ -23,6 +20,9 @@ app.controller "query_controller", [
             lookup[i._id] = i
           scope.lookup = lookup
           scope.results = search_data
+
+    scope.$on "$routeChangeSuccess", query
+    scope.$on "$routeUpdate", query
 
     urlUpdate = ->
       l.search "form", scope.form

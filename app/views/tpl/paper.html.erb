@@ -1,4 +1,5 @@
 <div ng-controller="paper_controller">
+
   <div class="container" ng-show="debug()">
     <h1
       ng-bind="object._source.id"
@@ -6,8 +7,24 @@
     ></h1>
   </div>
 
-  <div
-    or-bind-translate="object._source.html"
-    class="or-paper"
-  ></div>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <div
+          or-bind-translate="object._source.html"
+          class="or-paper"
+        ></div>
+      </div>
+      <div class="col-md-6">
+        <strong ng-bind="'authors' | t"></strong>:<br \>
+        <div ng-bind="object._source.authors | people_list:{'sort_by': 'last_name'}"></div>
+
+        <br />
+
+        <strong ng-bind="'keywords' | t"></strong>:<br \>
+        <div or-keyword-list="object._source.id_refs"></div>
+        <!-- <div ng-bind=" | keyword_list:{'locale': locale}"></div> -->
+      </div>
+    </div>
+  </div>
 </div>

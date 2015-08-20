@@ -1,5 +1,6 @@
 app.directive "orPaper", [
-  ->
+  "$anchorScroll",
+  (as) ->
     el = null
 
     directive = {
@@ -28,5 +29,13 @@ app.directive "orPaper", [
               trigger: "manual"
             )
             el.popover("show")
+
+        element.on "click", "a", (event) ->
+          link = $(event.currentTarget)
+          href = link.attr('href')
+          if !link.hasClass("footnotecall") && href.match(/^#/)
+            event.preventDefault()
+            as(href.replace /^#/, '')
+
     }
 ]

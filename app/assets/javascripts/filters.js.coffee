@@ -7,8 +7,14 @@ app.filter 't', [
 ]
 
 app.filter 'people_list', [ ->
-  (input) ->
+  (input, options = {}) ->
     return null unless input
+
+    if options["sort_by"]
+      input.sort (x, y) ->
+        return -1 if x[options['sort_by']] < y[options['sort_by']]
+        return 0 if x[options['sort_by']] == y[options['sort_by']]
+        return 1
 
     results = []
     for person in input

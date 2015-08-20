@@ -1,3 +1,9 @@
+<script type="text/x-ng-tpl" data-id="or-keyword-list">
+  <span ng-repeat="k in view">
+    <span class="label label-default" ng-bind="k"></span>
+  </span>
+</script>
+
 <script type="text/x-ng-tpl" data-id="translated-text">
   <span or-bind="translation"></span>
   <i
@@ -82,7 +88,8 @@
       <div class="modal-content">
         <div class="modal-body">
           <object
-            data="/files/{{hash}}/original.pdf"
+            ng-if="hash"
+            ng-attr-data="/files/{{hash}}/original.pdf"
             type="application/pdf"
             width="100%"
             height="100%"
