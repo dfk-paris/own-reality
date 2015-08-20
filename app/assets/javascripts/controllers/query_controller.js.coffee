@@ -10,14 +10,13 @@ app.controller "query_controller", [
       refs: []
     }
 
-    scope.$on "$routeChangeSuccess", -> query()
-    scope.$on "$routeUpdate", ->
-      console.log("querying", scope.form)
-      query()
+    scope.$on "$routeChangeSuccess", query
+    scope.$on "$routeUpdate", query
 
     query = ->
       ds.search(scope.form).success (search_data) ->
         console.log(search_data)
+        
         ds.lookup_for(search_data, scope.form).success (data) ->
           lookup = {}
           for i in data

@@ -19,7 +19,7 @@ app.directive "orTimeline", [
           min: "1960"
           max: "1990"
           start: "1960"
-          end: "1963"
+          end: "1961"
           zoomable: false
           # stack: false
           minHeight: "600px"

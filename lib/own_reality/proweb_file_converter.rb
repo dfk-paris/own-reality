@@ -4,6 +4,30 @@ class OwnReality::ProwebFileConverter
     @proweb_id = proweb_id
   end
 
+  def pdfs_by_locale
+    results = {}
+    Proweb::Object.find(@proweb_id).files.each do |file|
+      l = file.split(/[_\.]/)[-2].downcase
+      l = 'pl' if l == 'pol'
+      h = hash(File.stat(file).mtime.to_s + file)
+      dir = File.expand_path("#{Proweb.config['files']['public']}/#{h}")
+      system "mkdir -p #{dir}"
+      system "ln -sfn \"#{file}\" \"#{dir}/original.pdf\""
+      results[l] = h
+    end
+    results
+  end
+
+  def merge_files
+    if has_files?
+      combine
+      shrink
+      identify
+      
+      hash
+    end
+  end
+
   def original_dir
     @original_dir ||= File.expand_path("#{Proweb.config['files']['target']}/#{@proweb_id}")
   end
@@ -30,8 +54,9 @@ class OwnReality::ProwebFileConverter
     end.join
   end
 
-  def hash
-    @hash ||= Digest::SHA1.hexdigest(hash_base)
+  def hash(data = nil)
+    data ||= hash_base
+    @hash ||= Digest::SHA1.hexdigest(data)
   end
 
   def safe_files(files)
@@ -42,16 +67,6 @@ class OwnReality::ProwebFileConverter
 
   def has_files?
     !original_files.empty?
-  end
-
-  def run
-    if has_files?
-      combine
-      shrink
-      identify
-      
-      hash
-    end
   end
 
   def combine

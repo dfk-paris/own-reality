@@ -33,7 +33,7 @@ class OwnReality::ProwebReader
       merge_refs(data, i)
 
       pfc = OwnReality::ProwebFileConverter.new(i.id)
-      data["file_base_hash"] = pfc.run
+      data["pdfs"] = pfc.pdfs_by_locale
 
       add_lodel_html(data, i)
 
@@ -59,7 +59,7 @@ class OwnReality::ProwebReader
       merge_refs(data, a)
 
       pfc = OwnReality::ProwebFileConverter.new(a.id)
-      data["file_base_hash"] = pfc.run
+      data["pdfs"] = pfc.pdfs_by_locale
 
       add_lodel_html(data, a)
 
@@ -85,7 +85,7 @@ class OwnReality::ProwebReader
       merge_refs(data, m)
 
       pfc = OwnReality::ProwebFileConverter.new(m.id)
-      data["file_base_hash"] = pfc.run
+      data["pdfs"] = pfc.pdfs_by_locale
 
       add_lodel_html(data, m)
 
@@ -121,7 +121,7 @@ class OwnReality::ProwebReader
       merge_refs(data, s)
 
       pfc = OwnReality::ProwebFileConverter.new(s['id'])
-      data["file_base_hash"] = pfc.run
+      data["file_base_hash"] = pfc.merge_files
 
       yield data
     end
@@ -155,7 +155,7 @@ class OwnReality::ProwebReader
       merge_refs(data, s)
 
       pfc = OwnReality::ProwebFileConverter.new(s['id'])
-      data["file_base_hash"] = pfc.run
+      data["file_base_hash"] = pfc.merge_files
 
       yield data
     end
