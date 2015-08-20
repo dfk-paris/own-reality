@@ -37,3 +37,11 @@ app.filter 'user', [
       person = ds.misc.people[input]
       if person then "#{person.first_name} #{person.last_name}" else ""
 ]
+
+app.filter 'unique', [
+  ->
+    (input) ->
+      output = {}
+      output[e] = true for e in input
+      key for key, value of output
+]

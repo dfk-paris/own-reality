@@ -4,10 +4,10 @@ PATH
     proweb (0.0.1)
       activerecord
       activerecord-sqlserver-adapter
-      byebug
       httpclient
       mysql2
       oj
+      pry
       sequel
       spreadsheet
       sqlite3
@@ -208,7 +208,7 @@ GEM
       multi_json (~> 1.0)
       rubyzip (~> 1.0)
       websocket (~> 1.0)
-    sequel (4.22.0)
+    sequel (4.25.0)
     slop (3.6.0)
     spreadsheet (1.0.3)
       ruby-ole (>= 1.0)

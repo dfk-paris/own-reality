@@ -7,23 +7,20 @@
         or-current="current"
       ></div>
     </div>
-    <div class="col-md-3">
-      <h4 ng-bind="current._source.title[locale()]"></h4>
+    <div class="col-md-3 or-meta">
+      <h4>
+        <span
+          ng-bind="current._source.id"
+          ng-show="debug()"
+          class="text-muted"
+        ></span>
+        <span ng-bind="current._source.title[locale()]"></span>
+      </h4>
       <p ng-bind="current._source.content[locale()]"></p>
-      <div ng-repeat="(k, v) in current._source.refs" ng-show="k">
-        <div>{{k + ':'}}</div>
-        <span ng-repeat="id in v">
-          <span
-            ng-bind="id"
-            ng-show="debug()"
-            class="text-muted"
-          ></span>
-          <span
-            ng-bind="lookup[id]._source.name[locale()]"
-            class="label label-default"
-          ></span>
-        </span>
-      </div>
+
+      <strong ng-bind="'keywords' | t"></strong>:<br \>
+      <div or-keyword-list="current._source.id_refs"></div>
+      
     </div>
   </div>
 </div>

@@ -7,9 +7,9 @@ class OwnReality::ProwebReader
     @articles = Proweb::Project.find(39).objects
     @interviews = Proweb::Project.find(40).objects
     @magazines = Proweb::Project.find(41).objects
-    @attributes = Proweb::Attribute.joins(:objects).
-      where("objects.project_id IN (?)", Proweb.config['project_ids']).
-      where("attributes.attribute_kind_id = 43")
+    @attributes = Proweb::Attribute.
+      joins(:objects => :project).
+      where("projects.id IN (?)", Proweb.config['project_ids'])
     @categories = Proweb::Categories.from_file
   end
 

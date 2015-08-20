@@ -24,6 +24,7 @@ app.directive "orTimeline", [
           # stack: false
           minHeight: "600px"
           maxHeight: "600px"
+          dataAttributes: ["id"]
         )
 
         timeline.on "select", (properties) ->
