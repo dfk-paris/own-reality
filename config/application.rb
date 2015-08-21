@@ -22,6 +22,25 @@ module OwnReality
     @config ||= YAML.load(File.read "#{Rails.root}/config/app.yml")
   end
 
+  def self.http_client
+    @http_client ||= HTTPClient.new
+  end
+
+  def self.progress_bar(options = {})
+    options.reverse_merge! :format => "%t |%B| %a |%f"
+    ProgressBar.create options
+  end
+
+  def self.log_anomaly(process, klass, id, description)
+    @anomaly_logger ||= begin
+      file = "#{Rails.root}/log/anomalies.log"
+      system "rm -f #{file}"
+      Logger.new(file)
+    end
+
+    @anomaly_logger.info "#{process}: #{klass}: #{id}: #{description}"
+  end
+
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers

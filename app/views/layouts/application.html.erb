@@ -18,12 +18,14 @@
           <a href="#/" class="navbar-brand">OwnReality</a>
         </div>
         <ul class="nav navbar-nav">
-          <li><a href="#/papers/articles">Articles</a></li>
-          <li><a href="#/papers/interviews">Interviews</a></li>
-          <li><a href="#/papers/magazines">Magazines</a></li>
-          <li class="divider"></li>
-          <li><a href="#/query">Sources</a></li>
-          <li><a href="#/chronology">Chronology</a></li>
+          <li><a href="#/about" ng-bind="'information' | t | capitalize"></a></li>
+          <li><a href="#/papers/magazines" ng-bind="'sources' | t | capitalize"></a></li>
+          <li><a href="#/chronology" ng-bind="'chronology' | t | capitalize"></a></li>
+          <li><a href="#/papers/interviews" ng-bind="'interviews' | t | capitalize"></a></li>
+          <li><a href="#/papers/articles" ng-bind="'papers' | t | capitalize"></a></li>
+          <li><a href="#/query">
+            {{'databases' | t | capitalize}} & {{'research_tool' | t}}
+          </a></li>
         </ul>
         <form class="navbar-form navbar-right">
           <div class="form-group">

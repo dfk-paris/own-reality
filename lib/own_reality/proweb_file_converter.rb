@@ -22,7 +22,6 @@ class OwnReality::ProwebFileConverter
     if has_files?
       combine
       shrink
-      identify
       
       hash
     end
@@ -98,10 +97,6 @@ class OwnReality::ProwebFileConverter
         end
       end
     end
-  end
-
-  def identify
-    system "touch #{public_dir}/#{@proweb_id}.info"
   end
 
 end

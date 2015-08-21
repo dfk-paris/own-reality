@@ -3,7 +3,7 @@ Feature: Chronology
 @javascript
 Scenario: Show the chronology
   When I am on the "front" page
-  And I follow "Chronology"
+  And I follow "Chronologie"
   Then I should see "Werner Schmidt"
 
 @javascript

@@ -19,11 +19,9 @@ class OwnReality::LodelParser
       end
       out.to_html
     else
-      puts "#{@url} couldn't be fetched: #{response.status}"
       nil
     end
   rescue URI::InvalidURIError => e
-    puts "invalid url '#{@url}'"
     nil
   end
 

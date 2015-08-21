@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.2.1'
+gem 'rails', '4.2.3'
 gem 'uglifier', '>= 1.3.0'
 gem 'less-rails', '~> 2.7'
 gem 'coffee-rails', '~> 4.1.0'
@@ -20,18 +20,19 @@ group :import do
     gem 'proweb', :path => "/home/schepp/Desktop/mws/projects/proweb/src"
   end
 
-  if File.exists?("/var/storage/host/own_reality/shared/dfk")
-    gem 'dfk', :path => "/var/storage/host/own_reality/shared/dfk"
-  else
-    gem 'dfk', :path => "/home/schepp/Desktop/mws/projects/scripts/src/dfk"
-  end
+  # if File.exists?("/var/storage/host/own_reality/shared/dfk")
+  #   gem 'dfk', :path => "/var/storage/host/own_reality/shared/dfk"
+  # else
+  #   gem 'dfk', :path => "/home/schepp/Desktop/mws/projects/scripts/src/dfk"
+  # end
+
+  gem 'ruby-progressbar'
 end
 
 group :development, :test do
-  gem 'byebug'
-  gem 'web-console', '~> 2.0'
   gem 'spring', '1.3.6'
   gem 'pry'
+  gem 'method_profiler'
 end
 
 group :test do

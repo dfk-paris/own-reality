@@ -43,9 +43,9 @@
             ng-repeat="(key, agg) in results.aggregations"
             ng-show="agg.buckets.length > 0"
           >
-            <div class="pull-right text-right">
-              <span class="text-uppercase" ng-bind="key"></span><br />
-              <a href="#">... weitere</a>
+            <div>
+              <strong class="text-uppercase" ng-bind="misc().categories[key][locale()]"></strong><br />
+              <!-- <a href="#">... {{'more' | t}}</a> -->
             </div>
             <ul class="list-unstyled">
               <li ng-repeat="bucket in agg.buckets">
@@ -156,7 +156,7 @@
               href="#"
               data-toggle="modal"
               data-target="#journal-modal"
-            >weitere ...</a>
+            >{{'more' | t}} ...</a>
           </div>
         </div>
         <div class="col-md-4">
@@ -170,7 +170,7 @@
               href="#"
               data-toggle="modal"
               data-target="#people-modal"
-            >weitere ...</a>
+            >{{'more' | t}} ...</a>
           </div>
         </div>
         <div class="col-md-4">

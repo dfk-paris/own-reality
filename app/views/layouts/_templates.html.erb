@@ -35,6 +35,11 @@
                   <p ng-bind="people | people_list"></p>
                 </div>
               </div>
+
+              <div>
+                <strong ng-bind="'keywords' | t | capitalize"></strong>:<br \>
+                <div or-keyword-list="object._source.attrs.ids[6][43]"></div>
+              </div>
             </div>
             <div class="col-md-8">
               <div ng-show="has_value(object._source.interpretation)">

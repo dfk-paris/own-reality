@@ -6,13 +6,13 @@ class OwnReality::Elastic
 
   def drop_index
     if index_exists?
-      request 'delete', '/'
+      request 'delete'
     end
   end
 
   def create_index
     unless index_exists?
-      request 'put', '/', nil, {
+      request 'put', nil, nil, {
         "settings" => {
           "number_of_shards" => 1,
           "analysis" => {
@@ -29,7 +29,7 @@ class OwnReality::Elastic
   end
 
   def index_exists?
-    response = raw_request 'head', '/'
+    response = raw_request 'head'
     response.status != 404
   end
 
@@ -39,36 +39,51 @@ class OwnReality::Elastic
   end
 
   def flush
-    request "post", "/_flush"
+    request "post", "_flush"
   end
 
   def refresh
-    request "post", "/_refresh"
+    request "post", "_refresh"
   end
 
   def client
     @client ||= HTTPClient.new
   end
 
-  def request(method, path, query = {}, body = nil, headers = {})
+  def bulk(data)
+    request "post", "/_bulk", nil, data
+  end
+
+  def request(method, path = nil, query = {}, body = nil, headers = {})
     response = raw_request(method, path, query, body, headers)
-    # Rails.logger.info "ELASTIC RESPONSE: #{response.inspect}"
 
     if response.status >= 200 && response.status <= 299
       [response.status, response.headers, JSON.load(response.body)]
     else
+      # binding.pry
       raise Exception.new([response.status, response.headers, JSON.load(response.body)])
     end
   end
 
-  def raw_request(method, path, query = {}, body = nil, headers = {})
-    # Rails.logger.info "ELASTIC REQUEST: #{method} #{path}\n#{body.inspect}"
+  def raw_request(method, path = nil, query = {}, body = nil, headers = {})
     query ||= {}
     query["token"] = config['token']
-
     headers.reverse_merge 'content-type' => 'application/json', 'accept' => 'application/json'
-    url = "#{config['url']}/#{config['index']}#{path}"
-    client.request(method, url, query, (body ? JSON.dump(body) : nil), headers)      
+    url = if path.nil?
+      "#{config['url']}/#{config['index']}#{path}"
+    else
+      if path.match(/^\//)
+        "#{config['url']}#{path}"
+      else
+        "#{config['url']}/#{config['index']}/#{path}"
+      end
+    end
+
+    if body && !body.is_a?(String)
+      body = JSON.dump(body)      
+    end
+
+    client.request(method, url, query, body, headers)
   end
 
   def tokenize(query_string)

@@ -20,10 +20,14 @@ var app = angular.module("or", ["ngRoute", "ngSanitize", "web-utils"]);
 (function(){
   var injector = angular.injector(['ng']);
   var http = injector.get('$http');
-  promise = http({method: 'get', url: 'api/translations'});
+  var translate_promise = http({method: 'get', url: 'api/translations'});
+  var misc_promise = http({method: 'get', url: 'api/misc'});
 
-  promise.success(function(data) {
-    app.value('orTranslations', data);
-    angular.bootstrap(document, ["or"]);
+  translate_promise.success(function(translate_data) {
+    misc_promise.success(function(misc_data) {
+      app.value('orTranslations', translate_data);
+      app.value('orMisc', misc_data);
+      angular.bootstrap(document, ["or"]);
+    });
   });
 })();

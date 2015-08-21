@@ -1,8 +1,13 @@
 app.controller "query_controller", [
   "$scope", "data_service", "wuBase64Location", "$location", "session_service",
-  (scope, ds, l, lo, ss) ->
+  "attributes_service", "orMisc",
+  (scope, ds, l, lo, ss, as, m) ->
     scope.ds = -> ds
     scope.debug = -> ss.debug
+    scope.misc = -> m
+    scope.locale = -> ss.locale
+
+    window.s = scope
 
     scope.form = l.search("form") || {
       lower: 1961
@@ -14,7 +19,7 @@ app.controller "query_controller", [
       ds.search(scope.form).success (search_data) ->
         console.log(search_data)
         
-        ds.lookup_for(search_data, scope.form).success (data) ->
+        as.for(search_data, scope.form).success (data) ->
           lookup = {}
           for i in data
             lookup[i._id] = i

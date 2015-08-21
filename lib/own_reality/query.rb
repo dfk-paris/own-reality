@@ -5,7 +5,7 @@ class OwnReality::Query
   end
 
   def config
-    @config ||= elastic.request("get", "/config/complete").last['_source']
+    @config ||= elastic.request("get", "config/complete").last['_source']
   end
 
   def paper(type, id)
@@ -13,7 +13,7 @@ class OwnReality::Query
       raise "unknown type #{type.inspect}"
     end
 
-    response = elastic.request "get", "/#{type}/#{id}"
+    response = elastic.request "get", "#{type}/#{id}"
 
     if response.first == 200
       # JSON.pretty_generate(response)
@@ -33,7 +33,7 @@ class OwnReality::Query
 
     Rails.logger.debug data.inspect
 
-    response = elastic.request "post", "/#{type}/_search", nil, data
+    response = elastic.request "post", "#{type}/_search", nil, data
 
     if response.first == 200
       # JSON.pretty_generate(response)
@@ -49,33 +49,20 @@ class OwnReality::Query
 
     criteria["page"] = (criteria["page"] || 1).to_i
     criteria["per_page"] = (criteria["per_page"] || 10).to_i
-    # criteria.delete "lower"
-    # criteria.delete "upper"
 
-    aggs = {
-      # "journals" => {
-      #   "terms" => {
-      #     "field" => "journals.de"
-      #   }
-      # },
-      # "authors" => {
-      #   "terms" => {
-      #     "field" => "authors"
-      #   }
-      # }
-    }
-    config["categories"]["folded_list"].each do |fc|
-      aggs[fc] = {
+    aggs = {}
+    config["categories"].each_with_index do |data, id|
+      aggs[id] = {
         "terms" => {
           # "script" => "doc['refs']['#{c}'].values",
-          "field" => "refs.#{fc}",
+          "field" => "attrs.by_category.#{id}",
           # "lang" => "groovy",
           "size" => 5
         }
       }
 
       if criteria["refs"]
-        aggs[fc]["terms"]["exclude"] = criteria["refs"]
+        aggs[id]["terms"]["exclude"] = criteria["refs"]
       end
     end
 
@@ -174,7 +161,7 @@ class OwnReality::Query
         "constant_score" =>{
           "filter" => {
             "terms" => {
-              "id_refs" => criteria["refs"],
+              "attrs.ids.6.43" => criteria["refs"],
               "execution" => "and"
             }
           }
@@ -184,7 +171,7 @@ class OwnReality::Query
 
     Rails.logger.debug data.inspect
 
-    response = elastic.request "post", "/#{type}/_search", nil, data
+    response = elastic.request "post", "#{type}/_search", nil, data
 
     if response.first == 200
       # JSON.pretty_generate(response)
@@ -209,7 +196,7 @@ class OwnReality::Query
     if ids.empty?
       [[],[],[]]
     else
-      elastic.request "post", "/_mget", nil, {'docs' => docs}
+      elastic.request "post", "_mget", nil, {'docs' => docs}
     end
   end
 
