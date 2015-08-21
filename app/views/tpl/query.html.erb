@@ -138,7 +138,7 @@
       <hr />
 
       <h2>
-        {{ 'article' | t:{count: 'other', capitalize: true} }}
+        {{ 'article' | t:{count: 'other'} | capitalize }}
         <small>{{ 'amount_found' | t:{interpolations: {o: results.total} } }}</small>
       </h2>
 

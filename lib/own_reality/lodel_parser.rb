@@ -1,3 +1,5 @@
+require "tmpdir"
+
 class OwnReality::LodelParser
 
   def initialize(url)
@@ -23,6 +25,18 @@ class OwnReality::LodelParser
   rescue URI::InvalidURIError => e
     puts "invalid url '#{@url}'"
     nil
+  end
+
+  def tidy(html)
+    result = nil
+    Dir.mktmpdir do |d|
+      File.open "#{d}/in.html", "w" do |f|
+        f.write html
+      end
+      system "tidy -i --doctype omit --show-body-only yes #{d}/in.html > #{d}/out.html"
+      result = File.read "#{d}/out.html"
+    end
+    result
   end
 
 end

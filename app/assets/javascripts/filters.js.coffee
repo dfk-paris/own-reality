@@ -34,8 +34,10 @@ app.filter 'user', [
   "data_service",
   (ds) ->
     (input) ->
-      person = ds.misc.people[input]
-      if person then "#{person.first_name} #{person.last_name}" else ""
+      if ds.misc && (person = ds.misc.people[input])
+        "#{person.first_name} #{person.last_name}"
+      else
+        ""
 ]
 
 app.filter 'unique', [

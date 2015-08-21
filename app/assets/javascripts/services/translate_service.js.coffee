@@ -23,15 +23,18 @@ app.service 'orTranslate', [
 
           for key, value of options.interpolations
             regex = new RegExp("%\{#{key}\}", "g")
-            tvalue = this.translate(value)
+            tvalue = this.translate(value, is_interpoliation: true)
             value = tvalue if (tvalue != "" && tvalue != value)
             result = result.replace regex, value
 
           result = service.capitalize(result) if options.capitalize
         catch error
           # console.log error
-          
-        result
+
+        if options.is_interpoliation
+          result
+        else
+          result || "#{input} [TNF]"
       localize: (input, format_name = 'default') ->
         try
           format = service.translate "date.formats.#{format_name}"
