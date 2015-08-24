@@ -18,8 +18,9 @@ app.directive "orTimeline", [
         timeline = new vis.Timeline(element[0], [],
           min: "1960"
           max: "1990"
-          start: "1960"
-          end: "1961"
+          start: "1960-01"
+          end: "1960-07"
+          # end: "1990"
           zoomable: false
           # stack: false
           minHeight: "600px"
