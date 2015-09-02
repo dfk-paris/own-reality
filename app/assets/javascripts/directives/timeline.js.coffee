@@ -8,8 +8,6 @@ app.directive "orTimeline", [
         current: "=orCurrent"
       }
       link: (scope, element, attrs) ->
-        console.log "timeline directive"
-
         limitTo = filter("limitTo")
         scope.locale = -> ss.locale
 
@@ -42,7 +40,7 @@ app.directive "orTimeline", [
             item = {
               "id": o._source.id
               "start": o._source.from_date
-              "end": o._source.to_date
+              # "end": o._source.to_date
               "content": limitTo(o._source.title[ss.locale] || "Noname", 30)
               "title": o._source.title[ss.locale] || "Noname"
             }

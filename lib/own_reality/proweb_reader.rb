@@ -7,13 +7,19 @@ class OwnReality::ProwebReader
     @articles = Proweb::Project.find(39).objects
     @interviews = Proweb::Project.find(40).objects
     @magazines = Proweb::Project.find(41).objects
-    @attributes = Proweb::Attribute.
-      joins(:objects => :project).
-      where("projects.id IN (?)", Proweb.config['project_ids'])
+    @attribute_ids = {}
     @categories = OwnReality::AttributeCategoriesReader.from_file
   end
 
   attr_reader :categories
+
+  def require_attributes(a)
+    if a.is_a?(Proweb::Attribute)
+      @attribute_ids[a.id] = true
+    else
+      @attribute_ids[a] = true
+    end
+  end
 
   def each_interview(&block)
     bar = OwnReality.progress_bar :title => "caching interviews", :total => @interviews.count
@@ -23,9 +29,8 @@ class OwnReality::ProwebReader
         "id" => o.id,
         "title" => with_translations(o, :title),
         "short_title" => short_title(with_translations(o, :short_title)),
-        "url" => with_translations(o, :content, :fill_with_nil => false),
-        "people" => people_by_role(o, :except_roles => [16530]),
-        "authors" => people_by_role(o, :only_roles => [16530]),
+        "url" => with_translations(o, :content),
+        "people" => people_by_role(o),
         "attrs" => attrs(o)
       }
 
@@ -47,9 +52,8 @@ class OwnReality::ProwebReader
         "id" => o.id,
         "title" => with_translations(o, :title),
         "short_title" => short_title(with_translations(o, :short_title)),
-        "url" => with_translations(o, :content, :fill_with_nil => false),
-        "people" => people_by_role(o, :except_roles => [16530]),
-        "authors" => people_by_role(o, :only_roles => [16530]),
+        "url" => with_translations(o, :content),
+        "people" => people_by_role(o),
         "attrs" => attrs(o)
       }
 
@@ -71,9 +75,8 @@ class OwnReality::ProwebReader
         "id" => o.id,
         "title" => with_translations(o, :title),
         "short_title" => short_title(with_translations(o, :short_title)),
-        "url" => with_translations(o, :content, :fill_with_nil => false),
-        "people" => people_by_role(o, :except_roles => [16530]),
-        "authors" => people_by_role(o, :only_roles => [16530]),
+        "url" => with_translations(o, :content),
+        "people" => people_by_role(o),
         "attrs" => attrs(o)
       }
 
@@ -90,7 +93,7 @@ class OwnReality::ProwebReader
   def each_chrono(&block)
     bar = OwnReality.progress_bar :title => "caching chronology", :total => @chronos.count
 
-    @chronos.find_each do |o|
+    @chronos.each do |o|
       data = {
         "id" => o.id,
         "title" => with_translations(o, :title),
@@ -108,6 +111,15 @@ class OwnReality::ProwebReader
       pfc = OwnReality::ProwebFileConverter.new(o['id'])
       data["file_base_hash"] = pfc.merge_files
 
+      unless o.category
+        OwnReality.log_anomaly(
+          "reading from proweb chronology data",
+          "proweb-object",
+          o.id,
+          "doesn't have a category"
+        )
+      end
+
       yield data
       bar.increment
     end
@@ -116,7 +128,7 @@ class OwnReality::ProwebReader
   def each_source(&block)
     bar = OwnReality.progress_bar :title => "caching sources", :total => @sources.count
 
-    @sources.find_each do |o|
+    @sources.each do |o|
       data = {
         "id" => o.id,
         "title" => with_translations(o, :title),
@@ -144,9 +156,9 @@ class OwnReality::ProwebReader
   end
 
   def each_attrib(&block)
-    bar = OwnReality.progress_bar :title => "caching attributes", :total => @attributes.count
+    bar = OwnReality.progress_bar :title => "caching attributes", :total => @attribute_ids.keys.size
 
-    @attributes.all.each do |attrib|
+    Proweb::Attribute.find(@attribute_ids.keys).each do |attrib|
       data = {
         "id" => attrib.id,
         "name" => with_translations(attrib)
@@ -220,6 +232,18 @@ class OwnReality::ProwebReader
             result["by_category"][key] << a.id
           end
         end
+
+        require_attributes(a)
+      end
+
+      if object.category
+        result["ids"][4] ||= {}
+        result["ids"][4][2] ||= []
+        result["ids"][4][2] << object.category_id
+        result["search"][4] ||= {}
+        result["search"][4][2] ||= []
+        result["search"][4][2] += with_translations(object.category).values
+        require_attributes(object.category)
       end
 
       result
@@ -289,7 +313,7 @@ class OwnReality::ProwebReader
     end
 
     def with_translations(o, column = :name, options = {})
-      options.reverse_merge! :fill_with_nil => true
+      options.reverse_merge! :fill_with_nil => false
 
       result = if options[:fill_with_nil]
         {"en" => nil, "de" => nil, "fr" => nil}
@@ -349,6 +373,14 @@ class OwnReality::ProwebReader
       end
 
       result
+    end
+
+    def chronology_categories
+      results = {}
+      Proweb::Attribute.where(:attribute_kind_id => 2).find(@attribute_ids.keys).each do |c|
+        results[c.id] = with_translations(c)
+      end
+      results
     end
 
 end

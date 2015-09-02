@@ -50,7 +50,15 @@ class OwnReality::Query
     criteria["page"] = (criteria["page"] || 1).to_i
     criteria["per_page"] = (criteria["per_page"] || 10).to_i
 
-    aggs = {}
+    aggs = {
+      "attr.4.2" => {
+        "terms" => {
+          "field" => "attrs.ids.4.2",
+          "size" => 4
+        }
+      }
+    }
+
     config["categories"].each_with_index do |data, id|
       aggs[id] = {
         "terms" => {
@@ -158,7 +166,7 @@ class OwnReality::Query
 
     if criteria["refs"].present?
       data["query"]["bool"]["must"] << {
-        "constant_score" =>{
+        "constant_score" => {
           "filter" => {
             "terms" => {
               "attrs.ids.6.43" => criteria["refs"],
@@ -167,6 +175,21 @@ class OwnReality::Query
           }
         }
       }
+    end
+
+    if type == "chronology"
+      if criteria["category_id"].present?
+        data["query"]["bool"]["must"] << {
+          "constant_score" => {
+            "filter" => {
+              "terms" => {
+                "attrs.ids.4.2" => [criteria["category_id"]],
+                "execution" => "and"
+              }
+            }
+          }
+        }
+      end
     end
 
     Rails.logger.debug data.inspect

@@ -12,6 +12,7 @@ gem 'httpclient', '~> 2.6'
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
 gem 'font-awesome-rails'
+gem 'method_profiler'
 
 group :import do
   if File.exists?("/var/storage/host/own_reality/shared/proweb")
@@ -32,7 +33,6 @@ end
 group :development, :test do
   gem 'spring', '1.3.6'
   gem 'pry'
-  gem 'method_profiler'
 end
 
 group :test do

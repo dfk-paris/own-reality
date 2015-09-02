@@ -7,8 +7,6 @@ app.controller "query_controller", [
     scope.misc = -> m
     scope.locale = -> ss.locale
 
-    window.s = scope
-
     scope.form = l.search("form") || {
       lower: 1961
       upper: 1980

@@ -19,20 +19,31 @@
           </label>
         </div>
 
-        <hr />
-
-        <div class="or-criteria">
-          <ul class="list-inline">
-            <li
+        <div ng-show="form.refs.length > 0">
+          <hr />
+          <span class="or-criterion" ng-repeat="ref in form.refs">
+            <span
               class="label label-default"
-              ng-repeat="ref in form.refs"
               ng-click="remove_ref(ref, $event)"
               title="{{lookup[ref]._source.name[config.locale]}}"
             >
               {{lookup[ref]._source.name[config.locale] | limitTo:25}}
-              <i class="fa fa-remove"></i>
-            </li>
-          </ul>
+              <i class="fa fa-remove"></i> 
+            </span>
+          </span>
+        </div>
+
+        <hr />
+
+        <div class="or-slider" or-slider-lower="form.lower" or-slider-upper="form.upper"></div>
+        <div class="text-muted">
+          <div class="pull-right">1989</div>
+          <div class="pull-left">1960</div>
+          <div class="text-center">
+            <span ng-bind="form.lower"></span>
+            –
+            <span ng-bind="form.upper"></span>
+          </div>
         </div>
 
         <hr />
@@ -75,67 +86,87 @@
 
     <div class="col-md-9">
 
-      <div class="chronology hidden-xs hidden-sm">
-        <div class="row">
-          <div class="col-md-12">
-            <div class="or-timeline bg-warning text-center">
+      <div class="hidden-xs hidden-sm">
+        <div class="or-timeline bg-warning text-center">
 
-              <div class="row">
-                <div class="col-md-3">
-                  <div class="checkbox">
-                    <label>
-                      <input type="checkbox" />
-                      Ausstellung (1381)
-                    </label>
-                  </div>
-                </div>
-                <div class="col-md-3">
-                  <div class="checkbox">
-                    <label>
-                      <input type="checkbox" />
-                      Kultur-/Politisches Ereignis (118)
-                    </label>
-                  </div>
-                </div>
-                <div class="col-md-3">
-                  <div class="checkbox">
-                    <label>
-                      <input type="checkbox" />
-                      Reise (117)
-                    </label>
-                  </div>
-                </div>
-                <div class="col-md-3">
-                  <div class="checkbox">
-                    <label>
-                      <input type="checkbox" />
-                      Veröffentlichung (43)
-                    </label>
-                  </div>
-                </div>
+          <!-- div class="row or-category-selectors">
+            <div class="col-md-3">
+              <div class="checkbox">
+                <label>
+                  <input
+                    type="checkbox"
+                    name="category_id"
+                    value="60"
+                    ng-model="form.category_id"
+                  />
+                  Ausstellung ({{chrono_aggregations[0].doc_count}})
+                </label>
               </div>
-
-              <h1>Zeitstrahl UI</h1>
             </div>
+            <div class="col-md-3">
+              <div class="checkbox">
+                <label>
+                  <input
+                    type="checkbox"
+                    name="category_id"
+                    value="58"
+                    ng-model="form.category_id"
+                  />
+                  Kultur-/Politisches Ereignis ({{chrono_aggregations[2].doc_count}})
+                </label>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="checkbox">
+                <label>
+                  <input
+                    type="checkbox"
+                    name="category_id"
+                    value="57"
+                    ng-model="form.category_id"
+                  />
+                  Reise ({{chrono_aggregations[1].doc_count}})
+                </label>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="checkbox">
+                <label>
+                  <input
+                    type="checkbox"
+                    name="category_id"
+                    value="59"
+                    ng-model="form.category_id"
+                  />
+                  Veröffentlichung ({{chrono_aggregations[3].doc_count}})
+                </label>
+              </div>
+            </div>
+          </div -->  
+
+          <div
+            or-db-timeline="true"
+            or-form="form"
+            or-aggregations="chrono_aggregations"
+            or-excess="chrono_excess"
+            or-total="chrono_total"
+            ng-hide="chrono_excess"
+          ></div>
+
+          <div
+            class="or-excess text-center"
+            ng-show="chrono_excess"
+          >
+            <h2>Too much data</h2>
+            <p>
+              Your search would currently produce
+              <strong>{{chrono_total}}</strong> results. This widget can only
+              display a maximum of 100 items. Please add more criteria to lower
+              the amount of search results
+            </p>
           </div>
         </div>
       </div>
-
-      <hr />
-
-      <div class="or-slider" or-slider-lower="form.lower" or-slider-upper="form.upper"></div>
-
-      <div class="text-muted">
-        <div class="pull-right">1989</div>
-        <div class="pull-left">1960</div>
-        <div class="text-center">
-          <span ng-bind="form.lower"></span>
-          –
-          <span ng-bind="form.upper"></span>
-        </div>
-      </div>
-
-      <hr />
 
       <h2>
         {{ 'article' | t:{count: 'other'} | capitalize }}

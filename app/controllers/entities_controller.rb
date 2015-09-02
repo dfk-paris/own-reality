@@ -1,7 +1,15 @@
 class EntitiesController < ApplicationController
 
   def chronology
-    @result = OwnReality::Query.new.search("chronology", "per_page" => 10000).last
+    p params[:refs]
+    @result = OwnReality::Query.new.search("chronology", 
+      "per_page" => 100,
+      "lower" => params[:lower], 
+      "upper" => params[:upper],
+      "terms" => params[:terms],
+      "refs" => params[:refs],
+      "category_id" => params[:category_id]
+    ).last
     render :template => "api/entities/search"
   end
 

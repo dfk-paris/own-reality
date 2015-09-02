@@ -75,7 +75,8 @@ class OwnReality::Import
     elastic.request 'put', "config/complete", nil, {
       "categories" => reader.categories.for_config,
       "roles" => reader.roles,
-      "people" => reader.people
+      "people" => reader.people,
+      "chronolgy_categories" => reader.chronology_categories
     }
   end
 

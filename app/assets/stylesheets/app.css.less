@@ -3,9 +3,45 @@
 }
 
 .or-timeline {
-  margin-top: 1em;
-  padding: 5em;
-  padding-top: 1em;
+  height: 210px;
+
+  // .or-category-selectors {
+  //   position: absolute;
+  // }
+
+  .or-excess {
+    padding-top: 50px;
+
+    h2 {
+      margin-top: 0px;
+    }
+  }
+}
+
+[or-db-timeline] {
+  .vis-timeline, .vis-label, .vis-panel, .vis-group, .vis-grid {
+    border: none !important;
+  }
+
+  .vis-timeline {
+    margin-bottom: -20px !important;
+  }
+
+  .or-chrono-group-57 .vis-item {
+    border-color: red;
+  }
+
+  .or-chrono-group-58 .vis-item {
+    border-color: green;
+  }
+
+  .or-chrono-group-59 .vis-item {
+    border-color: blue;
+  }
+
+  .or-chrono-group-60 .vis-item {
+    border-color: yellow;
+  }
 }
 
 .or-box {
@@ -24,14 +60,12 @@
   height: 1em;
 }
 
-.or-criteria ul {
-  margin-left: 0em;
-  max-width: 80%;
-  margin-bottom: 3em;
-}
-
-.or-criteria .label {
-  cursor: pointer;
+.or-criterion {
+  padding-right: 3px;
+  
+  .label {
+    cursor: pointer;
+  }
 }
 
 .or-characteristic {
