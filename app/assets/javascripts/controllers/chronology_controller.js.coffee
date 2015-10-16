@@ -1,7 +1,7 @@
 app.controller "chronology_controller", [
   "$scope", "chronology_service", "session_service", "attributes_service",
   (scope, cs, ss, as) ->
-    cs.index().success (data) ->
+    cs.index(chrono_per_page: 2000).success (data) ->
       scope.items = data
 
     scope.$watch "current", ->

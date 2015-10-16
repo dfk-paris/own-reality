@@ -4,6 +4,12 @@
   </span>
 </script>
 
+<script type="text/x-ng-tpl" data-id="or-people-list">
+  <span ng-repeat="person in view">
+    <span class="label label-default">{{person.first_name}} {{person.last_name}}</span>
+  </span>
+</script>
+
 <script type="text/x-ng-tpl" data-id="translated-text">
   <span or-bind="translation"></span>
   <i

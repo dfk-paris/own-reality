@@ -22,3 +22,9 @@ de:
   search: Suche
   databases: Datenbanken
   research_tool: Recherche Werkzeug
+
+  date:
+    formats:
+      default: "yyyy-MM-dd"
+      hide_month: "yyyy"
+      hide_day: "yyyy-MM"

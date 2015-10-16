@@ -47,3 +47,11 @@ app.filter 'unique', [
       output[e] = true for e in input
       key for key, value of output
 ]
+
+app.filter 'localize_with_imprecision', [
+  "orTranslate",
+  (t) ->
+    filter = (input, imprecision) -> t.localize_with_imprecision(input, imprecision)
+    filter.$stateful = true
+    filter
+]

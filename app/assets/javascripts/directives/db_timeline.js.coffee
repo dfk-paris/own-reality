@@ -63,7 +63,7 @@ app.directive "orDbTimeline", [
 
           cs.index(scope.form).success (data) ->
             scope.total = data.total
-            if data.total <= 100
+            if data.total <= (scope.form.chrono_per_page || 100)
               scope.excess = false
               update_timeline(data)
             else

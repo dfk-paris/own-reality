@@ -76,7 +76,8 @@ class OwnReality::Import
       "categories" => reader.categories.for_config,
       "roles" => reader.roles,
       "people" => reader.people,
-      "chronolgy_categories" => reader.chronology_categories
+      "chronolgy_categories" => reader.chronology_categories,
+      "klasses" => reader.attribute_proweb_categories
     }
   end
 

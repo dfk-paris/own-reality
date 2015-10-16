@@ -1,6 +1,6 @@
 app.service 'orTranslate', [
-  "session_service", "orTranslations",
-  (ss, ts) ->
+  "session_service", "orTranslations", "$filter",
+  (ss, ts, f) ->
     service = {
       current_locale: -> ss.locale
       other_locale: -> if ss.locale == 'de' then 'fr' else 'de'
@@ -37,11 +37,25 @@ app.service 'orTranslate', [
           result || "#{input} [TNF]"
       localize: (input, format_name = 'default') ->
         try
+          input = new Date(Date.parse(input))
           format = service.translate "date.formats.#{format_name}"
-          result = new FormattedDate(input)
-          result.strftime format
+          f("date")(input, format)
         catch error
+          console.log(error)
           ""
+      localize_with_imprecision: (input, imprecision = false) ->
+        format_name = {"month": "hide_month", "day": "hide_day"}[imprecision] || 'default'
+        format =  service.translate "date.formats.#{format_name}"
+        if angular.isArray(input)
+          if input[1]
+            from = service.localize(input[0], format_name)
+            to = service.localize(input[1], format_name)
+            "#{from} - #{to}"
+          else
+            if date = input[0] || input[1]
+              service.localize(date)
+        else
+          service.localize(input, format_name)
       has_value: (object) ->
         return false unless object
         object[service.current_locale()] || object[service.other_locale()]

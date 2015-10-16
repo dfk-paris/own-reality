@@ -16,11 +16,33 @@
         ></span>
         <span ng-bind="current._source.title[locale()]"></span>
       </h4>
+      
+      <div>
+        <span ng-bind="[current._source.from_date, current._source.to_date] | localize_with_imprecision:current._source.date_imprecision"></span>
+      </div>
+      <br />
+
       <p ng-bind="current._source.content[locale()]"></p>
 
       <div ng-show="current">
-        <strong ng-bind="'keywords' | t | capitalize"></strong>:<br \>
-        <div or-keyword-list="current._source.attrs.ids[6][43]"></div>
+        <div>
+          <strong ng-bind="'keywords' | t | capitalize"></strong>:<br \>
+          <div 
+            or-keyword-list="current._source.attrs.ids"
+            or-only="6.43"
+          ></div>
+        </div>
+        <div>
+          <strong ng-bind="'country' | t | capitalize"></strong>:<br \>
+          <div 
+            or-keyword-list="current._source.attrs.ids"
+            or-only="7.168"
+          ></div>
+        </div>
+        <div>
+          <strong ng-bind="'person' | t:{count: 'other'} | capitalize"></strong>:<br \>
+          <div or-people-list="current._source.people"></div>
+        </div>
       </div>
       
     </div>

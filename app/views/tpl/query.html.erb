@@ -150,6 +150,7 @@
             or-aggregations="chrono_aggregations"
             or-excess="chrono_excess"
             or-total="chrono_total"
+            or-per-page="form.chrono_per_page"
             ng-hide="chrono_excess"
           ></div>
 
@@ -164,6 +165,11 @@
               display a maximum of 100 items. Please add more criteria to lower
               the amount of search results
             </p>
+
+            <button
+              ng-click="form.chrono_per_page = 2000"
+              class="btn btn-warning"
+            >I understand, show them anyways</button>
           </div>
         </div>
       </div>

@@ -30,7 +30,7 @@ app.directive "orTimeline", [
           item = lookup[properties.items[0]]
           scope.current = item
           scope.$apply()
-          console.log "selected"
+          console.log(item)
 
         update_from_data = ->
           new_data = []
@@ -51,7 +51,6 @@ app.directive "orTimeline", [
               lookup[item.id] = o
               new_data.push item
 
-          console.log new_data
           timeline.setItems new_data
 
         scope.$watchCollection "data", ->

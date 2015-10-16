@@ -101,6 +101,7 @@ class OwnReality::ProwebReader
         "people" => people_by_role(o),
         "from_date" => from_date_from(o),
         "to_date" => to_date_from(o),
+        "date_imprecision" => o.date_imprecision,
         "content" => with_translations(o, :content),
         "attrs" => attrs(o)
       }
@@ -185,6 +186,20 @@ class OwnReality::ProwebReader
 
   def people
     YAML.load OwnReality.http_client.get_content(OwnReality.config["users_file"])
+  end
+
+  def attribute_proweb_categories
+    result = {}
+    Proweb::AttributeKlass.all.each do |klass|
+      result[klass.id] = {
+        "name" => klass.name,
+        "kinds" => {}
+      }
+      klass.kinds.each do |kind|
+        result[klass.id]["kinds"][kind.id] = with_translations(kind)
+      end
+    end
+    result
   end
 
 
