@@ -233,22 +233,8 @@
 
       <div class="row">
         <div class="col-md-12">
-          <nav
-            wu-pagination="main.page"
-            wu-total="main.total"
-            wu-per-page="10"
-            wu-use-search="true"
-          >
-            <ul class="pager">
-              <li class="previous"><a href="#">&larr; {{'previous' | t}}</a></li>
-              <li class="next"><a href="#">{{'next' | t}} &rarr;</span></a></li>
-              <li>
-                <span class="text-muted">
-                  {{'page' | t}} {{main.page}}/{{main.total_pages()}}
-                </span>
-              </li>
-            </ul>
-          </nav>
+
+          <div or-pagination="main"></div>
 
           <ul class="or-results list-unstyled">
             <li class="or-source-list-item bg-warning" ng-repeat="record in main.results.records">

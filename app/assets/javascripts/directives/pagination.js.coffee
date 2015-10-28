@@ -3,48 +3,41 @@ app.service "wuListing", [
   (state, l) ->
     service = {
       build: (scope, name, options = {}) ->
-        existing_params =  l.search()[name] || {}
+        from_url_params = ->
+          ep =  l.search()[name] || {}
+          listing.filters = ep.filters || options.default_filters || {}
+          listing.page = ep.page || 1
+          listing.order = ep.order || []
+          listing.per_page = ep.per_page || 10
 
         listing = {
           name: name
-          filters: existing_params.filters || {}
-          order: existing_params.order || []
-          page: existing_params.page || 1
-          per_page: existing_params.per_page || 10
           total: 0
           use_search: true
-          next_page: -> service.next_page(listing)
-          previous_page: -> service.previous_page(listing)
-          on_first_page: -> service.on_first_page(listing)
-          on_last_page: -> service.on_last_page(listing)
-          total_pages: -> service.total_pages(listing)
-          update_url: -> service.update_url(listing)
-          query_params: -> service.query_params(listing)
+          query: options.query
         }
         
-        angular.extend(listing, options)
-        listing.filters = angular.extend({}, listing.default_filters, listing.filters)
+        service.extend(listing)
+        from_url_params()
 
-        filters_changed = ->
-          console.log "FILTERS CHANGED"
+        filters_changed = (v, ov) ->
+          console.log "FILTERS CHANGED", v
           listing.page = 1
           listing.update_url()
-        page_changed = ->
+        page_changed = (v, ov) ->
           console.log "PAGE CHANGED"
           listing.update_url()
-        url_search_changed = (nv, ov) ->
-          console.log "URL_SEARCH_CHANGED", nv.filters, ov.filters
-          listing.filters = l.search()[name].filters
-          listing.page = l.search()[name].page
-          listing.order = l.search()[name].order
-          listing.per_page = l.search()[name].per_page
+        url_search_changed = (v, ov) ->
+          from_url_params()
           listing.query()
 
         scope.$watch (-> listing.filters), filters_changed, true
         scope.$watch (-> listing.order), filters_changed, true
         scope.$watch (-> listing.per_page), filters_changed
-        scope.$watch "#{name}.page", page_changed
+        scope.$watch (-> listing.page), page_changed
         scope.$watch (-> l.search()[name]), url_search_changed, true
+
+        window.l = listing
 
         listing
       next_page: (o) -> o.page += 1 unless service.on_last_page(o)
@@ -60,63 +53,35 @@ app.service "wuListing", [
           per_page: o.per_page
         }
       update_url: (o) -> 
+        console.log("update URL")
         params = service.query_params(o)
         if o.use_search then l.search("#{o.name}": params) else o.query(params)
+      extend: (o) ->
+        o.next_page = -> service.next_page(o)
+        o.previous_page = -> service.previous_page(o)
+        o.on_first_page = -> service.on_first_page(o)
+        o.on_last_page = -> service.on_last_page(o)
+        o.total_pages = -> service.total_pages(o)
+        o.update_url = -> service.update_url(o)
+        o.query_params = -> service.query_params(o)
     }
 ]
 
-app.directive "wuPagination", [
-  "wuBase64Location",
-  (l) ->
+app.directive "orPagination", [
+  "wuBase64Location", "templates_service",
+  (l, ts) ->
     directive = {
       scope: {
-        page: "=wuPagination"
-        total: "=wuTotal"
-        per_page: "=wuPerPage"
-        use_search: "=wuUseSearch"
+        listing: "=orPagination"
       }
+      template: -> ts.fetch "or-pagination"
+      replace: true
       link: (scope, element, attrs) ->
-        scope.new_page ||= 1
-        # scope.new_page = if scope.use_search
-        #   console.log rp.page
-        #   parseInt(rp.page) || 1
-        # else
-        #   1
-        # scope.$on '$routeUpdate', -> scope.new_page = rp.page || 1
-        scope.$watch "page", -> scope.update()
-
-        scope.update = (new_page, event) ->
-          event.preventDefault() if event
-
-          if new_page
-            scope.page = new_page
-
-          if scope.page > scope.total_pages()
-            scope.page = scope.total_pages()
-          if scope.page < 1
-            scope.page = 1
-
-          # l.search(page: scope.page) if scope.use_search
-
-        scope.total_pages = -> Math.ceil(scope.total / scope.per_page)
-
-        # $(element).on "click", "input[type=number]", (event) -> $(event.target).select()
-
-        scope.next = -> scope.update(scope.page + 1)
-        scope.previous = -> scope.update(scope.page - 1)
-        scope.is_first = -> scope.page == 1
-        scope.is_last = -> scope.page == scope.total / scope.per_page
-
-        $(element).on "click", ".next a", (event) ->
+        scope.next = (event) -> 
           event.preventDefault()
-          scope.next()
-          scope.$apply()
-        $(element).on "click", ".previous a", (event) ->
+          scope.listing.next_page()
+        scope.previous = (event) ->
           event.preventDefault()
-          scope.previous()
-          scope.$apply()
-
-        window.l = l
-        window.a = attrs
+          scope.listing.previous_page()
     } 
 ]

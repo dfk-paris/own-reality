@@ -1,3 +1,21 @@
+<script type="text/x-ng-tpl" data-id="or-pagination">
+  <nav>
+    <ul class="pager">
+      <li class="previous">
+        <a href="#" ng-click="previous($event)">&larr; {{'previous' | t}}</a>
+      </li>
+      <li class="next">
+        <a href="#" ng-click="next($event)">{{'next' | t}} &rarr;</a>
+      </li>
+      <li>
+        <span class="text-muted">
+          {{'page' | t}} {{listing.page}}/{{listing.total_pages()}}
+        </span>
+      </li>
+    </ul>
+  </nav>
+</script>
+
 <script type="text/x-ng-tpl" data-id="or-keyword-list">
   <span ng-repeat="k in view">
     <span class="label label-default" ng-bind="k"></span>

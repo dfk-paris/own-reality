@@ -15,9 +15,7 @@ app.controller "query_controller", [
       },
       query: ->
         ds.search(scope.main.query_params()).success (search_data) ->
-          console.log "R", search_data
           as.for(search_data, scope.main.query_params().filters).success (data) ->
-            console.log "A", data
             lookup = {}
             for i in data
               lookup[i._id] = i
