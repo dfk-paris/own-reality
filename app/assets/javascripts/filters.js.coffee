@@ -55,3 +55,8 @@ app.filter 'localize_with_imprecision', [
     filter.$stateful = true
     filter
 ]
+
+app.filter 'total_pages', [
+  -> 
+    (input) -> Math.ceil(input)
+]

@@ -29,11 +29,15 @@ class OwnReality::Query
       raise "unknown type #{type.inspect}"
     end
 
-    data = {}
+    criteria ||= {}
+    criteria["page"] = (criteria["page"] || 1).to_i
+    criteria["per_page"] = (criteria["per_page"] || 10).to_i
 
-    Rails.logger.debug data.inspect
-
-    response = elastic.request "post", "#{type}/_search", nil, data
+    response = elastic.request "post", "#{type}/_search", nil, {
+      "size" => criteria["per_page"],
+      "from" => (criteria["page"] - 1) * criteria["per_page"],
+      "sort" => ["title.de"]
+    }
 
     if response.first == 200
       # JSON.pretty_generate(response)
@@ -46,7 +50,6 @@ class OwnReality::Query
 
   def search(type, criteria = {})
     criteria ||= {}
-
     criteria["page"] = (criteria["page"] || 1).to_i
     criteria["per_page"] = (criteria["per_page"] || 10).to_i
 

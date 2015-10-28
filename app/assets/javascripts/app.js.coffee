@@ -1,12 +1,32 @@
 app.config [
-  "$routeProvider",
-  (rp) ->
+  "$stateProvider", "$urlRouterProvider",
+  (sp, urp) ->
+    urp.otherwise "/home"
 
-    rp.when "/home", templateUrl: "/home", reloadOnSearch: false
-    rp.when "/chronology", templateUrl: "/chronology", reloadOnSearch: false
-    rp.when "/query", templateUrl: "/query", reloadOnSearch: false
-    rp.when "/papers/:type", templateUrl: ((rp) -> "/papers/#{rp.type}"), reloadOnSearch: false
-    rp.when "/papers/:type/:id", templateUrl: "/paper", reloadOnSearch: false
-    rp.otherwise "/home"
-    
+    sp.state("welcome",
+      url: "/home"
+      templateUrl: "/home"
+    )
+
+    sp.state("chronology",
+      url: "/chronology"
+      templateUrl: "/chronology"
+    )
+
+    sp.state("papers",
+      url: "/papers/:type"
+      templateUrl: ((sp) -> "/papers/#{sp.type}")
+    )
+
+    sp.state("paper_show",
+      url: "/papers/:type/:id"
+      templateUrl: "/paper"
+    )
+
+    sp.state("query",
+      url: "/query?q"
+      templateUrl: "/query"
+      reloadOnSearch: false
+    )    
+
 ]

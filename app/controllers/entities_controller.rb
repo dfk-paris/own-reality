@@ -13,7 +13,10 @@ class EntitiesController < ApplicationController
   end
 
   def search
-    @result = OwnReality::Query.new.search("sources", params[:criteria]).last
+    query_params = params["filters"].merge(
+      "page" => params[:page]
+    )
+    @result = OwnReality::Query.new.search("sources", query_params).last
     render :template => "api/entities/search"
   end
 

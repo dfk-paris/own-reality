@@ -44,7 +44,7 @@ function deploy {
   remote "ln -sfn $SHARED_PATH/public_files $CURRENT_PATH/public/files"
 
   # within_do $CURRENT_PATH "RAILS_ENV=production bundle exec rake db:migrate"
-  within_do $CURRENT_PATH "RAILS_ENV=production bundle exec rake assets:precompile"
+  # within_do $CURRENT_PATH "RAILS_ENV=production bundle exec rake assets:precompile"
 
   # local "bundle exec rake assets:precompile"
   # local "rsync --recursive --times --rsh=ssh --compress --human-readable --progress public/assets/* $HOST:$CURRENT_PATH/public/assets"

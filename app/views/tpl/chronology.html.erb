@@ -17,6 +17,11 @@
         <span ng-bind="current._source.title[locale()]"></span>
       </h4>
       
+      <div 
+        or-keyword-list="current._source.attrs.ids"
+        or-only="4.2"
+      ></div>
+      
       <div>
         <span ng-bind="[current._source.from_date, current._source.to_date] | localize_with_imprecision:current._source.date_imprecision"></span>
       </div>

@@ -50,7 +50,8 @@ app.service 'orTranslate', [
           if input[1]
             from = service.localize(input[0], format_name)
             to = service.localize(input[1], format_name)
-            "#{from} - #{to}"
+
+            if from == to then from else "#{from} - #{to}"
           else
             if date = input[0] || input[1]
               service.localize(date)

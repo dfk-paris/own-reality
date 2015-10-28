@@ -6,7 +6,7 @@ app.service "data_service", [
         http(
           method: "post"
           url: "/api/entities/search",
-          data: {criteria: params}
+          data: params
         )
       show: (id) ->
         http(

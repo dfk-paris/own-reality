@@ -22,6 +22,16 @@ de:
   search: Suche
   databases: Datenbanken
   research_tool: Recherche Werkzeug
+  country: Land
+  person:
+    one: Person
+    other: Personen
+  page:
+    one: Seite
+    other: Seiten
+  next: weiter
+  previous: zurück
+  more: weitere
 
   date:
     formats:

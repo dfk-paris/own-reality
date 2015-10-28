@@ -1,9 +1,8 @@
 app.controller "paper_controller", [
-  "$scope", "papers_service", "$routeParams", "session_service",
-  (scope, ps, rp, ss) ->
-    ps.show(rp.type, rp.id).success (data) -> 
+  "$scope", "papers_service", "$stateParams", "session_service",
+  (scope, ps, sp, ss) ->
+    ps.show(sp.type, sp.id).success (data) -> 
       scope.object = data
-      console.log data
 
     scope.debug = -> ss.debug
 ]

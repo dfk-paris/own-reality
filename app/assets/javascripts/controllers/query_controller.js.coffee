@@ -1,49 +1,40 @@
 app.controller "query_controller", [
-  "$scope", "data_service", "wuBase64Location", "$location", "session_service",
-  "attributes_service", "orMisc",
-  (scope, ds, l, lo, ss, as, m) ->
+  "$scope", "$state", "data_service", "wuBase64Location", "session_service",
+  "attributes_service", "orMisc", "wuListing"
+  (scope, state, ds, l, ss, as, m, li) ->
     scope.ds = -> ds
     scope.debug = -> ss.debug
     scope.misc = -> m
     scope.locale = -> ss.locale
 
-    scope.form = l.search("form") || {
-      lower: 1961
-      upper: 1980
-      refs: []
-    }
+    scope.main = li.build(scope, "main", {
+      default_filters: {
+        lower: 1961
+        upper: 1980
+        refs: []
+      },
+      query: ->
+        ds.search(scope.main.query_params()).success (search_data) ->
+          console.log "R", search_data
+          as.for(search_data, scope.main.query_params().filters).success (data) ->
+            console.log "A", data
+            lookup = {}
+            for i in data
+              lookup[i._id] = i
+            scope.lookup = lookup
 
-    query = ->
-      ds.search(scope.form).success (search_data) ->
-        console.log(search_data)
-        
-        as.for(search_data, scope.form).success (data) ->
-          lookup = {}
-          for i in data
-            lookup[i._id] = i
-          scope.lookup = lookup
-          scope.results = search_data
-
-    scope.$on "$routeChangeSuccess", query
-    scope.$on "$routeUpdate", query
-
-    urlUpdate = ->
-      l.search "form", scope.form
-
-    urlUpdateCurrent = ->
-      l.search "current_id", scope.current_id
-
-    scope.$watch "form", urlUpdate, true
-    scope.$watch "current_id", urlUpdateCurrent
+            scope.main.results = search_data
+            scope.main.total = search_data.total
+    })
 
     scope.add_ref = (key, event) ->
       event.preventDefault()
-      scope.form.refs.push(key)
+      scope.main.filters.refs.push(key)
 
     scope.remove_ref = (key, event) ->
       event.preventDefault()
-      i = scope.form.refs.indexOf(key)
-      scope.form.refs.splice i, 1
+      i = scope.main.filters.refs.indexOf(key)
+      scope.main.filters.refs.splice i, 1
 
     scope.file_url = (record, res = 140) ->
       if hash = record._source.file_base_hash

@@ -8,7 +8,7 @@
             class="form-control"
             type="text"
             placeholder="Volltextsuche"
-            ng-model="form.terms"
+            ng-model="main.filters.terms"
             wu-delayed-model="true"
           />
         </div>
@@ -19,9 +19,9 @@
           </label>
         </div>
 
-        <div ng-show="form.refs.length > 0">
+        <div ng-show="main.filters.refs.length > 0">
           <hr />
-          <span class="or-criterion" ng-repeat="ref in form.refs">
+          <span class="or-criterion" ng-repeat="ref in main.filters.refs">
             <span
               class="label label-default"
               ng-click="remove_ref(ref, $event)"
@@ -35,14 +35,19 @@
 
         <hr />
 
-        <div class="or-slider" or-slider-lower="form.lower" or-slider-upper="form.upper"></div>
+        <div
+          class="or-slider"
+          or-slider-lower="main.filters.lower"
+          or-slider-upper="main.filters.upper"
+        ></div>
+
         <div class="text-muted">
           <div class="pull-right">1989</div>
           <div class="pull-left">1960</div>
           <div class="text-center">
-            <span ng-bind="form.lower"></span>
+            <span ng-bind="main.filters.lower"></span>
             –
-            <span ng-bind="form.upper"></span>
+            <span ng-bind="main.filters.upper"></span>
           </div>
         </div>
 
@@ -51,7 +56,7 @@
         <div class="small">
           <div
             class="or-criteria"
-            ng-repeat="(key, agg) in results.aggregations"
+            ng-repeat="(key, agg) in main.results.aggregations"
             ng-show="agg.buckets.length > 0"
           >
             <div>
@@ -176,7 +181,7 @@
 
       <h2>
         {{ 'article' | t:{count: 'other'} | capitalize }}
-        <small>{{ 'amount_found' | t:{interpolations: {o: results.total} } }}</small>
+        <small>{{ 'amount_found' | t:{interpolations: {o: main.total} } }}</small>
       </h2>
 
       <hr class="invisible" />
@@ -226,12 +231,27 @@
         </div>
       </div>
 
-      <hr class="invisible" />
-      
       <div class="row">
         <div class="col-md-12">
+          <nav
+            wu-pagination="main.page"
+            wu-total="main.total"
+            wu-per-page="10"
+            wu-use-search="true"
+          >
+            <ul class="pager">
+              <li class="previous"><a href="#">&larr; {{'previous' | t}}</a></li>
+              <li class="next"><a href="#">{{'next' | t}} &rarr;</span></a></li>
+              <li>
+                <span class="text-muted">
+                  {{'page' | t}} {{main.page}}/{{main.total_pages()}}
+                </span>
+              </li>
+            </ul>
+          </nav>
+
           <ul class="or-results list-unstyled">
-            <li class="or-source-list-item bg-warning" ng-repeat="record in results.records">
+            <li class="or-source-list-item bg-warning" ng-repeat="record in main.results.records">
               <div class="or-box">
                 <div class="pull-right or-preview">
                   <a

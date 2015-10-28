@@ -2,6 +2,7 @@
 //= require jquery-ui
 //= require vendor/angular.min
 //= require vendor/angular-route.min
+//= require vendor/angular-ui-router.min
 //= require vendor/angular-sanitize.min
 //= require vendor/bootstrap.min
 //= require vendor/web-utils
@@ -15,7 +16,7 @@
 //= require_tree ./directives
 //= require ./filters
 
-var app = angular.module("or", ["ngRoute", "ngSanitize", "web-utils"]);
+var app = angular.module("or", ["ui.router", "ngSanitize", "web-utils"]);
 
 (function(){
   var injector = angular.injector(['ng']);
