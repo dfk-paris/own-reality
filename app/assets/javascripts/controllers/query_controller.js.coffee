@@ -1,7 +1,7 @@
 app.controller "query_controller", [
   "$scope", "$state", "data_service", "wuBase64Location", "session_service",
-  "attributes_service", "orMisc", "wuListing"
-  (scope, state, ds, l, ss, as, m, li) ->
+  "attributes_service", "orMisc", "wuListing", "chronology_service",
+  (scope, state, ds, l, ss, as, m, li, cs) ->
     scope.ds = -> ds
     scope.debug = -> ss.debug
     scope.misc = -> m

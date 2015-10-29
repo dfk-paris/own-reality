@@ -2,7 +2,7 @@ class EntitiesController < ApplicationController
 
   def chronology
     @result = OwnReality::Query.new.search("chronology", 
-      "per_page" => params[:chrono_per_page],
+      "per_page" => params[:per_page],
       "lower" => params[:lower], 
       "upper" => params[:upper],
       "terms" => params[:terms],

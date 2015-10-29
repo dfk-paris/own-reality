@@ -1,3 +1,30 @@
+<script type="text/x-ng-tpl" data-id="or-db-timeline">
+  <div>
+    <div 
+      class="or-widget"
+      ng-hide="listing.chrono.excess"
+    ></div>
+    <div
+      class="or-excess text-center"
+      ng-show="listing.chrono.excess"
+    >
+      <h2>Too much data</h2>
+      <p>
+        Your search would currently produce
+        <strong>{{listing.chrono.total}}</strong> results. This widget can only
+        display a maximum of 100 items. Please add more criteria to lower
+        the amount of search results
+      </p>
+
+      <button
+        ng-click="listing.filters.chrono.per_page = 2000"
+        class="btn btn-warning"
+      >I understand, show them anyways</button>
+    </div>
+    
+  </div>
+</script>
+
 <script type="text/x-ng-tpl" data-id="or-pagination">
   <nav>
     <ul class="pager">

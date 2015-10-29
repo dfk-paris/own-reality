@@ -149,33 +149,13 @@
             </div>
           </div -->  
 
-          <div
-            or-db-timeline="true"
-            or-form="form"
-            or-aggregations="chrono_aggregations"
-            or-excess="chrono_excess"
-            or-total="chrono_total"
-            or-per-page="form.chrono_per_page"
-            ng-hide="chrono_excess"
-          ></div>
-
-          <div
-            class="or-excess text-center"
-            ng-show="chrono_excess"
-          >
-            <h2>Too much data</h2>
-            <p>
-              Your search would currently produce
-              <strong>{{chrono_total}}</strong> results. This widget can only
-              display a maximum of 100 items. Please add more criteria to lower
-              the amount of search results
-            </p>
-
-            <button
-              ng-click="form.chrono_per_page = 2000"
-              class="btn btn-warning"
-            >I understand, show them anyways</button>
+          <div class="or-box">
+            <div
+              or-db-timeline="main"
+              or-aggregations="chrono_aggregations"
+            ></div>
           </div>
+          
         </div>
       </div>
 
