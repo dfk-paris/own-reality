@@ -150,8 +150,12 @@ class OwnReality::Query
           "query" => criteria["terms"],
           "default_operator" => "AND",
           "analyzer" => "folding",
-          "analyze_wildcard" => true
-          # "fields" => [
+          "analyze_wildcard" => true,
+          "fields" => [
+            "title.de^20",
+            "title.fr^20",
+            "title.en^20",
+            '_all'
           #   'uuid^20',
           #   'name^10',
           #   'distinct_name^6',
@@ -161,8 +165,7 @@ class OwnReality::Query
           #   'properties.value^3',
           #   'properties.label^2',
           #   'comment^1',
-          #   '_all'
-          # 
+          ] 
         }
       }
     end
