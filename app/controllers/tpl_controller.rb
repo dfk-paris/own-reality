@@ -6,6 +6,10 @@ class TplController < ApplicationController
     render :layout => "application", :text => ""
   end
 
+  def dfk
+    render :layout => "dfk", :text => ""
+  end
+
   def home
     
   end

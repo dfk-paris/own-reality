@@ -18,7 +18,7 @@ group :import do
   if File.exists?("/var/storage/host/own_reality/shared/proweb")
     gem 'proweb', :path => "/var/storage/host/own_reality/shared/proweb"
   else
-    gem 'proweb', :path => "/home/schepp/Desktop/mws/projects/proweb/src"
+    gem 'proweb', :path => "/home/schepp/Desktop/dev/proweb/src"
   end
 
   # if File.exists?("/var/storage/host/own_reality/shared/dfk")
