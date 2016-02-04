@@ -2,7 +2,7 @@ $(document).ready -> riot.mount('*')
 
 window.or = {
   config: {
-    base_url: 'http://localhost:3000'
+    api_url: 'http://localhost:3000'
   }
   locale: -> document.location.href.match(/\/(\w\w)\//)[1]
   localize: (value) ->
@@ -10,8 +10,17 @@ window.or = {
       value[this.locales[0]] || value[this.locales[1]] || value[this.locales[2]]
   locales: ['fr', 'de', 'en']
   scroll_to: (selector) -> 
-    console.log selector
     if element = $(selector)[0]
-      console.log element
       element.scrollIntoView(true)
+  filters: {
+    limitTo: (value, chars = 30) ->
+      if typeof value == 'string'
+        if value.length > chars
+          value.slice(0, chars) + '...'
+        else
+          value
+      else
+        value
+  }
+  bus: riot.observable()
 }

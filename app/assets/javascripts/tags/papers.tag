@@ -2,11 +2,9 @@
 
   <div class="or-papers">
     <div class="list" if={items}>
-      <h1>{opts.label || 'Papers'}</h1>
-
       <ul>
         <li each={items}>
-          <a if={_source.html} href="#/papers/{parent.type}/{_id}">
+          <a if={_source.html} href="{parent.config.link_base}#/papers/{parent.type}/{_id}">
             {parent.localize(_source.title)}
           </a>
           <span if={!_source.html}>
@@ -62,19 +60,17 @@
 
       if self.id
         jQuery.ajax(
-          url: "#{self.config.base_url}/api/papers/#{self.opts.type}/#{self.id}"
+          url: "#{self.config.api_url}/api/papers/#{self.type}/#{self.id}"
           dataType: 'json'
           success: (data) ->
-            console.log data
             self.item = data
             self.update()
         )
       else
         jQuery.ajax(
-          url: "#{self.config.base_url}/api/papers/#{self.opts.type}"
+          url: "#{self.config.api_url}/api/papers/#{self.type}"
           dataType: 'json'
           success: (data) ->
-            console.log data
             self.items = data
             self.update()
         )
@@ -88,12 +84,12 @@
     self.paper_path = -> "/papers/#{self.type}/#{self.id}"
 
     self.on 'mount', ->
-      $(self.root).on 'click', 'a.footnotecall', (event) ->
+      jQuery(self.root).on 'click', 'a.footnotecall', (event) ->
         event.preventDefault()
         id = $(event.currentTarget).attr('id').match(/\d+$/)[0]
         url = "#{self.paper_path()}/#{id}"
         self.routing(url)
-      $(self.root).on 'click', 'a.FootnoteSymbol', (event) ->
+      jQuery(self.root).on 'click', 'a.FootnoteSymbol', (event) ->
         event.preventDefault()
 
       self.routing = riot.route.create()
@@ -101,7 +97,7 @@
 
       riot.route.base '#/'
       unless document.location.hash
-        riot.route "/papers/#{self.opts.type}"
+        riot.route(self.opts.hash || "/papers/articles")
       riot.route.start(true)
 
   </script>
