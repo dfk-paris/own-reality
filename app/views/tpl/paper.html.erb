@@ -1,29 +1,42 @@
-<div ng-controller="paper_controller">
+<main class="page-content clearfix" role="main">
+  <div class="region region-content">
+    <div id="#block-dfk-content" class="block block-system block-system-main-block">
+      <div class="department">
 
-  <div class="container" ng-show="debug()">
-    <h1
-      ng-bind="object._source.id"
-      class="text-muted"
-    ></h1>
-  </div>
+        <div class="department-content">
 
-  <div class="container">
-    <div class="row">
-      <div class="col-md-6">
-        <div
-          or-bind-translate="object._source.html"
-          class="or-paper"
-        ></div>
-      </div>
-      <div class="col-md-6">
-        <strong ng-bind="'authors' | t"></strong>:<br \>
-        <div ng-bind="object._source.authors | people_list:{'sort_by': 'last_name'}"></div>
+          <div ng-controller="paper_controller">
+            <div class="container" ng-show="debug()">
+              <h1
+                ng-bind="object._source.id"
+                class="text-muted"
+              ></h1>
+            </div>
 
-        <br />
+            <div class="container">
+              <div class="row">
+                <div class="col-md-6">
+                  <div
+                    or-bind-translate="object._source.html"
+                    class="or-paper"
+                  ></div>
+                </div>
+                <div class="col-md-6">
+                  <strong ng-bind="'authors' | t"></strong>:<br \>
+                  <div ng-bind="object._source.authors | people_list:{'sort_by': 'last_name'}"></div>
 
-        <strong ng-bind="'keywords' | t"></strong>:<br \>
-        <div or-keyword-list="object._source.attrs.ids[6][43]"></div>
+                  <br />
+
+                  <strong ng-bind="'keywords' | t"></strong>:<br \>
+                  <div or-keyword-list="object._source.attrs.ids[6][43]"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
       </div>
     </div>
   </div>
-</div>
+</main>

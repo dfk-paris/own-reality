@@ -62,7 +62,7 @@
 <![endif]-->
 
   <link rel="stylesheet" href="styles.css">
-      <link rel="stylesheet" href="override.css"><%= javascript_include_tag "application" %></head>
+      <link rel="stylesheet" href="override.css"><%= stylesheet_link_tag "dfk", :media => "all" %><%= javascript_include_tag "application" %><%= render :partial => "layouts/templates" %></head>
   <body class="path-node page-node-type-department" ng-controller="root_controller" ng-keyup="shortcut($event)">
     <a href="#main-content" class="visually-hidden focusable skip-link">
       Direkt zum Inhalt
@@ -126,7 +126,7 @@
 
 </header>
 
-<div class="layout-container" ng-view=""></div>
+<div class="layout-container" ui-view=""></div>
 
 <div class="footer-container">
     <div class="footer-wrapper">
@@ -245,6 +245,5 @@
 
 
 
-  <script type="text/javascript" src="scripts.js"></script>
-</body>
+  </body>
 </html>

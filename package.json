@@ -1,0 +1,34 @@
+{
+  "name": "ownreality",
+  "version": "0.5.0",
+  "description": "== README",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "deps": "uglifyjs node_modules/zepto/zepto.min.js node_modules/riot/riot.min.js -o tmp/deps.js",
+    "deps:watch": "onchange node_modules/ -- npm run deps",
+    "lib": "cat app/assets/javascripts/lib/*.coffee | coffee --bare --compile --stdio > tmp/lib.js",
+    "lib:watch": "onchange app/assets/javascripts/lib -- npm run lib",
+    "tags": "riot app/assets/javascripts/tags tmp/tags.js --colors",
+    "tags:watch": "onchange app/assets/javascripts/tags -- npm run tags",
+    "bundle": "cat tmp/deps.js tmp/lib.js tmp/tags.js > public/app.js",
+    "bundle:watch": "onchange tmp/deps.js tmp/lib.js tmp/tags.js -- npm run bundle",
+    "build": "npm run deps && npm run lib && npm run tags && npm run bundle",
+    "watch": "npm run build && parallelshell 'npm run deps:watch' 'npm run lib:watch' 'npm run tags:watch' 'npm run bundle:watch'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://git.dfkg.org/git/own_reality.git"
+  },
+  "author": "Moritz Schepp <moritz.schepp@gmail.com>",
+  "license": "AGPL-3.0",
+  "devDependencies": {
+    "coffee-script": "^1.10.0",
+    "jasmine": "^2.4.1",
+    "node-sass": "^3.4.2",
+    "onchange": "^2.0.0",
+    "parallelshell": "^2.0.0",
+    "riot": "^2.3.15",
+    "uglify-js": "^2.6.1"
+  }
+}

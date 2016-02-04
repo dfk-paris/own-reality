@@ -8,3 +8,6 @@ config/secrets.yml
 *.sqlite3
 data
 public/files
+
+node_modules
+public/app.js

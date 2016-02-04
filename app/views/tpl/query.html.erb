@@ -1,331 +1,341 @@
-<div class="container" ng-controller="query_controller">
-  <div class="row">
-    <div class="col-md-3">
-      <h2>Suche</h2>
-      <form>
-        <div class="form-group">
-          <input
-            class="form-control"
-            type="text"
-            placeholder="Volltextsuche"
-            ng-model="main.filters.terms"
-            wu-delayed-model="true"
-          />
-        </div>
-        <div class="checkbox or-characteristic">
-          <label>
-            <input type="checkbox" />
-            <small>nur in Zusammenfassung suchen</small>
-          </label>
-        </div>
+<main class="page-content clearfix" role="main">
+  <div class="region region-content">
+    <div id="#block-dfk-content" class="block block-system block-system-main-block">
+      <div class="department">
 
-        <div ng-show="main.filters.refs.length > 0">
-          <hr />
-          <span class="or-criterion" ng-repeat="ref in main.filters.refs">
-            <span
-              class="label label-default"
-              ng-click="remove_ref(ref, $event)"
-              title="{{lookup[ref]._source.name[config.locale]}}"
-            >
-              {{lookup[ref]._source.name[config.locale] | limitTo:25}}
-              <i class="fa fa-remove"></i> 
-            </span>
-          </span>
-        </div>
-
-        <hr />
-
-        <div
-          class="or-slider"
-          or-slider-lower="main.filters.lower"
-          or-slider-upper="main.filters.upper"
-        ></div>
-
-        <div class="text-muted">
-          <div class="pull-right">1989</div>
-          <div class="pull-left">1960</div>
-          <div class="text-center">
-            <span ng-bind="main.filters.lower"></span>
-            –
-            <span ng-bind="main.filters.upper"></span>
-          </div>
-        </div>
-
-        <hr />
-
-        <div class="small">
-          <div
-            class="or-criteria"
-            ng-repeat="(key, agg) in main.results.aggregations"
-            ng-show="agg.buckets.length > 0"
-          >
-            <div>
-              <strong class="text-uppercase" ng-bind="misc().categories[key][locale()]"></strong><br />
-              <!-- <a href="#">... {{'more' | t}}</a> -->
-            </div>
-            <ul class="list-unstyled">
-              <li ng-repeat="bucket in agg.buckets">
-                <span
-                  ng-bind="bucket.key"
-                  ng-show="debug()"
-                  class="text-muted"
-                ></span>
-                <a
-                  href="#"
-                  ng-bind="lookup[bucket.key]._source.name[config.locale]"
-                  ng-click="add_ref(bucket.key, $event)"
-                ></a>
-                ({{bucket.doc_count}})
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        <hr />
-        
-        <div class="form-group text-right">
-          <input type="submit" class="btn btn-primary" value="Suchen" />
-        </div>
-      </form>
-    </div>
-
-    <div class="col-md-9">
-
-      <div class="hidden-xs hidden-sm">
-        <div class="or-timeline bg-warning text-center">
-
-          <!-- div class="row or-category-selectors">
+        <div class="container" ng-controller="query_controller">
+          <div class="row">
             <div class="col-md-3">
-              <div class="checkbox">
-                <label>
+              <h2>Suche</h2>
+              <form>
+                <div class="form-group">
                   <input
-                    type="checkbox"
-                    name="category_id"
-                    value="60"
-                    ng-model="form.category_id"
+                    class="form-control"
+                    type="text"
+                    placeholder="Volltextsuche"
+                    ng-model="main.filters.terms"
+                    wu-delayed-model="true"
                   />
-                  Ausstellung ({{chrono_aggregations[0].doc_count}})
-                </label>
-              </div>
-            </div>
-            <div class="col-md-3">
-              <div class="checkbox">
-                <label>
-                  <input
-                    type="checkbox"
-                    name="category_id"
-                    value="58"
-                    ng-model="form.category_id"
-                  />
-                  Kultur-/Politisches Ereignis ({{chrono_aggregations[2].doc_count}})
-                </label>
-              </div>
-            </div>
-            <div class="col-md-3">
-              <div class="checkbox">
-                <label>
-                  <input
-                    type="checkbox"
-                    name="category_id"
-                    value="57"
-                    ng-model="form.category_id"
-                  />
-                  Reise ({{chrono_aggregations[1].doc_count}})
-                </label>
-              </div>
-            </div>
-            <div class="col-md-3">
-              <div class="checkbox">
-                <label>
-                  <input
-                    type="checkbox"
-                    name="category_id"
-                    value="59"
-                    ng-model="form.category_id"
-                  />
-                  Veröffentlichung ({{chrono_aggregations[3].doc_count}})
-                </label>
-              </div>
-            </div>
-          </div -->  
+                </div>
+                <div class="checkbox or-characteristic">
+                  <label>
+                    <input type="checkbox" />
+                    <small>nur in Zusammenfassung suchen</small>
+                  </label>
+                </div>
 
-          <div class="or-box">
-            <div
-              or-db-timeline="main"
-              or-aggregations="chrono_aggregations"
-            ></div>
-          </div>
-          
-        </div>
-      </div>
-
-      <h2>
-        {{ 'article' | t:{count: 'other'} | capitalize }}
-        <small>{{ 'amount_found' | t:{interpolations: {o: main.total} } }}</small>
-      </h2>
-
-      <hr class="invisible" />
-
-      <div class="row">
-        <div class="col-md-4">
-          <div class="form-group text-right">
-            <input
-              class="form-control or-autocomplete-journals"
-              type="text"
-              placeholder="Zeitschriften"
-            />
-            <a
-              href="#"
-              data-toggle="modal"
-              data-target="#journal-modal"
-            >{{'more' | t}} ...</a>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="form-group text-right">
-            <input
-              class="form-control or-autocomplete-people"
-              type="text"
-              placeholder="Autoren"
-            />
-            <a
-              href="#"
-              data-toggle="modal"
-              data-target="#people-modal"
-            >{{'more' | t}} ...</a>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="or-criteria text-right">
-            <ul class="list-inline">
-              <li class="label label-default">
-                Regan Reynolds
-                <i class="fa fa-remove"></i>
-              </li>
-              <li class="label label-default">
-                Pagac and Sons
-                <i class="fa fa-remove"></i>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-md-12">
-
-          <div or-pagination="main"></div>
-
-          <ul class="or-results list-unstyled">
-            <li class="or-source-list-item bg-warning" ng-repeat="record in main.results.records">
-              <div class="or-box">
-                <div class="pull-right or-preview">
-                  <a
-                    href="#"
-                    data-toggle="modal"
-                    data-target="#or-document-modal"
-                    ng-click="set_current_hash(record, $event)"
-                  >
-                    <img
-                      ng-src="{{file_url(record)}}"
-                      ng-show="record._source.file_base_hash"
-                      class="img-rounded"
+                <div ng-show="main.filters.refs.length > 0">
+                  <hr />
+                  <span class="or-criterion" ng-repeat="ref in main.filters.refs">
+                    <span
+                      class="label label-default"
+                      ng-click="remove_ref(ref, $event)"
+                      title="{{lookup[ref]._source.name[config.locale]}}"
                     >
-                  </a>
-                  <div class="text-right or-icon-bar">
-                    <a
-                      href="/api/entities/download/{{record._source.file_base_hash}}.pdf"
-                      title="download"
-                      ng-show="record._source.file_base_hash"
-                    >
-                      <i class="fa fa-download"></i>
-                    </a>
+                      {{lookup[ref]._source.name[config.locale] | limitTo:25}}
+                      <i class="fa fa-remove"></i> 
+                    </span>
+                  </span>
+                </div>
+
+                <hr />
+
+                <div
+                  class="or-slider"
+                  or-slider-lower="main.filters.lower"
+                  or-slider-upper="main.filters.upper"
+                ></div>
+
+                <div class="text-muted">
+                  <div class="pull-right">1989</div>
+                  <div class="pull-left">1960</div>
+                  <div class="text-center">
+                    <span ng-bind="main.filters.lower"></span>
+                    –
+                    <span ng-bind="main.filters.upper"></span>
                   </div>
                 </div>
-                <div>
-                  <small
-                    class="text-muted"
-                    ng-bind="record._source.people[12063] | people_list"
-                  ></small>
+
+                <hr />
+
+                <div class="small">
+                  <div
+                    class="or-criteria"
+                    ng-repeat="(key, agg) in main.results.aggregations"
+                    ng-show="agg.buckets.length > 0"
+                  >
+                    <div>
+                      <strong class="text-uppercase" ng-bind="misc().categories[key][locale()]"></strong><br />
+                      <!-- <a href="#">... {{'more' | t}}</a> -->
+                    </div>
+                    <ul class="list-unstyled">
+                      <li ng-repeat="bucket in agg.buckets">
+                        <span
+                          ng-bind="bucket.key"
+                          ng-show="debug()"
+                          class="text-muted"
+                        ></span>
+                        <a
+                          href="#"
+                          ng-bind="lookup[bucket.key]._source.name[config.locale]"
+                          ng-click="add_ref(bucket.key, $event)"
+                        ></a>
+                        ({{bucket.doc_count}})
+                      </li>
+                    </ul>
+                  </div>
                 </div>
-                <h4>
-                  <div>
-                    <span
-                      ng-bind="record._source.id"
-                      ng-show="debug()"
-                      class="text-muted"
-                    ></span>
+
+                <hr />
+                
+                <div class="form-group text-right">
+                  <input type="submit" class="btn btn-primary" value="Suchen" />
+                </div>
+              </form>
+            </div>
+
+            <div class="col-md-9">
+
+              <div class="hidden-xs hidden-sm">
+                <div class="or-timeline bg-warning text-center">
+
+                  <!-- div class="row or-category-selectors">
+                    <div class="col-md-3">
+                      <div class="checkbox">
+                        <label>
+                          <input
+                            type="checkbox"
+                            name="category_id"
+                            value="60"
+                            ng-model="form.category_id"
+                          />
+                          Ausstellung ({{chrono_aggregations[0].doc_count}})
+                        </label>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="checkbox">
+                        <label>
+                          <input
+                            type="checkbox"
+                            name="category_id"
+                            value="58"
+                            ng-model="form.category_id"
+                          />
+                          Kultur-/Politisches Ereignis ({{chrono_aggregations[2].doc_count}})
+                        </label>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="checkbox">
+                        <label>
+                          <input
+                            type="checkbox"
+                            name="category_id"
+                            value="57"
+                            ng-model="form.category_id"
+                          />
+                          Reise ({{chrono_aggregations[1].doc_count}})
+                        </label>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="checkbox">
+                        <label>
+                          <input
+                            type="checkbox"
+                            name="category_id"
+                            value="59"
+                            ng-model="form.category_id"
+                          />
+                          Veröffentlichung ({{chrono_aggregations[3].doc_count}})
+                        </label>
+                      </div>
+                    </div>
+                  </div -->  
+
+                  <div class="or-box">
+                    <div
+                      or-db-timeline="main"
+                      or-aggregations="chrono_aggregations"
+                    ></div>
+                  </div>
+                  
+                </div>
+              </div>
+
+              <h2>
+                {{ 'article' | t:{count: 'other'} | capitalize }}
+                <small>{{ 'amount_found' | t:{interpolations: {o: main.total} } }}</small>
+              </h2>
+
+              <hr class="invisible" />
+
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="form-group text-right">
+                    <input
+                      class="form-control or-autocomplete-journals"
+                      type="text"
+                      placeholder="Zeitschriften"
+                    />
                     <a
-                      or-bind-translate="record._source.title"
                       href="#"
                       data-toggle="modal"
-                      data-target="#or-source-modal"
-                      ng-click="set_current_id(record, $event)"
-                    ></a>
+                      data-target="#journal-modal"
+                    >{{'more' | t}} ...</a>
                   </div>
-                  <small
-                    class="text-muted"
-                    ng-bind="bibliography(record)"
-                  ></small>
-                </h4>
-                <p class="small">
-                  <span or-bind-translate="record._source.interpretation"></span>
-                </p>
-                <div class="clearfix"></div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group text-right">
+                    <input
+                      class="form-control or-autocomplete-people"
+                      type="text"
+                      placeholder="Autoren"
+                    />
+                    <a
+                      href="#"
+                      data-toggle="modal"
+                      data-target="#people-modal"
+                    >{{'more' | t}} ...</a>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="or-criteria text-right">
+                    <ul class="list-inline">
+                      <li class="label label-default">
+                        Regan Reynolds
+                        <i class="fa fa-remove"></i>
+                      </li>
+                      <li class="label label-default">
+                        Pagac and Sons
+                        <i class="fa fa-remove"></i>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
               </div>
-            </li>
-          </ul>
+
+              <div class="row">
+                <div class="col-md-12">
+
+                  <div or-pagination="main"></div>
+
+                  <ul class="or-results list-unstyled">
+                    <li class="or-source-list-item bg-warning" ng-repeat="record in main.results.records">
+                      <div class="or-box">
+                        <div class="pull-right or-preview">
+                          <a
+                            href="#"
+                            data-toggle="modal"
+                            data-target="#or-document-modal"
+                            ng-click="set_current_hash(record, $event)"
+                          >
+                            <img
+                              ng-src="{{file_url(record)}}"
+                              ng-show="record._source.file_base_hash"
+                              class="img-rounded"
+                            >
+                          </a>
+                          <div class="text-right or-icon-bar">
+                            <a
+                              href="/api/entities/download/{{record._source.file_base_hash}}.pdf"
+                              title="download"
+                              ng-show="record._source.file_base_hash"
+                            >
+                              <i class="fa fa-download"></i>
+                            </a>
+                          </div>
+                        </div>
+                        <div>
+                          <small
+                            class="text-muted"
+                            ng-bind="record._source.people[12063] | people_list"
+                          ></small>
+                        </div>
+                        <h4>
+                          <div>
+                            <span
+                              ng-bind="record._source.id"
+                              ng-show="debug()"
+                              class="text-muted"
+                            ></span>
+                            <a
+                              or-bind-translate="record._source.title"
+                              href="#"
+                              data-toggle="modal"
+                              data-target="#or-source-modal"
+                              ng-click="set_current_id(record, $event)"
+                            ></a>
+                          </div>
+                          <small
+                            class="text-muted"
+                            ng-bind="bibliography(record)"
+                          ></small>
+                        </h4>
+                        <p class="small">
+                          <span or-bind-translate="record._source.interpretation"></span>
+                        </p>
+                        <div class="clearfix"></div>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="people-modal" class="modal fade">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title">Personen</h4>
+                </div>
+                <div class="modal-body">
+                  <table class="table table-bordered">
+                    <tr ng-repeat="row in ds().grouped_people">
+                      <td ng-repeat="person in row" ng-bind="person" class="or-selectable"></td>
+                    </tr>
+                  </table>
+                </div>
+                <div class="modal-footer">
+                  <button class="btn btn-primary" data-dismiss="modal">fertig</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="journal-modal" class="modal fade">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title">Zeitschriften</h4>
+                </div>
+                <div class="modal-body">
+                  <table class="table table-bordered">
+                    <tr ng-repeat="row in ds().grouped_journals">
+                      <td ng-repeat="person in row" ng-bind="person" class="or-selectable"></td>
+                    </tr>
+                  </table>
+                </div>
+                <div class="modal-footer">
+                  <button class="btn btn-primary" data-dismiss="modal">fertig</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div
+            or-source-dialog="current_id"
+            or-current="current"
+          ></div>
+
+          <div
+            or-document-dialog="current_document_hash"
+          ></div>
         </div>
+
       </div>
     </div>
   </div>
-
-  <div id="people-modal" class="modal fade">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title">Personen</h4>
-        </div>
-        <div class="modal-body">
-          <table class="table table-bordered">
-            <tr ng-repeat="row in ds().grouped_people">
-              <td ng-repeat="person in row" ng-bind="person" class="or-selectable"></td>
-            </tr>
-          </table>
-        </div>
-        <div class="modal-footer">
-          <button class="btn btn-primary" data-dismiss="modal">fertig</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div id="journal-modal" class="modal fade">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title">Zeitschriften</h4>
-        </div>
-        <div class="modal-body">
-          <table class="table table-bordered">
-            <tr ng-repeat="row in ds().grouped_journals">
-              <td ng-repeat="person in row" ng-bind="person" class="or-selectable"></td>
-            </tr>
-          </table>
-        </div>
-        <div class="modal-footer">
-          <button class="btn btn-primary" data-dismiss="modal">fertig</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div
-    or-source-dialog="current_id"
-    or-current="current"
-  ></div>
-
-  <div
-    or-document-dialog="current_document_hash"
-  ></div>
-</div>
+</main>

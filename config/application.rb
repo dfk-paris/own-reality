@@ -56,5 +56,7 @@ module OwnReality
     # config.i18n.default_locale = :de
 
     config.action_dispatch.perform_deep_munge = false
+
+    config.assets.precompile += ["dfk.css"]
   end
 end

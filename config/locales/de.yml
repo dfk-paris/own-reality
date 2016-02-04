@@ -1,4 +1,5 @@
 de:
+  to_project: Zurück zur Projektseite
   article:
     one: Aufsatz
     other: Aufsätze
@@ -20,6 +21,7 @@ de:
   interviews: Interviews
   information: Information
   search: Suche
+  database: Datenbank
   databases: Datenbanken
   research_tool: Recherche Werkzeug
   country: Land

@@ -27,11 +27,11 @@ function deploy {
   deploy_code
   cleanup
 
-  PROWEB_PATH="/home/schepp/Desktop/mws/projects/proweb/src"
+  PROWEB_PATH="/home/schepp/Desktop/dev/proweb/src"
   RSYNC_OPTS="--recursive --times --rsh=ssh --compress --human-readable --progress -e 'ssh -p $PORT'"
   local "rsync $RSYNC_OPTS $PROWEB_PATH/ $HOST:$SHARED_PATH/proweb/"
 
-  DFK_PATH="/home/schepp/Desktop/mws/projects/scripts/src/dfk"
+  DFK_PATH="/home/schepp/Desktop/dev/dfk_scripts/src/dfk"
   local "rsync $RSYNC_OPTS $DFK_PATH/ $HOST:$SHARED_PATH/dfk/"
 
   within_do $CURRENT_PATH "rm .ruby-version"
