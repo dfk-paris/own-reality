@@ -6,17 +6,21 @@ class EntitiesController < ApplicationController
       "lower" => params[:lower], 
       "upper" => params[:upper],
       "terms" => params[:terms],
-      "refs" => params[:refs],
+      "refs" => params[:attribute_ids],
       "category_id" => params[:category_id]
     ).last
     render :template => "api/entities/search"
   end
 
   def search
-    query_params = params["filters"].merge(
+    @result = OwnReality::Query.new.search("sources",
+      "per_page" => params[:per_page],
+      "lower" => params[:lower], 
+      "upper" => params[:upper],
+      "terms" => params[:terms],
+      "refs" => params[:attribute_ids],
       "page" => params[:page]
-    )
-    @result = OwnReality::Query.new.search("sources", query_params).last
+    ).last
     render :template => "api/entities/search"
   end
 

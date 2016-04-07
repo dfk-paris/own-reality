@@ -1,20 +1,25 @@
 {
   "name": "ownreality",
   "version": "0.5.0",
-  "description": "== README",
+  "description": "== README.md",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "deps": "./build.sh deps",
+    "deps": "widgets/build.sh deps",
     "deps:watch": "onchange node_modules/ -- npm run deps",
-    "lib": "cat app/assets/javascripts/lib/*.coffee | coffee --bare --compile --stdio > tmp/lib.js",
-    "lib:watch": "onchange app/assets/javascripts/lib -- npm run lib",
-    "tags": "riot app/assets/javascripts/tags tmp/tags.js --colors",
-    "tags:watch": "onchange app/assets/javascripts/tags -- npm run tags",
-    "bundle": "cat tmp/deps.js tmp/lib.js tmp/tags.js > public/app.js",
-    "bundle:watch": "onchange tmp/deps.js tmp/lib.js tmp/tags.js -- npm run bundle",
-    "build": "npm run deps && npm run lib && npm run tags && npm run bundle",
-    "watch": "npm run build && parallelshell 'npm run deps:watch' 'npm run lib:watch' 'npm run tags:watch' 'npm run bundle:watch'"
+    "lib": "cat widgets/lib/*.coffee | coffee --bare --compile --stdio > tmp/lib.js",
+    "lib:watch": "onchange widgets/lib -- npm run lib",
+    "i18n": "widgets/build.sh i18n",
+    "i18n:watch": "onchange widgets/locale -- npm run i18n",
+    "tags": "riot widgets/tags tmp/tags.js --colors",
+    "tags:watch": "onchange widgets/tags -- npm run tags",
+    "bundle": "cat tmp/deps.js tmp/lib.js tmp/i18n.js tmp/tags.js > public/app.js",
+    "bundle:watch": "onchange tmp/deps.js tmp/lib.js tmp/i18n.js tmp/tags.js -- npm run bundle",
+    "build": "npm run deps && npm run lib && npm run i18n && npm run tags && npm run bundle",
+    "watch": "npm run build && parallelshell 'npm run deps:watch' 'npm run lib:watch' 'npm run tags:watch' 'npm run i18n:watch' 'npm run bundle:watch'",
+    "server": "cd public; python -m SimpleHTTPServer 3000;",
+    "pack": "npm run build && cat tmp/deps.js tmp/lib.js tmp/tags.js > tmp/or.min.js",
+    "upload": "npm run pack && scp tmp/or.min.js root@192.168.30.214:/var/storage/host/static/current/public/or.min.js"
   },
   "repository": {
     "type": "git",
@@ -25,12 +30,14 @@
   "devDependencies": {
     "coffee-script": "^1.10.0",
     "jasmine": "^2.4.1",
+    "jquery": "^2.2.3",
+    "jquery-ui": "^1.10.5",
     "node-sass": "^3.4.2",
     "onchange": "^2.0.0",
+    "page": "^1.7.1",
     "parallelshell": "^2.0.0",
-    "riot": "^2.3.15",
+    "riot": "^2.3.18",
     "uglify-js": "^2.6.1",
-    "vis": "^4.14.0",
-    "zepto": "^1.0.1"
+    "vis": "^4.14.0"
   }
 }
