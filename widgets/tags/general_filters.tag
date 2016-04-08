@@ -37,9 +37,13 @@
   <script type="text/coffee">
     self = this
     self.or = window.or
+    self.type = 'sources'
 
     self.on 'mount', ->
       self.on 'or-change', (field) -> self.search()
+      self.or.bus.on 'type-select', (type) ->
+        self.type = type
+        self.search()
 
       self.search()
 
@@ -48,6 +52,24 @@
         type: 'POST'
         url: "#{self.or.config.api_url}/api/entities/search"
         data: {
+          terms: self.tags.terms.value()
+          only_summary: self.tags.summary_only.value()
+          lower: self.tags.date.value()[0]
+          upper: self.tags.date.value()[1]
+          attribute_ids: self.tags.attribute_facets.value()
+        }
+        success: (data) ->
+          console.log data
+          for bucket in data.aggregations.type.buckets
+            self.or.data.aggregations[bucket.key] = bucket
+          self.or.bus.trigger 'type-aggregations'
+      )
+
+      $.ajax(
+        type: 'POST'
+        url: "#{self.or.config.api_url}/api/entities/search"
+        data: {
+          type: self.type
           terms: self.tags.terms.value()
           only_summary: self.tags.summary_only.value()
           lower: self.tags.date.value()[0]

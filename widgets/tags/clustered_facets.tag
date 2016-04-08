@@ -13,7 +13,7 @@
       each={key, aggregation in opts.aggregations}
       if={aggregation.buckets.length > 0}
     >
-      <small>some aggregation</small>
+      <small>{parent.or.filters.l(parent.or.config.server.categories[key])}</small>
       <ul>
         <li class="or-bucket" each={bucket in aggregation.buckets}>
           <a><or-attribute key={bucket.key} /></a>

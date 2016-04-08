@@ -13,7 +13,7 @@ class EntitiesController < ApplicationController
   end
 
   def search
-    @result = OwnReality::Query.new.search("sources",
+    @result = OwnReality::Query.new.search(params['type'],
       "per_page" => params[:per_page],
       "lower" => params[:lower], 
       "upper" => params[:upper],

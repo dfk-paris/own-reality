@@ -7,6 +7,7 @@ $(document).ready -> riot.mount('*')
     }
     data: {
       results: []
+      aggregations: {}
     }
     config: {
       api_url: 'http://localhost:3000'

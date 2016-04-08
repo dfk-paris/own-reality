@@ -24,7 +24,7 @@ class OwnReality::Query
     end    
   end
 
-  def papers(type, criteria = {})
+  def papers(type = nil, criteria = {})
     unless ["magazines", "articles", "interviews"].include?(type)
       raise "unknown type #{type.inspect}"
     end
@@ -77,6 +77,15 @@ class OwnReality::Query
       end
     end
 
+    unless type.present?
+      aggs['type'] = {
+        'terms' => {
+          'field' => '_type',
+          'size' => 10
+        }
+      }
+    end
+
     data = {
       "aggs" => aggs,
       "query" => {
@@ -87,6 +96,14 @@ class OwnReality::Query
       "size" => criteria["per_page"],
       "from" => (criteria["page"] - 1) * criteria["per_page"]
     }
+
+    if type.present?
+      data["query"]["bool"]["must"] << {
+        "type" => {
+          "value" => type
+        }
+      }
+    end
 
     if criteria["lower"].present?
       data["query"]["bool"]["must"] << {

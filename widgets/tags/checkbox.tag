@@ -1,7 +1,7 @@
 <or-checkbox>
   <input
     type="checkbox"
-    id={opts.id || otps.name}
+    id="{opts.id || otps.name}"
     name={opts.name}
   />
 
