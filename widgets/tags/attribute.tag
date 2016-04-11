@@ -7,7 +7,12 @@
     self.or = window.or
 
     self.attr = -> self.or.cache.attr_lookup[self.opts.key]
-    self.label = -> self.or.filters.l(self.attr().name)
+    self.label = ->
+      result = self.or.filters.l(self.attr().name)
+      if result.length > 30
+        result.substr(0, 30 - 1) + '…'
+      else
+        result
   </script>
 
 </or-attribute>

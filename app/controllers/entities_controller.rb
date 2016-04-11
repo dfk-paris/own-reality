@@ -14,6 +14,7 @@ class EntitiesController < ApplicationController
 
   def search
     @result = OwnReality::Query.new.search(params['type'],
+      "search_type" => params[:search_type],
       "per_page" => params[:per_page],
       "lower" => params[:lower], 
       "upper" => params[:upper],

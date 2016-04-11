@@ -60,3 +60,8 @@ module OwnReality
     config.assets.precompile += ["dfk.css"]
   end
 end
+
+# TODO: fix css scopes within riot tags to include [riot-tag=tag-name] selectors
+# TODO: check updater and url on source detail modal view
+# TODO: add people list widget for source detail and source list item
+# TODO: add correct dating within citations

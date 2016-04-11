@@ -44,23 +44,19 @@
       </ul>
     </div>
     <div class="tab sources">
-      <ul>
-        <li each={result in or.data.results}>
-          <div class="digibib-cd-rom"></div>
-          {parent.or.filters.l(result._source.title)}
-        </li>
-      </ul>
+      <or-list-item
+        each={item in or.data.results}
+        item={item}
+      />
     </div>
+
+    <or-modal />
   </div>
 
   <style type="text/scss">
     or-results {
       .controls a {
         cursor: pointer;
-      }
-
-      ul li img {
-        width: 18px !important;
       }
 
       ul li:before {

@@ -2,18 +2,26 @@ window.or.translations.de = {
   "de": "deutsch",
   "fr": "französisch",
   "en": "englisch",
+  "download": "herunterladen",
   "to_project": "Zurück zur Projektseite",
   "amount_found": "%{o} gefunden",
   "summary": "Zusammenfassung",
   "search_summary_only": "nur in Zusammenfassung suchen",
   "people_involved": "genannte Personen",
-  "author": "Autor",
-  "authors": "Autoren",
-  "keyword": "Schlagwort",
-  "keywords": "Schlagworte",
+  "author": {
+    "one": "Autor",
+    "other": "Autoren"
+  },
+  "keyword": {
+    "one": "Schlagwort",
+    "other": "Schlagworte"
+  },
   "interpretation": "Interpretation",
   "content": "Inhalt",
-  "recommended_citation_style": "empfohlenes Zitationsformat",
+  "recommended_citation_style": {
+    "one": "empfohlenes Zitationsformat",
+    "other": "empfohlene Zitationsformate"
+  },
   "chronology": "Chronologie",
   "papers": "Publikationen",
   "interview": {

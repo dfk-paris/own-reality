@@ -52,6 +52,7 @@
         type: 'POST'
         url: "#{self.or.config.api_url}/api/entities/search"
         data: {
+          search_type: 'count'
           terms: self.tags.terms.value()
           only_summary: self.tags.summary_only.value()
           lower: self.tags.date.value()[0]
@@ -59,7 +60,7 @@
           attribute_ids: self.tags.attribute_facets.value()
         }
         success: (data) ->
-          console.log data
+          console.log 'aggs:', data
           for bucket in data.aggregations.type.buckets
             self.or.data.aggregations[bucket.key] = bucket
           self.or.bus.trigger 'type-aggregations'
@@ -79,27 +80,10 @@
         success: (data) ->
           console.log data
           self.aggregations = data.aggregations
-          self.fetch_attributes()
-          
+          self.or.cache_attributes(self.attribute_ids())
           self.or.data.results = data.records
           self.or.bus.trigger 'results'
       )
-
-    self.fetch_attributes = ->
-      $.ajax(
-        type: 'POST'
-        url: "#{self.or.config.api_url}/api/entities/lookup"
-        data: {ids: self.attribute_ids()}
-        success: (data) ->
-          console.log data
-          self.attrs = data
-          self.extend_lookup(data)
-          self.update()
-      )
-
-    self.extend_lookup = (data) ->
-      for a in data
-        self.or.cache.attr_lookup[a._source.id] = a._source
 
     self.attribute_ids = ->
       results = []

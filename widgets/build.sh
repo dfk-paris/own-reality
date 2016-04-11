@@ -4,6 +4,7 @@ function deps {
   uglifyjs \
     node_modules/jquery/dist/jquery.js \
     widgets/vendor/jquery-ui.js \
+    widgets/vendor/jquery.easyModal.js \
     node_modules/riot/riot.min.js \
     -o tmp/deps.js
 

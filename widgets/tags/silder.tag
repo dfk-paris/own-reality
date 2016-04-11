@@ -47,7 +47,7 @@
           self.lower = ui.values[0]
           self.upper = ui.values[1]
           self.update()
-
+        change: (event, ui) ->
           self.parent.trigger('or-change', self) if self.parent
       )
 

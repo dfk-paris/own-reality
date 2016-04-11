@@ -53,6 +53,8 @@ class OwnReality::Query
     criteria["page"] = (criteria["page"] || 1).to_i
     criteria["per_page"] = (criteria["per_page"] || 10).to_i
 
+    search_type = criteria['search_type'] || 'query_then_fetch'
+
     aggs = {
       "attr.4.2" => {
         "terms" => {
@@ -93,7 +95,7 @@ class OwnReality::Query
           "must" => []
         }
       },
-      "size" => criteria["per_page"],
+      "size" => (search_type == 'count' ? 0 : criteria["per_page"]),
       "from" => (criteria["page"] - 1) * criteria["per_page"]
     }
 
@@ -188,16 +190,13 @@ class OwnReality::Query
     end
 
     if criteria["refs"].present?
-      data["query"]["bool"]["must"] << {
-        "constant_score" => {
-          "filter" => {
-            "terms" => {
-              "attrs.ids.6.43" => criteria["refs"],
-              "execution" => "and"
-            }
+      criteria['refs'].each do |ref|
+        data['query']['bool']['must'] << {
+          'term' => {
+            'attrs.ids.6.43' => ref
           }
         }
-      }
+      end
     end
 
     if type == "chronology"

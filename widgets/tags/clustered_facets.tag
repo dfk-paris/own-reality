@@ -10,22 +10,29 @@
     </div>
 
     <div
+      class="or-bucket"
       each={key, aggregation in opts.aggregations}
       if={aggregation.buckets.length > 0}
     >
-      <small>{parent.or.filters.l(parent.or.config.server.categories[key])}</small>
-      <ul>
-        <li class="or-bucket" each={bucket in aggregation.buckets}>
-          <a><or-attribute key={bucket.key} /></a>
-          ({bucket.doc_count})
-        </li>
-      </ul>
+      <div class="or-category">
+        {parent.or.filters.l(parent.or.config.server.categories[key])}
+      </div>
+      <div class="or-value" each={bucket in aggregation.buckets}>
+        •
+        <a><or-attribute key={bucket.key} /></a>
+        ({bucket.doc_count})
+      </div>
     </div>
   </div>
 
   <style type="text/scss">
     or-clustered-facets a {
       cursor: pointer;
+
+      .or-category {
+        margin-top: 1rem;
+        margin-bottom: 0.3rem;
+      }
     }
   </style>
 

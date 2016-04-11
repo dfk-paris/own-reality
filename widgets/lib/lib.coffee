@@ -19,6 +19,16 @@ $(document).ready -> riot.mount('*')
     scroll_to: (selector) -> 
       if element = $(selector)[0]
         element.scrollIntoView(true)
+    cache_attributes: (ids) ->
+      $.ajax(
+        type: 'POST'
+        url: "#{app.config.api_url}/api/entities/lookup"
+        data: {ids: ids}
+        success: (data) ->
+          for a in data
+            app.cache.attr_lookup[a._source.id] = a._source
+          riot.update()
+      )
     translations: {}
     route: {
       query: (params) ->
