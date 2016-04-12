@@ -2,10 +2,7 @@
 
   <div if={opts.item._type == 'sources'}>
     <or-medium item={opts.item} />
-    <or-person
-      each={person in opts.item._source.people[12063]}
-      person={person}
-    />
+    <or-people-list people={opts.item._source.people[12063]} />
     <a href="#" class="or-modal-trigger">
       <or-localized-value class="or-title" value={opts.item._source.title} />
     </a>
@@ -80,7 +77,7 @@
     self.on 'mount', ->
       $(self.root).on 'click', 'a.or-modal-trigger', (event) ->
         event.preventDefault()
-        self.or.bus.trigger 'modal', 'or-source', item: self.opts.item
+        self.or.route.query modal: 'true', tag: 'or-source', id: self.opts.item._id
 
   </script>
 

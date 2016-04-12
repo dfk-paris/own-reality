@@ -31,6 +31,8 @@
         top: 50
         autoOpen: false
         hasVariableWidth: true
+        onClose: ->
+          self.or.route.query modal: null, tag: null, id: null
       )
 
     self.or.bus.on 'modal', (url_or_tag, opts) ->
@@ -39,8 +41,9 @@
         riot.mount $(self.root).find('.or-custom-tag')[0], url_or_tag, opts
       else
         self.src = url_or_tag
-
+      
       self.update()
       self.modal.trigger 'openModal'
+
   </script>
 </or-modal>

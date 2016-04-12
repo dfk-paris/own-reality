@@ -75,7 +75,6 @@
 
       $(self.root).on 'click', '.controls a', (event) ->
         name = $(event.target).attr('name')
-        console.log name
         $(self.root).find('.tab').hide()
         $(self.root).find(".tab.#{name}").show()
         self.or.bus.trigger 'type-select', name

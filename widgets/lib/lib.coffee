@@ -77,13 +77,14 @@ $(document).ready -> riot.mount('*')
         value[app.config.locale] || value[app.locales[0]] ||
         value[app.locales[1]] || value[app.locales[2]] ||
         "*TRANSLATION MISSING*"
-      # l: (input, format_name = 'default') ->
-      #   try
-      #     format = app.filters.t "date.formats.#{format_name}"
-      #     result = new FormattedDate(input)
-      #     result.strftime format
-      #   catch error
-      #     ""
+      ld: (input, format_name = 'default') ->
+        try
+          date = new Date(Date.parse(input))
+          format = app.filters.t "date.formats.#{format_name}"
+          result = new Strftime(date)
+          result.render format
+        catch error
+          "DATE COULD NOT BE LOCALIZED: #{input}"
       limitTo: (value, chars = 30) ->
         if typeof value == 'string'
           if value.length > chars
@@ -110,6 +111,11 @@ $(document).ready -> riot.mount('*')
       if lang != app.config.locale
         app.config.locale = lang
         riot.update()
+
+    if modal = riot.route.query()['modal']
+      tag = riot.route.query()['tag']
+      id = riot.route.query()['id']
+      app.bus.trigger 'modal', tag, id: id
 
   riot.route.start true
 

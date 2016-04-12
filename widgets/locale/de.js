@@ -60,9 +60,9 @@ window.or.translations.de = {
   "full_text_search": "Volltextsuche",
   "date": {
     "formats": {
-      "default": "yyyy-MM-dd",
-      "hide_month": "yyyy",
-      "hide_day": "yyyy-MM"
+      "default": "%d.%m.%Y",
+      "hide_month": "%Y",
+      "hide_day": "%d.%Y"
     }
   }
 };

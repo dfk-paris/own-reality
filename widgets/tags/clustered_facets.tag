@@ -26,12 +26,17 @@
   </div>
 
   <style type="text/scss">
-    or-clustered-facets a {
-      cursor: pointer;
+    or-clustered-facets {
+      a {
+        cursor: pointer;
+      }
 
-      .or-category {
+      .or-bucket {
         margin-top: 1rem;
-        margin-bottom: 0.3rem;
+
+        .or-category {
+          margin-bottom: 0.1rem;
+        }
       }
     }
   </style>

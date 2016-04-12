@@ -2,6 +2,7 @@
 
 function deps {
   uglifyjs \
+    widgets/vendor/strftime.js \
     node_modules/jquery/dist/jquery.js \
     widgets/vendor/jquery-ui.js \
     widgets/vendor/jquery.easyModal.js \

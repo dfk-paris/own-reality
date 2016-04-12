@@ -31,7 +31,9 @@ class OwnReality::ProwebReader
         "short_title" => short_title(with_translations(o, :short_title)),
         "url" => with_translations(o, :content),
         "people" => people_by_role(o),
-        "attrs" => attrs(o)
+        "attrs" => attrs(o),
+        "updated_by" => o.updated_by,
+        "updated_at" => date_from(o.updated_on)
       }
 
       pfc = OwnReality::ProwebFileConverter.new(o.id)
@@ -54,7 +56,9 @@ class OwnReality::ProwebReader
         "short_title" => short_title(with_translations(o, :short_title)),
         "url" => with_translations(o, :content),
         "people" => people_by_role(o),
-        "attrs" => attrs(o)
+        "attrs" => attrs(o),
+        "updated_by" => o.updated_by,
+        "updated_at" => date_from(o.updated_on)
       }
 
       pfc = OwnReality::ProwebFileConverter.new(o.id)
@@ -77,7 +81,9 @@ class OwnReality::ProwebReader
         "short_title" => short_title(with_translations(o, :short_title)),
         "url" => with_translations(o, :content),
         "people" => people_by_role(o),
-        "attrs" => attrs(o)
+        "attrs" => attrs(o),
+        "updated_by" => o.updated_by,
+        "updated_at" => date_from(o.updated_on)
       }
 
       pfc = OwnReality::ProwebFileConverter.new(o.id)
@@ -103,7 +109,9 @@ class OwnReality::ProwebReader
         "to_date" => to_date_from(o),
         "date_imprecision" => o.date_imprecision,
         "content" => with_translations(o, :content),
-        "attrs" => attrs(o)
+        "attrs" => attrs(o),
+        "updated_by" => o.updated_by,
+        "updated_at" => date_from(o.updated_on)
       }
 
       data["from_date"] ||= data["to_date"]
@@ -142,7 +150,9 @@ class OwnReality::ProwebReader
         "content" => with_translations(o, :content),
         "abstract" => with_translations(o, :abstract),
         "interpretation" => with_translations(o, :interpretation),
-        "attrs" => attrs(o)
+        "attrs" => attrs(o),
+        "updated_by" => o.updated_by,
+        "updated_at" => date_from(o.updated_on)
       }
 
       data["from_date"] ||= data["to_date"]

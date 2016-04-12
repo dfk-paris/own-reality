@@ -7,29 +7,26 @@
     <div class="or-metadata">
       <div class="or-field">
         <strong>{t('author', {count: 'other'})}:</strong>
-        <or-person
-          each={person in opts.item._source.people[12063]}
-          person={person}
-        />
+        <or-people-list people={opts.item._source.people[12063]} />
       </div>
       <div class="or-field">
         <strong>{t('source', {count: 1})}:</strong>
         <or-journal-and-volume item={opts.item} />
       </div>
-      <div class="or-field">
-        <strong>{t('keyword', {count: 'other'})}:</strong>
-        <or-attribute-list keys={opts.item._source.attrs.ids[6][43]} />
-      </div>
     </div>
 
     <div class="or-text">
       <div class="or-field">
-        <strong>{t('interpretation', {count: 1})}:</strong>
         <or-localized-value value={opts.item._source.interpretation} />
       </div>
     </div>
 
     <div class="clearfix"></div>
+    
+    <div class="or-field">
+      <strong>{t('keyword', {count: 'other'})}:</strong>
+      <or-attribute-list keys={opts.item._source.attrs.ids[6][43]} />
+    </div>
 
     <div class="or-field">
       <strong>{t('recommended_citation_style', {count: 1})}:</strong>
@@ -77,8 +74,21 @@
     self = this
     self.or = window.or
 
-    console.log 'mounting'
     self.on 'mount', ->
+      if self.opts.item
+        self.cache_attributes()
+      else
+        $.ajax(
+          type: 'POST'
+          url: "#{self.or.config.api_url}/api/entities/#{self.opts.id}"
+          success: (data) ->
+            console.log data
+            self.opts.item = data
+            self.cache_attributes()
+            self.update()
+        )
+
+    self.cache_attributes = ->
       self.or.cache_attributes(opts.item._source.attrs.ids[6][43])
 
     self.t = self.or.filters.t
