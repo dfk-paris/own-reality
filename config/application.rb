@@ -27,7 +27,7 @@ module OwnReality
   end
 
   def self.progress_bar(options = {})
-    options.reverse_merge! :format => "%t |%B| %a |%f"
+    options.reverse_merge! :format => "%t |%B| %c/%C (+%R/s) | %a |%f"
     ProgressBar.create options
   end
 
@@ -62,6 +62,5 @@ module OwnReality
 end
 
 # TODO: fix css scopes within riot tags to include [riot-tag=tag-name] selectors
-# TODO: check updater and url on source detail modal view
-# TODO: add people list widget for source detail and source list item
+# TODO: url on source detail modal view
 # TODO: add correct dating within citations

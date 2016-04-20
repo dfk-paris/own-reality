@@ -48,6 +48,37 @@ class OwnReality::Query
     end
   end
 
+  def people(criteria = {})
+    data = {
+      'query' => {
+        'nested' => {
+          'path' => 'people',
+          'query' => {
+            'bool' => {
+              'must' => [
+                {
+                  'term' => 'Egon'
+                }
+              ]
+            }
+          }
+        }
+      }
+    }
+
+    Rails.logger.debug data.inspect
+
+    response = elastic.request "post", "sources/_search", nil, data
+
+    if response.first == 200
+      # JSON.pretty_generate(response)
+      response
+    else
+      p response
+      response
+    end
+  end
+
   def search(type, criteria = {})
     criteria ||= {}
     criteria["page"] = (criteria["page"] || 1).to_i

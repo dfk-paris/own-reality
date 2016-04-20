@@ -4,14 +4,14 @@
       <or-people-list people={opts.item._source.people[12063]} />,
       „{opts.item._source.title.de}“, in
       <or-journal-and-volume item={opts.item} />;
-      siehe Resümee von <or-user user={opts.item._source.updated_by} />,
+      siehe Resümee von <or-user user={opts.item._source.created_by} />,
       online seit {date()}, URL: <a href={url()}>{url()}</a>.
     </div>
     <div if={or.config.locale == 'fr'}>
       <or-people-list people={opts.item._source.people[12063]} />,
       « {opts.item._source.title.fr} », dans
       <or-journal-and-volume item={opts.item} />;
-      voir la présentation en ligne de <or-user user={opts.item._source.updated_by} />,
+      voir la présentation en ligne de <or-user user={opts.item._source.created_by} />,
       mise en ligne le {date()}, URL: <a href={url()}>{url()}</a>.
     </div>
   </div>

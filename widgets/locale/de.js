@@ -62,7 +62,7 @@ window.or.translations.de = {
     "formats": {
       "default": "%d.%m.%Y",
       "hide_month": "%Y",
-      "hide_day": "%d.%Y"
+      "hide_day": "%m.%Y"
     }
   }
 };

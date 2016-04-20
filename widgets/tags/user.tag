@@ -1,7 +1,5 @@
 <or-user>
-  <a href="mailto:{user().email}">
-    {user().first_name} {user().last_name}
-  </a>
+  <a href="mailto:{user().email}">{user().first_name} {user().last_name}</a>
 
   <script type="text/coffee">
     self = this

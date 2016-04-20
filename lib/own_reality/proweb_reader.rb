@@ -8,6 +8,7 @@ class OwnReality::ProwebReader
     @interviews = Proweb::Project.find(40).objects
     @magazines = Proweb::Project.find(41).objects
     @attribute_ids = {}
+    @people_ids = {}
     @categories = OwnReality::AttributeCategoriesReader.from_file
   end
 
@@ -18,6 +19,13 @@ class OwnReality::ProwebReader
       @attribute_ids[a.id] = true
     else
       @attribute_ids[a] = true
+    end
+  end
+
+  def require_people(ids)
+    ids = [ids] unless ids.is_a?(Array)
+    ids.each do |id|
+      @people_ids[id] = true
     end
   end
 
@@ -33,7 +41,8 @@ class OwnReality::ProwebReader
         "people" => people_by_role(o),
         "attrs" => attrs(o),
         "updated_by" => o.updated_by,
-        "updated_at" => date_from(o.updated_on)
+        "updated_at" => date_from(o.updated_on),
+        "created_by" => o.created_by
       }
 
       pfc = OwnReality::ProwebFileConverter.new(o.id)
@@ -58,7 +67,8 @@ class OwnReality::ProwebReader
         "people" => people_by_role(o),
         "attrs" => attrs(o),
         "updated_by" => o.updated_by,
-        "updated_at" => date_from(o.updated_on)
+        "updated_at" => date_from(o.updated_on),
+        "created_by" => o.created_by
       }
 
       pfc = OwnReality::ProwebFileConverter.new(o.id)
@@ -83,7 +93,8 @@ class OwnReality::ProwebReader
         "people" => people_by_role(o),
         "attrs" => attrs(o),
         "updated_by" => o.updated_by,
-        "updated_at" => date_from(o.updated_on)
+        "updated_at" => date_from(o.updated_on),
+        "created_by" => o.created_by
       }
 
       pfc = OwnReality::ProwebFileConverter.new(o.id)
@@ -111,7 +122,8 @@ class OwnReality::ProwebReader
         "content" => with_translations(o, :content),
         "attrs" => attrs(o),
         "updated_by" => o.updated_by,
-        "updated_at" => date_from(o.updated_on)
+        "updated_at" => date_from(o.updated_on),
+        "created_by" => o.created_by
       }
 
       data["from_date"] ||= data["to_date"]
@@ -143,6 +155,7 @@ class OwnReality::ProwebReader
         "title" => with_translations(o, :title),
         "short_title" => short_title(with_translations(o, :short_title)),
         "journal" => fold_translations(o.journal),
+        "journal_id" => journal_id(o),
         "volume" => fold_translations(o.volume),
         "people" => people_by_role(o),
         "from_date" => from_date_from(o),
@@ -152,7 +165,8 @@ class OwnReality::ProwebReader
         "interpretation" => with_translations(o, :interpretation),
         "attrs" => attrs(o),
         "updated_by" => o.updated_by,
-        "updated_at" => date_from(o.updated_on)
+        "updated_at" => date_from(o.updated_on),
+        "created_by" => o.created_by
       }
 
       data["from_date"] ||= data["to_date"]
@@ -173,6 +187,21 @@ class OwnReality::ProwebReader
       data = {
         "id" => attrib.id,
         "name" => with_translations(attrib)
+      }
+
+      yield data
+      bar.increment
+    end
+  end
+
+  def each_person(&block)
+    bar = OwnReality.progress_bar :title => "caching people", :total => @people_ids.keys.size
+
+    Proweb::Person.find(@people_ids.keys).each do |person|
+      data = {
+        "id" => person.id,
+        "first_name" => person.first_name,
+        "last_name" => person.last_name
       }
 
       yield data
@@ -214,6 +243,47 @@ class OwnReality::ProwebReader
 
 
   protected
+
+    def journal_id(source)
+      @journal_cache ||= begin
+        result = {}
+        @magazines.each do |mag|
+          mag.translations.map{|t| t.title}.uniq.each do |name|
+            result[name] = mag.id
+          end
+        end
+        result
+      end
+
+      if source.journal
+        names = source.journal.translations.map{|t| t.name}.uniq
+        mag = nil
+        names.each do |name|
+          mag ||= @journal_cache[name]
+        end
+
+        if mag
+          mag
+        else
+          OwnReality.log_anomaly(
+            "matchin sources to journals",
+            "proweb-object",
+            source.id,
+            "the journal #{names.inspect} couldn't be found"
+          )
+
+          nil
+        end
+      else
+        OwnReality.log_anomaly(
+          "matchin sources to journals",
+          "proweb-object",
+          source.id,
+          "the source #{source.id} doesn't have a journal"
+        )
+        nil
+      end
+    end
 
     def add_lodel_html(data, object)
       data["url"].each do |lang, url|
@@ -377,6 +447,7 @@ class OwnReality::ProwebReader
       result = {}
       article.people_by_role_ids.each do |k, v|
         result[k] = v.map do |person|
+          require_people(person.id)
           r = {
             "first_name" => person.first_name,
             "last_name" => person.last_name,

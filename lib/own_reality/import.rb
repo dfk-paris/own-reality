@@ -32,6 +32,7 @@ class OwnReality::Import
     chronology
     sources
 
+    people
     attributes
   end
 
@@ -79,6 +80,12 @@ class OwnReality::Import
       "chronolgy_categories" => reader.chronology_categories,
       "klasses" => reader.attribute_proweb_categories
     }
+  end
+
+  def people
+    reader.each_person do |person|
+      elastic.request 'put', "people/#{person['id']}", nil, person
+    end
   end
 
   def mapping
@@ -155,6 +162,15 @@ class OwnReality::Import
               "name" => {"type" => "string", "analyzer" => "folding"}
             }
           }
+        }
+      }
+    }
+
+    elastic.request "put", "people/_mapping", nil, {
+      "people" => {
+        "properties" => {
+          "first_name" => {"type" => "string", "analyzer" => "folding"},
+          "last_name" => {"type" => "string", "analyzer" => "folding"}
         }
       }
     }
