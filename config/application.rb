@@ -64,3 +64,4 @@ end
 # TODO: fix css scopes within riot tags to include [riot-tag=tag-name] selectors
 # TODO: url on source detail modal view
 # TODO: add correct dating within citations
+# TODO: are there journals with different titles for some locales?

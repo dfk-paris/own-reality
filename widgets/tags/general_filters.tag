@@ -44,6 +44,16 @@
       self.or.bus.on 'type-select', (type) ->
         self.type = type
         self.search()
+      self.or.bus.on 'people-filter', (people) ->
+        self.people_ids = (person.id for person in people)
+        self.search()
+      self.or.bus.on 'journals-filter', (journals) ->
+        self.journal_names = []
+        for journal in journals
+          for locale, name of journal.title
+            self.journal_names.push name
+        console.log self.journal_names
+        self.search()
 
       self.search()
 
@@ -58,9 +68,11 @@
           lower: self.tags.date.value()[0]
           upper: self.tags.date.value()[1]
           attribute_ids: self.tags.attribute_facets.value()
+          people_ids: self.people_ids
+          journal_names: self.journal_names
         }
         success: (data) ->
-          console.log 'aggs:', data
+          # console.log 'aggs:', data
           for bucket in data.aggregations.type.buckets
             self.or.data.aggregations[bucket.key] = bucket
           self.or.bus.trigger 'type-aggregations'
@@ -76,6 +88,8 @@
           lower: self.tags.date.value()[0]
           upper: self.tags.date.value()[1]
           attribute_ids: self.tags.attribute_facets.value()
+          people_ids: self.people_ids
+          journal_names: self.journal_names
         }
         success: (data) ->
           console.log data

@@ -44,6 +44,11 @@
       </ul>
     </div>
     <div class="tab sources">
+      <or-people-filter />
+      <or-journals-filter />
+
+      <div class="clearfix"></div>
+
       <or-list-item
         each={item in or.data.results}
         item={item}
@@ -61,6 +66,16 @@
 
       ul li:before {
         content: none !important;
+      }
+
+      or-people-filter, or-journals-filter {
+        box-sizing: border-box;
+        width: 50%;
+        float: left;
+      }
+
+      .clearfix {
+        clear: both;
       }
     }
   </style>
@@ -80,7 +95,7 @@
         self.or.bus.trigger 'type-select', name
 
       self.or.bus.on 'results', ->
-        console.log 'results', self.or.data
+        # console.log 'results', self.or.data
         self.update()
 
       self.or.bus.on 'type-aggregations', -> self.update()

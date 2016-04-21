@@ -99,6 +99,21 @@ class OwnReality::Import
                 "mapping" => {"type" => "integer"}
               }
             },{
+              "people_ids" => {
+                "path_match" => "people.*.id", 
+                "mapping" => {"type" => "integer"}
+              } 
+            },{
+              "people_first_names" => {
+                "path_match" => "people.*.first_name", 
+                "mapping" => {"type" => "string", 'analyzer' => 'folding'}
+              } 
+            },{
+              "people_last_names" => {
+                "path_match" => "people.*.last_name", 
+                "mapping" => {"type" => "string", 'analyzer' => 'folding'}
+              } 
+            },{
               "attrs_search_klass_kinds" => {
                 "path_match" => "attrs.search.*.*",
                 "mapping" => {"type" => "string", "analyzer" => "folding"}
@@ -143,7 +158,7 @@ class OwnReality::Import
                 "en" => {"type" => "string", "analyzer" => "folding"}
               }
             },
-            "journal" => {"type" => "string", "analyzer" => "folding"},
+            "journal" => {"type" => "string", "index" => "not_analyzed"},
             "volume" => {"type" => "string", "index" => "not_analyzed"},
             "from_date" => {"type" => "date", "format" => "date_hour_minute_second"},
             "to_date" => {"type" => "date", "format" => "date_hour_minute_second"},
@@ -169,6 +184,7 @@ class OwnReality::Import
     elastic.request "put", "people/_mapping", nil, {
       "people" => {
         "properties" => {
+          # 'id' => {'type' => 'string', 'index' => 'not_analyzed'},
           "first_name" => {"type" => "string", "analyzer" => "folding"},
           "last_name" => {"type" => "string", "analyzer" => "folding"}
         }

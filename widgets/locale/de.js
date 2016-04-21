@@ -12,6 +12,10 @@ window.or.translations.de = {
     "one": "Autor",
     "other": "Autoren"
   },
+  "involved": {
+    "one": "Beteiligter",
+    "other": "Beteiligte"
+  },
   "keyword": {
     "one": "Schlagwort",
     "other": "Schlagworte"

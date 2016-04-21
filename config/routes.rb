@@ -22,6 +22,7 @@ Rails.application.routes.draw do
     match "api/entities/download/:hash.:format", :to => "entities#download", :via => :get
     match "api/translations", :to => "session#translations", :via => :get
     match "api/misc", :to => "misc#index", :via => :get
+    match 'api/people', to: 'people#index', via: :post
   end
 
 end

@@ -49,26 +49,27 @@ class OwnReality::Query
   end
 
   def people(criteria = {})
+    criteria['terms'] ||= ''
+
     data = {
       'query' => {
-        'nested' => {
-          'path' => 'people',
-          'query' => {
-            'bool' => {
-              'must' => [
-                {
-                  'term' => 'Egon'
-                }
-              ]
-            }
-          }
+        'query_string' => {
+          'query' => criteria['terms'],
+          'default_operator' => 'AND',
+          'analyzer' => 'folding',
+          'analyze_wildcard' => true,
+          'fields' => [
+            # 'id^50',
+            'last_name^10',
+            'first_name^10'
+          ]
         }
       }
     }
 
     Rails.logger.debug data.inspect
 
-    response = elastic.request "post", "sources/_search", nil, data
+    response = elastic.request "post", "people/_search", nil, data
 
     if response.first == 200
       # JSON.pretty_generate(response)
@@ -228,6 +229,50 @@ class OwnReality::Query
           }
         }
       end
+    end
+
+    if criteria['people'].present?
+      people_queries = []
+      fields = [
+        '12063', '12064', '12065', '12066', '12067', '12068', '12069', '12071',
+        '12073', '13625', '13636', '16530'
+      ]
+
+      criteria['people'].each do |id|
+        fields.each do |f|
+          people_queries << {
+            'term' => {
+              "people.#{f}.id" => id.to_i
+            }
+          }
+        end
+      end
+
+      data['query']['bool']['must'] << {
+        'bool' => {
+          'should' => people_queries,
+          'minimum_should_match' => 1
+        }
+      }
+    end
+
+    if criteria['journals'].present?
+      journals_queries = []
+
+      criteria['journals'].uniq.each do |name|
+        journals_queries << {
+          'term' => {
+            "journal" => name
+          }
+        }
+      end
+
+      data['query']['bool']['must'] << {
+        'bool' => {
+          'should' => journals_queries,
+          'minimum_should_match' => 1
+        }
+      }
     end
 
     if type == "chronology"

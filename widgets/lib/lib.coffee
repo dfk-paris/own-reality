@@ -104,8 +104,8 @@ $(document).ready -> riot.mount('*')
   )
 
   riot.route '..', () ->
-    console.log arguments
-    console.log riot.route.query()
+    # console.log arguments
+    # console.log riot.route.query()
 
     if lang = riot.route.query()['lang']
       if lang != app.config.locale

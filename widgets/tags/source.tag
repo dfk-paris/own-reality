@@ -5,10 +5,13 @@
     </h2>
 
     <div class="or-metadata">
-      <div class="or-field">
-        <strong>{t('author', {count: 'other'})}:</strong>
-        <or-people-list people={opts.item._source.people[12063]} />
+      <div class="or-field" each={role_id, people in opts.item._source.people} >
+        <strong>
+          {parent.or.filters.l(parent.or.config.server.roles[role_id])}:
+        </strong>
+        <or-people-list people={people} />
       </div>
+
       <div class="or-field">
         <strong>{t('source', {count: 1})}:</strong>
         <or-journal-and-volume item={opts.item} />
