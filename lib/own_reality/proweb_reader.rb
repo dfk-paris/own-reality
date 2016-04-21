@@ -157,7 +157,7 @@ class OwnReality::ProwebReader
         "journal" => fold_translations(o.journal),
         "journal_id" => journal_id(o),
         "volume" => fold_translations(o.volume),
-        "people" => people_by_role(o),
+        "people" => people_by_role(o, index_people: true),
         "from_date" => from_date_from(o),
         "to_date" => to_date_from(o),
         "content" => with_translations(o, :content),
@@ -442,12 +442,16 @@ class OwnReality::ProwebReader
     end
 
     def people_by_role(article, options = {})
-      options.reverse_merge! :only_roles => [], :except_roles => []
+      options.reverse_merge!(
+        only_roles: [],
+        except_roles: [],
+        index_people: false
+      )
 
       result = {}
       article.people_by_role_ids.each do |k, v|
         result[k] = v.map do |person|
-          require_people(person.id)
+          require_people(person.id) if options[:index_people]
           r = {
             "first_name" => person.first_name,
             "last_name" => person.last_name,

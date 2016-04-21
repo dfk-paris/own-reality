@@ -51,7 +51,7 @@
               terms: request.term
             }
             success: (data) ->
-              console.log 'journals:', data
+              # console.log 'journals:', data
               results = for journal in data.records
                 {
                   label: self.or.filters.l(journal._source.title)

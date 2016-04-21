@@ -2,11 +2,9 @@
   
   <div>
     <div class="or-selected">
-      <a each={key in keys}>
-        <small>
-          <or-attribute key={key} />
-        </small>
-      </a>
+      <span class="item" each={key in keys}>
+        <or-attribute key={key} />
+      </span>
     </div>
 
     <div
@@ -29,6 +27,18 @@
     or-clustered-facets {
       a {
         cursor: pointer;
+      }
+
+      .item {
+        cursor: pointer;
+        font-size: 0.7rem;
+        border-radius: 3px;
+        padding: 0.2rem;
+        background-color: darken(#ffffff, 20%);
+        white-space: nowrap;
+        display: inline-block;
+        margin-right: 0.5rem;
+        margin-bottom: 0.5rem;
       }
 
       .or-bucket {
@@ -54,7 +64,7 @@
           self.keys.push(key)
           self.notify()
 
-      $(self.root).on 'click', '.or-selected a', (event) ->
+      $(self.root).on 'click', '.or-selected .item', (event) ->
         key = $(event.target).parents('or-attribute').attr('key')
         if self.keys.indexOf(key) != -1
           i = self.keys.indexOf(key)

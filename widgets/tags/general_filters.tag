@@ -52,25 +52,25 @@
         for journal in journals
           for locale, name of journal.title
             self.journal_names.push name
-        console.log self.journal_names
         self.search()
 
       self.search()
 
     self.search = ->
+      params = {
+        terms: self.tags.terms.value()
+        only_summary: self.tags.summary_only.value()
+        lower: self.tags.date.value()[0]
+        upper: self.tags.date.value()[1]
+        attribute_ids: self.tags.attribute_facets.value()
+      }
+
       $.ajax(
         type: 'POST'
         url: "#{self.or.config.api_url}/api/entities/search"
-        data: {
+        data: $.extend({}, params, {
           search_type: 'count'
-          terms: self.tags.terms.value()
-          only_summary: self.tags.summary_only.value()
-          lower: self.tags.date.value()[0]
-          upper: self.tags.date.value()[1]
-          attribute_ids: self.tags.attribute_facets.value()
-          people_ids: self.people_ids
-          journal_names: self.journal_names
-        }
+        })
         success: (data) ->
           # console.log 'aggs:', data
           for bucket in data.aggregations.type.buckets
@@ -78,21 +78,20 @@
           self.or.bus.trigger 'type-aggregations'
       )
 
+      if self.type == 'sources'
+        params.people_ids = self.people_ids
+        params.journal_names = self.journal_names
+      else
+        params.per_page = 500
+
       $.ajax(
         type: 'POST'
         url: "#{self.or.config.api_url}/api/entities/search"
-        data: {
+        data: $.extend({}, params, {
           type: self.type
-          terms: self.tags.terms.value()
-          only_summary: self.tags.summary_only.value()
-          lower: self.tags.date.value()[0]
-          upper: self.tags.date.value()[1]
-          attribute_ids: self.tags.attribute_facets.value()
-          people_ids: self.people_ids
-          journal_names: self.journal_names
-        }
+        })
         success: (data) ->
-          console.log data
+          # console.log data
           self.aggregations = data.aggregations
           self.or.cache_attributes(self.attribute_ids())
           self.or.data.results = data.records

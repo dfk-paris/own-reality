@@ -6,6 +6,11 @@
     self.or = window.or
 
     self.list = ->
-      ("#{p.first_name} #{p.last_name}" for p in opts.people).join(', ')    
+      results = for p in opts.people
+        if p.first_name
+          "#{p.first_name} #{p.last_name}"
+        else
+          p.last_name
+      results.join(', ')
   </script>
 </or-people-list>

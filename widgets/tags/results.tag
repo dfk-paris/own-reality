@@ -22,7 +22,7 @@
     <div class="tab articles">
       <ul>
         <li each={result in or.data.results}>
-          <img src="/themes/dfk/images/Dokument-DOC.svg" />
+          <img class="icon" src="/themes/dfk/images/Dokument-DOC.svg" />
           {parent.or.filters.l(result._source.title)}
         </li>
       </ul>
@@ -30,7 +30,7 @@
     <div class="tab magazines">
       <ul>
         <li each={result in or.data.results}>
-          <img src="/themes/dfk/images/Dokument-DOC.svg" />
+          <img class="icon" src="/themes/dfk/images/Dokument-DOC.svg" />
           {parent.or.filters.l(result._source.title)}
         </li>
       </ul>
@@ -38,7 +38,7 @@
     <div class="tab interviews">
       <ul>
         <li each={result in or.data.results}>
-          <img src="/themes/dfk/images/Dokument-DOC.svg" />
+          <img class="icon" src="/themes/dfk/images/Dokument-DOC.svg" />
           {parent.or.filters.l(result._source.title)}
         </li>
       </ul>
@@ -66,6 +66,16 @@
 
       ul li:before {
         content: none !important;
+      }
+
+      .tab {
+        ul > li {
+          padding-bottom: 0px;
+
+          & > img.icon {
+            width: 1rem;
+          }
+        }
       }
 
       or-people-filter, or-journals-filter {
