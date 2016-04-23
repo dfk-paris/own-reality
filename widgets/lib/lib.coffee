@@ -9,9 +9,14 @@ $(document).ready -> riot.mount('*')
       results: []
       aggregations: {}
     }
+    calculate_url: ->
+      if document.location.href.match(/^https://(www\.)?dfk-paris.org/)
+        'https://ownreality.dfkg.org'
+      else
+        'http://localhost:3000'
     config: {
-      api_url: 'http://localhost:3000'
-      # api_url: 'https://ownreality.dfkg.org'
+      api_url: self.app.calculate_url()
+      
       locale: 'fr'
     }
     locale: -> app.config.locale

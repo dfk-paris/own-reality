@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -e
 
 # Copyright (c) 2014 Moritz Schepp <moritz.schepp@gmail.com>
 # Distributed under the GNU GPL v3. For full terms see
@@ -16,8 +16,7 @@ TMPROOT=/tmp/deploy
 # Deployment settings
 
 CALL_ROOT="$( cd "$( dirname "$0" )" && pwd )"
-source $CALL_ROOT/deploy.config.sh
-
+source $CALL_ROOT/deploy.config.sh && $1
 
 # Deploy
 
@@ -43,8 +42,11 @@ function deploy {
   remote "ln -sfn $SHARED_PATH/data $CURRENT_PATH/data"
   remote "ln -sfn $SHARED_PATH/public_files $CURRENT_PATH/public/files"
 
+  local "npm run build"
+  local "rsync $RSYNC_OPTS public/app.js $HOST:$CURRENT_PATH/public/app.js"
+
   # within_do $CURRENT_PATH "RAILS_ENV=production bundle exec rake db:migrate"
-  within_do $CURRENT_PATH "RAILS_ENV=production bundle exec rake assets:precompile"
+  # within_do $CURRENT_PATH "RAILS_ENV=production bundle exec rake assets:precompile"
 
   # local "bundle exec rake assets:precompile"
   # local "rsync --recursive --times --rsh=ssh --compress --human-readable --progress public/assets/* $HOST:$CURRENT_PATH/public/assets"
