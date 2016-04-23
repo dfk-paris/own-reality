@@ -6,7 +6,7 @@
 
     <div class="selection">
       <span class="item" data-id={person.id} each={person in people}>
-        <or-person person={person} />
+        <or-person person={person} limit-to={30} />
       </span>
     </div>
   </span>

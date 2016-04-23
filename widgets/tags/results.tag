@@ -21,7 +21,7 @@
     </div>
     <div class="tab articles">
       <ul>
-        <li each={result in or.data.results}>
+        <li each={result in or.data.results} data-id={result._id}>
           <img class="icon" src="/themes/dfk/images/Dokument-DOC.svg" />
           {parent.or.filters.l(result._source.title)}
         </li>
@@ -29,7 +29,7 @@
     </div>
     <div class="tab magazines">
       <ul>
-        <li each={result in or.data.results}>
+        <li each={result in or.data.results} data-id={result._id}>
           <img class="icon" src="/themes/dfk/images/Dokument-DOC.svg" />
           {parent.or.filters.l(result._source.title)}
         </li>
@@ -37,7 +37,7 @@
     </div>
     <div class="tab interviews">
       <ul>
-        <li each={result in or.data.results}>
+        <li each={result in or.data.results} data-id={result._id}>
           <img class="icon" src="/themes/dfk/images/Dokument-DOC.svg" />
           {parent.or.filters.l(result._source.title)}
         </li>

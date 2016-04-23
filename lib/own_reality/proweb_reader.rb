@@ -269,7 +269,7 @@ class OwnReality::ProwebReader
             "matchin sources to journals",
             "proweb-object",
             source.id,
-            "the journal #{names.inspect} couldn't be found"
+            "the journal #{names.inspect} couldn't be found in #{@journal_cache.keys.inspect}"
           )
 
           nil

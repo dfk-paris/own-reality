@@ -11,7 +11,6 @@
       class="or-text"
       value={opts.item._source.interpretation}
     />
-    <!-- <div class="digibib-cd-rom"></div> -->
     <div class="clearfix"></div>
   </div>
 

@@ -35,7 +35,9 @@
         self.or.bus.trigger 'modal', self.pdf_url()
 
     self.hash = -> self.opts.item._source.file_base_hash
-    self.url = -> "#{self.or.config.api_url}/files/#{self.hash()}/140.jpg"
+    self.url = -> 
+      if self hash()
+        "#{self.or.config.api_url}/files/#{self.hash()}/140.jpg"
     self.download_url = ->
       "#{self.or.config.api_url}/api/entities/download/#{self.hash()}.pdf"
     self.pdf_url = ->

@@ -1,17 +1,17 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.2.3'
-gem 'uglifier', '>= 1.3.0'
-gem 'less-rails', '~> 2.7'
-gem 'coffee-rails', '~> 4.1.0'
-gem 'therubyracer', platforms: :ruby
+gem 'rails', '4.2.6'
+# gem 'uglifier', '>= 1.3.0'
+# gem 'less-rails', '~> 2.7'
+# gem 'coffee-rails', '~> 4.1.0'
+# gem 'therubyracer', platforms: :ruby
 gem 'jbuilder', '~> 2.0'
-gem 'sdoc', '~> 0.4.0', group: :doc
+# gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'httpclient', '~> 2.6'
 
-gem 'jquery-rails'
-gem 'jquery-ui-rails'
-gem 'font-awesome-rails'
+# gem 'jquery-rails'
+# gem 'jquery-ui-rails'
+# gem 'font-awesome-rails'
 gem 'method_profiler'
 
 group :import do
@@ -36,8 +36,8 @@ group :development, :test do
 end
 
 group :test do
-  gem 'rspec-rails'
-  gem 'cucumber-rails'
-  gem 'capybara'
-  gem 'selenium-webdriver'
+    gem 'rspec-rails'
+    gem 'cucumber-rails'
+    gem 'capybara'
+    gem 'selenium-webdriver'
 end

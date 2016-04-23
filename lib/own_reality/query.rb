@@ -292,7 +292,7 @@ class OwnReality::Query
 
     Rails.logger.debug data.inspect
 
-    response = elastic.request "post", "#{type}/_search", nil, data
+    response = elastic.request "post", "_search", nil, data
 
     if response.first == 200
       # JSON.pretty_generate(response)

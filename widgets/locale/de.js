@@ -70,3 +70,5 @@ window.or.translations.de = {
     }
   }
 };
+
+riot.update();

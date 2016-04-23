@@ -73,6 +73,12 @@
         })
         success: (data) ->
           # console.log 'aggs:', data
+          self.or.data.aggregations = {
+            articles: {doc_count: 0}
+            magazines: {doc_count: 0}
+            interviews: {doc_count: 0}
+            sources: {doc_count: 0}
+          }
           for bucket in data.aggregations.type.buckets
             self.or.data.aggregations[bucket.key] = bucket
           self.or.bus.trigger 'type-aggregations'
