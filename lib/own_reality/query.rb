@@ -1,5 +1,16 @@
 class OwnReality::Query
 
+  def get(type, id)
+    response = elastic.request "get", "#{type}/#{id}"
+    if response.first == 200
+      # JSON.pretty_generate(response)
+      response
+    else
+      p response
+      response
+    end  
+  end
+
   def elastic
     @elastic ||= OwnReality::Elastic.new
   end

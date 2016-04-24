@@ -34,7 +34,7 @@ class EntitiesController < ApplicationController
   end
 
   def show
-    @record = OwnReality::Query.new.paper("sources", params[:id]).last
+    @record = OwnReality::Query.new.get(params[:type], params[:id]).last
     render :json => @record
   end
 

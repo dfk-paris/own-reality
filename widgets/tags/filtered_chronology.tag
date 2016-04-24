@@ -34,13 +34,13 @@
         url: "#{self.or.config.api_url}/api/chronology"
         data: $.extend({}, self.default_params, params)
         success: (data) ->
-          console.log data
+          # console.log data
           self.data = data
           self.new_data() unless self.excess()
       )
 
     self.new_data = ->
-      console.log self.params
+      # console.log self.params
       self.timeline.setOptions(
         min: "#{self.params.lower - 1}-12"
         max: "#{self.params.upper}-02"

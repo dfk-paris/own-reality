@@ -65,3 +65,4 @@ end
 # TODO: url on source detail modal view
 # TODO: add correct dating within citations
 # TODO: are there journals with different titles for some locales?
+# TODO: cleanup controllers and actions

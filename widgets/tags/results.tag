@@ -36,12 +36,16 @@
       </ul>
     </div>
     <div class="tab interviews">
-      <ul>
+      <!-- <ul>
         <li each={result in or.data.results} data-id={result._id}>
           <img class="icon" src="/themes/dfk/images/Dokument-DOC.svg" />
           {parent.or.filters.l(result._source.title)}
         </li>
-      </ul>
+      </ul> -->
+      <or-list-item
+        each={item in or.data.results}
+        item={item}
+      />
     </div>
     <div class="tab sources">
       <or-people-filter />

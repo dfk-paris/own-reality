@@ -82,10 +82,10 @@
         self.cache_attributes()
       else
         $.ajax(
-          type: 'POST'
-          url: "#{self.or.config.api_url}/api/entities/#{self.opts.id}"
+          type: 'GET'
+          url: "#{self.or.config.api_url}/api/items/sources/#{self.opts.id}"
           success: (data) ->
-            console.log data
+            # console.log data
             self.opts.item = data
             self.cache_attributes()
             self.update()

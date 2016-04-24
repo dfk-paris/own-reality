@@ -1,16 +1,26 @@
 <or-list-item>
 
-  <div if={opts.item._type == 'sources'}>
-    <or-medium item={opts.item} />
-    <or-people-list people={opts.item._source.people[12063]} />
-    <a href="#" class="or-modal-trigger">
-      <or-localized-value class="or-title" value={opts.item._source.title} />
-    </a>
-    <or-journal-and-volume item={opts.item} />
-    <or-localized-value
-      class="or-text"
-      value={opts.item._source.interpretation}
-    />
+  <div>
+    <div if={opts.item._type == 'sources'}>
+      <or-medium item={opts.item} />
+      <or-people-list people={opts.item._source.people[12063]} />
+      <a href="#" class="or-modal-trigger" or-tag="or-source">
+        <or-localized-value class="or-title" value={opts.item._source.title} />
+      </a>
+      <or-journal-and-volume item={opts.item} />
+      <or-localized-value
+        class="or-text"
+        value={opts.item._source.interpretation}
+      />
+    </div>
+
+    <div if={opts.item._type == 'interviews'}>
+      <or-people-list people={opts.item._source.people[16530]} />
+      <a href="#" class="or-modal-trigger" or-tag="or-interview">
+        <or-localized-value class="or-title" value={opts.item._source.title} />
+      </a>
+    </div>
+
     <div class="clearfix"></div>
   </div>
 
@@ -76,7 +86,8 @@
     self.on 'mount', ->
       $(self.root).on 'click', 'a.or-modal-trigger', (event) ->
         event.preventDefault()
-        self.or.route.query modal: 'true', tag: 'or-source', id: self.opts.item._id
+        tag = $(event.currentTarget).attr('or-tag')
+        self.or.route.query modal: 'true', tag: tag, id: self.opts.item._id
 
   </script>
 
