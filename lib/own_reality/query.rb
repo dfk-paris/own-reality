@@ -276,6 +276,12 @@ class OwnReality::Query
     end
 
     if type == "chronology"
+      # data['query']['bool']['must'] << {
+      #   'exists' => {
+      #     'field' => 'from_date'
+      #   }
+      # }
+
       if criteria["category_id"].present?
         data["query"]["bool"]["must"] << {
           "constant_score" => {

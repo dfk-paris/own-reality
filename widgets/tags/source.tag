@@ -92,7 +92,7 @@
         )
 
     self.cache_attributes = ->
-      self.or.cache_attributes(opts.item._source.attrs.ids[6][43])
+      self.or.cache_attributes(self.opts.item._source.attrs.ids[6][43])
 
     self.t = self.or.filters.t
   </script>

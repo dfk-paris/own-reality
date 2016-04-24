@@ -40,7 +40,9 @@
     self.type = 'sources'
 
     self.on 'mount', ->
-      self.on 'or-change', (field) -> self.search()
+      self.on 'or-change', ->
+        self.or.bus.trigger 'filter-change', self.params()
+        self.search()
       self.or.bus.on 'type-select', (type) ->
         self.type = type
         self.search()
@@ -54,16 +56,19 @@
             self.journal_names.push name
         self.search()
 
-      self.search()
+      self.trigger 'or-change'
 
-    self.search = ->
-      params = {
+    self.params = ->
+      return {
         terms: self.tags.terms.value()
         only_summary: self.tags.summary_only.value()
-        lower: self.tags.date.value()[0]
-        upper: self.tags.date.value()[1]
+        lower: self.tags.date.value()[0] || 1960
+        upper: self.tags.date.value()[1] || 1989
         attribute_ids: self.tags.attribute_facets.value()
       }
+
+    self.search = ->
+      params = self.params()
 
       $.ajax(
         type: 'POST'
@@ -110,9 +115,6 @@
         for bucket in aggregation.buckets
           results.push bucket.key
       results
-
-    window.e = self
-
   </script>
 
 </or-general-filters>

@@ -1,6 +1,12 @@
 $(document).ready -> riot.mount('*')
 
 (->
+  calculate_url = ->
+    if document.location.href.match(/debug=true/)
+      'http://localhost:3000'
+    else
+      'https://ownreality.dfkg.org'
+
   app = {
     cache: {
       attr_lookup: {}
@@ -9,13 +15,8 @@ $(document).ready -> riot.mount('*')
       results: []
       aggregations: {}
     }
-    calculate_url: ->
-      if document.location.href.match(/^https://(www\.)?dfk-paris.org/)
-        'https://ownreality.dfkg.org'
-      else
-        'http://localhost:3000'
     config: {
-      api_url: self.app.calculate_url()
+      api_url: calculate_url()
       
       locale: 'fr'
     }
