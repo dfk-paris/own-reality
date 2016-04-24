@@ -1,4 +1,4 @@
-<or-interview>
+<or-magazine>
   
   <or-paper item={opts.item}></or-paper>
 
@@ -12,7 +12,7 @@
       else
         $.ajax(
           type: 'GET'
-          url: "#{self.or.config.api_url}/api/items/interviews/#{self.opts.id}"
+          url: "#{self.or.config.api_url}/api/items/magazines/#{self.opts.id}"
           success: (data) ->
             # console.log data
             self.opts.item = data
@@ -26,5 +26,5 @@
       catch e
         console.log e
   </script>
-
-</or-interview>
+  
+</or-magazine>

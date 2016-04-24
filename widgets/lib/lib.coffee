@@ -79,10 +79,10 @@ $(document).ready -> riot.mount('*')
         catch error
           # console.log error
           "*TRANSLATION MISSING*"
-      l: (value) ->
+      l: (value, notify = true) ->
         value[app.config.locale] || value[app.locales[0]] ||
         value[app.locales[1]] || value[app.locales[2]] ||
-        "*TRANSLATION MISSING*"
+        if notify then "*TRANSLATION MISSING*" else undefined
       ld: (input, format_name = 'default') ->
         try
           date = new Date(Date.parse(input))

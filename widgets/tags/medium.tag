@@ -1,9 +1,10 @@
 <or-medium>
-  <div if={hash()}>
+  <div if={pdf_url()}>
     <a class="or-modal" href={pdf_url()}>
-      <img src={url()} />
+      <img if={url()} src={url()} />
+      <span if={!url()}>PDF</span>
     </a>
-    <div class="or-download">
+    <div class="or-download" if={download_url()}>
       <a href={download_url()}>
         {or.filters.t('download')}
       </a>
@@ -34,13 +35,18 @@
         event.preventDefault()
         self.or.bus.trigger 'modal', self.pdf_url()
 
-    self.hash = -> self.opts.item._source.file_base_hash
+    self.hash = ->
+      self.opts.item._source.file_base_hash ||
+      self.or.filters.l(self.opts.item._source.pdfs, false)
+    self.has_preview = -> !!self.opts.item._source.file_base_hash
     self.url = -> 
-      if self hash()
+      if self.has_preview()
         "#{self.or.config.api_url}/files/#{self.hash()}/140.jpg"
     self.download_url = ->
-      "#{self.or.config.api_url}/api/entities/download/#{self.hash()}.pdf"
+      if self.has_preview()
+        "#{self.or.config.api_url}/api/entities/download/#{self.hash()}.pdf"
     self.pdf_url = ->
-      "#{self.or.config.api_url}/files/#{self.hash()}/original.pdf"
+      if self.hash()
+        "#{self.or.config.api_url}/files/#{self.hash()}/original.pdf"
   </script>
 </or-medium>
