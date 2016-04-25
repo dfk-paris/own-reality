@@ -1,4 +1,6 @@
-$(document).ready -> riot.mount('*')
+$(document).ready ->
+  $('body').append('<or-modal>')
+  riot.mount('*')
 
 (->
   calculate_url = ->

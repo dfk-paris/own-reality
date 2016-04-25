@@ -58,6 +58,8 @@ window.or.translations.de = {
     "one": "Seite",
     "other": "Seiten"
   },
+  "too_much_data": "zu vielen Daten",
+  "no_data": "keine Daten",
   "next": "weiter",
   "previous": "zurück",
   "more": "weitere",

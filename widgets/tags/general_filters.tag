@@ -1,7 +1,7 @@
 <or-general-filters>
   
   <form>
-    <div>
+    <div class="form-control">
       <or-delayed-input
         name="terms"
         type="text"
@@ -10,18 +10,18 @@
       ></or-delayed-input>
     </div>
 
-    <div>
+    <div class="form-control">
       <label for="summary_only">
         <or-checkbox name="summary_only"></or-checkbox>
         <small>{or.filters.t('search_summary_only')}</small>
       </label>
     </div>
 
-    <div>
+    <div class="form-control">
       <or-slider min="1960" max="1989" name="date" />
     </div>
 
-    <div>
+    <div class="form-control">
       <or-clustered-facets name="attribute_facets"
         aggregations={aggregations}
       ></or-clustered-facets>
@@ -32,6 +32,22 @@
     @import 'tmp/jquery-ui';
     @import 'tmp/jquery-ui.structure';
     @import 'tmp/jquery-ui.theme';
+
+    or-general-filters {
+      .form-control {
+        margin-bottom: 1rem;
+
+        input[type=text] {
+          width: 100%;
+        }
+
+        input[type=checkbox] {
+          margin-right: 0.5rem;
+          position: relative;
+          top: 2px;
+        }
+      }
+    }
   </style>
 
   <script type="text/coffee">

@@ -1,15 +1,29 @@
 <or-filtered-chronology>
   
   <div>
-    <div show={!excess()} class="or-timeline" />
-    <div show={excess()} class="or-excess" style="display: none">
-      TOO MANY ITEMS:
+    <div show={!excess() && !trivial()} class="or-timeline" />
+    <div class="edge">
+      <div show={excess()} class="or-excess" style="display: none">
+        {or.filters.t('too_much_data')} ({data.total})
+      </div>
+      <div show={trivial()}>
+        {or.filters.t('no_data')}
+      </div>
     </div>
-    {data.total}
   </div>
 
   <style type="text/scss">
     or-filtered-chronology {
+      display: block;
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+
+      .edge {
+        font-size: 5rem;
+        color: #bdbdbd;
+        line-height: 6rem;
+      }
+
       .vis-dot {
         cursor: pointer;
       }
@@ -36,7 +50,7 @@
         success: (data) ->
           # console.log data
           self.data = data
-          self.new_data() unless self.excess()
+          self.new_data() unless self.excess() || self.trivial()
       )
 
     self.new_data = ->
@@ -115,6 +129,7 @@
 
     self.element = -> $(self.root).find('.or-timeline')
     self.excess = -> self.data.total > self.default_params.per_page
+    self.trivial = -> self.data.total == 0
     self.on 'mount', ->
       self.setup()
     self.or.bus.on 'filter-change', (params) -> self.search(params)
