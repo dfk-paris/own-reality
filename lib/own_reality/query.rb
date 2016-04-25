@@ -97,15 +97,40 @@ class OwnReality::Query
     criteria["per_page"] = (criteria["per_page"] || 10).to_i
 
     search_type = criteria['search_type'] || 'query_then_fetch'
+    conditions = []
 
-    aggs = {
-      "attr.4.2" => {
-        "terms" => {
-          "field" => "attrs.ids.4.2",
-          "size" => 4
+    aggs = {}
+    # aggs = {
+    #   "attr.4.2" => {
+    #     "terms" => {
+    #       "field" => "attrs.ids.4.2",
+    #       "size" => 4
+    #     }
+    #   }
+    # }
+
+    if criteria['year_ranges']
+      aggs['year_ranges'] = {
+        "date_range" => {
+          "field" => "from_date",
+          "format" => "YYYY-MM-dd",
+          "ranges" => (1960..1989).map{|i|
+            {"from" => "#{i}-01-01", "to" => "#{i}-12-31"}
+          }
         }
       }
-    }
+
+      if criteria['year_ranges'] != 'true'
+        conditions << {
+          "range" => {
+            "from_date" => {
+              "lte" => Time.mktime(criteria["year_ranges"], 12, 31).strftime("%Y-%m-%dT%H:%M:%S"),
+              "gte" => Time.mktime(criteria["year_ranges"], 1, 1).strftime("%Y-%m-%dT%H:%M:%S")
+            }
+          }
+        }
+      end
+    end
 
     config["categories"].each_with_index do |data, id|
       aggs[id] = {
@@ -135,11 +160,12 @@ class OwnReality::Query
       "aggs" => aggs,
       "query" => {
         "bool" => {
-          "must" => []
+          "must" => conditions
         }
       },
       "size" => (search_type == 'count' ? 0 : criteria["per_page"]),
-      "from" => (criteria["page"] - 1) * criteria["per_page"]
+      "from" => (criteria["page"] - 1) * criteria["per_page"],
+      "sort" => {"date_from" => {'order' => 'asc', 'ignore_unmapped' => true}}
     }
 
     if type.present?
@@ -187,7 +213,7 @@ class OwnReality::Query
                 "filter" => {
                   "range" => {
                     "from_date" => {
-                      "lte" => Time.mktime(criteria["upper"]).strftime("%Y-%m-%dT%H:%M:%S")
+                      "lte" => Time.mktime(criteria["upper"], 12, 31).strftime("%Y-%m-%dT%H:%M:%S")
                     }
                   }
                 }
@@ -293,18 +319,18 @@ class OwnReality::Query
       #   }
       # }
 
-      if criteria["category_id"].present?
-        data["query"]["bool"]["must"] << {
-          "constant_score" => {
-            "filter" => {
-              "terms" => {
-                "attrs.ids.4.2" => [criteria["category_id"]],
-                "execution" => "and"
-              }
-            }
-          }
-        }
-      end
+      # if criteria["category_id"].present?
+      #   data["query"]["bool"]["must"] << {
+      #     "constant_score" => {
+      #       "filter" => {
+      #         "terms" => {
+      #           "attrs.ids.4.2" => [criteria["category_id"]],
+      #           "execution" => "and"
+      #         }
+      #       }
+      #     }
+      #   }
+      # end
     end
 
     Rails.logger.debug data.inspect

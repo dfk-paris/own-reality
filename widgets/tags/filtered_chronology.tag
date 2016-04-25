@@ -121,7 +121,7 @@
       item_click = (id) ->
         item = self.item_lookup[id]
         self.or.bus.trigger 'modal', 'or-chronology-detail', item: item
-        console.log item
+        # console.log item
 
 
       self.timeline.on 'click', (props) ->

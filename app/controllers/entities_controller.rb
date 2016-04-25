@@ -22,7 +22,8 @@ class EntitiesController < ApplicationController
       "refs" => params[:attribute_ids],
       "page" => params[:page],
       'people' => params[:people_ids],
-      'journals' => params[:journal_names]
+      'journals' => params[:journal_names],
+      'year_ranges' => params[:year_ranges]
     ).last
     render :template => "api/entities/search"
   end

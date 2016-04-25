@@ -38,6 +38,14 @@
       </a>
     </div>
 
+    <div if={opts.item._type == 'chronology'}>
+      <or-people-list people={opts.item._source.people[12064]} />
+      <a href="#" class="or-modal-trigger" or-tag="or-chronology">
+        <or-localized-value class="or-title" value={opts.item._source.title} />
+      </a>
+      <i>{range_label()}</i>
+    </div>
+
     <div class="clearfix"></div>
   </div>
 
@@ -106,6 +114,15 @@
         tag = $(event.currentTarget).attr('or-tag')
         self.or.route.query modal: 'true', tag: tag, id: self.opts.item._id
 
+    self.range_label = ->
+      from = self.ld(self.opts.item._source.from_date)
+      to = self.ld(self.opts.item._source.to_date)
+      if from == to
+        from
+      else
+        "#{from} – #{to}"
+
+    self.ld = self.or.filters.ld
   </script>
 
 </or-list-item>

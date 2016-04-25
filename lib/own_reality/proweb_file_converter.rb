@@ -10,7 +10,7 @@ class OwnReality::ProwebFileConverter
       l = file.split(/[_\.]/)[-2].downcase
       l = 'pl' if l == 'pol'
       h = hash(File.stat(file).mtime.to_s + file)
-      dir = File.expand_path("#{Proweb.config['files']['public']}/#{h}")
+      dir = Pathname.new("#{Proweb.config['files']['public']}/#{h}").realpath
       system "mkdir -p #{dir}"
       system "ln -sfn \"#{file}\" \"#{dir}/original.pdf\""
       results[l] = h
@@ -28,11 +28,14 @@ class OwnReality::ProwebFileConverter
   end
 
   def original_dir
-    @original_dir ||= File.expand_path("#{Proweb.config['files']['target']}/#{@proweb_id}")
+    @original_dir ||= begin
+      path = "#{Proweb.config['files']['target']}/#{@proweb_id}"
+      Pathname.new(path).realpath
+    end
   end
 
   def public_dir
-    @public_dir ||= File.expand_path("#{Proweb.config['files']['public']}/#{hash}")
+    @public_dir ||= Pathname.new("#{Proweb.config['files']['public']}/#{hash}").realpath
   end
 
   def original_files
@@ -65,7 +68,7 @@ class OwnReality::ProwebFileConverter
   end
 
   def has_files?
-    !original_files.empty?
+    File.exists?(original_dir) && !original_files.empty?
   end
 
   def combine

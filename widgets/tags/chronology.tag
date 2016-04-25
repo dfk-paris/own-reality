@@ -1,6 +1,6 @@
 <or-chronology>
   <div class="chronology">
-
+    
   </div>
 
   <style type="text/scss">
