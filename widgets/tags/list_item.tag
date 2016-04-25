@@ -4,7 +4,7 @@
     <div if={opts.item._type == 'sources'}>
       <or-medium item={opts.item} />
       <or-people-list people={opts.item._source.people[12063]} />
-      <a href="#" class="or-modal-trigger" or-tag="or-source">
+      <a class="or-modal-trigger" or-tag="or-source">
         <or-localized-value class="or-title" value={opts.item._source.title} />
       </a>
       <or-journal-and-volume item={opts.item} />
@@ -17,7 +17,7 @@
     <div if={opts.item._type == 'interviews'}>
       <or-medium item={opts.item} />
       <or-people-list people={opts.item._source.people[16530]} />
-      <a href="#" class="or-modal-trigger" or-tag="or-interview">
+      <a class="or-modal-trigger" or-tag="or-interview">
         <or-localized-value class="or-title" value={opts.item._source.title} />
       </a>
     </div>
@@ -25,7 +25,7 @@
     <div if={opts.item._type == 'articles'}>
       <or-medium item={opts.item} />
       <or-people-list people={opts.item._source.people[16530]} />
-      <a href="#" class="or-modal-trigger" or-tag="or-article">
+      <a class="or-modal-trigger" or-tag="or-article">
         <or-localized-value class="or-title" value={opts.item._source.title} />
       </a>
     </div>
@@ -33,14 +33,14 @@
     <div if={opts.item._type == 'magazines'}>
       <or-medium item={opts.item} />
       <or-people-list people={opts.item._source.people[16530]} />
-      <a href="#" class="or-modal-trigger" or-tag="or-magazine">
+      <a class="or-modal-trigger" or-tag="or-magazine">
         <or-localized-value class="or-title" value={opts.item._source.title} />
       </a>
     </div>
 
     <div if={opts.item._type == 'chronology'}>
       <or-people-list people={opts.item._source.people[12064]} />
-      <a href="#" class="or-modal-trigger" or-tag="or-chronology">
+      <a class="or-modal-trigger-inactive" or-tag="or-chronology">
         <or-localized-value class="or-title" value={opts.item._source.title} />
       </a>
       <i>{range_label()}</i>
@@ -58,6 +58,10 @@
       padding: 1em;
       padding-top: 2em;
       padding-bottom: 2em;
+
+      a {
+        cursor: pointer;
+      }
 
       &:first-child {
         border-top: 0px;

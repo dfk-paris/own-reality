@@ -20,6 +20,7 @@
   <script type="text/coffee">
     self = this
     self.or = window.or
+    self.initialized = false
     self.params = {
       type: 'chronology'
       year_ranges: true
@@ -29,7 +30,6 @@
     self.on 'mount', ->
       $(self.root).on 'click', 'a[data-year]', (event) ->
         event.preventDefault()
-        console.log 'click'
         year = $(event.target).attr('data-year')
         self.params.year_ranges = year
         self.params.per_page = 500
@@ -43,10 +43,13 @@
         url: "#{self.or.config.api_url}/api/entities/search"
         data: self.params
         success: (data) ->
-          console.log data
-          self.or.data = data
+          # console.log data
+          unless self.initialized
+            self.or.data = data
+            self.initialized = true
+          self.or.data.records = data.records
           # self.or.cache_attributes(self.attribute_ids())
-          # self.update()
+          self.update()
           self.or.bus.trigger 'results'
       )
 

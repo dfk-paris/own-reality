@@ -34,7 +34,8 @@ $(document).ready ->
         data: {ids: ids}
         success: (data) ->
           for a in data
-            app.cache.attr_lookup[a._source.id] = a._source
+            if a._source
+              app.cache.attr_lookup[a._source.id] = a._source
           riot.update()
       )
     translations: {}
