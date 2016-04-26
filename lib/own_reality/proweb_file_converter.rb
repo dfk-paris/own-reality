@@ -31,6 +31,8 @@ class OwnReality::ProwebFileConverter
     @original_dir ||= begin
       path = "#{Proweb.config['files']['target']}/#{@proweb_id}"
       Pathname.new(path).realpath
+    rescue Errno::ENOENT => e
+      nil 
     end
   end
 
@@ -68,7 +70,7 @@ class OwnReality::ProwebFileConverter
   end
 
   def has_files?
-    File.exists?(original_dir) && !original_files.empty?
+    original_dir && File.exists?(original_dir) && !original_files.empty?
   end
 
   def combine

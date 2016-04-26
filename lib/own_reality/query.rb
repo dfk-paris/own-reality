@@ -360,7 +360,15 @@ class OwnReality::Query
     if ids.empty?
       [[],[],[]]
     else
-      elastic.request "post", "_mget", nil, {'docs' => docs}
+      response = elastic.request "post", "_mget", nil, {'docs' => docs}
+
+      if response.first == 200
+        # JSON.pretty_generate(response)
+        response
+      else
+        p response
+        response
+      end
     end
   end
 

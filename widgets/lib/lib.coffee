@@ -28,11 +28,13 @@ $(document).ready ->
       if element = $(selector)[0]
         element.scrollIntoView(true)
     cache_attributes: (ids) ->
+      console.log ids
       $.ajax(
         type: 'POST'
         url: "#{app.config.api_url}/api/entities/lookup"
         data: {ids: ids}
         success: (data) ->
+          console.log data
           for a in data
             if a._source
               app.cache.attr_lookup[a._source.id] = a._source
