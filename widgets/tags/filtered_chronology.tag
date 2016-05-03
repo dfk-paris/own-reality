@@ -79,8 +79,8 @@
         if item.start
           self.item_lookup[item.id] = o
           new_data.push item
-        else
-          console.log item
+        # else
+          # console.log item
 
       # console.log(new_data)
 

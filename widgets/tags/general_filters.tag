@@ -118,7 +118,7 @@
           type: self.type
         })
         success: (data) ->
-          # console.log data
+          console.log data
           self.aggregations = data.aggregations
           self.or.cache_attributes(self.attribute_ids())
           self.or.data.results = data.records
@@ -127,7 +127,7 @@
 
     self.attribute_ids = ->
       results = []
-      for k, aggregation of self.aggregations
+      for k, aggregation of self.aggregations.attrs
         for bucket in aggregation.buckets
           results.push bucket.key
       results

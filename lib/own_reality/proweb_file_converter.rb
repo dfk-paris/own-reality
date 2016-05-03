@@ -37,7 +37,11 @@ class OwnReality::ProwebFileConverter
   end
 
   def public_dir
-    @public_dir ||= Pathname.new("#{Proweb.config['files']['public']}/#{hash}").realpath
+    path = "#{Proweb.config['files']['public']}/#{hash}"
+    system "mkdir -p #{path}"
+    @public_dir ||= Pathname.new(path).realpath
+  rescue Errno::ENOENT => e
+    nil 
   end
 
   def original_files
@@ -70,7 +74,7 @@ class OwnReality::ProwebFileConverter
   end
 
   def has_files?
-    original_dir && File.exists?(original_dir) && !original_files.empty?
+    public_dir && original_dir && File.exists?(original_dir) && !original_files.empty?
   end
 
   def combine

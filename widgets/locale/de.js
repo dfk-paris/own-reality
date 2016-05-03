@@ -64,6 +64,7 @@ window.or.translations.de = {
   "previous": "zurück",
   "more": "weitere",
   "full_text_search": "Volltextsuche",
+  "show_all": "alle anzeigen",
   "date": {
     "formats": {
       "default": "%d.%m.%Y",

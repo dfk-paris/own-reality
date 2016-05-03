@@ -21,33 +21,20 @@
       <div class="clearfix"></div>
     </div>
     <div class="tab articles">
-      <or-list-item
-        each={item in or.data.results}
-        item={item}
-      />
+      <or-item-list items={or.data.results} />
     </div>
     <div class="tab magazines">
-      <or-list-item
-        each={item in or.data.results}
-        item={item}
-      />
+      <or-item-list items={or.data.results} />
     </div>
     <div class="tab interviews">
-      <or-list-item
-        each={item in or.data.results}
-        item={item}
-      />
+      <or-item-list items={or.data.results} />
     </div>
     <div class="tab sources">
-      <or-people-filter />
-      <or-journals-filter />
+      <!-- <or-people-filter />
+      <or-journals-filter /> -->
+      <!-- <div class="clearfix"></div> -->
 
-      <div class="clearfix"></div>
-
-      <or-list-item
-        each={item in or.data.results}
-        item={item}
-      />
+      <or-item-list items={or.data.results} />
     </div>
   </div>
 

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+
+    <title>Widget test page</title>
+
+    <style type="text/css">
+      body {width: 100%; padding: 0px;}
+      body > div {
+        box-sizing: border-box;
+        float: left;
+        padding: 1rem;
+      }
+
+      .left {
+        width: 25%;
+      }
+
+      .center {
+        width: 50%;
+      }
+
+      .right {
+        width: 25%;
+      }
+
+      .full {
+        float: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="full">
+      <or-filtered-chronology />
+    </div>
+
+    <div class="left">
+      <or-general-filters></or-general-filters>
+    </div>
+    <div class="center">
+      <or-results></or-results>
+    </div>
+    <div class="right">
+      <or-language-selector></or-language-selector>
+      <or-busy-wheel></or-busy-wheel>
+    </div>
+
+    <script type="text/javascript" src="/app.js"></script>
+  </body>
+</html>

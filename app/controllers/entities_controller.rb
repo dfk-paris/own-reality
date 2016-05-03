@@ -35,7 +35,7 @@ class EntitiesController < ApplicationController
   end
 
   def show
-    @record = OwnReality::Query.new.get(params[:type], params[:id]).last
+    @record = OwnReality::Query.new.mget(params[:type], params[:id]).last
     render :json => @record
   end
 

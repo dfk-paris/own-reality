@@ -2,13 +2,17 @@ class OwnReality::Query
 
   def get(type, id)
     response = elastic.request "get", "#{type}/#{id}"
-    if response.first == 200
-      # JSON.pretty_generate(response)
-      response
-    else
-      p response
-      response
-    end  
+    handle resposne
+  end
+
+  def mget(type, ids)
+    ids = [ids] unless ids.is_a?(Array)
+    data = {
+        'docs' => ids.map{|i|
+          {'_index' => config['index'], '_type' => type, '_id' => i}
+        }
+    }
+    response = elastic.request 'get', "_mget", {}, data
   end
 
   def elastic
@@ -19,20 +23,20 @@ class OwnReality::Query
     @config ||= elastic.request("get", "config/complete").last['_source']
   end
 
+  # def ensure_scripts
+  #   response = elastic.request 'post', '/_scripts/groovy/keys-for-object', {}, {
+  #     'script' => '_source.attrs.by_category.keySet()'
+  #   }
+  #   handle(response)
+  # end
+
   def paper(type, id)
     unless ["sources", "magazines", "articles", "interviews"].include?(type)
       raise "unknown type #{type.inspect}"
     end
 
     response = elastic.request "get", "#{type}/#{id}"
-
-    if response.first == 200
-      # JSON.pretty_generate(response)
-      response
-    else
-      p response
-      response
-    end    
+    handle response
   end
 
   def papers(type = nil, criteria = {})
@@ -133,19 +137,53 @@ class OwnReality::Query
     end
 
     config["categories"].each_with_index do |data, id|
-      aggs[id] = {
+      aggs["attrs.#{id}"] = {
         "terms" => {
           # "script" => "doc['refs']['#{c}'].values",
           "field" => "attrs.by_category.#{id}",
           # "lang" => "groovy",
-          "size" => 5
+          "size" => 0
         }
       }
 
       if criteria["refs"]
-        aggs[id]["terms"]["exclude"] = criteria["refs"]
+        aggs["attrs.#{id}"]["terms"]["exclude"] = criteria["refs"]
       end
     end
+
+    config['roles'].each do |id, names|
+      aggs["people.#{id}"] = {
+        'terms' => {
+          'field' => "people.#{id}.id",
+          'size' => 0
+        }
+      }
+    end
+
+    aggs['journals'] = {
+      'terms' => {
+        'field' => 'journal',
+        'size' => 0
+      }
+    }
+
+    # aggs['blub'] = {
+    #   'terms' => {
+    #     'script' => {
+    #       'file' => 'keys-for-object'
+    #     },
+    #     # 'field' => 'attrs.by_category',
+    #     'size' => 0
+    #   },
+    #   'aggregations' => {
+    #     'blob' => {
+    #       'terms' => {
+    #         'field' => 'attrs.by_category.*',
+    #         'size' => 0
+    #       }
+    #     }
+    #   }
+    # }
 
     unless type.present?
       aggs['type'] = {
@@ -336,14 +374,7 @@ class OwnReality::Query
     Rails.logger.debug data.inspect
 
     response = elastic.request "post", "_search", nil, data
-
-    if response.first == 200
-      # JSON.pretty_generate(response)
-      response
-    else
-      p response
-      response
-    end
+    handle response
   end
 
   def lookup(type = "attribs", ids = [])
@@ -370,6 +401,16 @@ class OwnReality::Query
         response
       end
     end
+  end
+
+  def handle(response)
+    if response.first == 200
+      # JSON.pretty_generate(response)
+      response
+    else
+      p response
+      response
+    end    
   end
 
 end
