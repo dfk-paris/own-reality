@@ -25,5 +25,22 @@
       }
     }
   </style>
+
+  <script type="text/coffee">
+    self = this
+    self.or = window.or
+
+    self.on 'updated', ->
+      list = $(self.root).find('.or-list')
+      items = list.children()
+      items.detach().sort (x, y) -> 
+        xt = $(x).text()
+        yt = $(y).text()
+        if xt < yt
+          -1
+        else
+          if xt == yt then 0 else 1
+      list.append(items)
+  </script>
   
 </or-attribute-list>

@@ -2,9 +2,9 @@
   
   <div class="result-tabs">
     <div class="controls">
-      <a name="articles" class={current: (current_tab == 'articles')}>
-        {or.filters.t('article', {count: 'other'})}
-        ({or.data.aggregations['articles'].doc_count})
+      <a name="sources" class={current: (current_tab == 'sources')}>
+        {or.filters.t('source', {count: 'other'})}
+        ({or.data.aggregations['sources'].doc_count})
       </a>
       <a name="magazines" class={current: (current_tab == 'magazines')}>
         {or.filters.t('magazine', {count: 'other'})}
@@ -14,9 +14,9 @@
         {or.filters.t('interview', {count: 'other'})}
         ({or.data.aggregations['interviews'].doc_count})
       </a>
-      <a name="sources" class={current: (current_tab == 'sources')}>
-        {or.filters.t('source', {count: 'other'})}
-        ({or.data.aggregations['sources'].doc_count})
+      <a name="articles" class={current: (current_tab == 'articles')}>
+        {or.filters.t('article', {count: 'other'})}
+        ({or.data.aggregations['articles'].doc_count})
       </a>
       <div class="clearfix"></div>
     </div>

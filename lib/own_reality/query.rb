@@ -206,6 +206,8 @@ class OwnReality::Query
       "sort" => {"date_from" => {'order' => 'asc', 'ignore_unmapped' => true}}
     }
 
+    # binding.pry
+
     if type.present?
       data["query"]["bool"]["must"] << {
         "type" => {

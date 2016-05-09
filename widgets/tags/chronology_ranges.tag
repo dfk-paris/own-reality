@@ -1,12 +1,13 @@
 <or-chronology-ranges>
   
   <span>
-    <a 
-      each={bucket in buckets()}
-      data-year={parent.year_for_bucket(bucket)}
-    >
-      {parent.year_for_bucket(bucket)} ({bucket.doc_count})
-    </a>
+    <ul>
+      <li each={bucket in buckets()}>
+        <a data-year={parent.year_for_bucket(bucket)}>
+          {parent.year_for_bucket(bucket)} ({bucket.doc_count})
+        </a>
+      </li>
+    </ul>
   </span>
 
   <style type="text/scss">

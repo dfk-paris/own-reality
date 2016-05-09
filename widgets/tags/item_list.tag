@@ -23,6 +23,7 @@
           success: (data) ->
             # console.log data
             self.opts.items = data.records
+            self.update()
         )
   </script>
 

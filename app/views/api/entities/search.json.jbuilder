@@ -11,6 +11,7 @@ json.aggregations do
   end
   json.journals @result['aggregations']['journals']
   json.type @result['aggregations']['type']
+  json.year_ranges @result['aggregations']['year_ranges']
 end
 json.total @result["hits"]["total"]
 json.records @result["hits"]["hits"]

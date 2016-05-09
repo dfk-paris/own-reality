@@ -4,10 +4,7 @@ $(document).ready ->
 
 (->
   calculate_url = ->
-    if document.location.href.match(/debug=true/)
-      'http://localhost:3000'
-    else
-      'https://ownreality.dfkg.org'
+    $('script[or-api-url]').attr('or-api-url') || 'http://localhost:3000'
 
   app = {
     cache: {

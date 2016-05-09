@@ -15,7 +15,7 @@
           url: "#{self.or.config.api_url}/api/items/interviews/#{self.opts.id}"
           success: (data) ->
             # console.log data
-            self.opts.item = data
+            self.opts.item = data.docs[0]
             self.cache_attributes()
             self.update()
         )

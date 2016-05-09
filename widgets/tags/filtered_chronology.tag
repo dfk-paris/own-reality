@@ -4,7 +4,11 @@
     <div show={!excess() && !trivial()} class="or-timeline" />
     <div class="edge">
       <div show={excess()} class="or-excess" style="display: none">
+        {or.filters.t('chronology')}:
         {or.filters.t('too_much_data')} ({data.total})
+        <div>
+          <button>{or.filters.t('show_all')}</button>
+        </div>
       </div>
       <div show={trivial()}>
         {or.filters.t('no_data')}
@@ -22,6 +26,15 @@
         font-size: 5rem;
         color: #bdbdbd;
         line-height: 6rem;
+
+        .or-excess {
+          text-align: center;
+
+          & > div {
+            font-size: 1rem;
+            line-height: 1rem;
+          }
+        }
       }
 
       .vis-dot {
@@ -123,12 +136,16 @@
         self.or.bus.trigger 'modal', 'or-chronology-detail', item: item
         # console.log item
 
-
       self.timeline.on 'click', (props) ->
         item_click(props.item) if props.what == 'item'
 
+      $(self.root).on 'click', '.or-excess button', (event) ->
+        self.override_excess = true
+        self.default_params.per_page = 5000
+        self.search()
+
     self.element = -> $(self.root).find('.or-timeline')
-    self.excess = -> self.data.total > self.default_params.per_page
+    self.excess = -> !self.override_excess && self.data.total > self.default_params.per_page
     self.trivial = -> self.data.total == 0
     self.on 'mount', ->
       self.setup()
