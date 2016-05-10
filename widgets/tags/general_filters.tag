@@ -80,7 +80,9 @@
         only_summary: self.tags.summary_only.value()
         lower: self.tags.date.value()[0] || 1960
         upper: self.tags.date.value()[1] || 1989
-        attribute_ids: self.tags.attribute_facets.value()
+        attribute_ids: self.tags.attribute_facets.value().attrs
+        people_ids: self.tags.attribute_facets.value().people
+        journal_names: self.tags.attribute_facets.value().journals
       }
 
     self.search = ->
@@ -106,8 +108,8 @@
       )
 
       if self.type == 'sources'
-        params.people_ids = self.people_ids
-        params.journal_names = self.journal_names
+        # params.people_ids = self.people_ids
+        # params.journal_names = self.journal_names
       else
         params.per_page = 500
 

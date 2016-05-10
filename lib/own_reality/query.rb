@@ -142,7 +142,7 @@ class OwnReality::Query
           # "script" => "doc['refs']['#{c}'].values",
           "field" => "attrs.by_category.#{id}",
           # "lang" => "groovy",
-          "size" => 0
+          "size" => 21
         }
       }
 
@@ -155,17 +155,25 @@ class OwnReality::Query
       aggs["people.#{id}"] = {
         'terms' => {
           'field' => "people.#{id}.id",
-          'size' => 0
+          'size' => 21
         }
       }
+
+      if criteria["people"]
+        aggs["people.#{id}"]["terms"]["exclude"] = criteria["people"]
+      end
     end
 
     aggs['journals'] = {
       'terms' => {
         'field' => 'journal',
-        'size' => 0
+        'size' => 21
       }
     }
+
+    if criteria['journals']
+      aggs['journals']['terms']['exclude'] = criteria['journals']
+    end
 
     # aggs['blub'] = {
     #   'terms' => {
@@ -309,47 +317,25 @@ class OwnReality::Query
     end
 
     if criteria['people'].present?
-      people_queries = []
-      fields = [
-        '12063', '12064', '12065', '12066', '12067', '12068', '12069', '12071',
-        '12073', '13625', '13636', '16530'
-      ]
-
-      criteria['people'].each do |id|
-        fields.each do |f|
-          people_queries << {
+      criteria['people'].each do |role_id, people|
+        people.each do |id|
+          data['query']['bool']['must'] << {
             'term' => {
-              "people.#{f}.id" => id.to_i
+              "people.#{role_id}.id" => id.to_i
             }
           }
         end
       end
-
-      data['query']['bool']['must'] << {
-        'bool' => {
-          'should' => people_queries,
-          'minimum_should_match' => 1
-        }
-      }
     end
 
     if criteria['journals'].present?
-      journals_queries = []
-
-      criteria['journals'].uniq.each do |name|
-        journals_queries << {
+      criteria['journals'].each do |name|
+        data['query']['bool']['must'] << {
           'term' => {
             "journal" => name
           }
         }
       end
-
-      data['query']['bool']['must'] << {
-        'bool' => {
-          'should' => journals_queries,
-          'minimum_should_match' => 1
-        }
-      }
     end
 
     if type == "chronology"

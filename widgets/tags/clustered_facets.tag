@@ -2,7 +2,13 @@
   
   <div>
     <div class="or-selected">
-      <span class="item" each={key in keys}>
+      <span data-id={role_id} class="role" each={role_id, people in keys.people}>
+        <span class="item" each={key in people}>
+          <or-person person-id={key} />
+        </span>
+      </span>
+      <span class="item" each={key in keys.journals}>{key}</span>
+      <span class="item" each={key in keys.attrs}>
         <or-attribute key={key} />
       </span>
     </div>
@@ -10,13 +16,13 @@
     <div
       class="or-bucket"
       each={key, aggregation in opts.aggregations.people}
+      data-id={key}
       if={aggregation.buckets.length > 0}
     >
       <a
         href="#"
         class="or-show-all"
         show={many_buckets(aggregation)}
-        data-id={key}
         data-type="people"
       >
         {parent.or.filters.t('show_all')}
@@ -33,6 +39,28 @@
 
     <div
       class="or-bucket"
+      if={opts.aggregations.journals.buckets.length > 0}
+    >
+      <a
+        href="#"
+        class="or-show-all"
+        show={many_buckets(opts.aggregations.journals)}
+        data-type="journals"
+      >
+        {parent.or.filters.t('show_all')}
+      </a>
+      <div class="or-custom-category">
+        {parent.or.filters.t('magazine', {count: 'other'})}
+      </div>
+      <div class="or-value" each={bucket in limit_buckets('journals', opts.aggregations.journals)}>
+        •
+        <a class="or-select">{bucket.key}</a>
+        ({bucket.doc_count})
+      </div>
+    </div>
+
+    <div
+      class="or-bucket"
       each={key, aggregation in opts.aggregations.attrs}
       if={aggregation.buckets.length > 0}
     >
@@ -40,7 +68,6 @@
         href="#"
         class="or-show-all"
         show={many_buckets(aggregation)}
-        data-id={key}
         data-type="attrs"
       >
         {parent.or.filters.t('show_all')}
@@ -96,30 +123,60 @@
   <script type="text/coffee">
     self = this
     self.or = window.or
-    self.keys = []
+    self.keys = {
+      attrs: []
+      people: {}
+      journals: []
+    }
     self.expanded = {}
 
     self.on 'mount', ->
+
       $(self.root).on 'click', '.or-bucket a.or-select', (event) ->
         event.preventDefault()
-        key = $(event.target).parents('or-attribute').attr('key')
-        if self.keys.indexOf(key) == -1
-          self.keys.push(key)
-          self.notify()
+        if key = $(event.target).parents('or-attribute').attr('key')
+          if self.keys.attrs.indexOf(key) == -1
+            self.keys.attrs.push(key)
+            self.notify()
+        else if key = $(event.target).parents('or-person').attr('person-id')
+          role_id = $(event.target).parents('.or-bucket').attr('data-id')
+          console.log role_id
+          self.keys.people[role_id] ||= []
+          if self.keys.people[role_id].indexOf(key) == -1
+            self.keys.people[role_id].push(key)
+            self.notify()
+        else
+          key = $(event.target).text()
+          if self.keys.journals.indexOf(key) == -1
+            self.keys.journals.push(key)
+            self.notify()
 
       $(self.root).on 'click', '.or-selected .item', (event) ->
         event.preventDefault()
-        key = $(event.target).parents('or-attribute').attr('key')
-        if self.keys.indexOf(key) != -1
-          i = self.keys.indexOf(key)
-          self.keys.splice(i, 1)
-          self.notify()
+        if key = $(event.target).parents('or-attribute').attr('key')
+          if self.keys.attrs.indexOf(key) != -1
+            i = self.keys.attrs.indexOf(key)
+            self.keys.attrs.splice(i, 1)
+            self.notify()
+        else if key = $(event.target).parents('or-person').attr('person-id')
+          role_id = $(event.target).parents('.role').attr('data-id')
+          if self.keys.people[role_id].indexOf(key) != -1
+            i = self.keys.people[role_id].indexOf(key)
+            self.keys.people[role_id].splice(i, 1)
+            self.notify()
+        else
+          key = $(event.target).text()
+          if self.keys.journals.indexOf(key) != -1
+            i = self.keys.journals.indexOf(key)
+            self.keys.journals.splice(i, 1)
+            self.notify()
 
       $(self.root).on 'click', '.or-show-all', (event) ->
         event.preventDefault()
-        key = $(event.target).attr('data-id')
+        key = $(event.target).parents('.or-bucket').attr('data-id')
         type = $(event.target).attr('data-type')
-        agg = self.opts.aggregations[type][key]
+        agg = self.opts.aggregations[type]
+        agg = agg[key] if key
         if self.many_buckets(agg) 
           if self.countless_buckets(agg)
             console.log 'dialog', agg.buckets.length
