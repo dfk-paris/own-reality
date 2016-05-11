@@ -65,6 +65,7 @@ window.or.translations.de = {
   "more": "weitere",
   "full_text_search": "Volltextsuche",
   "show_all": "alle anzeigen",
+  "also_available_in": "auch verfügbar in",
   "date": {
     "formats": {
       "default": "%d.%m.%Y",

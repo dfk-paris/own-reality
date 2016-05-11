@@ -8,7 +8,7 @@
   <div id="mocha"></div>
 
   <script src="../node_modules/jquery/dist/jquery.min.js"></script>
-  <script src="../node_modules/riot/riot.min.js"></script>
+  <script src="app.js"></script>
   <!-- <script src="https://cdn.rawgit.com/Automattic/expect.js/0.3.1/index.js"></script> -->
   <script src="../node_modules/mocha/mocha.js"></script>
   <script src="../node_modules/chai/chai.js"></script>
@@ -18,11 +18,11 @@
   <script src="test.object.js"></script>
   <script src="test.xhr.js"></script> -->
 
-  <script src="../widgets/test/test.some.js"></script>
+  <script src="../widgets/test/language_selector.test.js"></script>
 
   <script>
     mocha.checkLeaks();
-    mocha.globals(['jQuery', 'riot']);
+    mocha.globals(['jQuery', 'riot', 'or']);
     mocha.run();
   </script>
 </body>

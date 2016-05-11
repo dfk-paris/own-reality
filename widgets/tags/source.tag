@@ -1,5 +1,7 @@
 <or-source>
   <div>
+    <or-language-selector locales={['de', 'fr']} />
+
     <h2>
       <or-localized-value value={opts.item._source.title} />
     </h2>
@@ -69,6 +71,11 @@
 
       .clearfix {
         clear: both;
+      }
+
+      or-language-selector {
+        display: block;
+        float: right;
       }
     }
   </style>
