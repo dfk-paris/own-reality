@@ -1,4 +1,4 @@
-window.or.translations.fr = {
+ownreality.i18n.translations.fr = {
   "de": "allemand",
   "fr": "français",
   "en": "anglais",

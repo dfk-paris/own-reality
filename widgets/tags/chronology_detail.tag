@@ -8,7 +8,7 @@
     <div class="or-metadata">
       <div class="or-field" each={role_id, people in opts.item._source.people} >
         <strong>
-          {parent.or.filters.l(parent.or.config.server.roles[role_id])}:
+          {parent.or.i18n.l(parent.or.config.server.roles[role_id])}:
         </strong>
         <or-people-list people={people} />
       </div>
@@ -66,12 +66,12 @@
 
   <script type="text/coffee">
     self = this
-    self.or = window.or
+    
 
     self.on 'mount', ->
       self.or.cache_attributes(self.opts.item._source.attrs.ids[6][43])
 
-    self.t = self.or.filters.t
+    self.t = self.or.i18n.t
   </script>
 
 </or-chronology-detail>

@@ -3,7 +3,7 @@
 
   <script type="text/coffee">
     self = this
-    self.or = window.or
+    
 
     self.list = ->
       sorted_people = opts.people.sort (x, y) ->

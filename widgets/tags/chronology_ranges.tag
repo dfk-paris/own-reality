@@ -20,7 +20,7 @@
 
   <script type="text/coffee">
     self = this
-    self.or = window.or
+    
     self.initialized = false
     self.params = {
       type: 'chronology'

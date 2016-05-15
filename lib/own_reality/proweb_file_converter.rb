@@ -91,7 +91,15 @@ class OwnReality::ProwebFileConverter
         "convert #{safe_files original_files} #{original}"
       end
       # puts command
-      system command
+      result = run command
+      unless result[:status] == 0
+        OwnReality.log_anomaly(
+          "combining pdfs",
+          "command on file",
+          command,
+          result[:stderr]
+        )
+      end
     end
   end
 
@@ -102,10 +110,30 @@ class OwnReality::ProwebFileConverter
       resolutions.each do |r|
         target = "#{public_dir}/#{r}.jpg"
         unless File.exists?(target)
-          system "convert #{original}[0] -resize \"#{r}x#{r}>\" -alpha remove #{target}"
+          command = "convert #{original}[0] -resize \"#{r}x#{r}>\" -alpha remove #{target}"
+          result = run command
+          unless result[:status] == 0
+            OwnReality.log_anomaly(
+              "shrinking pdfs",
+              "command on file",
+              command,
+              result[:stderr]
+            )
+          end
         end
       end
     end
   end
 
+  def run(command)
+    rout, wout = IO.pipe
+    rerr, werr = IO.pipe
+    pid = Process.spawn(command, out: wout, err: werr)
+    status = Process.wait(pid)
+    wout.close
+    werr.close
+    {stdout: rout.read, stderr: rerr.read, status: status}
+  end
+
 end
+

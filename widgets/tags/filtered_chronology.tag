@@ -4,14 +4,14 @@
     <div show={!excess() && !trivial()} class="or-timeline" />
     <div class="edge">
       <div show={excess()} class="or-excess" style="display: none">
-        {or.filters.t('chronology')}:
-        {or.filters.t('too_much_data')} ({data.total})
+        {or.i18n.t('chronology')}:
+        {or.i18n.t('too_much_data')} ({data.total})
         <div>
-          <button>{or.filters.t('show_all')}</button>
+          <button>{or.i18n.t('show_all')}</button>
         </div>
       </div>
       <div show={trivial()}>
-        {or.filters.t('no_data')}
+        {or.i18n.t('no_data')}
       </div>
     </div>
   </div>
@@ -45,7 +45,6 @@
 
   <script type="text/coffee">
     self = this
-    self.or = window.or
 
     self.default_params = {
       per_page: 100
@@ -54,25 +53,32 @@
     }
 
     self.search = (params = self.default_params) ->
-      self.params = params
+      params = $.extend({}, self.default_params, params)
 
       $.ajax(
         type: 'POST'
         url: "#{self.or.config.api_url}/api/chronology"
-        data: $.extend({}, self.default_params, params)
+        data: params
         success: (data) ->
           # console.log data
           self.data = data
-          self.new_data() unless self.excess() || self.trivial()
+          self.new_data(params) unless self.excess() || self.trivial()
       )
 
-    self.new_data = ->
-      # console.log self.params
+    self.new_data = (params) ->
+      # console.log params
+
+      console.log(
+        min: "#{params.lower - 1}-12"
+        max: "#{params.upper}-02"
+        start: "#{params.lower - 1}-12"
+        end: "#{params.upper}-02"
+      )
       self.timeline.setOptions(
-        min: "#{self.params.lower - 1}-12"
-        max: "#{self.params.upper}-02"
-        start: "#{self.params.lower - 1}-12"
-        end: "#{self.params.upper}-02"
+        min: "#{params.lower - 1}-12"
+        max: "#{params.upper}-02"
+        start: "#{params.lower - 1}-12"
+        end: "#{params.upper}-02"
       )
 
       new_data = []
@@ -95,8 +101,7 @@
         # else
           # console.log item
 
-      # console.log(new_data)
-
+      # console.log new_data
       self.timeline.setItems new_data
       # scope.listing.chrono.aggregations = data.aggregations['attr.4.2'].buckets
 
@@ -113,7 +118,7 @@
         # end: "1960-07"
         end: "1990"
         zoomable: true
-        stack: false
+        stack: true
         # minHeight: "210px"
         height: "120px"
         # maxHeight: "200px"

@@ -1,4 +1,4 @@
-window.or.translations.de = {
+ownreality.i18n.translations.de = {
   "de": "deutsch",
   "fr": "französisch",
   "en": "englisch",
@@ -74,5 +74,3 @@ window.or.translations.de = {
     }
   }
 };
-
-riot.update();

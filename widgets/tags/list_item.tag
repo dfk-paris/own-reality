@@ -110,13 +110,13 @@
 
   <script type="text/coffee">
     self = this
-    self.or = window.or
+    
 
     self.on 'mount', ->
       $(self.root).on 'click', 'a.or-modal-trigger', (event) ->
         event.preventDefault()
         tag = $(event.currentTarget).attr('or-tag')
-        self.or.route.query modal: 'true', tag: tag, id: self.opts.item._id
+        self.or.routing.query modal: 'true', tag: tag, id: self.opts.item._id
 
     self.range_label = ->
       from = self.ld(self.opts.item._source.from_date)
@@ -126,7 +126,7 @@
       else
         "#{from} – #{to}"
 
-    self.ld = self.or.filters.ld
+    self.ld = self.or.i18n.ld
   </script>
 
 </or-list-item>

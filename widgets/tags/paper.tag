@@ -51,12 +51,12 @@
   
   <script type="text/coffee">
     self = this
-    self.or = window.or
+    
 
     self.on 'updated', ->
       if self.opts.item
         if html = self.opts.item._source.html
-          $(self.root).find('.raw').html(self.or.filters.l(html))
+          $(self.root).find('.raw').html(self.or.i18n.l(html))
         else
           $(self.root).find('.raw').html "NO CONTENT AVAILABLE"
   </script>

@@ -4,7 +4,7 @@
 
   <script type="text/coffee">
     self = this
-    self.or = window.or
+    
 
     self.on 'mount', ->
       if self.opts.item

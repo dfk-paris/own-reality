@@ -6,7 +6,7 @@
     </a>
     <div class="or-download" if={download_url()}>
       <a href={download_url()}>
-        {or.filters.t('download')}
+        {or.i18n.t('download')}
       </a>
     </div>
   </div>
@@ -28,7 +28,7 @@
 
   <script type="text/coffee">
     self = this
-    self.or = window.or
+    
 
     self.on 'mount', ->
       $(self.root).on 'click', '.or-modal', (event) ->
@@ -37,7 +37,7 @@
 
     self.hash = ->
       self.opts.item._source.file_base_hash ||
-      self.or.filters.l(self.opts.item._source.pdfs, false)
+      self.or.i18n.l(self.opts.item._source.pdfs, false)
     self.has_preview = -> !!self.opts.item._source.file_base_hash
     self.url = -> 
       if self.has_preview()

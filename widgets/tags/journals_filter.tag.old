@@ -1,18 +1,18 @@
-<or-people-filter>
+<or-journals-filter>
 
   <span>
-    <strong>{or.filters.t('person', {count: 'other'})}</strong>
+    <strong>{or.i18n.t('magazine', {count: 'other'})}</strong>
     <input type="text" name="terms" />
 
     <div class="selection">
-      <span class="item" data-id={person.id} each={person in people}>
-        <or-person person={person} limit-to={30} />
+      <span class="item" data-id={journal.id} each={journal in journals}>
+        {or.i18n.limitTo(or.i18n.l(journal.title))}
       </span>
     </div>
   </span>
 
   <style type="text/scss">
-    or-people-filter {
+    or-journals-filter {
       strong {
         display: block;
       }
@@ -37,23 +37,26 @@
 
   <script type="text/coffee">
     self = this
-    self.or = window.or
-    self.people = []
+    
+    self.journals = []
 
     self.on 'mount', ->
       $(self.terms).autocomplete(
         source: (request, response) ->
           $.ajax(
             type: 'POST'
-            url: "#{self.or.config.api_url}/api/people"
-            data: {terms: request.term}
+            url: "#{self.or.config.api_url}/api/entities/search"
+            data: {
+              type: 'magazines'
+              terms: request.term
+            }
             success: (data) ->
-              # console.log 'people:', data
-              results = for person in data.records
+              # console.log 'journals:', data
+              results = for journal in data.records
                 {
-                  label: "#{person._source.first_name} #{person._source.last_name}",
-                  value: person._source.id,
-                  person: person._source
+                  label: self.or.i18n.l(journal._source.title)
+                  value: journal._source.id
+                  journal: journal._source
                 }
               response(results)
           )
@@ -61,7 +64,7 @@
           event.preventDefault()
         select: (event, ui) ->
           event.preventDefault()
-          self.people.push ui.item.person
+          self.journals.push ui.item.journal
           $(event.target).val(null)
           self.notify()
       )
@@ -70,17 +73,17 @@
         event.preventDefault()
         id = parseInt($(event.currentTarget).attr('data-id'))
         item = null
-        for i in self.people
+        for i in self.journals
           item = i if i.id == id
-        index = self.people.indexOf(item)
+        index = self.journals.indexOf(item)
         if index != -1
-          self.people.splice(index, 1)
-        self.notify()
+          self.journals.splice(index, 1)
+          self.notify()
 
     self.notify = ->
       self.update()
-      self.or.bus.trigger 'people-filter', self.people
+      self.or.bus.trigger 'journals-filter', self.journals
 
   </script>
 
-</or-people-filter>
+</or-journals-filter>

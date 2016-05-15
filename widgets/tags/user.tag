@@ -3,7 +3,7 @@
 
   <script type="text/coffee">
     self = this
-    self.or = window.or
+    
 
     self.user = -> self.or.config.server.people[opts.user]
   </script>

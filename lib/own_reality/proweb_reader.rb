@@ -185,9 +185,14 @@ class OwnReality::ProwebReader
 
     Proweb::Attribute.find(@attribute_ids.keys).each do |attrib|
       data = {
-        "id" => attrib.id,
-        "name" => with_translations(attrib)
+        'id' => attrib.id,
+        'name' => with_translations(attrib),
+        'initials' => {}
       }
+
+      data['name'].each do |k, v|
+        data['initials'][k] = v[0].downcase
+      end
 
       yield data
       bar.increment
@@ -199,9 +204,10 @@ class OwnReality::ProwebReader
 
     Proweb::Person.find(@people_ids.keys).each do |person|
       data = {
-        "id" => person.id,
-        "first_name" => person.first_name,
-        "last_name" => person.last_name
+        'id' => person.id,
+        'first_name' => person.first_name,
+        'last_name' => person.last_name,
+        'initials' => person.last_name.downcase[0]
       }
 
       yield data
@@ -445,7 +451,7 @@ class OwnReality::ProwebReader
       options.reverse_merge!(
         only_roles: [],
         except_roles: [],
-        index_people: false
+        index_people: true
       )
 
       result = {}

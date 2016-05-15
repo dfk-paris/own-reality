@@ -3,15 +3,15 @@
   <div>
     <select if={locales().length == 0}>
       <option
-        each={l in or.locales}
+        each={l in or.i18n.locales}
         value={l}
-        selected={l == or.locale()}
+        selected={l == or.i18n.locale()}
       >
-        {or.filters.t(l)}
+        {or.i18n.t(l)}
       </option>
     </select>
     <span if={locales().length != 0}>
-      {window.or.filters.t('also_available_in')}: 
+      {or.i18n.t('also_available_in')}:
       <a
         each={locale in locales()}
         class="button or-list-element"
@@ -46,21 +46,21 @@
   
   <script type="text/coffee">
     self = this
-    self.or = window.or
+    
 
     self.on 'mount', ->
       
       $(self.root).find('select').on 'change', (event) ->
         value = $(event.target).val()
-        self.or.route.query(lang: value)
+        self.or.routing.query(lang: value)
 
       $(self.root).on 'click', '.button', (event) ->
         event.preventDefault()
         value = $(event.target).parent().attr('data-locale')
-        self.or.route.query(lang: value)
+        self.or.routing.query(lang: value)
 
     self.locales = ->
-      (opts.locales || []).filter (e) -> e != self.or.locale()
+      (opts.locales || []).filter (e) -> e != self.or.i18n.locale()
   </script>
 
 </or-language-selector>

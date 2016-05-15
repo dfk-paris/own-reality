@@ -7,7 +7,7 @@
 
   <script type="text/coffee">
     self = this
-    self.or = window.or
+    
 
     self.on 'mount', ->
       $(self.root).on 'change', ->

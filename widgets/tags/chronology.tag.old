@@ -26,7 +26,7 @@
               "id": o._source.id
               "start": o._source.from_date
               # "end": o._source.to_date
-              "content": self.filters.limitTo(o._source.title[self.locale()] || "Noname", 30)
+              "content": self.i18n.limitTo(o._source.title[self.locale()] || "Noname", 30)
               "title": o._source.title[self.locale()] || "Noname"
             }
             if item.start == item.end

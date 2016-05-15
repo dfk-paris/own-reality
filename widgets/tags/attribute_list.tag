@@ -28,7 +28,7 @@
 
   <script type="text/coffee">
     self = this
-    self.or = window.or
+    
 
     self.on 'updated', ->
       list = $(self.root).find('.or-list')

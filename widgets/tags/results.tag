@@ -3,19 +3,19 @@
   <div class="result-tabs">
     <div class="controls">
       <a name="sources" class={current: (current_tab == 'sources')}>
-        {or.filters.t('source', {count: 'other'})}
+        {or.i18n.t('source', {count: 'other'})}
         ({or.data.aggregations['sources'].doc_count})
       </a>
       <a name="magazines" class={current: (current_tab == 'magazines')}>
-        {or.filters.t('magazine', {count: 'other'})}
+        {or.i18n.t('magazine', {count: 'other'})}
         ({or.data.aggregations['magazines'].doc_count})
       </a>
       <a name="interviews" class={current: (current_tab == 'interviews')}>
-        {or.filters.t('interview', {count: 'other'})}
+        {or.i18n.t('interview', {count: 'other'})}
         ({or.data.aggregations['interviews'].doc_count})
       </a>
       <a name="articles" class={current: (current_tab == 'articles')}>
-        {or.filters.t('article', {count: 'other'})}
+        {or.i18n.t('article', {count: 'other'})}
         ({or.data.aggregations['articles'].doc_count})
       </a>
       <div class="clearfix"></div>
@@ -30,10 +30,6 @@
       <or-item-list items={or.data.results} />
     </div>
     <div class="tab sources">
-      <!-- <or-people-filter />
-      <or-journals-filter /> -->
-      <!-- <div class="clearfix"></div> -->
-
       <or-item-list items={or.data.results} />
     </div>
   </div>
@@ -89,7 +85,7 @@
 
   <script type="text/coffee">
     self = this
-    self.or = window.or
+    
     self.current_tab = 'sources'
 
     self.on 'mount', ->

@@ -18,11 +18,11 @@
 
   <script type="text/coffee">
     self = this
-    self.or = window.or
+    
 
     self.url = -> document.location.href
     self.date = ->
       ts = opts.item._source.updated_at
-      self.or.filters.ld(ts)
+      self.or.i18n.ld(ts)
   </script>
 </or-citation>

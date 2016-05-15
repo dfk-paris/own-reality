@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "deps": "widgets/build.sh deps",
     "deps:watch": "onchange node_modules/ -- npm run deps",
-    "lib": "cat widgets/lib/*.coffee | coffee --bare --compile --stdio > tmp/lib.js",
+    "lib": "widgets/build.sh lib",
     "lib:watch": "onchange widgets/lib -- npm run lib",
     "i18n": "widgets/build.sh i18n",
     "i18n:watch": "onchange widgets/locale -- npm run i18n",

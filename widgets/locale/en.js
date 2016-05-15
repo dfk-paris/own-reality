@@ -1,4 +1,4 @@
-window.or.translations.en = {
+ownreality.i18n.translations.en = {
   "de": "German",
   "fr": "French",
   "en": "English",

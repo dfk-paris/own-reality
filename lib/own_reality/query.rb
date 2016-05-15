@@ -159,8 +159,8 @@ class OwnReality::Query
         }
       }
 
-      if criteria["people"]
-        aggs["people.#{id}"]["terms"]["exclude"] = criteria["people"]
+      if criteria["people"] && criteria['people'][id.to_s]
+        aggs["people.#{id}"]["terms"]["exclude"] = criteria["people"][id.to_s]
       end
     end
 

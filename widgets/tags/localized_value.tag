@@ -4,8 +4,8 @@
 
   <script type="text/coffee">
     self = this
-    self.or = window.or
+    
 
-    self.value = -> self.or.filters.l(opts.value)
+    self.value = -> self.or.i18n.l(opts.value)
   </script>
 </or-localized-value>

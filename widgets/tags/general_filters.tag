@@ -5,7 +5,7 @@
       <or-delayed-input
         name="terms"
         type="text"
-        placeholder={or.filters.t('full_text_search')}
+        placeholder={or.i18n.t('full_text_search')}
         timeout={300}
       ></or-delayed-input>
     </div>
@@ -13,7 +13,7 @@
     <div class="form-control">
       <label for="summary_only">
         <or-checkbox name="summary_only"></or-checkbox>
-        <small>{or.filters.t('search_summary_only')}</small>
+        <small>{or.i18n.t('search_summary_only')}</small>
       </label>
     </div>
 
@@ -52,7 +52,7 @@
 
   <script type="text/coffee">
     self = this
-    self.or = window.or
+    
     self.type = 'sources'
 
     self.on 'mount', ->
@@ -123,6 +123,7 @@
           console.log data
           self.aggregations = data.aggregations
           self.or.cache_attributes(self.attribute_ids())
+          self.or.cache_people(self.people_ids())
           self.or.data.results = data.records
           self.or.bus.trigger 'results'
       )
@@ -130,6 +131,13 @@
     self.attribute_ids = ->
       results = []
       for k, aggregation of self.aggregations.attrs
+        for bucket in aggregation.buckets
+          results.push bucket.key
+      results
+
+    self.people_ids = ->
+      results = []
+      for k, aggregation of self.aggregations.people
         for bucket in aggregation.buckets
           results.push bucket.key
       results

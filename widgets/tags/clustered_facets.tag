@@ -7,7 +7,9 @@
           <or-person person-id={key} />
         </span>
       </span>
-      <span class="item" each={key in keys.journals}>{key}</span>
+      <span class="item" each={key in keys.journals} data-id={key}>
+        {or.filters.limitTo(key)}
+      </span>
       <span class="item" each={key in keys.attrs}>
         <or-attribute key={key} />
       </span>
@@ -25,10 +27,10 @@
         show={many_buckets(aggregation)}
         data-type="people"
       >
-        {parent.or.filters.t('show_all')}
+        {parent.or.i18n.t('show_all')}
       </a>
       <div class="or-role">
-        {parent.or.filters.l(parent.or.config.server.roles[key])}
+        {parent.or.i18n.l(parent.or.config.server.roles[key])}
       </div>
       <div class="or-value" each={bucket in limit_buckets(key, aggregation)}>
         •
@@ -47,10 +49,10 @@
         show={many_buckets(opts.aggregations.journals)}
         data-type="journals"
       >
-        {parent.or.filters.t('show_all')}
+        {parent.or.i18n.t('show_all')}
       </a>
       <div class="or-custom-category">
-        {parent.or.filters.t('magazine', {count: 'other'})}
+        {parent.or.i18n.t('magazine', {count: 'other'})}
       </div>
       <div class="or-value" each={bucket in limit_buckets('journals', opts.aggregations.journals)}>
         •
@@ -70,10 +72,10 @@
         show={many_buckets(aggregation)}
         data-type="attrs"
       >
-        {parent.or.filters.t('show_all')}
+        {parent.or.i18n.t('show_all')}
       </a>
       <div class="or-category">
-        {parent.or.filters.l(parent.or.config.server.categories[key])}
+        {parent.or.i18n.l(parent.or.config.server.categories[key])}
       </div>
       <div class="or-value" each={bucket in limit_buckets(key, aggregation)}>
         •
@@ -122,7 +124,7 @@
 
   <script type="text/coffee">
     self = this
-    self.or = window.or
+    
     self.keys = {
       attrs: []
       people: {}
@@ -165,7 +167,7 @@
             self.keys.people[role_id].splice(i, 1)
             self.notify()
         else
-          key = $(event.target).text()
+          key = $(event.target).attr('data-id')
           if self.keys.journals.indexOf(key) != -1
             i = self.keys.journals.indexOf(key)
             self.keys.journals.splice(i, 1)

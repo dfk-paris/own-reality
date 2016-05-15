@@ -23,7 +23,7 @@
 
   <script type="text/coffee">
     self = this
-    self.or = window.or
+    
     self.src = null
 
     self.on 'mount', ->
@@ -32,7 +32,7 @@
         autoOpen: false
         hasVariableWidth: true
         onClose: ->
-          self.or.route.query modal: null, tag: null, id: null
+          self.or.routing.query modal: null, tag: null, id: null
       )
 
     self.or.bus.on 'modal', (url_or_tag, opts) ->

@@ -32,7 +32,7 @@
 
   <script type="text/coffee">
     self = this
-    self.or = window.or
+    
 
     self.min = -> parseInt(self.opts.min)
     self.max = -> parseInt(self.opts.max)

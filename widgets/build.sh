@@ -16,6 +16,13 @@ function deps {
   cp widgets/vendor/jquery-ui.theme.css tmp/_jquery-ui.theme.css
 }
 
+function lib {
+  cat \
+    widgets/lib/ownreality.coffee \
+    widgets/lib/concerns/*.coffee \
+    widgets/lib/boot.coffee | coffee --bare --compile --stdio > tmp/lib.js
+}
+
 function i18n {
   uglifyjs widgets/locale/*.js -o tmp/i18n.js
 }
