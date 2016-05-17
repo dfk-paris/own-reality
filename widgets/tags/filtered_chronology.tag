@@ -17,6 +17,8 @@
   </div>
 
   <style type="text/scss">
+    @import "tmp/vis";
+
     or-filtered-chronology {
       display: block;
       margin-top: 1rem;
@@ -53,27 +55,28 @@
     }
 
     self.search = (params = self.default_params) ->
-      params = $.extend({}, self.default_params, params)
+      current_params = $.extend({}, self.default_params, params)
 
       $.ajax(
         type: 'POST'
         url: "#{self.or.config.api_url}/api/chronology"
-        data: params
+        data: current_params
         success: (data) ->
-          # console.log data
+          # console.log 'chrono data:', data
           self.data = data
-          self.new_data(params) unless self.excess() || self.trivial()
+          self.new_data(current_params) unless self.excess() || self.trivial()
+          # self.new_data(params)
       )
 
     self.new_data = (params) ->
-      # console.log params
+      # console.log 'chrono params:', params
 
-      console.log(
-        min: "#{params.lower - 1}-12"
-        max: "#{params.upper}-02"
-        start: "#{params.lower - 1}-12"
-        end: "#{params.upper}-02"
-      )
+      # console.log(
+      #   min: "#{params.lower - 1}-12"
+      #   max: "#{params.upper}-02"
+      #   start: "#{params.lower - 1}-12"
+      #   end: "#{params.upper}-02"
+      # )
       self.timeline.setOptions(
         min: "#{params.lower - 1}-12"
         max: "#{params.upper}-02"
@@ -101,35 +104,39 @@
         # else
           # console.log item
 
-      # console.log new_data
+      # console.log 'tl data:', new_data
       self.timeline.setItems new_data
       # scope.listing.chrono.aggregations = data.aggregations['attr.4.2'].buckets
-
       self.update()
+
 
     self.setup = ->
       $(self.root).find('.or-timeline').on 'click', '.vis-dot', (event) ->
         item = $(event.target).parents('.vis-point').data()
 
-      self.timeline = new vis.Timeline(self.element()[0], [], undefined,
+      self.timeline = new vis.Timeline(self.element()[0], [],
         min: "1960"
         max: "1990"
         start: "1959-12"
         # end: "1960-07"
-        end: "1990"
+        end: "1990-01"
         zoomable: true
-        stack: true
+        stack: false
         # minHeight: "210px"
         height: "120px"
         # maxHeight: "200px"
         dataAttributes: "all"
         type: "point"
         align: "center"
+        # width: "800px"
         selectable: false
+        # 'timeAxis.scale': 'month'
+        # autoResize: false
         # template: (item) ->
         #   console.log item
         #   "<div class='vis-dot' data-title='#{item.id}'></div>"
         # showMajorLabels: false
+        # showMinorLabels: false
         # groupOrder: (x, y) ->
         #   return -1 if x.position < y.position
         #   return 1 if x.position > y.position
