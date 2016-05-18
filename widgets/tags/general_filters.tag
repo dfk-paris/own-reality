@@ -74,6 +74,15 @@
 
       self.trigger 'or-change'
 
+    self.or.bus.on 'reset-search-with', (what = {}) ->
+      self.tags.terms.reset(false)
+      self.tags.summary_only.reset(false)
+      self.tags.date.reset(false)
+      self.tags.attribute_facets.reset(false)
+
+      console.log what
+      self.tags.attribute_facets.add(what, false)
+
     self.params = ->
       return {
         terms: self.tags.terms.value()

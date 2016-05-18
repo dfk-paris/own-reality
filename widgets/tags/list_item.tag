@@ -111,12 +111,14 @@
   <script type="text/coffee">
     self = this
     
-
     self.on 'mount', ->
       $(self.root).on 'click', 'a.or-modal-trigger', (event) ->
         event.preventDefault()
         tag = $(event.currentTarget).attr('or-tag')
-        self.or.routing.query modal: 'true', tag: tag, id: self.opts.item._id
+        self.or.routing.query(
+          modal: 'true', tag: tag, id: self.opts.item._id
+          clang: ownreality.config.locale
+        )
 
     self.range_label = ->
       from = self.ld(self.opts.item._source.from_date)

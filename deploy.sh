@@ -44,6 +44,7 @@ function deploy {
 
   local "npm run build"
   local "rsync $RSYNC_OPTS public/app.js $HOST:$CURRENT_PATH/public/app.js"
+  local "rsync $RSYNC_OPTS public/spinner.gif $HOST:$CURRENT_PATH/public/spinner.gif"
 
   # within_do $CURRENT_PATH "RAILS_ENV=production bundle exec rake db:migrate"
   # within_do $CURRENT_PATH "RAILS_ENV=production bundle exec rake assets:precompile"

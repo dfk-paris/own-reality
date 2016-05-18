@@ -57,10 +57,10 @@
       $(self.root).on 'click', '.button', (event) ->
         event.preventDefault()
         value = $(event.target).parent().attr('data-locale')
-        self.or.routing.query(lang: value)
+        self.or.routing.query(clang: value)
 
     self.locales = ->
-      (opts.locales || []).filter (e) -> e != self.or.i18n.locale()
+      (opts.locales || []).filter (e) -> e != self.or.i18n.locale(true)
   </script>
 
 </or-language-selector>

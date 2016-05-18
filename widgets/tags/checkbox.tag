@@ -10,9 +10,13 @@
     
 
     self.on 'mount', ->
-      $(self.root).on 'change', ->
-        self.parent.trigger('or-change', self) if self.parent
+      $(self.root).on 'change', self.notify
 
     self.value = -> $(self.root).find('input').is(':checked')
+    self.reset = (notify = true) ->
+      $(self.root).attr 'checked', null
+      self.notify() if notify
+
+    self.notify = -> self.parent.trigger('or-change', self) if self.parent
   </script>
 </or-checkbox>

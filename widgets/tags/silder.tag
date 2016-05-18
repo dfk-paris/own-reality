@@ -33,7 +33,6 @@
   <script type="text/coffee">
     self = this
     
-
     self.min = -> parseInt(self.opts.min)
     self.max = -> parseInt(self.opts.max)
 
@@ -47,11 +46,15 @@
           self.lower = ui.values[0]
           self.upper = ui.values[1]
           self.update()
-        change: (event, ui) ->
-          self.parent.trigger('or-change', self) if self.parent
+        stop: (event, ui) -> self.notify()
       )
 
     self.value = -> [self.lower, self.upper]
+    self.reset = (notify = true) ->
+      $(self.root).find('.or-slider').slider 'values', [self.min(), self.max()]
+      self.notify() if notify
+    self.notify = -> self.parent.trigger('or-change', self) if self.parent
+
   </script>
 
 </or-slider>

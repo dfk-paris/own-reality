@@ -37,7 +37,7 @@
 
     self.hash = ->
       self.opts.item._source.file_base_hash ||
-      self.or.i18n.l(self.opts.item._source.pdfs, false)
+      self.or.i18n.l(self.opts.item._source.pdfs, notify: false)
     self.has_preview = -> !!self.opts.item._source.file_base_hash
     self.url = -> 
       if self.has_preview()

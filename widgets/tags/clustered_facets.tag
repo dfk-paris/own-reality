@@ -24,10 +24,11 @@
       <a
         href="#"
         class="or-show-all"
-        show={many_buckets(aggregation)}
+        show={parent.many_buckets(aggregation)}
         data-type="people"
       >
         {parent.or.i18n.t('show_all')}
+        <span show={parent.countless_buckets(aggregation)}>(> 20)</span>
       </a>
       <div class="or-role">
         {parent.or.i18n.l(parent.or.config.server.roles[key])}
@@ -46,10 +47,11 @@
       <a
         href="#"
         class="or-show-all"
-        show={many_buckets(opts.aggregations.journals)}
+        show={parent.many_buckets(opts.aggregations.journals)}
         data-type="journals"
       >
         {parent.or.i18n.t('show_all')}
+        <span show={parent.countless_buckets(aggregation)}>(> 20)</span>
       </a>
       <div class="or-custom-category">
         {parent.or.i18n.t('magazine', {count: 'other'})}
@@ -65,14 +67,16 @@
       class="or-bucket"
       each={key, aggregation in opts.aggregations.attrs}
       if={aggregation.buckets.length > 0}
+      data-id={key}
     >
       <a
         href="#"
         class="or-show-all"
-        show={many_buckets(aggregation)}
+        show={parent.many_buckets(aggregation)}
         data-type="attrs"
       >
         {parent.or.i18n.t('show_all')}
+        <span show={parent.countless_buckets(aggregation)}>(> 20)</span>
       </a>
       <div class="or-category">
         {parent.or.i18n.l(parent.or.config.server.categories[key])}
@@ -124,6 +128,7 @@
 
   <script type="text/coffee">
     self = this
+    window.cf = self
     
     self.keys = {
       attrs: []
@@ -132,46 +137,91 @@
     }
     self.expanded = {}
 
+    self.add = (what = {}, notify = true) ->
+      what['attrs'] ||= []
+      what['people'] ||= {}
+      what['journals'] ||= []
+
+      for item in what.attrs
+        if self.keys.attrs.indexOf(item) == -1
+          self.keys.attrs.push(item)
+          self.notify() if notify
+
+      for role, people of what.people
+        for person in people
+          self.keys.people[role] ||= []
+          if self.keys.people[role].indexOf(person) == -1
+            self.keys.people[role].push(person)
+            self.notify() if notify
+
+      for item in what.journals
+        if self.keys.journals.indexOf(item) == -1
+          self.keys.journals.push(item)
+          self.notify() if notify
+
+      self.update()
+
+    self.remove = (what = {}, notify = true) ->
+      what['attrs'] ||= []
+      what['people'] ||= {}
+      what['journals'] ||= []
+
+      for item in what.attrs
+        i = self.keys.attrs.indexOf(item)
+        if i != -1
+          self.keys.attrs.splice(i, 1)
+          self.notify() if notify
+      for role, people of what.people
+        for person in people
+          i = self.keys.people[role].indexOf(person)
+          if person != -1
+            self.keys.people[role].splice(i, 1)
+            self.notify() if notify
+
+      for item in what.journals
+        i = self.keys.journals.indexOf(item)
+        if i != -1
+          self.keys.journals.splice(i, 1)
+          self.notify() if notify
+
+      self.update()
+
+    self.reset = (what = {}, notify = true) ->
+      self.keys = {
+        attrs: []
+        people: {}
+        journals: []
+      }
+      self.notify() if notify
+      self.update()
+
     self.on 'mount', ->
 
       $(self.root).on 'click', '.or-bucket a.or-select', (event) ->
         event.preventDefault()
         if key = $(event.target).parents('or-attribute').attr('key')
-          if self.keys.attrs.indexOf(key) == -1
-            self.keys.attrs.push(key)
-            self.notify()
+          self.add attrs: [key]
         else if key = $(event.target).parents('or-person').attr('person-id')
           role_id = $(event.target).parents('.or-bucket').attr('data-id')
-          console.log role_id
-          self.keys.people[role_id] ||= []
-          if self.keys.people[role_id].indexOf(key) == -1
-            self.keys.people[role_id].push(key)
-            self.notify()
+          what = {people: {}}
+          what.people[role_id] = [key]
+          self.add what
         else
           key = $(event.target).text()
-          if self.keys.journals.indexOf(key) == -1
-            self.keys.journals.push(key)
-            self.notify()
+          self.add journals: [key]
 
       $(self.root).on 'click', '.or-selected .item', (event) ->
         event.preventDefault()
         if key = $(event.target).parents('or-attribute').attr('key')
-          if self.keys.attrs.indexOf(key) != -1
-            i = self.keys.attrs.indexOf(key)
-            self.keys.attrs.splice(i, 1)
-            self.notify()
+          self.remove attrs: [key]
         else if key = $(event.target).parents('or-person').attr('person-id')
           role_id = $(event.target).parents('.role').attr('data-id')
-          if self.keys.people[role_id].indexOf(key) != -1
-            i = self.keys.people[role_id].indexOf(key)
-            self.keys.people[role_id].splice(i, 1)
-            self.notify()
+          what = {people: {}}
+          what.people[role_id] = [key]
+          self.remove what
         else
           key = $(event.target).attr('data-id')
-          if self.keys.journals.indexOf(key) != -1
-            i = self.keys.journals.indexOf(key)
-            self.keys.journals.splice(i, 1)
-            self.notify()
+          self.remove journals: [key]
 
       $(self.root).on 'click', '.or-show-all', (event) ->
         event.preventDefault()
@@ -187,9 +237,9 @@
             self.update()
         
     self.notify = ->
-      self.update()
       if self.parent
         self.parent.trigger('or-change', self)
+      self.update()
 
     self.limit_buckets = (key, agg) ->
       if self.expanded[key] then agg.buckets else agg.buckets.slice(0, 5)

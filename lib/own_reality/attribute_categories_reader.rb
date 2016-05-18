@@ -5,19 +5,19 @@ class OwnReality::AttributeCategoriesReader
   def self.from_file
     data = OwnReality.http_client.get_content(OwnReality.config["attribute_categories_file"])
     book = ::Spreadsheet.open(StringIO.new(data))
-    sheet = book.worksheets.first
-
-    headers = sheet.first.to_a
 
     records = []
-    sheet.each 1 do |row|
-      record = {}
-      headers.each_with_index do |h, i|
-        value = row[i]
-        value = value.value if value.respond_to?(:value)
-        record[h] = value
+    book.worksheets.each do |sheet|
+      sheet.each 1 do |row|
+        headers = sheet.first.to_a
+        record = {}
+        headers.each_with_index do |h, i|
+          value = row[i]
+          value = value.value if value.respond_to?(:value)
+          record[h] = value
+        end
+        records << record if record['id'].present?
       end
-      records << record
     end
 
     categories = []
@@ -25,7 +25,7 @@ class OwnReality::AttributeCategoriesReader
 
     records.each do |r|
       c = r["category"].strip
-      attribute_id = r["attribute_id"]
+      attribute_id = r["id"]
 
       if c.present?
         if index = categories.index(c)

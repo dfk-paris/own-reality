@@ -2,7 +2,7 @@
 
   <div>
     <or-list-item
-      each={item in self.or.data.records}
+      each={item in or.data.records}
       item={item}
     />
   </div>
@@ -10,7 +10,6 @@
   <script type="text/coffee">
     self = this
     
-
     self.on 'mount', ->
       self.or.bus.on 'results', -> self.update()
   </script>

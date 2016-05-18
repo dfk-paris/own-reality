@@ -32,7 +32,7 @@
         autoOpen: false
         hasVariableWidth: true
         onClose: ->
-          self.or.routing.query modal: null, tag: null, id: null
+          self.or.routing.query modal: null, tag: null, id: null, clang: null
       )
 
     self.or.bus.on 'modal', (url_or_tag, opts) ->
@@ -45,6 +45,8 @@
       
       self.update()
       self.modal.trigger 'openModal'
+
+    self.or.bus.on 'reset-search-with', -> self.modal.trigger('closeModal')
 
   </script>
 </or-modal>

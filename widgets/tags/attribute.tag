@@ -2,9 +2,15 @@
 
   <span title={full()}>{short()}</span>
 
+  <style type="text/scss">
+    or-attribute {
+      cursor: pointer;
+    }
+  </style>
+
   <script type="text/coffee">
     self = this
-    
+
     self.attr = -> self.or.cache.attrs[self.opts.key]
     self.full = -> self.or.i18n.l(self.attr().name)
     self.short = ->

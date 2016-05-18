@@ -29,7 +29,6 @@
   <script type="text/coffee">
     self = this
     
-
     self.on 'updated', ->
       list = $(self.root).find('.or-list')
       items = list.children()
@@ -41,6 +40,7 @@
         else
           if xt == yt then 0 else 1
       list.append(items)
+
   </script>
   
 </or-attribute-list>

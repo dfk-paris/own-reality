@@ -29,6 +29,11 @@
         ownreality.config.locale = lang
         riot.update()
 
+    if clang = riot.route.query()['clang']
+      if clang != ownreality.config.clocale
+        ownreality.config.clocale = clang
+        riot.update()
+
     if modal = riot.route.query()['modal']
       tag = riot.route.query()['tag']
       id = riot.route.query()['id']

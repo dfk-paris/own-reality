@@ -7,7 +7,7 @@ namespace :or do
     Proweb.connect
     
     # Proweb::Import.new(Proweb.source, Proweb.target).run
-    # Proweb::FileCleaner.new.run
+    # Proweb::FileCleaner.new(OwnReality).run
     OwnReality::Import.new.run
   end
 

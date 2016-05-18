@@ -3,7 +3,7 @@
     <or-language-selector locales={['de', 'fr']} />
 
     <h2>
-      <or-localized-value value={opts.item._source.title} />
+      <or-content-localized-value value={opts.item._source.title} />
     </h2>
 
     <div class="or-metadata">
@@ -22,7 +22,7 @@
 
     <div class="or-text">
       <div class="or-field">
-        <or-localized-value value={opts.item._source.interpretation} />
+        <or-content-localized-value value={opts.item._source.interpretation} />
       </div>
     </div>
 
@@ -97,6 +97,13 @@
             self.cache_attributes()
             self.update()
         )
+
+      $(self.root).on 'click', 'or-attribute', (event) ->
+        event.preventDefault()
+        if window.confirm(self.or.i18n.t('confirm_replace_search'))
+          key = $(event.target).parents('or-attribute').attr('key')
+          self.or.cache_attributes([key])
+          self.or.bus.trigger 'reset-search-with', attrs: [key]
 
     self.cache_attributes = ->
       self.or.cache_attributes(self.opts.item._source.attrs.ids[6][43])
