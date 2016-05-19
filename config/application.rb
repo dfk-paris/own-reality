@@ -70,3 +70,6 @@ end
 # TODO: rename tags
 # TODO: write XML export and re-import
 # TODO: fix attr search criteria replace
+# TODO: include errors from proweb module into anomaly log (bin/entires and bin/attribs)
+# TODO: remove comments everywhere
+# TODO: unify event naming, possibly with attributes on tags publish/subscribe

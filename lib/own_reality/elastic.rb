@@ -20,6 +20,10 @@ class OwnReality::Elastic
               "folding" => {
                 "tokenizer" => "standard",
                 "filter" => ["lowercase", "asciifolding"]
+              },
+              'case_insensitive_sort' => {
+                'tokenizer' => 'keyword',
+                'filter' => ['lowercase']
               }
             }
           }

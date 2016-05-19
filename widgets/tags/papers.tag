@@ -50,7 +50,6 @@
 
   <script type="text/coffee">
     self = this
-    self.mixin(window.or)
 
     self.handle_routing = (x, type, id, footnote) ->
       self.items = null

@@ -23,7 +23,11 @@ class EntitiesController < ApplicationController
       "page" => params[:page],
       'people' => params[:people_ids],
       'journals' => params[:journal_names],
-      'year_ranges' => params[:year_ranges]
+      'year_ranges' => params[:year_ranges],
+      'register' => params[:register],
+      'locale' => params[:locale],
+      'initial' => params[:initial],
+      'sort' => params[:sort]
     ).last
     render :template => "api/entities/search"
   end

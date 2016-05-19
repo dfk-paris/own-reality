@@ -99,6 +99,7 @@ class OwnReality::Query
     criteria ||= {}
     criteria["page"] = (criteria["page"] || 1).to_i
     criteria["per_page"] = (criteria["per_page"] || 10).to_i
+    criteria['locale'] ||= 'de'
 
     search_type = criteria['search_type'] || 'query_then_fetch'
     conditions = []
@@ -112,6 +113,24 @@ class OwnReality::Query
     #     }
     #   }
     # }
+
+    if criteria['register']
+      if type == 'people'
+        aggs['register'] = {
+          'terms' => {
+            'field' => 'initial',
+            'size' => 0
+          }
+        }
+      else
+        aggs['register'] = {
+          'terms' => {
+            'field' => "initials.#{criteria['locale']}",
+            'size' => 0
+          }
+        }
+      end
+    end
 
     if criteria['year_ranges']
       aggs['year_ranges'] = {
@@ -202,6 +221,7 @@ class OwnReality::Query
       }
     end
 
+    p criteria
     data = {
       "aggs" => aggs,
       "query" => {
@@ -211,7 +231,7 @@ class OwnReality::Query
       },
       "size" => (search_type == 'count' ? 0 : criteria["per_page"]),
       "from" => (criteria["page"] - 1) * criteria["per_page"],
-      "sort" => {"date_from" => {'order' => 'asc', 'ignore_unmapped' => true}}
+      "sort" => criteria['sort'] || {"date_from" => {'order' => 'asc', 'ignore_unmapped' => true}}
     }
 
     # binding.pry
@@ -338,7 +358,23 @@ class OwnReality::Query
       end
     end
 
-    if type == "chronology"
+    if criteria['initial']
+      if type == 'people'
+        data['query']['bool']['must'] << {
+          'term' => {
+            "initial" => criteria['initial']
+          }
+        }
+      else
+        data['query']['bool']['must'] << {
+          'term' => {
+            "initials.#{criteria['locale']}" => criteria['initial']
+          }
+        }
+      end
+    end
+
+    # if type == "chronology"
       # data['query']['bool']['must'] << {
       #   'exists' => {
       #     'field' => 'from_date'
@@ -357,7 +393,7 @@ class OwnReality::Query
       #     }
       #   }
       # end
-    end
+    # end
 
     Rails.logger.debug data.inspect
 

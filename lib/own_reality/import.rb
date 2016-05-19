@@ -174,7 +174,16 @@ class OwnReality::Import
           "name" => {
             "type" => "object",
             "properties" => {
-              "name" => {"type" => "string", "analyzer" => "folding"}
+              'de' => {'type' => 'string', 'analyzer' => 'case_insensitive_sort'},
+              'fr' => {'type' => 'string', 'analyzer' => 'case_insensitive_sort'},
+              'en' => {'type' => 'string', 'analyzer' => 'case_insensitive_sort'}
+            }
+          },
+          'initials' => {
+            'properties' => {
+              'de' => {'type' => 'string', 'index' => 'not_analyzed'},
+              'fr' => {'type' => 'string', 'index' => 'not_analyzed'},
+              'en' => {'type' => 'string', 'index' => 'not_analyzed'}
             }
           }
         }
@@ -185,8 +194,9 @@ class OwnReality::Import
       "people" => {
         "properties" => {
           # 'id' => {'type' => 'string', 'index' => 'not_analyzed'},
-          "first_name" => {"type" => "string", "analyzer" => "folding"},
-          "last_name" => {"type" => "string", "analyzer" => "folding"}
+          "first_name" => {"type" => "string", 'analyzer' => 'case_insensitive_sort'},
+          "last_name" => {"type" => "string", 'analyzer' => 'case_insensitive_sort'},
+          'initial' => {'type' => 'string', 'index' => 'not_analyzed'}
         }
       }
     }

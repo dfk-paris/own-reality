@@ -32,7 +32,10 @@
 
     self.label = ->
       result = if self.opts.person.first_name != null
-        "#{self.opts.person.first_name} #{self.opts.person.last_name}"
+        if self.opts.machine
+          "#{self.opts.person.last_name}, #{self.opts.person.first_name}"
+        else
+          "#{self.opts.person.first_name} #{self.opts.person.last_name}"
       else
         self.opts.person.last_name
 

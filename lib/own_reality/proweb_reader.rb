@@ -207,7 +207,7 @@ class OwnReality::ProwebReader
         'id' => person.id,
         'first_name' => person.first_name,
         'last_name' => person.last_name,
-        'initials' => person.last_name.downcase[0]
+        'initial' => person.last_name.downcase[0]
       }
 
       yield data

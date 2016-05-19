@@ -27,11 +27,13 @@
     if lang = riot.route.query()['lang']
       if lang != ownreality.config.locale
         ownreality.config.locale = lang
+        ownreality.bus.trigger 'locale-change'
         riot.update()
 
     if clang = riot.route.query()['clang']
       if clang != ownreality.config.clocale
         ownreality.config.clocale = clang
+        ownreality.bus.trigger 'content-locale-change'
         riot.update()
 
     if modal = riot.route.query()['modal']
