@@ -8,7 +8,16 @@ ownreality = {
     aggregations: {}
   }
   config: {
-    api_url: $('script[or-api-url]').attr('or-api-url') || 'http://localhost:3000'
+    api_url: (->
+      if document.location.href.match(/^https:\/\/ownreality\.dfkg\.\org/)
+        'https://ownreality.dfkg.org'
+      else if document.location.href.match(/^http:\/\/dfk-stage/)
+        'https://ownreality.dfkg.org'
+      else if document.location.href.match(/^https:\/\/dfk-paris/)
+        'https://ownreality.dfkg.org'
+      else
+        $('script[or-api-url]').attr('or-api-url') || 'http://localhost:3000'
+    )()
     locale: 'de'
   }
   translations: {}
