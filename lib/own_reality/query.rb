@@ -2,7 +2,7 @@ class OwnReality::Query
 
   def get(type, id)
     response = elastic.request "get", "#{type}/#{id}"
-    handle resposne
+    elastic.handle resposne
   end
 
   def mget(type, ids)
@@ -27,7 +27,7 @@ class OwnReality::Query
   #   response = elastic.request 'post', '/_scripts/groovy/keys-for-object', {}, {
   #     'script' => '_source.attrs.by_category.keySet()'
   #   }
-  #   handle(response)
+  #   elastic.handle(response)
   # end
 
   def paper(type, id)
@@ -36,7 +36,7 @@ class OwnReality::Query
     end
 
     response = elastic.request "get", "#{type}/#{id}"
-    handle response
+    elastic.handle response
   end
 
   def papers(type = nil, criteria = {})
@@ -54,13 +54,7 @@ class OwnReality::Query
       "sort" => ["title.de"]
     }
 
-    if response.first == 200
-      # JSON.pretty_generate(response)
-      response
-    else
-      p response
-      response
-    end
+    elastic.handle(response)
   end
 
   def people(criteria = {})
@@ -85,14 +79,7 @@ class OwnReality::Query
     Rails.logger.debug data.inspect
 
     response = elastic.request "post", "people/_search", nil, data
-
-    if response.first == 200
-      # JSON.pretty_generate(response)
-      response
-    else
-      p response
-      response
-    end
+    elastic.handle(response)
   end
 
   def search(type, criteria = {})
@@ -221,7 +208,6 @@ class OwnReality::Query
       }
     end
 
-    p criteria
     data = {
       "aggs" => aggs,
       "query" => {
@@ -398,7 +384,7 @@ class OwnReality::Query
     Rails.logger.debug data.inspect
 
     response = elastic.request "post", "_search", nil, data
-    handle response
+    elastic.handle response
   end
 
   def lookup(type = "attribs", ids = [])
@@ -416,25 +402,8 @@ class OwnReality::Query
       [[],[],[]]
     else
       response = elastic.request "post", "_mget", nil, {'docs' => docs}
-
-      if response.first == 200
-        # JSON.pretty_generate(response)
-        response
-      else
-        p response
-        response
-      end
+      elastic.handle(response)
     end
-  end
-
-  def handle(response)
-    if response.first == 200
-      # JSON.pretty_generate(response)
-      response
-    else
-      p response
-      response
-    end    
   end
 
 end

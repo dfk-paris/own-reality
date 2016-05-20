@@ -1,8 +1,9 @@
 namespace :or do
+  namespace :export do
 
-  task xml: :environment do
-    results = OwnReality::Query.new.search('sources', 'per_page' => 10000)
-    binding.pry
+    task json: :environment do
+      OwnReality::Export.new.json
+    end
+
   end
-
 end

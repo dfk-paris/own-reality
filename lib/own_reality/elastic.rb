@@ -15,6 +15,7 @@ class OwnReality::Elastic
       request 'put', nil, nil, {
         "settings" => {
           "number_of_shards" => 1,
+          'max_result_window' => 50000,
           "analysis" => {
             "analyzer" => {
               "folding" => {
@@ -124,6 +125,16 @@ class OwnReality::Elastic
       @cache[key] ||= yield
     else
       yield
+    end
+  end
+
+  def handle(response)
+    if response.first == 200
+      # JSON.pretty_generate(response)
+      response
+    else
+      p response
+      response
     end
   end
 

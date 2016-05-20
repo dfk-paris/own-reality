@@ -16,7 +16,7 @@ ownreality = {
       else if document.location.href.match(/^https:\/\/dfk-paris/)
         'https://ownreality.dfkg.org'
       else
-        $('script[or-api-url]').attr('or-api-url') || 'http://localhost:3000'
+        $('script[or-api-url]').attr('or-api-url') || '' #'http://localhost:3000'
     )()
     locale: 'de'
   }

@@ -15,76 +15,78 @@
       </span>
     </div>
 
-    <div
-      class="or-bucket"
-      each={key, aggregation in opts.aggregations.people}
-      data-id={key}
-      if={aggregation.buckets.length > 0}
-    >
-      <a
-        href="#"
-        class="or-show-all"
-        show={parent.many_buckets(aggregation)}
-        data-type="people"
+    <div class="or-buckets">
+      <div
+        class="or-bucket"
+        each={key, aggregation in opts.aggregations.people}
+        data-id={key}
+        if={aggregation.buckets.length > 0}
       >
-        {parent.or.i18n.t('show_all')}
-        <span show={parent.countless_buckets(aggregation)}>(> 20)</span>
-      </a>
-      <div class="or-role">
-        {parent.or.i18n.l(parent.or.config.server.roles[key])}
+        <a
+          href="#"
+          class="or-show-all"
+          show={parent.many_buckets(aggregation)}
+          data-type="people"
+        >
+          {parent.or.i18n.t('show_all')}
+          <span show={parent.countless_buckets(aggregation)}>(> 20)</span>
+        </a>
+        <div class="or-role">
+          {parent.or.i18n.l(parent.or.config.server.roles[key])}
+        </div>
+        <div class="or-value" each={bucket in limit_buckets(key, aggregation)}>
+          •
+          <a class="or-select"><or-person person-id={bucket.key} /></a>
+          ({bucket.doc_count})
+        </div>
       </div>
-      <div class="or-value" each={bucket in limit_buckets(key, aggregation)}>
-        •
-        <a class="or-select"><or-person person-id={bucket.key} /></a>
-        ({bucket.doc_count})
-      </div>
-    </div>
 
-    <div
-      class="or-bucket"
-      if={opts.aggregations.journals.buckets.length > 0}
-    >
-      <a
-        href="#"
-        class="or-show-all"
-        show={parent.many_buckets(opts.aggregations.journals)}
-        data-type="journals"
+      <div
+        class="or-bucket"
+        if={opts.aggregations.journals.buckets.length > 0}
       >
-        {parent.or.i18n.t('show_all')}
-        <span show={parent.countless_buckets(aggregation)}>(> 20)</span>
-      </a>
-      <div class="or-custom-category">
-        {parent.or.i18n.t('magazine', {count: 'other'})}
+        <a
+          href="#"
+          class="or-show-all"
+          show={parent.many_buckets(opts.aggregations.journals)}
+          data-type="journals"
+        >
+          {parent.or.i18n.t('show_all')}
+          <span show={parent.countless_buckets(aggregation)}>(> 20)</span>
+        </a>
+        <div class="or-custom-category">
+          {parent.or.i18n.t('magazine', {count: 'other'})}
+        </div>
+        <div class="or-value" each={bucket in limit_buckets('journals', opts.aggregations.journals)}>
+          •
+          <a class="or-select">{bucket.key}</a>
+          ({bucket.doc_count})
+        </div>
       </div>
-      <div class="or-value" each={bucket in limit_buckets('journals', opts.aggregations.journals)}>
-        •
-        <a class="or-select">{bucket.key}</a>
-        ({bucket.doc_count})
-      </div>
-    </div>
 
-    <div
-      class="or-bucket"
-      each={key, aggregation in opts.aggregations.attrs}
-      if={aggregation.buckets.length > 0}
-      data-id={key}
-    >
-      <a
-        href="#"
-        class="or-show-all"
-        show={parent.many_buckets(aggregation)}
-        data-type="attrs"
+      <div
+        class="or-bucket"
+        each={key, aggregation in opts.aggregations.attrs}
+        if={aggregation.buckets.length > 0}
+        data-id={key}
       >
-        {parent.or.i18n.t('show_all')}
-        <span show={parent.countless_buckets(aggregation)}>(> 20)</span>
-      </a>
-      <div class="or-category">
-        {parent.or.i18n.l(parent.or.config.server.categories[key])}
-      </div>
-      <div class="or-value" each={bucket in limit_buckets(key, aggregation)}>
-        •
-        <a class="or-select"><or-attribute key={bucket.key} /></a>
-        ({bucket.doc_count})
+        <a
+          href="#"
+          class="or-show-all"
+          show={parent.many_buckets(aggregation)}
+          data-type="attrs"
+        >
+          {parent.or.i18n.t('show_all')}
+          <span show={parent.countless_buckets(aggregation)}>(> 20)</span>
+        </a>
+        <div class="or-category">
+          {parent.or.i18n.l(parent.or.config.server.categories[key])}
+        </div>
+        <div class="or-value" each={bucket in limit_buckets(key, aggregation)}>
+          •
+          <a class="or-select"><or-attribute key={bucket.key} /></a>
+          ({bucket.doc_count})
+        </div>
       </div>
     </div>
   </div>

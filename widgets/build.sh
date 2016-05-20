@@ -6,7 +6,7 @@ function deps {
     node_modules/jquery/dist/jquery.js \
     widgets/vendor/jquery-ui.js \
     widgets/vendor/jquery.easyModal.js \
-    node_modules/vis/dist/vis.min.js \
+    node_modules/vis/dist/vis-timeline-graph2d.min.js \
     node_modules/riot/riot.min.js \
     -o tmp/deps.js
 
