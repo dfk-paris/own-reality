@@ -67,6 +67,7 @@ ownreality.i18n.translations.de = {
   "show_all": "alle anzeigen",
   "also_available_in": "auch verfügbar in",
   "confirm_replace_search": "Die anderen Suchkriterien werden ersetzt. Sind Sie sicher?",
+  "search_as": "suchen als",
   "date": {
     "formats": {
       "default": "%d.%m.%Y",

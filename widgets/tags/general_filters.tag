@@ -22,8 +22,11 @@
     </div>
 
     <div class="form-control">
-      <or-clustered-facets name="attribute_facets"
+      <or-clustered-facets
+        name="attribute_facets"
         aggregations={aggregations}
+        or-base-target-people-url={opts.orBaseTargetPeopleUrl}
+        or-base-target-attribs-url={opts.orBaseTargetAttribsUrl}
       ></or-clustered-facets>
     </div>
   </form>
@@ -89,7 +92,7 @@
         only_summary: self.tags.summary_only.value()
         lower: self.tags.date.value()[0] || 1960
         upper: self.tags.date.value()[1] || 1989
-        attribute_ids: self.tags.attribute_facets.value().attrs
+        attribute_ids: self.tags.attribute_facets.value().attribs
         people_ids: self.tags.attribute_facets.value().people
         journal_names: self.tags.attribute_facets.value().journals
       }
@@ -139,7 +142,7 @@
 
     self.attribute_ids = ->
       results = []
-      for k, aggregation of self.aggregations.attrs
+      for k, aggregation of self.aggregations.attribs
         for bucket in aggregation.buckets
           results.push bucket.key
       results

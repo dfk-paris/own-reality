@@ -1,5 +1,12 @@
 (->
   ownreality.routing = {
+    path_query: ->
+      str = document.location.href.match(/\?([^#]+)/)[1] || ''
+      results = {}
+      for pair in str.split('&')
+        split = pair.split('=')
+        results[split[0]] = split[1]
+      results
     query: (params) ->
       if params
         result = {}
@@ -18,6 +25,27 @@
         m[1]
       else
         '/'
+    set_packed: (values = {}) ->
+      unpacked = self.ownreality.routing.unpack()
+      for k, v of values
+        if v then unpacked[k] = v else delete unpacked[k]
+      ownreality.routing.pack(unpacked)
+    pack_to_string: (unpacked = null) ->
+      if unpacked
+        btoa(JSON.stringify(unpacked))
+    pack: (unpacked = {}) ->
+      if unpacked != {}
+        ownreality.routing.query(
+          'q': ownreality.routing.pack_to_string(unpacked)
+        )
+      else
+        ownreality.routing.query 'q': null
+    unpack: ->
+      packed = ownreality.routing.query()['q']
+      if packed
+        JSON.parse(atob(packed))
+      else
+        {}
   }
 
   riot.route '..', () ->
@@ -40,6 +68,14 @@
       tag = riot.route.query()['tag']
       id = riot.route.query()['id']
       ownreality.bus.trigger 'modal', tag, id: id
+
+    # if initial = riot.route.query()['initial']
+    #   ownreality.bus.trigger 'register-initial-select', initial
+
+    if riot.route.query()['q']
+      console.log 'packed data', ownreality.routing.unpack()
+      ownreality.bus.trigger 'packed-data', ownreality.routing.unpack()
+      
 
   riot.route.start true
 )()

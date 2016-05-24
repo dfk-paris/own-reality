@@ -4,13 +4,14 @@
     <div class="or-selected">
       <span data-id={role_id} class="role" each={role_id, people in keys.people}>
         <span class="item" each={key in people}>
+          {parent.or.i18n.l(parent.or.config.server.roles[role_id])}:
           <or-person person-id={key} />
         </span>
       </span>
       <span class="item" each={key in keys.journals} data-id={key}>
         {or.filters.limitTo(key)}
       </span>
-      <span class="item" each={key in keys.attrs}>
+      <span class="item" each={key in keys.attribs}>
         <or-attribute key={key} />
       </span>
     </div>
@@ -23,7 +24,7 @@
         if={aggregation.buckets.length > 0}
       >
         <a
-          href="#"
+          href={parent.opts.orBaseTargetPeopleUrl}
           class="or-show-all"
           show={parent.many_buckets(aggregation)}
           data-type="people"
@@ -66,15 +67,15 @@
 
       <div
         class="or-bucket"
-        each={key, aggregation in opts.aggregations.attrs}
+        each={key, aggregation in opts.aggregations.attribs}
         if={aggregation.buckets.length > 0}
         data-id={key}
       >
         <a
-          href="#"
+          href={parent.opts.orBaseTargetAttribsUrl}
           class="or-show-all"
           show={parent.many_buckets(aggregation)}
-          data-type="attrs"
+          data-type="attribs"
         >
           {parent.or.i18n.t('show_all')}
           <span show={parent.countless_buckets(aggregation)}>(> 20)</span>
@@ -130,79 +131,77 @@
 
   <script type="text/coffee">
     self = this
-    window.cf = self
-    
     self.keys = {
-      attrs: []
+      attribs: []
       people: {}
       journals: []
     }
     self.expanded = {}
 
+    self.or.bus.on 'packed-data', (data) ->
+      self.keys.attribs = data['attribs'] || []
+      self.keys.people = data['people'] || {}
+      self.keys.journals = data['journals'] || []
+      for attrib_id in self.keys.attribs
+        self.or.cache_attributes [attrib_id]
+      for role_id, people of self.keys.people
+        for person_id in people
+          self.or.cache_people [person_id]
+      self.notify()
+
+
     self.add = (what = {}, notify = true) ->
-      what['attrs'] ||= []
+      what['attribs'] ||= []
       what['people'] ||= {}
       what['journals'] ||= []
 
-      for item in what.attrs
-        if self.keys.attrs.indexOf(item) == -1
-          self.keys.attrs.push(item)
-          self.notify() if notify
-
+      unpacked = ownreality.routing.unpack()
+      for item in what.attribs
+        unpacked.attribs ||= []
+        unpacked.attribs.push(item)
       for role, people of what.people
         for person in people
-          self.keys.people[role] ||= []
-          if self.keys.people[role].indexOf(person) == -1
-            self.keys.people[role].push(person)
-            self.notify() if notify
-
+          unpacked['people'] ||= {}
+          unpacked.people[role] ||= []
+          unpacked.people[role].push(person)
       for item in what.journals
-        if self.keys.journals.indexOf(item) == -1
-          self.keys.journals.push(item)
-          self.notify() if notify
-
-      self.update()
+        unpacked.journals ||= []
+        unpacked.journals.push(item)
+      ownreality.routing.pack(unpacked)
 
     self.remove = (what = {}, notify = true) ->
-      what['attrs'] ||= []
+      what['attribs'] ||= []
       what['people'] ||= {}
       what['journals'] ||= []
 
-      for item in what.attrs
-        i = self.keys.attrs.indexOf(item)
-        if i != -1
-          self.keys.attrs.splice(i, 1)
-          self.notify() if notify
-      for role, people of what.people
+      unpacked = ownreality.routing.unpack()
+      for item in what.attribs
+        i = unpacked.attribs.indexOf(item)
+        unpacked.attribs.splice(i, 1)
+      for role_id, people of what.people
         for person in people
-          i = self.keys.people[role].indexOf(person)
-          if person != -1
-            self.keys.people[role].splice(i, 1)
-            self.notify() if notify
-
+          i = unpacked.people[role_id].indexOf(person)
+          unpacked.people[role_id].splice(i, 1)
+        delete unpacked.people[role_id] if unpacked.people[role_id] == []
+        delete unpacked['people'] if unpacked['people'] == {}
       for item in what.journals
-        i = self.keys.journals.indexOf(item)
-        if i != -1
-          self.keys.journals.splice(i, 1)
-          self.notify() if notify
-
-      self.update()
+        i = unpacked.journals.indexOf(item)
+        unpacked.journals.splice(i, 1)
+      ownreality.routing.pack(unpacked)
 
     self.reset = (what = {}, notify = true) ->
-      self.keys = {
-        attrs: []
+      ownreality.routing.set_packed(
+        attribs: []
         people: {}
         journals: []
-      }
-      self.notify() if notify
-      self.update()
+      )
 
     self.on 'mount', ->
 
       $(self.root).on 'click', '.or-bucket a.or-select', (event) ->
         event.preventDefault()
         if key = $(event.target).parents('or-attribute').attr('key')
-          self.add attrs: [key]
+          self.add attribs: [key]
         else if key = $(event.target).parents('or-person').attr('person-id')
           role_id = $(event.target).parents('.or-bucket').attr('data-id')
           what = {people: {}}
@@ -215,7 +214,7 @@
       $(self.root).on 'click', '.or-selected .item', (event) ->
         event.preventDefault()
         if key = $(event.target).parents('or-attribute').attr('key')
-          self.remove attrs: [key]
+          self.remove attribs: [key]
         else if key = $(event.target).parents('or-person').attr('person-id')
           role_id = $(event.target).parents('.role').attr('data-id')
           what = {people: {}}
@@ -233,7 +232,8 @@
         agg = agg[key] if key
         if self.many_buckets(agg) 
           if self.countless_buckets(agg)
-            console.log 'dialog', agg.buckets.length
+            document.location.href = $(event.target).attr('href')
+            # console.log 'dialog', agg.buckets.length
           else
             self.expanded[key] = !self.expanded[key]
             self.update()

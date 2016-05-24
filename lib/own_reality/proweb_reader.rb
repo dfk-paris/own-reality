@@ -22,10 +22,12 @@ class OwnReality::ProwebReader
     end
   end
 
-  def require_people(ids)
+  def require_people(ids, role_id)
     ids = [ids] unless ids.is_a?(Array)
     ids.each do |id|
-      @people_ids[id] = true
+      @people_ids[id] ||= []
+      @people_ids[id] << role_id
+      @people_ids[id].uniq!
     end
   end
 
@@ -202,12 +204,14 @@ class OwnReality::ProwebReader
   def each_person(&block)
     bar = OwnReality.progress_bar :title => "caching people", :total => @people_ids.keys.size
 
-    Proweb::Person.find(@people_ids.keys).each do |person|
+    @people_ids.each do |person_id, role_ids|
+      person = Proweb::Person.find(person_id)
       data = {
         'id' => person.id,
         'first_name' => person.first_name,
         'last_name' => person.last_name,
-        'initial' => person.last_name.downcase[0]
+        'initial' => person.last_name.downcase[0],
+        'role_ids' => role_ids
       }
 
       yield data
@@ -311,7 +315,6 @@ class OwnReality::ProwebReader
     def attrs(object)
       result = {
         "ids" => {},
-        "search" => {},
         "by_category" => {}
       }
       
@@ -321,9 +324,6 @@ class OwnReality::ProwebReader
         result["ids"][klass_id] ||= {}
         result["ids"][klass_id][kind_id] ||= []
         result["ids"][klass_id][kind_id] << a.id
-        result["search"][klass_id] ||= {}
-        result["search"][klass_id][kind_id] ||= []
-        result["search"][klass_id][kind_id] += with_translations(a).values
 
         # Schlagwort -> Deskriptor
         if klass_id == 6 && kind_id == 43
@@ -341,9 +341,6 @@ class OwnReality::ProwebReader
         result["ids"][4] ||= {}
         result["ids"][4][2] ||= []
         result["ids"][4][2] << object.category_id
-        result["search"][4] ||= {}
-        result["search"][4][2] ||= []
-        result["search"][4][2] += with_translations(object.category).values
         require_attributes(object.category)
       end
 
@@ -449,15 +446,15 @@ class OwnReality::ProwebReader
 
     def people_by_role(article, options = {})
       options.reverse_merge!(
-        only_roles: [],
-        except_roles: [],
+        # only_roles: [],
+        # except_roles: [],
         index_people: true
       )
 
       result = {}
       article.people_by_role_ids.each do |k, v|
         result[k] = v.map do |person|
-          require_people(person.id) if options[:index_people]
+          require_people(person.id, k) if options[:index_people]
           r = {
             "first_name" => person.first_name,
             "last_name" => person.last_name,
@@ -466,17 +463,17 @@ class OwnReality::ProwebReader
         end
       end
 
-      options[:except_roles].each do |id|
-        result.delete id
-      end
+      # options[:except_roles].each do |id|
+      #   result.delete id
+      # end
 
-      unless options[:only_roles].empty?
-        new_result = []
-        options[:only_roles].each do |role|
-          new_result += result[role]
-        end
-        result = new_result
-      end
+      # unless options[:only_roles].empty?
+      #   new_result = []
+      #   options[:only_roles].each do |role|
+      #     new_result += result[role]
+      #   end
+      #   result = new_result
+      # end
 
       result
     end

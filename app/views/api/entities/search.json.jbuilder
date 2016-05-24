@@ -4,9 +4,9 @@ json.aggregations do
       json.set! k.split('.').last, v if k.match(/^people/)
     end
   end
-  json.attrs do
+  json.attribs do
     @result["aggregations"].each do |k, v|
-      json.set! k.split('.').last, v if k.match(/^attrs/)
+      json.set! k.split('.').last, v if k.match(/^attribs/)
     end
   end
   json.journals @result['aggregations']['journals']

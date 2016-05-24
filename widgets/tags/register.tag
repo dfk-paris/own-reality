@@ -25,8 +25,12 @@
       $(self.root).on 'click', 'a', (event) ->
         event.preventDefault()
         key = $(event.target).parents('div[key]').attr('key')
-        self.initial = key
-        self.fetch(key)
+        self.or.routing.set_packed initial: key
+
+      self.or.bus.on 'packed-data', (data) ->
+        if data['initial'] != self.initial
+          self.initial = data['initial']
+          self.fetch(data['initial'])
 
     self.or.bus.on 'locale-change', -> 
       if self.orType == 'attribs'
@@ -41,7 +45,7 @@
       
       if initial
         params['initial'] = initial
-        params['per_page'] = 1000
+        params['per_page'] = 1500
       else
         params['register'] = true
 

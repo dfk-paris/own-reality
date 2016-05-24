@@ -92,14 +92,6 @@ class OwnReality::Query
     conditions = []
 
     aggs = {}
-    # aggs = {
-    #   "attr.4.2" => {
-    #     "terms" => {
-    #       "field" => "attrs.ids.4.2",
-    #       "size" => 4
-    #     }
-    #   }
-    # }
 
     if criteria['register']
       if type == 'people'
@@ -143,7 +135,7 @@ class OwnReality::Query
     end
 
     config["categories"].each_with_index do |data, id|
-      aggs["attrs.#{id}"] = {
+      aggs["attribs.#{id}"] = {
         "terms" => {
           # "script" => "doc['refs']['#{c}'].values",
           "field" => "attrs.by_category.#{id}",
@@ -153,7 +145,7 @@ class OwnReality::Query
       }
 
       if criteria["refs"]
-        aggs["attrs.#{id}"]["terms"]["exclude"] = criteria["refs"]
+        aggs["attribs.#{id}"]["terms"]["exclude"] = criteria["refs"]
       end
     end
 
@@ -180,24 +172,6 @@ class OwnReality::Query
     if criteria['journals']
       aggs['journals']['terms']['exclude'] = criteria['journals']
     end
-
-    # aggs['blub'] = {
-    #   'terms' => {
-    #     'script' => {
-    #       'file' => 'keys-for-object'
-    #     },
-    #     # 'field' => 'attrs.by_category',
-    #     'size' => 0
-    #   },
-    #   'aggregations' => {
-    #     'blob' => {
-    #       'terms' => {
-    #         'field' => 'attrs.by_category.*',
-    #         'size' => 0
-    #       }
-    #     }
-    #   }
-    # }
 
     unless type.present?
       aggs['type'] = {
