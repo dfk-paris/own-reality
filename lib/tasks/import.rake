@@ -10,18 +10,4 @@ namespace :or do
     # Proweb::FileCleaner.new(OwnReality).run
     OwnReality::Import.new.run
   end
-
-  desc "make a test query"
-  task :query => :environment do
-    Proweb.config = YAML.load_file("#{Rails.root}/config/app.yml")["proweb"]
-    puts OwnReality::Import.new.search
-  end
-
-  desc "open an interactive console"
-  task :console => :environment do
-    Proweb.config = YAML.load_file("#{Rails.root}/config/app.yml")["proweb"]
-    Proweb.connect
-    byebug
-    x = 12
-  end
 end

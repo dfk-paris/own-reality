@@ -75,3 +75,16 @@ When(/^I click the search filter "([^"]*)"$/) do |arg1|
     find('.item', text: arg1).click  
   end
 end
+
+When(/^I click on "([^"]*)" within category "([^"]*)"$/) do |arg1, arg2|
+  category = page.find('div.or-category', text: /^#{arg2}$/).find(:xpath, '..')
+  category.click_link('alle anzeigen')
+end
+
+When(/^I click on character "([^"]*)"$/) do |arg1|
+  find('a', text: /^#{arg1} /).click
+end
+
+When(/^I click on "([^"]*)"$/) do |arg1|
+  page.find('span', text: /^#{arg1}$/).click
+end

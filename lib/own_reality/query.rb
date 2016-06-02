@@ -321,6 +321,32 @@ class OwnReality::Query
       end
     end
 
+    if type == 'attribs'
+      if criteria['kind_id']
+        data['query']['bool']['must'] << {
+          'term' => {
+            'kind_id' => criteria['kind_id']
+          }
+        }
+      end
+
+      if criteria['klass_id']
+        data['query']['bool']['must'] << {
+          'term' => {
+            'klass_id' => criteria['klass_id']
+          }
+        }
+      end
+
+      if criteria['category_id']
+        data['query']['bool']['must'] << {
+          'term' => {
+            'category_id' => criteria['category_id']
+          }
+        }
+      end
+    end
+
     if criteria['initial']
       if type == 'people'
         data['query']['bool']['must'] << {

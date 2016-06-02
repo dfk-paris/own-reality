@@ -9,10 +9,11 @@ class OwnReality::ProwebReader
     @magazines = Proweb::Project.find(41).objects
     @attribute_ids = {}
     @people_ids = {}
-    @categories = OwnReality::AttributeCategoriesReader.from_file
   end
 
-  attr_reader :categories
+  def categories
+    @categories ||= OwnReality::AttributeCategoriesReader.from_file
+  end
 
   def require_attributes(a)
     if a.is_a?(Proweb::Attribute)
@@ -185,9 +186,12 @@ class OwnReality::ProwebReader
   def each_attrib(&block)
     bar = OwnReality.progress_bar :title => "caching attributes", :total => @attribute_ids.keys.size
 
-    Proweb::Attribute.find(@attribute_ids.keys).each do |attrib|
+    Proweb::Attribute.includes(:kind).find(@attribute_ids.keys).each do |attrib|
       data = {
         'id' => attrib.id,
+        'kind_id' => attrib.attribute_kind_id,
+        'klass_id' => attrib.kind.attribute_klass_id,
+        'category_id' => categories.by_id(attrib.id),
         'name' => with_translations(attrib),
         'initials' => {}
       }
@@ -312,7 +316,7 @@ class OwnReality::ProwebReader
       end
     end
 
-    def attrs(object)
+    def attrs(object, options = {})
       result = {
         "ids" => {},
         "by_category" => {}
@@ -448,11 +452,30 @@ class OwnReality::ProwebReader
       options.reverse_merge!(
         # only_roles: [],
         # except_roles: [],
-        index_people: true
+        index_people: true,
+        role_mapping: {
+          12065 => 12064,
+          12066 => 12064,
+          12067 => 12064,
+          12068 => 12064,
+          12069 => 12064,
+          12071 => 12064,
+          12073 => 12064,
+          13625 => 12064,
+          13636 => 12064,
+          16530 => 12064
+        }
       )
 
-      result = {}
+      data = {}
       article.people_by_role_ids.each do |k, v|
+        role = options[:role_mapping][k] || k
+        data[role] ||= []
+        data[role] += v
+      end
+
+      result = {}
+      data.each do |k, v|
         result[k] = v.map do |person|
           require_people(person.id, k) if options[:index_people]
           r = {

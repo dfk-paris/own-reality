@@ -72,7 +72,7 @@
         data-id={key}
       >
         <a
-          href={parent.opts.orBaseTargetAttribsUrl}
+          href={parent.attribs_url(key)}
           class="or-show-all"
           show={parent.many_buckets(aggregation)}
           data-type="attribs"
@@ -229,7 +229,7 @@
         key = $(event.target).parents('.or-bucket').attr('data-id')
         type = $(event.target).attr('data-type')
         agg = self.opts.aggregations[type]
-        agg = agg[key] if key
+        agg = agg[parseInt(key)] if key
         if self.many_buckets(agg) 
           if self.countless_buckets(agg)
             document.location.href = $(event.target).attr('href')
@@ -247,6 +247,9 @@
       if self.expanded[key] then agg.buckets else agg.buckets.slice(0, 5)
     self.many_buckets = (agg) -> agg.buckets.length > 5
     self.countless_buckets = (agg) -> agg.buckets.length > 20
+    self.attribs_url = (key) ->
+      pack = self.or.routing.pack_to_string(category_id: key)
+      "#{self.opts.orBaseTargetAttribsUrl}#/?q=#{pack}"
 
     self.value = -> self.keys
 
