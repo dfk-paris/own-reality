@@ -271,6 +271,9 @@ class OwnReality::Query
             "title.de^20",
             "title.fr^20",
             "title.en^20",
+            'interpretation.de^10',
+            'interpretation.fr^10',
+            'interpretation.en^10',
             '_all'
           #   'uuid^20',
           #   'name^10',
