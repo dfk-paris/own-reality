@@ -11,13 +11,6 @@
     </div>
 
     <div class="form-control">
-      <label for="summary_only">
-        <or-checkbox name="summary_only"></or-checkbox>
-        <small>{or.i18n.t('search_summary_only')}</small>
-      </label>
-    </div>
-
-    <div class="form-control">
       <or-slider min="1960" max="1989" name="date" />
     </div>
 
@@ -79,17 +72,15 @@
 
     self.or.bus.on 'reset-search-with', (what = {}) ->
       self.tags.terms.reset(false)
-      self.tags.summary_only.reset(false)
       self.tags.date.reset(false)
       self.tags.attribute_facets.reset(false)
 
-      console.log what
+      # console.log what
       self.tags.attribute_facets.add(what, false)
 
     self.params = ->
       return {
         terms: self.tags.terms.value()
-        only_summary: self.tags.summary_only.value()
         lower: self.tags.date.value()[0] || 1960
         upper: self.tags.date.value()[1] || 1989
         attribute_ids: self.tags.attribute_facets.value().attribs

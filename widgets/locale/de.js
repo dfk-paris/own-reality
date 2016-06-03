@@ -58,6 +58,7 @@ ownreality.i18n.translations.de = {
     "one": "Seite",
     "other": "Seiten"
   },
+  "in": "in",
   "too_much_data": "zu vielen Daten",
   "no_data": "keine Daten",
   "next": "weiter",
@@ -68,6 +69,10 @@ ownreality.i18n.translations.de = {
   "also_available_in": "auch verfügbar in",
   "confirm_replace_search": "Die anderen Suchkriterien werden ersetzt. Sind Sie sicher?",
   "search_as": "suchen als",
+  "exhibition": {
+    "one": "Ausstellung",
+    "other": "Ausstellungen"
+  },
   "date": {
     "formats": {
       "default": "%d.%m.%Y",

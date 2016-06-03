@@ -4,6 +4,14 @@
     <h2>
       <or-content-localized-value value={opts.item._source.title} />
     </h2>
+    <div class="or-subtitle" show={opts.item._type == 'chronology'}>
+      {or.i18n.t('exhibition', {count: 1})} {or.i18n.t('in')}
+      <or-attribute
+        each={id in opts.item._source.attrs.ids[7][168]}
+        key={id}
+        shorten-to={100}
+      />
+    </div>
 
     <div class="or-metadata">
       <div class="or-field" each={role_id, people in opts.item._source.people} >
@@ -44,6 +52,12 @@
     or-item-metadata {
       h2 {
         margin-bottom: 1.5rem;
+      }
+
+      .or-subtitle {
+        margin-top: -1.5rem;
+        margin-bottom: 1.5rem;
+        font-style: italic;
       }
 
       .or-field {
