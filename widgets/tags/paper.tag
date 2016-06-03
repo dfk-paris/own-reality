@@ -5,9 +5,6 @@
   <style type="text/scss">
     or-paper, [riot-tag=or-paper] {
       display: block;
-      padding: 1rem;
-      height: 500px;
-      overflow: scroll;
 
       h2 {
         margin-bottom: 1.5rem;
@@ -51,7 +48,6 @@
   
   <script type="text/coffee">
     self = this
-    
 
     self.on 'updated', ->
       if self.opts.item

@@ -1,12 +1,15 @@
 <or-interview>
   
-  <or-paper item={opts.item}></or-paper>
+  <div>
+    <or-item-metadata item={opts.item} />
+    <or-paper item={opts.item} />
+  </div>
 
   <script type="text/coffee">
     self = this
-    
 
     self.on 'mount', ->
+      console.log 
       if self.opts.item
         self.cache_attributes()
       else

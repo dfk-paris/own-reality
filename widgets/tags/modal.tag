@@ -11,11 +11,16 @@
         position: absolute;
         width: 60%;
         height: 500px;
+        overflow-y: auto;
 
         iframe {
           border: none;
-          height: 500px;
+          height: 495px;
           width: 100%;
+        }
+
+        .or-custom-tag {
+          padding: 1rem;
         }
       }
     }

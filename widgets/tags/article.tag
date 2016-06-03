@@ -1,6 +1,9 @@
 <or-article>
   
-  <or-paper item={opts.item}></or-paper>
+<div>
+    <or-item-metadata item={opts.item} />
+    <or-paper item={opts.item} />
+  </div>
 
   <script type="text/coffee">
     self = this
