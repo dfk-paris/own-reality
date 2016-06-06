@@ -179,14 +179,16 @@
         i = unpacked.attribs.indexOf(item)
         unpacked.attribs.splice(i, 1)
       for role_id, people of what.people
+        role_id = parseInt(role_id)
         for person in people
           i = unpacked.people[role_id].indexOf(person)
           unpacked.people[role_id].splice(i, 1)
-        delete unpacked.people[role_id] if unpacked.people[role_id] == []
-        delete unpacked['people'] if unpacked['people'] == {}
+        delete unpacked.people[role_id] if unpacked.people[role_id].length == 0
+        delete unpacked['people'] if JSON.stringify(unpacked['people']) == '{}'
       for item in what.journals
         i = unpacked.journals.indexOf(item)
         unpacked.journals.splice(i, 1)
+      console.log 'remove:', unpacked
       ownreality.routing.pack(unpacked)
 
     self.reset = (what = {}, notify = true) ->

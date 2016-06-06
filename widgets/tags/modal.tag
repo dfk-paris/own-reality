@@ -37,7 +37,7 @@
         autoOpen: false
         hasVariableWidth: true
         onClose: ->
-          self.or.routing.query modal: null, tag: null, id: null, clang: null
+          self.or.routing.set_packed modal: null, tag: null, id: null, clang: null
       )
 
     self.or.bus.on 'modal', (url_or_tag, opts) ->

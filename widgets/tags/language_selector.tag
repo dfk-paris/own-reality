@@ -47,20 +47,27 @@
   <script type="text/coffee">
     self = this
     
-
     self.on 'mount', ->
       
       $(self.root).find('select').on 'change', (event) ->
-        value = $(event.target).val()
-        self.or.routing.query(lang: value)
+        value = $(self.root).find('select').val()
+        self.or.routing.set_packed lang: value
 
       $(self.root).on 'click', '.button', (event) ->
         event.preventDefault()
         value = $(event.target).parent().attr('data-locale')
-        self.or.routing.query(clang: value)
+        self.or.routing.set_packed clang: value
+
+      self.or.bus.on 'packed-data', self.from_packed_data
+
 
     self.locales = ->
       (opts.locales || []).filter (e) -> e != self.or.i18n.locale(true)
+
+    self.from_packed_data = (data) ->
+      value = $(self.root).find('select').val()
+
+
   </script>
 
 </or-language-selector>

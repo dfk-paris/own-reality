@@ -11,10 +11,6 @@
   <script type="text/coffee">
     self = this
 
-    self.on 'mount', ->
-      unless self.attr()
-        self.or.cache_attributes([self.opts.key])
-
     self.attr = ->
       self.opts.attrib || self.or.cache.attrs[self.opts.key]
     self.full = -> self.or.i18n.l(self.attr().name)

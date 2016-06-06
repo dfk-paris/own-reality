@@ -48,34 +48,36 @@
         {}
   }
 
-  riot.route '..', () ->
-    # console.log arguments
-    # console.log riot.route.query()
+  old_pack = null
 
-    if lang = riot.route.query()['lang']
+  ownreality.bus.on 'packed-data', (data) ->
+    console.log 'packed data', data
+
+    if lang = data['lang']
       if lang != ownreality.config.locale
         ownreality.config.locale = lang
         ownreality.bus.trigger 'locale-change'
         riot.update()
 
-    if clang = riot.route.query()['clang']
+    if clang = data['clang']
       if clang != ownreality.config.clocale
         ownreality.config.clocale = clang
         ownreality.bus.trigger 'content-locale-change'
         riot.update()
 
-    if modal = riot.route.query()['modal']
-      tag = riot.route.query()['tag']
-      id = riot.route.query()['id']
+    if modal = data['modal']
+      tag = data['tag']
+      id = data['id']
       ownreality.bus.trigger 'modal', tag, id: id
 
+  riot.route '..', () ->
+    # console.log arguments
+    # console.log riot.route.query()
     # if initial = riot.route.query()['initial']
     #   ownreality.bus.trigger 'register-initial-select', initial
-
-    if riot.route.query()['q']
-      console.log 'packed data', ownreality.routing.unpack()
+    if riot.route.query()['q'] != old_pack
+      old_pack = riot.route.query()['q']
       ownreality.bus.trigger 'packed-data', ownreality.routing.unpack()
-      
 
   riot.route.start true
 )()

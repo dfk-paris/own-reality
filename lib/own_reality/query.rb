@@ -165,7 +165,7 @@ class OwnReality::Query
     aggs['journals'] = {
       'terms' => {
         'field' => 'journal',
-        'size' => 21
+        'size' => 0
       }
     }
 
@@ -189,7 +189,9 @@ class OwnReality::Query
           "must" => conditions
         }
       },
+      #TODO: why?
       "size" => (search_type == 'count' ? 0 : criteria["per_page"]),
+      # "size" => criteria["per_page"],
       "from" => (criteria["page"] - 1) * criteria["per_page"],
       "sort" => criteria['sort'] || {"date_from" => {'order' => 'asc', 'ignore_unmapped' => true}}
     }

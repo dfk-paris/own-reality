@@ -32,12 +32,14 @@
 
   <script type="text/coffee">
     self = this
+
+    self.el = -> $(self.root).find('.or-slider')
     
     self.min = -> parseInt(self.opts.min)
     self.max = -> parseInt(self.opts.max)
 
     self.on 'mount', ->
-      $(self.root).find('.or-slider').slider(
+      self.el().slider(
         range: true
         min: self.min()
         max: self.max()
@@ -49,11 +51,25 @@
         stop: (event, ui) -> self.notify()
       )
 
+      self.or.bus.on 'packed-data', self.from_packed_data
+
     self.value = -> [self.lower, self.upper]
     self.reset = (notify = true) ->
-      $(self.root).find('.or-slider').slider 'values', [self.min(), self.max()]
+      self.el().slider 'values', [self.min(), self.max()]
       self.notify() if notify
-    self.notify = -> self.parent.trigger('or-change', self) if self.parent
+    self.notify = -> self.to_packed_data()
+
+    self.from_packed_data = (data) ->
+      if data['lower'] != self.lower || data['upper'] != self.upper
+        self.el().slider 'values', [data['lower'], data['upper']]
+        self.lower = data['lower']
+        self.upper = data['upper']
+        self.update()
+    self.to_packed_data = ->
+      self.or.routing.set_packed(
+        lower: self.value()[0]
+        upper: self.value()[1]
+      )
 
   </script>
 

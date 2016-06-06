@@ -115,8 +115,10 @@
       $(self.root).on 'click', 'a.or-modal-trigger', (event) ->
         event.preventDefault()
         tag = $(event.currentTarget).attr('or-tag')
-        self.or.routing.query(
-          modal: 'true', tag: tag, id: self.opts.item._id
+        self.or.routing.set_packed(
+          modal: 'true',
+          tag: tag,
+          id: self.opts.item._id
           clang: ownreality.config.locale
         )
 

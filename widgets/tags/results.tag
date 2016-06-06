@@ -96,14 +96,24 @@
         name = $(event.target).attr('name')
         $(self.root).find('.tab').hide()
         $(self.root).find(".tab.#{name}").show()
-        self.or.bus.trigger 'type-select', name
         self.current_tab = name
+        self.to_packed_data()
 
       self.or.bus.on 'results', ->
         # console.log 'results', self.or.data
         self.update()
 
       self.or.bus.on 'type-aggregations', -> self.update()
+
+      self.or.bus.on 'packed-data', self.from_packed_data
+
+    self.from_packed_data = (data) ->
+      if data['type'] != self.current_tab
+        self.current_tab = data['type'] || 'sources'
+        self.update()
+    self.to_packed_data = ->
+      self.or.routing.set_packed type: self.current_tab
+
   </script>
   
 </or-results>

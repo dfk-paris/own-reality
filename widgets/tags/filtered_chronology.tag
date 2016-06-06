@@ -111,8 +111,8 @@
 
 
     self.setup = ->
-      $(self.root).find('.or-timeline').on 'click', '.vis-dot', (event) ->
-        item = $(event.target).parents('.vis-point').data()
+      # $(self.root).find('.or-timeline').on 'click', '.vis-dot', (event) ->
+      #   item = $(event.target).parents('.vis-point').data()
 
       self.timeline = new vis.Timeline(self.element()[0], [],
         min: "1960"
@@ -144,8 +144,11 @@
       )
 
       item_click = (id) ->
-        item = self.item_lookup[id]
-        self.or.bus.trigger 'modal', 'or-chronology-detail', item: item
+        self.or.routing.set_packed(
+          modal: true
+          tag: 'or-chronology-detail'
+          id: id
+        )
         # console.log item
 
       self.timeline.on 'click', (props) ->

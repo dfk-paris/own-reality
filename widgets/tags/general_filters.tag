@@ -48,27 +48,34 @@
 
   <script type="text/coffee">
     self = this
-    
-    self.type = 'sources'
 
+    self.type = -> self.or.routing.unpack()['type'] || 'sources'
+    
     self.on 'mount', ->
       self.on 'or-change', ->
         self.or.bus.trigger 'filter-change', self.params()
-        self.search()
-      self.or.bus.on 'type-select', (type) ->
-        self.type = type
-        self.search()
-      self.or.bus.on 'people-filter', (people) ->
-        self.people_ids = (person.id for person in people)
-        self.search()
-      self.or.bus.on 'journals-filter', (journals) ->
-        self.journal_names = []
-        for journal in journals
-          for locale, name of journal.title
-            self.journal_names.push name
+        # self.search()
+
+      self.or.bus.on 'packed-data', (data) ->
+        console.log 'general packed', data
+        # self.type = data['type']
+        # self.people_ids = data['people_ids']
+        # self.journal_names = data['journal_names']
         self.search()
 
-      self.trigger 'or-change'
+      # self.or.bus.on 'type-select', (type) ->
+      #   self.or.routing.set_packed type: type
+      # self.or.bus.on 'people-filter', (people) ->
+      #   self.people_ids = (person.id for person in people)
+      #   self.search()
+      # self.or.bus.on 'journals-filter', (journals) ->
+      #   self.journal_names = []
+      #   for journal in journals
+      #     for locale, name of journal.title
+      #       self.journal_names.push name
+      #   self.search()
+
+      # self.trigger 'or-change'
 
     self.or.bus.on 'reset-search-with', (what = {}) ->
       self.tags.terms.reset(false)
@@ -80,12 +87,12 @@
 
     self.params = ->
       return {
-        terms: self.tags.terms.value()
-        lower: self.tags.date.value()[0] || 1960
-        upper: self.tags.date.value()[1] || 1989
-        attribute_ids: self.tags.attribute_facets.value().attribs
-        people_ids: self.tags.attribute_facets.value().people
-        journal_names: self.tags.attribute_facets.value().journals
+        terms: self.or.routing.unpack()['terms']
+        lower: self.or.routing.unpack()['lower'] || 1960
+        upper: self.or.routing.unpack()['upper'] || 1989
+        attribute_ids: self.or.routing.unpack()['attribs']
+        people_ids: self.or.routing.unpack()['people']
+        journal_names: self.or.routing.unpack()['journals']
       }
 
     self.search = ->
@@ -98,7 +105,7 @@
           search_type: 'count'
         })
         success: (data) ->
-          # console.log 'aggs:', data
+          console.log 'aggs:', data
           self.or.data.aggregations = {
             articles: {doc_count: 0}
             magazines: {doc_count: 0}
@@ -110,7 +117,7 @@
           self.or.bus.trigger 'type-aggregations'
       )
 
-      if self.type == 'sources'
+      if self.type() == 'sources'
         # params.people_ids = self.people_ids
         # params.journal_names = self.journal_names
       else
@@ -120,7 +127,7 @@
         type: 'POST'
         url: "#{self.or.config.api_url}/api/entities/search"
         data: $.extend({}, params, {
-          type: self.type
+          type: self.type()
         })
         success: (data) ->
           console.log data

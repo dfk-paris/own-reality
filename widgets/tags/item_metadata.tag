@@ -94,7 +94,7 @@
         event.preventDefault()
         if window.confirm(self.or.i18n.t('confirm_replace_search'))
           key = $(event.target).parents('or-attribute').attr('key')
-          self.or.cache_attributes([key])
+          # self.or.cache_attributes([key])
           self.or.bus.trigger 'reset-search-with', attribs: [key]
 
     self.t = self.or.i18n.t

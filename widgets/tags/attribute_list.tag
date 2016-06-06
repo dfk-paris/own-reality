@@ -28,6 +28,10 @@
 
   <script type="text/coffee">
     self = this
+
+    self.on 'mount', ->
+      if self.opts.keys
+        self.or.cache_attributes(self.opts.keys).then -> console.log arguments
     
     self.on 'updated', ->
       list = $(self.root).find('.or-list')
