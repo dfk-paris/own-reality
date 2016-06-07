@@ -37,6 +37,7 @@
         autoOpen: false
         hasVariableWidth: true
         onClose: ->
+          # console.log self.or.routing.unpack()
           self.or.routing.set_packed modal: null, tag: null, id: null, clang: null
       )
 
@@ -50,6 +51,8 @@
       
       self.update()
       self.modal.trigger 'openModal'
+
+    self.or.bus.on 'close-modal', -> self.modal.trigger 'closeModal'
 
     self.or.bus.on 'reset-search-with', -> self.modal.trigger('closeModal')
 

@@ -57,7 +57,7 @@
         # self.search()
 
       self.or.bus.on 'packed-data', (data) ->
-        console.log 'general packed', data
+        # console.log 'general packed', data
         # self.type = data['type']
         # self.people_ids = data['people_ids']
         # self.journal_names = data['journal_names']
@@ -105,7 +105,7 @@
           search_type: 'count'
         })
         success: (data) ->
-          console.log 'aggs:', data
+          # console.log 'aggs:', data
           self.or.data.aggregations = {
             articles: {doc_count: 0}
             magazines: {doc_count: 0}
@@ -130,7 +130,7 @@
           type: self.type()
         })
         success: (data) ->
-          console.log data
+          # console.log data
           self.aggregations = data.aggregations
           self.or.cache_attributes(self.attribute_ids())
           self.or.cache_people(self.people_ids())

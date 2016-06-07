@@ -93,11 +93,11 @@
       $(self.root).find('.tab.sources').show()
 
       $(self.root).on 'click', '.controls a', (event) ->
+        event.preventDefault()
         name = $(event.target).attr('name')
         $(self.root).find('.tab').hide()
         $(self.root).find(".tab.#{name}").show()
-        self.current_tab = name
-        self.to_packed_data()
+        self.or.routing.set_packed type: name
 
       self.or.bus.on 'results', ->
         # console.log 'results', self.or.data
@@ -111,8 +111,6 @@
       if data['type'] != self.current_tab
         self.current_tab = data['type'] || 'sources'
         self.update()
-    self.to_packed_data = ->
-      self.or.routing.set_packed type: self.current_tab
 
   </script>
   

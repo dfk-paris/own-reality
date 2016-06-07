@@ -20,9 +20,17 @@
     self = this
     
 
-    self.url = -> document.location.href
+    self.url = -> 
+      base = document.location.href.split('#')[0]
+      hash = self.or.routing.pack_to_string(
+        modal: true
+        tag: 'or-source'
+        id: self.opts.item._id
+        clang: self.or.config.clang
+      )
+      "#{base}#?q=#{hash}"
     self.date = ->
-      ts = opts.item._source.updated_at
+      ts = self.opts.item._source.updated_at
       self.or.i18n.ld(ts)
   </script>
 </or-citation>

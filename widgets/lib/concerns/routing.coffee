@@ -9,6 +9,9 @@
       results
     query: (params) ->
       if params
+        # console.log 'setting hash params', params, ownreality.routing.unpack(params['q'])
+        # debugger
+
         result = {}
         $.extend(result, riot.route.query(), params)
 
@@ -25,11 +28,14 @@
         m[1]
       else
         '/'
+    packed: -> 
+      ownreality.routing.query()['q']
     set_packed: (values = {}) ->
       unpacked = self.ownreality.routing.unpack()
       for k, v of values
         if v then unpacked[k] = v else delete unpacked[k]
-      ownreality.routing.pack(unpacked)
+      if ownreality.routing.pack_to_string(unpacked) != ownreality.routing.packed()
+        ownreality.routing.pack(unpacked)
     pack_to_string: (unpacked = null) ->
       if unpacked
         btoa(JSON.stringify(unpacked))
@@ -40,8 +46,8 @@
         )
       else
         ownreality.routing.query 'q': null
-    unpack: ->
-      packed = ownreality.routing.query()['q']
+    unpack: (packed = null) ->
+      packed ||= ownreality.routing.packed()
       if packed
         JSON.parse(atob(packed))
       else
@@ -52,6 +58,7 @@
 
   ownreality.bus.on 'packed-data', (data) ->
     console.log 'packed data', data
+    # debugger
 
     if lang = data['lang']
       if lang != ownreality.config.locale
@@ -69,15 +76,17 @@
       tag = data['tag']
       id = data['id']
       ownreality.bus.trigger 'modal', tag, id: id
+    else
+      ownreality.bus.trigger 'close-modal'
 
   riot.route '..', () ->
     # console.log arguments
     # console.log riot.route.query()
     # if initial = riot.route.query()['initial']
     #   ownreality.bus.trigger 'register-initial-select', initial
-    if riot.route.query()['q'] != old_pack
-      old_pack = riot.route.query()['q']
-      ownreality.bus.trigger 'packed-data', ownreality.routing.unpack()
+    # if riot.route.query()['q'] != old_pack
+    #   old_pack = riot.route.query()['q']
+    ownreality.bus.trigger 'packed-data', ownreality.routing.unpack()
 
   riot.route.start true
 )()
