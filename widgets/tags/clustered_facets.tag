@@ -156,6 +156,7 @@
       what['journals'] ||= []
 
       unpacked = ownreality.routing.unpack()
+      unpacked.page = 1
       for item in what.attribs
         unpacked.attribs ||= []
         unpacked.attribs.push(item)
@@ -175,6 +176,7 @@
       what['journals'] ||= []
 
       unpacked = ownreality.routing.unpack()
+      unpacked.page = 1
       for item in what.attribs
         i = unpacked.attribs.indexOf(item)
         unpacked.attribs.splice(i, 1)
@@ -193,6 +195,7 @@
 
     self.reset = (what = {}, notify = true) ->
       ownreality.routing.set_packed(
+        page: 1
         attribs: []
         people: {}
         journals: []

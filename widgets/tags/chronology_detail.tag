@@ -16,6 +16,7 @@
           self.item = data.docs[0]
           console.log data
           self.or.cache_attributes(self.item._source.attrs.ids[6][43])
+          self.or.cache_attributes(self.item._source.attrs.ids[7][168])
           self.update()
       )
 

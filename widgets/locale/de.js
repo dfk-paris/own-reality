@@ -58,6 +58,8 @@ ownreality.i18n.translations.de = {
     "one": "Seite",
     "other": "Seiten"
   },
+  "next_page": "nächste Seite",
+  "previous_page": "vorherige Seite",
   "in": "in",
   "too_much_data": "zu vielen Daten",
   "no_data": "keine Daten",

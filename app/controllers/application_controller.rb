@@ -8,13 +8,9 @@ class ApplicationController < ActionController::Base
   protected
 
     def cors
-      origin = request.env['HTTP_ORIGIN']
-      domains = [
-        'http://dfk-stage.palasthotel.de',
-        'https://dfk-paris.org'
-      ]
-      if origin && origin.start_with?(*domains)
-        response.headers['Access-Control-Allow-Origin'] = origin
-      end
+      response.headers['Access-Control-Allow-Origin'] = '*'
+      response.headers['Access-Control-Allow-Methods'] = 'POST, PUT, DELETE, GET, OPTIONS'
+      response.headers['Access-Control-Allow-Headers'] = '*'
+      response.headers['Access-Control-Allow-Headers'] = 'Origin, X-Requested-With, Content-Type, Accept, Authorization'
     end
 end

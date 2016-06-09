@@ -20,24 +20,19 @@
       </a>
       <div class="clearfix"></div>
     </div>
-    <div class="tab articles">
-      <or-item-list items={or.data.results} />
-    </div>
-    <div class="tab magazines">
-      <or-item-list items={or.data.results} />
-    </div>
-    <div class="tab interviews">
-      <or-item-list items={or.data.results} />
-    </div>
-    <div class="tab sources">
-      <or-item-list items={or.data.results} />
-    </div>
+
+    <or-item-list
+      items={or.data.results}
+      total={or.data.total}
+      per-page={per_page()}
+    />
   </div>
 
   <style type="text/scss">
     or-results {
       .controls {
         margin-bottom: 1.5rem;
+
 
         a {
           display: block;
@@ -71,12 +66,6 @@
         }
       }
 
-      or-people-filter, or-journals-filter {
-        box-sizing: border-box;
-        width: 50%;
-        float: left;
-      }
-
       .clearfix {
         clear: both;
       }
@@ -95,9 +84,7 @@
       $(self.root).on 'click', '.controls a', (event) ->
         event.preventDefault()
         name = $(event.target).attr('name')
-        $(self.root).find('.tab').hide()
-        $(self.root).find(".tab.#{name}").show()
-        self.or.routing.set_packed type: name
+        self.or.routing.set_packed type: name, page: 1
 
       self.or.bus.on 'results', ->
         # console.log 'results', self.or.data
@@ -111,6 +98,8 @@
       if data['type'] != self.current_tab
         self.current_tab = data['type'] || 'sources'
         self.update()
+
+    self.per_page = -> if self.current_tab == 'sources' then 10 else 100
 
   </script>
   

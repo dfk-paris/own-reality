@@ -1,15 +1,22 @@
 <or-item-list>
-  
-  <div>
-    <or-list-item
-      each={item in opts.items}
-      item={item}
-    />
-  </div>
+
+  <or-pagination total={opts.total} per-page={opts.perPage} />
+  <or-list-item
+    each={item in opts.items}
+    item={item}
+  />
+
+  <style type="text/scss">
+    or-item-list {
+      or-pagination {
+        display: block;
+        text-align: right;
+      }
+    }
+  </style>
 
   <script type="text/coffee">
     self = this
-    
 
     self.on 'mount', ->
       unless self.opts.items

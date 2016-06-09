@@ -27,7 +27,10 @@
         self.input().val data['terms']
         self.update()
     self.to_packed_data = ->
-      self.or.routing.set_packed terms: self.value()
+      self.or.routing.set_packed(
+        terms: self.value(),
+        page: 1
+      )
 
   </script>
 </or-delayed-input>

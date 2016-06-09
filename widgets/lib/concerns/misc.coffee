@@ -11,4 +11,11 @@
     else
       -1
 
+  ownreality.range_label = (item) ->
+      from = ownreality.i18n.ld(item._source.from_date)
+      to = ownreality.i18n.ld(item._source.to_date)
+      if from == to
+        from
+      else
+        "#{from} – #{to}"
 )()

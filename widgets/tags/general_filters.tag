@@ -128,6 +128,7 @@
         url: "#{self.or.config.api_url}/api/entities/search"
         data: $.extend({}, params, {
           type: self.type()
+          page: self.or.routing.unpack()['page'] || 1
         })
         success: (data) ->
           # console.log data
@@ -135,6 +136,7 @@
           self.or.cache_attributes(self.attribute_ids())
           self.or.cache_people(self.people_ids())
           self.or.data.results = data.records
+          self.or.data.total = data.total
           self.or.bus.trigger 'results'
       )
 

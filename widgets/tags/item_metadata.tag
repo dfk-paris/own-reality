@@ -10,7 +10,8 @@
         each={id in opts.item._source.attrs.ids[7][168]}
         key={id}
         shorten-to={100}
-      />
+      />,
+      {range_label()}
     </div>
 
     <div class="or-metadata">
@@ -33,7 +34,16 @@
       </div>
     </div>
 
-    <div class="clearfix" show={opts.item._type == 'sources'}></div>
+    <div class="or-text" show={opts.item._type == 'chronology'}>
+      <div class="or-field">
+        <or-content-localized-value value={opts.item._source.content} />
+      </div>
+    </div>
+
+    <div
+      class="clearfix"
+      show={opts.item._type == 'sources' || opts.item._type == 'chronology'}
+    ></div>
     
     <div class="or-field">
       <strong>{t('keyword', {count: 'other'})}:</strong>
@@ -98,6 +108,8 @@
           self.or.bus.trigger 'reset-search-with', attribs: [key]
 
     self.t = self.or.i18n.t
+    self.range_label = -> self.or.range_label(self.opts.item)
+
   </script>
 
 </or-item-metadata>

@@ -67,6 +67,7 @@
         self.update()
     self.to_packed_data = ->
       self.or.routing.set_packed(
+        page: 1
         lower: self.value()[0]
         upper: self.value()[1]
       )

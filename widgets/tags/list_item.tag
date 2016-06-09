@@ -122,13 +122,7 @@
           clang: ownreality.config.locale
         )
 
-    self.range_label = ->
-      from = self.ld(self.opts.item._source.from_date)
-      to = self.ld(self.opts.item._source.to_date)
-      if from == to
-        from
-      else
-        "#{from} – #{to}"
+    self.range_label = -> self.or.range_label(self.opts.item)
 
     self.ld = self.or.i18n.ld
   </script>
