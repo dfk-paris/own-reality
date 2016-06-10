@@ -14,6 +14,7 @@
       $(self.root).on 'keyup', ->
         clearTimeout(to)
         to = setTimeout(self.notify, self.opts.timeout)
+      self.or.bus.on 'packed-data', self.from_packed_data
 
     self.value = -> self.input().val()
     self.reset = (notify = true) ->
@@ -21,6 +22,7 @@
       self.notify() if notify
     self.notify = ->
       self.to_packed_data()
+
 
     self.from_packed_data = (data) ->
       if data['terms'] != self.value()

@@ -29,7 +29,7 @@
   <script type="text/coffee">
     self = this
 
-    self.as_buttons = -> self.opts.asButtons; true
+    self.as_buttons = -> self.opts.asButtons
     self.sorted_people = ->
       opts.people.sort (x, y) ->
         if x.last_name < y.last_name

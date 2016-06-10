@@ -23,12 +23,12 @@
         <strong>
           {parent.or.i18n.l(parent.or.config.server.roles[role_id])}:
         </strong>
-        <or-people-list people={people} />
+        <or-people-list people={people} as-buttons={true} />
       </div>
 
       <div class="or-field" show={opts.item._type == 'sources'}>
         <strong>{t('source', {count: 1})}:</strong>
-        <or-journal-and-volume item={opts.item} />
+        <or-journal-and-volume item={opts.item} as-button={true} />
       </div>
     </div>
 
@@ -98,7 +98,7 @@
         clear: both;
       }
 
-      or-attribute, or-person {
+      or-attribute, or-person, or-journal-and-volume {
         cursor: pointer;
       }
     }
@@ -124,6 +124,13 @@
             data = {people: {}}
             data.people[role_id] = [key]
             self.or.bus.trigger 'reset-search-with', data
+
+      $(self.root).on 'click', 'or-journal-and-volume', (event) ->
+        event.preventDefault()
+        if self.clickable_properties()
+          if window.confirm(self.or.i18n.t('confirm_replace_search'))
+            key = $(event.target).attr('data-journal-name')
+            self.or.bus.trigger 'reset-search-with', journals: [key]
 
     self.clickable_properties = -> self.or.config.is_search
     self.t = self.or.i18n.t
