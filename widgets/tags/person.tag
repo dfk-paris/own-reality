@@ -1,6 +1,6 @@
 <or-person>
   
-  <span>{label()}</span>
+  <span data-person-id={opts.person.id} >{label()}</span>
 
   <script type="text/coffee">
     self = this

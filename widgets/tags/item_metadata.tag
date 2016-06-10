@@ -15,7 +15,11 @@
     </div>
 
     <div class="or-metadata">
-      <div class="or-field" each={role_id, people in opts.item._source.people} >
+      <div
+        class="or-field"
+        each={role_id, people in opts.item._source.people}
+        data-role-id={role_id}
+      >
         <strong>
           {parent.or.i18n.l(parent.or.config.server.roles[role_id])}:
         </strong>
@@ -93,6 +97,10 @@
       .clearfix {
         clear: both;
       }
+
+      or-attribute, or-person {
+        cursor: pointer;
+      }
     }
   </style>
 
@@ -105,8 +113,17 @@
         if self.clickable_properties()
           if window.confirm(self.or.i18n.t('confirm_replace_search'))
             key = $(event.target).parents('or-attribute').attr('key')
-            # self.or.cache_attributes([key])
             self.or.bus.trigger 'reset-search-with', attribs: [key]
+
+      $(self.root).on 'click', 'or-person', (event) ->
+        event.preventDefault()
+        if self.clickable_properties()
+          if window.confirm(self.or.i18n.t('confirm_replace_search'))
+            role_id = $(event.target).parents('[data-role-id]').attr('data-role-id')
+            key = $(event.target).attr('data-person-id')
+            data = {people: {}}
+            data.people[role_id] = [key]
+            self.or.bus.trigger 'reset-search-with', data
 
     self.clickable_properties = -> self.or.config.is_search
     self.t = self.or.i18n.t
