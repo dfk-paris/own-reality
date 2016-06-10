@@ -40,7 +40,7 @@
 
     <div if={opts.item._type == 'chronology'}>
       <or-people-list people={opts.item._source.people[12064]} />
-      <a class="or-modal-trigger-inactive" or-tag="or-chronology">
+      <a class="or-modal-trigger" or-tag="or-chronology-detail">
         <or-localized-value class="or-title" value={opts.item._source.title} />
       </a>
       <i>{range_label()}</i>
@@ -110,7 +110,7 @@
 
   <script type="text/coffee">
     self = this
-    
+
     self.on 'mount', ->
       $(self.root).on 'click', 'a.or-modal-trigger', (event) ->
         event.preventDefault()

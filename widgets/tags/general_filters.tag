@@ -52,6 +52,8 @@
     self.type = -> self.or.routing.unpack()['type'] || 'sources'
     
     self.on 'mount', ->
+      self.or.config.is_search = true
+
       self.on 'or-change', ->
         self.or.bus.trigger 'filter-change', self.params()
         # self.search()

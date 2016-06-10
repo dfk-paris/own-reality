@@ -102,11 +102,13 @@
     self.on 'mount', ->
       $(self.root).on 'click', 'or-attribute', (event) ->
         event.preventDefault()
-        if window.confirm(self.or.i18n.t('confirm_replace_search'))
-          key = $(event.target).parents('or-attribute').attr('key')
-          # self.or.cache_attributes([key])
-          self.or.bus.trigger 'reset-search-with', attribs: [key]
+        if self.clickable_properties()
+          if window.confirm(self.or.i18n.t('confirm_replace_search'))
+            key = $(event.target).parents('or-attribute').attr('key')
+            # self.or.cache_attributes([key])
+            self.or.bus.trigger 'reset-search-with', attribs: [key]
 
+    self.clickable_properties = -> self.or.config.is_search
     self.t = self.or.i18n.t
     self.range_label = -> self.or.range_label(self.opts.item)
 
