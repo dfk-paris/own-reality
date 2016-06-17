@@ -77,6 +77,13 @@ ownreality.i18n.translations.fr = {
       "default": "%d %B %Y",
       "hide_month": "%Y",
       "hide_day": "%B %Y"
+    },
+    "names": {
+      days: ['dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'],
+      months: [
+        'janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août',
+        'septembre', 'octobre', 'novembre', 'décrembre'
+      ]
     }
   }
 };

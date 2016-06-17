@@ -5,7 +5,7 @@
       <or-content-localized-value value={opts.item._source.title} />
     </h2>
     <div class="or-subtitle" show={opts.item._type == 'chronology'}>
-      {or.i18n.t('exhibition', {count: 1})} {or.i18n.t('in')}
+      {t('exhibition', {count: 1, capitalize: true})} {or.i18n.t('in')}
       <or-attribute
         each={id in opts.item._source.attrs.ids[7][168]}
         key={id}
@@ -27,7 +27,7 @@
       </div>
 
       <div class="or-field" show={opts.item._type == 'sources'}>
-        <strong>{t('source', {count: 1})}:</strong>
+        <strong>{t('source', {count: 1, capitalize: true})}:</strong>
         <or-journal-and-volume item={opts.item} as-button={true} />
       </div>
     </div>
@@ -50,12 +50,12 @@
     ></div>
     
     <div class="or-field">
-      <strong>{t('keyword', {count: 'other'})}:</strong>
+      <strong>{t('keyword', {count: 'other', capitalize: true})}:</strong>
       <or-attribute-list keys={opts.item._source.attrs.ids[6][43]} />
     </div>
 
     <div class="or-field" show={opts.item._type == 'sources'}>
-      <strong>{t('recommended_citation_style', {count: 1})}:</strong>
+      <strong>{t('recommended_citation_style', {count: 1, capitalize: true})}:</strong>
       <or-citation item={opts.item} />
     </div>
 

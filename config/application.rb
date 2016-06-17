@@ -63,6 +63,4 @@ end
 
 # TODO: url on source detail modal view
 # TODO: add correct dating within citations
-# TODO: rename tags
-# TODO: remove comments everywhere
 # TODO: unify event naming, possibly with attributes on tags publish/subscribe

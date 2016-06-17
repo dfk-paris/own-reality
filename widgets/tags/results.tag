@@ -3,19 +3,19 @@
   <div class="result-tabs">
     <div class="controls">
       <a name="sources" class={current: (current_tab == 'sources')}>
-        {or.i18n.t('source', {count: 'other'})}
+        {or.i18n.t('source', {count: 'other', capitalize: true})}
         ({or.data.aggregations['sources'].doc_count})
       </a>
       <a name="magazines" class={current: (current_tab == 'magazines')}>
-        {or.i18n.t('magazine', {count: 'other'})}
+        {or.i18n.t('magazine', {count: 'other', capitalize: true})}
         ({or.data.aggregations['magazines'].doc_count})
       </a>
       <a name="interviews" class={current: (current_tab == 'interviews')}>
-        {or.i18n.t('interview', {count: 'other'})}
+        {or.i18n.t('interview', {count: 'other', capitalize: true})}
         ({or.data.aggregations['interviews'].doc_count})
       </a>
       <a name="articles" class={current: (current_tab == 'articles')}>
-        {or.i18n.t('article', {count: 'other'})}
+        {or.i18n.t('article', {count: 'other', capitalize: true})}
         ({or.data.aggregations['articles'].doc_count})
       </a>
       <div class="clearfix"></div>

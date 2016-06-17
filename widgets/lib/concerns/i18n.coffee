@@ -22,10 +22,12 @@
           value = tvalue if tvalue && (tvalue != value)
           result = result.replace regex, value
           
-        result
+        if options['capitalize'] then i18n.cap(result) else result
       catch error
         console.log error
         "*TRANSLATION MISSING*"
+    cap: (string) ->
+      string.charAt(0).toUpperCase() + string.slice(1)
     l: (value, options = {}) ->
       options['notify'] = true unless options['notify'] == false
       value[i18n.locale(options['content'])] || value[i18n.locales[0]] ||
@@ -35,8 +37,8 @@
       try
         date = new Date(Date.parse(input))
         format = i18n.t "date.formats.#{format_name}"
-        result = new Strftime(date)
-        result.render format
+        func = strftime.localize(i18n.t 'date.names')
+        func(format, date)
       catch error
         "DATE COULD NOT BE LOCALIZED: #{input}"
   }

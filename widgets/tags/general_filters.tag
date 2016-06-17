@@ -54,30 +54,8 @@
     self.on 'mount', ->
       self.or.config.is_search = true
 
-      # self.on 'or-change', ->
-      #   self.or.bus.trigger 'filter-change', self.params()
-        # self.search()
-
       self.or.bus.on 'packed-data', (data) ->
-        # console.log 'general packed', data
-        # self.type = data['type']
-        # self.people_ids = data['people_ids']
-        # self.journal_names = data['journal_names']
         self.search()
-
-      # self.or.bus.on 'type-select', (type) ->
-      #   self.or.routing.set_packed type: type
-      # self.or.bus.on 'people-filter', (people) ->
-      #   self.people_ids = (person.id for person in people)
-      #   self.search()
-      # self.or.bus.on 'journals-filter', (journals) ->
-      #   self.journal_names = []
-      #   for journal in journals
-      #     for locale, name of journal.title
-      #       self.journal_names.push name
-      #   self.search()
-
-      # self.trigger 'or-change'
 
     self.or.bus.on 'reset-search-with', (what = {}) ->
       self.tags.terms.reset(false)

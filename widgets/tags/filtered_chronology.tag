@@ -4,7 +4,7 @@
     <div show={!excess() && !trivial()} class="or-timeline" />
     <div class="edge">
       <div show={excess()} class="or-excess" style="display: none">
-        {or.i18n.t('chronology')}:
+        {or.i18n.t('chronology', {capitalize: true})}:
         {or.i18n.t('too_much_data')} ({data.total})
         <div>
           <button>{or.i18n.t('show_all')}</button>
