@@ -23,33 +23,6 @@ class OwnReality::Query
     @config ||= elastic.request("get", "config/complete").last['_source']
   end
 
-  def paper(type, id)
-    unless ["sources", "magazines", "articles", "interviews"].include?(type)
-      raise "unknown type #{type.inspect}"
-    end
-
-    response = elastic.request "get", "#{type}/#{id}"
-    elastic.handle response
-  end
-
-  def papers(type = nil, criteria = {})
-    unless ["magazines", "articles", "interviews"].include?(type)
-      raise "unknown type #{type.inspect}"
-    end
-
-    criteria ||= {}
-    criteria["page"] = (criteria["page"] || 1).to_i
-    criteria["per_page"] = (criteria["per_page"] || 10).to_i
-
-    response = elastic.request "post", "#{type}/_search", nil, {
-      "size" => criteria["per_page"],
-      "from" => (criteria["page"] - 1) * criteria["per_page"],
-      "sort" => ["title.de"]
-    }
-
-    elastic.handle(response)
-  end
-
   def people(criteria = {})
     criteria['terms'] ||= ''
 
@@ -61,7 +34,6 @@ class OwnReality::Query
           'analyzer' => 'folding',
           'analyze_wildcard' => true,
           'fields' => [
-            # 'id^50',
             'last_name^10',
             'first_name^10'
           ]
@@ -130,9 +102,7 @@ class OwnReality::Query
     config["categories"].each_with_index do |data, id|
       aggs["attribs.#{id}"] = {
         "terms" => {
-          # "script" => "doc['refs']['#{c}'].values",
           "field" => "attrs.by_category.#{id}",
-          # "lang" => "groovy",
           "size" => 21
         }
       }
@@ -182,9 +152,7 @@ class OwnReality::Query
           "must" => conditions
         }
       },
-      #TODO: why?
       "size" => (search_type == 'count' ? 0 : criteria["per_page"]),
-      # "size" => criteria["per_page"],
       "from" => (criteria["page"] - 1) * criteria["per_page"],
       "sort" => criteria['sort'] || {"date_from" => {'order' => 'asc', 'ignore_unmapped' => true}}
     }
@@ -270,15 +238,6 @@ class OwnReality::Query
             'interpretation.fr^10',
             'interpretation.en^10',
             '_all'
-          #   'uuid^20',
-          #   'name^10',
-          #   'distinct_name^6',
-          #   'synonyms^6',
-          #   'dataset.*^5',
-          #   'related^4',
-          #   'properties.value^3',
-          #   'properties.label^2',
-          #   'comment^1',
           ] 
         }
       }
@@ -357,27 +316,6 @@ class OwnReality::Query
         }
       end
     end
-
-    # if type == "chronology"
-      # data['query']['bool']['must'] << {
-      #   'exists' => {
-      #     'field' => 'from_date'
-      #   }
-      # }
-
-      # if criteria["category_id"].present?
-      #   data["query"]["bool"]["must"] << {
-      #     "constant_score" => {
-      #       "filter" => {
-      #         "terms" => {
-      #           "attrs.ids.4.2" => [criteria["category_id"]],
-      #           "execution" => "and"
-      #         }
-      #       }
-      #     }
-      #   }
-      # end
-    # end
 
     Rails.logger.debug data.inspect
 

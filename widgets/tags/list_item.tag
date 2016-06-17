@@ -41,7 +41,9 @@
     <div if={opts.item._type == 'chronology'}>
       <or-people-list people={opts.item._source.people[12064]} />
       <a class="or-modal-trigger" or-tag="or-chronology-detail">
-        <or-localized-value class="or-title" value={opts.item._source.title} />
+        <strong>
+          <or-localized-value class="or-title" value={opts.item._source.title} />
+        </strong>
       </a>
       <i>{range_label()}</i>
     </div>

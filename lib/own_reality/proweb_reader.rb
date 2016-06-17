@@ -463,8 +463,6 @@ class OwnReality::ProwebReader
 
     def people_by_role(article, options = {})
       options.reverse_merge!(
-        # only_roles: [],
-        # except_roles: [],
         index_people: true,
         role_mapping: {
           12065 => 12064,
@@ -498,18 +496,6 @@ class OwnReality::ProwebReader
           }
         end
       end
-
-      # options[:except_roles].each do |id|
-      #   result.delete id
-      # end
-
-      # unless options[:only_roles].empty?
-      #   new_result = []
-      #   options[:only_roles].each do |role|
-      #     new_result += result[role]
-      #   end
-      #   result = new_result
-      # end
 
       result
     end

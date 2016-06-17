@@ -10,7 +10,6 @@
     query: (params) ->
       if params
         # console.log 'setting hash params', params, ownreality.routing.unpack(params['q'])
-        # debugger
 
         result = {}
         $.extend(result, riot.route.query(), params)
@@ -40,12 +39,12 @@
       if unpacked
         btoa(JSON.stringify(unpacked))
     pack: (unpacked = {}) ->
-      if unpacked != {}
+      if !$.isEmptyObject(unpacked)
         ownreality.routing.query(
           'q': ownreality.routing.pack_to_string(unpacked)
         )
-      else
-        ownreality.routing.query 'q': null
+      # else
+        # ownreality.routing.query 'q': null
     unpack: (packed = null) ->
       packed ||= ownreality.routing.packed()
       if packed

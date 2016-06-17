@@ -10,19 +10,6 @@ class OwnReality::Import
   attr_reader :reader, :elastic
 
   def run
-    # if reader.is_a?(OwnReality::ProwebReader)
-    #   @profilers = [
-    #     MethodProfiler.observe(OwnReality::ProwebReader),
-    #     MethodProfiler.observe(OwnReality::ProwebFileConverter)
-    #   ]
-
-    #   Kernel.at_exit do
-    #     @profilers.each do |profiler|
-    #       puts profiler.report.sort_by(:total_time).order(:descending)
-    #     end
-    #   end
-    # end
-
     elastic.reset_index
     mapping
 
@@ -189,7 +176,6 @@ class OwnReality::Import
     elastic.request "put", "people/_mapping", nil, {
       "people" => {
         "properties" => {
-          # 'id' => {'type' => 'string', 'index' => 'not_analyzed'},
           "first_name" => {"type" => "string", 'analyzer' => 'case_insensitive_sort'},
           "last_name" => {"type" => "string", 'analyzer' => 'case_insensitive_sort'},
           'initial' => {'type' => 'string', 'index' => 'not_analyzed'}

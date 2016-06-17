@@ -54,6 +54,7 @@
 
     self.params = ->
       return {
+        type: 'chronology'
         per_page: self.default_params.per_page
         terms: self.or.routing.unpack()['terms']
         lower: self.or.routing.unpack()['lower'] || 1960
@@ -65,7 +66,7 @@
     self.search = ->
       $.ajax(
         type: 'POST'
-        url: "#{self.or.config.api_url}/api/chronology"
+        url: "#{self.or.config.api_url}/api/entities/search"
         data: self.params()
         success: (data) ->
           # console.log 'chrono data:', data

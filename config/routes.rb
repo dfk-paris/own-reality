@@ -4,7 +4,6 @@ Rails.application.routes.draw do
   match '(*all)', to: proc{[200, {}, ['']]}, via: :options
 
   defaults :format => "json" do
-    match "api/chronology", :to => "entities#chronology", :via => :post
     match "api/papers/:type", :to => "papers#index", :via => :get
     match "api/items/:type/:id", :to => "entities#show", :via => :get
     match "api/entities/search", :to => "entities#search", :via => :post
