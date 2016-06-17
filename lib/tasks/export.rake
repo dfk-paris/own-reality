@@ -1,9 +1,5 @@
 namespace :or do
-  namespace :export do
-
-    task json: :environment do
-      OwnReality::Export.new.json
-    end
-
+  task to_json: :environment do
+    OwnReality::JsonExport.new.run
   end
 end

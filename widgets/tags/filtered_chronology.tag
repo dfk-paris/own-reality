@@ -50,33 +50,32 @@
 
     self.default_params = {
       per_page: 100
-      lower: 1960
-      upper: 1989
     }
 
-    self.search = (params = self.default_params) ->
-      current_params = $.extend({}, self.default_params, params)
+    self.params = ->
+      return {
+        per_page: self.default_params.per_page
+        terms: self.or.routing.unpack()['terms']
+        lower: self.or.routing.unpack()['lower'] || 1960
+        upper: self.or.routing.unpack()['upper'] || 1989
+        attribute_ids: self.or.routing.unpack()['attribs']
+        people_ids: self.or.routing.unpack()['people']
+      }
 
+    self.search = ->
       $.ajax(
         type: 'POST'
         url: "#{self.or.config.api_url}/api/chronology"
-        data: current_params
+        data: self.params()
         success: (data) ->
           # console.log 'chrono data:', data
           self.data = data
-          self.new_data(current_params) unless self.excess() || self.trivial()
-          # self.new_data(params)
+          self.new_data(self.params()) unless self.excess() || self.trivial()
       )
 
     self.new_data = (params) ->
       # console.log 'chrono params:', params
 
-      # console.log(
-      #   min: "#{params.lower - 1}-12"
-      #   max: "#{params.upper}-02"
-      #   start: "#{params.lower - 1}-12"
-      #   end: "#{params.upper}-02"
-      # )
       self.timeline.setOptions(
         min: "#{params.lower - 1}-12"
         max: "#{params.upper}-02"
@@ -164,7 +163,7 @@
     self.trivial = -> self.data.total == 0
     self.on 'mount', ->
       self.setup()
-    self.or.bus.on 'filter-change', (params) -> self.search(params)
+    self.or.bus.on 'packed-data', (data) -> self.search()
   </script>
 
 </or-filtered-chronology>

@@ -11,6 +11,18 @@ class OwnReality::ProwebReader
     @people_ids = {}
   end
 
+  def config
+    return [
+      {
+        "categories" => categories.for_config,
+        "roles" => roles,
+        "people" => people,
+        "chronolgy_categories" => chronology_categories,
+        "klasses" => attribute_proweb_categories
+      }
+    ]
+  end
+
   def categories
     @categories ||= OwnReality::AttributeCategoriesReader.from_file
   end
@@ -174,6 +186,7 @@ class OwnReality::ProwebReader
 
       data["from_date"] ||= data["to_date"]
       data["to_date"] ||= data["from_date"]
+      data['journal_short'] = short_journal_name_map[data['journal']] || data['journal']
 
       pfc = OwnReality::ProwebFileConverter.new(o['id'])
       data["file_base_hash"] = pfc.merge_files
@@ -507,6 +520,36 @@ class OwnReality::ProwebReader
         results[c.id] = with_translations(c)
       end
       results
+    end
+
+
+    # dirtiest hack ever
+
+    def short_journal_name_map
+      return {
+        "Art press" => "Art press",
+        "Art press international" => "Art press",
+        "Bildende Kunst" => "Bildende Kunst",
+        "Chroniques de l'art vivant" => "Chroniques de l'art vivant",
+        "Das Kunstwerk. The Work of Art" => "Das Kunstwerk",
+        "Das Kunstwerk. Zeitschrift für Moderne Kunst" => "Das Kunstwerk",
+        "Fotogeschichte. Beiträge zur Geschichte und Ästhetik der Fotografie" => "Fotogeschichte",
+        "Interfunktionen" => "Interfunktionen",
+        "kritische berichte. Zeitschrift für Kunst- und Kulturwissenschaften" => "kritische berichte",
+        "Kultura" => "Kultura",
+        "KUNSTFORUM International. Die aktuelle Zeitschrift für alle Bereiche der Bildenden Kunst" => "KUNSTFORUM International",
+        "L'Art vivant" => "Chroniques de l'art vivant",
+        "Les Lettres Françaises" => "Les Lettres Françaises",
+        "Opus International" => "Opus International",
+        "Projekt" => "Projekt",
+        "Przegląd Artystyczny" => "Przegląd Artystyczny",
+        "Robho" => "Robho",
+        "Struktury" => "Struktury",
+        "Sztuka" => "Sztuka",
+        "tendenzen. Zeitschrift für engagierte Kunst" => "tendenzen",
+        "Weltkunst" => "Weltkunst",
+        "Wolkenkratzer Art Journal" => "Wolkenkratzer Art Journal"
+      }
     end
 
 end

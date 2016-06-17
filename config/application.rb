@@ -2,13 +2,13 @@ require File.expand_path('../boot', __FILE__)
 
 require "rails"
 # Pick the frameworks you want:
-require "active_model/railtie"
-require "active_job/railtie"
+# require "active_model/railtie"
+# require "active_job/railtie"
 # require "active_record/railtie"
 require "action_controller/railtie"
-require "action_mailer/railtie"
+# require "action_mailer/railtie"
 require "action_view/railtie"
-require "sprockets/railtie"
+# require "sprockets/railtie"
 
 # require "rails/test_unit/railtie"
 
@@ -61,15 +61,8 @@ module OwnReality
   end
 end
 
-# TODO: fix css scopes within riot tags to include [riot-tag=tag-name] selectors
 # TODO: url on source detail modal view
 # TODO: add correct dating within citations
-# TODO: are there journals with different titles for some locales?
-# TODO: cleanup controllers and actions
-# TODO: interview 23261 files in proweb fucked up?
 # TODO: rename tags
-# TODO: write XML export and re-import
-# TODO: fix attr search criteria replace
-# TODO: include errors from proweb module into anomaly log (bin/entires and bin/attribs)
 # TODO: remove comments everywhere
 # TODO: unify event naming, possibly with attributes on tags publish/subscribe

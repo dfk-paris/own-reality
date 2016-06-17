@@ -57,7 +57,7 @@
   old_pack = null
 
   ownreality.bus.on 'packed-data', (data) ->
-    console.log 'packed data', data
+    # console.log 'packed data', data
     # debugger
 
     if lang = data['lang']

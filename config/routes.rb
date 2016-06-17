@@ -1,17 +1,5 @@
 Rails.application.routes.draw do
   
-  root :to => "tpl#index"
-
-  match 'dfk', :to => 'tpl#dfk', :via => :get
-
-  defaults :format => "html" do
-    match "/home", :to => "tpl#home", :via => :get
-    match "/chronology", :to => "tpl#chronology", :via => :get
-    match "/query", :to => "tpl#query", :via => :get
-    match "/papers/:type", :to => "tpl#papers", :via => :get
-    match "/paper", :to => "tpl#paper", :via => :get
-  end
-
   # handle CORS preflight requests
   match '(*all)', to: proc{[200, {}, ['']]}, via: :options
 

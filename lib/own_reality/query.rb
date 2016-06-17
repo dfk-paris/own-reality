@@ -23,13 +23,6 @@ class OwnReality::Query
     @config ||= elastic.request("get", "config/complete").last['_source']
   end
 
-  # def ensure_scripts
-  #   response = elastic.request 'post', '/_scripts/groovy/keys-for-object', {}, {
-  #     'script' => '_source.attrs.by_category.keySet()'
-  #   }
-  #   elastic.handle(response)
-  # end
-
   def paper(type, id)
     unless ["sources", "magazines", "articles", "interviews"].include?(type)
       raise "unknown type #{type.inspect}"
@@ -164,7 +157,7 @@ class OwnReality::Query
 
     aggs['journals'] = {
       'terms' => {
-        'field' => 'journal',
+        'field' => 'journal_short',
         'size' => 0
       }
     }
@@ -317,7 +310,7 @@ class OwnReality::Query
       criteria['journals'].each do |name|
         data['query']['bool']['must'] << {
           'term' => {
-            "journal" => name
+            "journal_short" => name
           }
         }
       end

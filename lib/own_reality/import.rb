@@ -2,25 +2,26 @@ Bundler.require :import
 
 class OwnReality::Import
 
-  def elastic
-    @elastic ||= OwnReality::Elastic.new
+  def initialize(reader = nil)
+    @elastic = OwnReality::Elastic.new
+    @reader = reader || OwnReality::ProwebReader.new
   end
 
-  def reader
-    @reader ||= OwnReality::ProwebReader.new
-  end
+  attr_reader :reader, :elastic
 
   def run
-    @profilers = [
-      MethodProfiler.observe(OwnReality::ProwebReader),
-      MethodProfiler.observe(OwnReality::ProwebFileConverter)
-    ]
+    # if reader.is_a?(OwnReality::ProwebReader)
+    #   @profilers = [
+    #     MethodProfiler.observe(OwnReality::ProwebReader),
+    #     MethodProfiler.observe(OwnReality::ProwebFileConverter)
+    #   ]
 
-    Kernel.at_exit do
-      @profilers.each do |profiler|
-        puts profiler.report.sort_by(:total_time).order(:descending)
-      end
-    end
+    #   Kernel.at_exit do
+    #     @profilers.each do |profiler|
+    #       puts profiler.report.sort_by(:total_time).order(:descending)
+    #     end
+    #   end
+    # end
 
     elastic.reset_index
     mapping
@@ -73,13 +74,7 @@ class OwnReality::Import
   end
 
   def config
-    elastic.request 'put', "config/complete", nil, {
-      "categories" => reader.categories.for_config,
-      "roles" => reader.roles,
-      "people" => reader.people,
-      "chronolgy_categories" => reader.chronology_categories,
-      "klasses" => reader.attribute_proweb_categories
-    }
+    elastic.request 'put', "config/complete", nil, reader.config[0]
   end
 
   def people
@@ -159,6 +154,7 @@ class OwnReality::Import
               }
             },
             "journal" => {"type" => "string", "index" => "not_analyzed"},
+            "journal_short" => {"type" => "string", "index" => "not_analyzed"},
             "volume" => {"type" => "string", "index" => "not_analyzed"},
             "from_date" => {"type" => "date", "format" => "date_hour_minute_second"},
             "to_date" => {"type" => "date", "format" => "date_hour_minute_second"},

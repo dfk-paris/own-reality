@@ -8,6 +8,10 @@ namespace :or do
     
     # Proweb::Import.new(Proweb.source, Proweb.target).run
     # Proweb::FileCleaner.new(OwnReality).run
-    OwnReality::Import.new.run
+    OwnReality::Import.new(OwnReality::ProwebReader.new).run
+  end
+
+  task from_json: :environment do
+    OwnReality::Import.new(OwnReality::JsonReader.new).run
   end
 end

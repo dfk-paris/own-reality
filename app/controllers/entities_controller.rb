@@ -6,8 +6,8 @@ class EntitiesController < ApplicationController
       "lower" => params[:lower], 
       "upper" => params[:upper],
       "terms" => params[:terms],
-      "refs" => params[:attribute_ids],
-      "category_id" => params[:category_id]
+      "people" => params[:people_ids],
+      "refs" => params[:attribute_ids]
     ).last
     render :template => "api/entities/search"
   end

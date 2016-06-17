@@ -1,24 +1,15 @@
-class OwnReality::Export
+class OwnReality::JsonExport
 
-  def initialize(target_dir = "~/Desktop/or_out")
+  def initialize(target_dir = "./json")
     @target_dir = File.expand_path(target_dir)
     system "mkdir -p #{@target_dir}"
   end
 
-  def json
-    write index_settings, to: 'index'
+  def run
     write types, to: 'types'
-    mappings.each do |type, mapping|
-      write mapping, to: "#{type}.mapping"
-    end
     data.each do |type, data|
       write data, to: "#{type}.data"
     end
-  end
-
-  def index_settings
-    response = elastic.request "get", "/_settings"
-    elastic.handle(response)[2][index]
   end
 
   def mappings

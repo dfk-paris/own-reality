@@ -1,6 +1,0 @@
-fr:
-  article:
-    one: article
-    other: articles
-  amount_found: "%{o} trouvé"
-  summary: résumé

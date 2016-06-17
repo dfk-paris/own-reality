@@ -5,9 +5,4 @@ class PapersController < ApplicationController
     render :template => "api/papers/index"
   end
 
-  def show
-    @result = OwnReality::Query.new.paper(params[:type], params[:id])
-    render :json => @result.last
-  end
-
 end

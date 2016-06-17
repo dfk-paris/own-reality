@@ -3,10 +3,8 @@ ownreality.i18n.translations.de = {
   "fr": "französisch",
   "en": "englisch",
   "download": "herunterladen",
-  "to_project": "Zurück zur Projektseite",
   "amount_found": "%{o} gefunden",
   "summary": "Zusammenfassung",
-  "search_summary_only": "nur in Zusammenfassung suchen",
   "people_involved": "genannte Personen",
   "author": {
     "one": "Autor",
@@ -27,7 +25,7 @@ ownreality.i18n.translations.de = {
     "other": "empfohlene Zitationsformate"
   },
   "chronology": "Chronologie",
-  "papers": "Publikationen",
+  "papers": "Aufsätze",
   "interview": {
     "one": "Interview",
     "other": "Interviews",
@@ -48,7 +46,6 @@ ownreality.i18n.translations.de = {
   "search": "Suche",
   "database": "Datenbank",
   "databases": "Datenbanken",
-  "research_tool": "Recherche Werkzeug",
   "country": "Land",
   "person": {
     "one": "Person",
