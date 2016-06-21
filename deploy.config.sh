@@ -8,7 +8,7 @@ export KEEP=5
 
 function gateway {
   export HOST="app@127.0.0.1"
-  export PORT="8001"
+  export PORT="8022"
 }
 
 $1

@@ -1,4 +1,5 @@
-require "tmpdir"
+require 'tmpdir'
+require 'nokogiri'
 
 class OwnReality::LodelParser
 
@@ -12,7 +13,7 @@ class OwnReality::LodelParser
     response = HTTPClient.new.request "get", @url
 
     if response.status == 200
-      doc = Nokogiri.parse(response.body)
+      doc = ::Nokogiri.parse(response.body)
       out = doc.css("div.article#content").first
       out.css("img").each do |img|
         img["src"] = "#{@url.split(/\/[^\/]*$/).first}/#{img['src']}"

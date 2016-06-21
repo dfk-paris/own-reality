@@ -15,11 +15,15 @@ gem 'httpclient', '~> 2.6'
 gem 'method_profiler'
 
 group :import do
-  if File.exists?("/var/storage/host/own_reality/shared/proweb")
-    gem 'proweb', :path => "/var/storage/host/own_reality/shared/proweb"
-  else
-    gem 'proweb', :path => "/home/schepp/Desktop/dev/proweb/src"
+  source 'https://gems.dfkg.org' do
+    gem 'proweb'
   end
+
+  # if File.exists?("/var/storage/host/own_reality/shared/proweb")
+  #   gem 'proweb', :path => "/var/storage/host/own_reality/shared/proweb"
+  # else
+  #   gem 'proweb', :path => "/home/schepp/Desktop/dev/proweb/src"
+  # end
 
   # if File.exists?("/var/storage/host/own_reality/shared/dfk")
   #   gem 'dfk', :path => "/var/storage/host/own_reality/shared/dfk"
