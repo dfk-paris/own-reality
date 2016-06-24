@@ -10,7 +10,7 @@ class OwnReality::ProwebFileConverter
       l = file.split(/[_\.]/)[-2].downcase
       l = 'pl' if l == 'pol'
       h = hash(File.stat(file).mtime.to_s + file)
-      dir = Pathname.new("#{Proweb.config['files']['public']}/#{h}").realpath
+      dir = Pathname.new("#{Proweb.config['files']['public']}/#{h}")
       system "mkdir -p #{dir}"
       system "ln -sfn \"#{file}\" \"#{dir}/original.pdf\""
       results[l] = h
