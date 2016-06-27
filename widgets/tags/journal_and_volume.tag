@@ -6,9 +6,8 @@
       <span
         data-journal-name={opts.item._source.journal}
         class="or-journal"
-      >
-        {label()}
-      </span>
+      >{journal()}</span>
+      {volume()}
     </span>
   </span>
 

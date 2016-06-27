@@ -98,7 +98,7 @@
         clear: both;
       }
 
-      or-attribute, or-person, or-journal-and-volume {
+      or-attribute, or-person, .or-journal {
         cursor: pointer;
       }
     }
@@ -125,7 +125,7 @@
             data.people[role_id] = [key]
             self.or.bus.trigger 'reset-search-with', data
 
-      $(self.root).on 'click', 'or-journal-and-volume', (event) ->
+      $(self.root).on 'click', '.or-journal', (event) ->
         event.preventDefault()
         if self.clickable_properties()
           if window.confirm(self.or.i18n.t('confirm_replace_search'))
