@@ -79,6 +79,10 @@ The built version will be placed at public/app.js within the app's directory.
 
 ### Data import
 
+*Attention: please be aware that the data will be added to this repository only
+after data curation has been completed. This section of the documentation only
+applies afterwards.*
+
 The sources include the metadata for the platform but they have to be imported.
 The environment variable tells rails that it should run in the production
 environment where some optimizations apply.
