@@ -1,16 +1,17 @@
 # README
 
-This repository contains the code for the data platform for the [OwnReality. Jedem seine Wirklichkeit. Der Begriff der Wirklichkeit in der Bildenden Kunst in Frankreich, BRD, DDR und Polen der 1960er bis Ende der 1980er Jahre](https://dfk-paris.org/de/research-project/ownreality-jedem-seine-wirklichkeit-21.html) (website in German) by Dr. Mathilde Arnoux at the German Centre for Art History Paris. The project was funded by the European Research Council.
+This repository contains the data platform for the research project [OwnReality. Jedem seine Wirklichkeit. Der Begriff der Wirklichkeit in der Bildenden Kunst in Frankreich, BRD, DDR und Polen der 1960er bis Ende der 1980er Jahre](https://dfk-paris.org/de/research-project/ownreality-jedem-seine-wirklichkeit-21.html) (website in German) by Dr. Mathilde Arnoux at the [German Centre for Art History Paris](https://dfk-paris.org). The project was funded by the European Research Council.
 
 During the course of the project, data was gathered and entered into a database.
-In general, this data platform allows the integration of that data into web
-based systems such as content management systems. To be independent of the
-target technology, the integration is implemented with a set of customized html
-tags with no assumptions on lower layers. An API-only web application retrieves
-the data from an elasticsearch instance and relays it the widgets. For legal
-reasons, the image data cannot be made available publicly. Please contact Dr.
-Mathilde Arnoux (marnoux@dfk-paris.org) if you would like to have access to the
-additional media.
+In general, this platform allows the integration of that data into web based
+systems such as content management systems. To be independent of the target
+technology, the integration is implemented with a set of customized html tags
+with no assumptions on lower layers. An API-only web application retrieves the
+data from an elasticsearch instance and relays to the widgets.
+
+For legal reasons, the image data cannot be made available publicly. Please
+contact Dr. Mathilde Arnoux (marnoux@dfk-paris.org) if you would like to have
+access to the additional media.
 
 This documentation aims to provide information on:
 
@@ -117,9 +118,9 @@ directly above the closing body tag:
       ></script>
     </body>
 
-because that allows you to use the below custom tags within the entire body of
-the page. It doesn't matter how you place the content. This can be a static html
-page or a page managed via a content management system.
+because that allows you to use the custom tags anywhere on the page. It doesn't
+matter how you place the content. This can be a static html page or a page
+managed via a content management system.
 
 ### Widgets
 
