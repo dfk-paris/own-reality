@@ -16,7 +16,7 @@ class OwnReality::AttributeCategoriesReader
           value = value.value if value.respond_to?(:value)
           record[h] = value
         end
-        records << record if record['id'].present?
+        records << record if record['attribute_id'].present?
       end
     end
 
@@ -24,8 +24,8 @@ class OwnReality::AttributeCategoriesReader
     lookup_data = {}
 
     records.each do |r|
-      c = r["category"].strip
-      attribute_id = r["id"]
+      c = r["category_1"].strip
+      attribute_id = r["attribute_id"]
 
       if c.present?
         if index = categories.index(c)

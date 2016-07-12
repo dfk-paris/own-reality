@@ -122,6 +122,12 @@
     self = this
 
     self.on 'mount', ->
+      unless self.opts.item
+        self.or.fetch_objects(self.opts.type)
+        self.or.bus.on 'object-data', ->
+          self.opts.item = self.or.cache.object_index[self.opts.type][self.opts.id]
+          self.update()
+
       $(self.root).on 'click', 'a.or-modal-trigger', (event) ->
         event.preventDefault()
         tag = $(event.currentTarget).attr('or-tag')

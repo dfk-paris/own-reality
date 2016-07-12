@@ -30,4 +30,22 @@
               ownreality.cache.people[a._source.id] = a._source
           riot.update()
       )
+
+  ownreality.fetch_objects = (type) ->
+    ownreality.cache.objects ||= {}
+    ownreality.cache.objects[type] ||= $.ajax(
+      type: 'post'
+      url: "#{ownreality.config.api_url}/api/entities/search"
+      data: {
+        type: type
+        per_page: 100
+      }
+      success: (data) ->
+        ownreality.cache.objects[type] = data.records
+        ownreality.cache.object_index ||= {}
+        ownreality.cache.object_index[type] ||= {}
+        for r in data.records
+          ownreality.cache.object_index[type][r['_id']] = r
+        ownreality.bus.trigger 'object-data'
+    )
 )()
