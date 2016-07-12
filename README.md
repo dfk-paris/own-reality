@@ -128,14 +128,16 @@ managed via a content management system.
 
 ### Widgets
 
-* `<or-language-selector></or-language-selector>`: let's the use select the
+* `<or-language-selector></or-language-selector>`: lets the user select the
 content language. If you set the attribute **locales**, the widget will change
 from a select box to a set of buttons allowing switches between those languages
 instead of the default (de, fr, en).
 * `<or-busy-wheel></busy-wheel>`: shows a spinning wheel as an indicator while
 data is being loaded
 * `<or-general-filters></or-general-filters>`: query input, time slider, people
-(facets) and attribute (facets)
+(facets) and attribute (facets), requires attributes
+**or-base-target-attribs-url** and **or-base-target-people-url** each indicating
+the target link url for the respective facet groups.
 * `<or-results></or-results>`: displays the tabbed result panel, the widget
 or-general-filters is required on the same page
 * `<or-filtered-chronology></or-filtered-chronology>`: displays the chronology

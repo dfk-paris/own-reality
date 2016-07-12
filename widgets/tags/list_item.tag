@@ -45,7 +45,15 @@
           <or-localized-value class="or-title" value={opts.item._source.title} />
         </strong>
       </a>
-      <i>{range_label()}</i>
+      <em>
+        {t('exhibition', {count: 1, capitalize: true})} {or.i18n.t('in')}
+        <or-attribute
+          each={id in opts.item._source.attrs.ids[7][168]}
+          key={id}
+          shorten-to={100}
+        />,
+        {range_label()}
+      </em>
     </div>
 
     <div class="clearfix"></div>
@@ -127,6 +135,7 @@
     self.range_label = -> self.or.range_label(self.opts.item)
 
     self.ld = self.or.i18n.ld
+    self.t = self.or.i18n.t
   </script>
 
 </or-list-item>

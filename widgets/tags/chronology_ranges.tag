@@ -49,11 +49,17 @@
             self.or.data = data
             self.initialized = true
           self.or.data.records = data.records
-          # self.or.cache_attributes(self.attribute_ids())
+          self.or.cache_attributes(self.attribute_ids())
           self.or.bus.trigger 'results'
           self.update()
       )
 
+    self.attribute_ids = ->
+      ids = []
+      for r in self.or.data.records
+        for id in r._source.attrs.ids[7][168]
+          ids.push(id)
+      ids
 
     self.year_for_bucket = (bucket) ->
       parseInt(bucket.from_as_string.split('-')[0])
