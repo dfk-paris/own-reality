@@ -1,73 +1,66 @@
 <or-list-item>
 
-  <div>
-    <div if={opts.item._type == 'sources'}>
-      <or-medium item={opts.item} />
-      <or-people-list people={opts.item._source.people[12063]} />
-      <a class="or-modal-trigger" or-tag="or-source">
-        <or-localized-value class="or-title" value={opts.item._source.title} />
-      </a>
-      <or-journal-and-volume item={opts.item} />
-      <or-localized-value
-        class="or-text"
-        value={opts.item._source.interpretation}
-      />
-    </div>
-
-    <div if={opts.item._type == 'interviews'}>
-      <or-medium item={opts.item} />
-      <or-people-list people={opts.item._source.people[16530]} />
-      <a class="or-modal-trigger" or-tag="or-interview">
-        <or-localized-value class="or-title" value={opts.item._source.title} />
-      </a>
-    </div>
-
-    <div if={opts.item._type == 'articles'}>
-      <or-medium item={opts.item} />
-      <or-people-list people={opts.item._source.people[16530]} />
-      <a class="or-modal-trigger" or-tag="or-article">
-        <or-localized-value class="or-title" value={opts.item._source.title} />
-      </a>
-    </div>
-
-    <div if={opts.item._type == 'magazines'}>
-      <or-medium item={opts.item} />
-      <or-people-list people={opts.item._source.people[16530]} />
-      <a class="or-modal-trigger" or-tag="or-magazine">
-        <or-localized-value class="or-title" value={opts.item._source.title} />
-      </a>
-    </div>
-
-    <div if={opts.item._type == 'chronology'}>
-      <or-people-list people={opts.item._source.people[12064]} />
-      <a class="or-modal-trigger" or-tag="or-chronology-detail">
-        <strong>
-          <or-localized-value class="or-title" value={opts.item._source.title} />
-        </strong>
-      </a>
-      <em>
-        {t('exhibition', {count: 1, capitalize: true})} {or.i18n.t('in')}
-        <or-attribute
-          each={id in opts.item._source.attrs.ids[7][168]}
-          key={id}
-          shorten-to={100}
-        />,
-        {range_label()}
-      </em>
-    </div>
-
-    <div class="clearfix"></div>
+  <div if={opts.item._type == 'sources'}>
+    <or-medium item={opts.item} />
+    <or-people-list people={opts.item._source.people[12063]} />
+    <a class="or-modal-trigger" or-tag="or-source">
+      <or-localized-value class="or-title" value={opts.item._source.title} />
+    </a>
+    <or-journal-and-volume item={opts.item} />
+    <or-localized-value
+      class="or-text"
+      value={opts.item._source.interpretation}
+    />
   </div>
+
+  <div if={opts.item._type == 'interviews'}>
+    <or-medium item={opts.item} />
+    <or-people-list people={opts.item._source.people[16530]} />
+    <a class="or-modal-trigger" or-tag="or-interview">
+      <or-localized-value class="or-title" value={opts.item._source.title} />
+    </a>
+  </div>
+
+  <div if={opts.item._type == 'articles'}>
+    <or-medium item={opts.item} />
+    <or-people-list people={opts.item._source.people[16530]} />
+    <a class="or-modal-trigger" or-tag="or-article">
+      <or-localized-value class="or-title" value={opts.item._source.title} />
+    </a>
+  </div>
+
+  <div if={opts.item._type == 'magazines'}>
+    <or-medium item={opts.item} />
+    <or-people-list people={opts.item._source.people[16530]} />
+    <a class="or-modal-trigger" or-tag="or-magazine">
+      <or-localized-value class="or-title" value={opts.item._source.title} />
+    </a>
+  </div>
+
+  <div if={opts.item._type == 'chronology'}>
+    <or-people-list people={opts.item._source.people[12064]} />
+    <a class="or-modal-trigger" or-tag="or-chronology-detail">
+      <strong>
+        <or-localized-value class="or-title" value={opts.item._source.title} />
+      </strong>
+    </a>
+    <em>
+      {t('exhibition', {count: 1, capitalize: true})} {or.i18n.t('in')}
+      <or-attribute
+        each={id in opts.item._source.attrs.ids[7][168]}
+        key={id}
+        shorten-to={100}
+      />,
+      {range_label()}
+    </em>
+  </div>
+  <div class="clearfix"></div>
 
   <style type="text/scss">
     or-list-item {
-      display: block;
-      border-top: 1px solid black;
-      border-bottom: 1px solid black;
-      margin-bottom: -1px;
-      padding: 1em;
-      padding-top: 2em;
-      padding-bottom: 2em;
+      & > div {
+        display: inline;
+      }
 
       a {
         cursor: pointer;
@@ -94,10 +87,6 @@
         margin-bottom: 0.3rem;
       }
 
-      .or-title {
-        display: block;
-      }
-
       or-journal-and-volume {
         display: block;
         font-size: 0.8rem;
@@ -114,6 +103,26 @@
 
       .clearfix {
         clear: both;
+      }
+    }
+
+    or-item-list, or-chronology-results {
+      or-list-item {
+        display: block;
+        border-top: 1px solid black;
+        border-bottom: 1px solid black;
+        margin-bottom: -1px;
+        padding: 1em;
+        padding-top: 2em;
+        padding-bottom: 2em;
+
+        & > div {
+          display: block;
+        }
+
+        .or-title {
+          display: block;
+        }
       }
     }
   </style>

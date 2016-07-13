@@ -2,6 +2,12 @@
 
   <span>{value()}</span>
 
+  <style type="text/scss">
+    or-localized-value {
+      display: inline;
+    }
+  </style>
+
   <script type="text/coffee">
     self = this
     
