@@ -45,6 +45,8 @@
           padding-bottom: 0.8rem;
           background-color: #efefef;
           border-radius: 3px;
+          font-family: sans-serif;
+          text-decoration: none;
 
           &.current {
             background-color: #ffffff;

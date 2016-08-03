@@ -124,7 +124,8 @@ directly above the closing body tag:
 
 because that allows you to use the custom tags anywhere on the page. It doesn't
 matter how you place the content. This can be a static html page or a page
-managed via a content management system.
+managed with a content management system. Note that the `or-api-url` attribute
+has to be set to the url where the app was deployed to.
 
 ### Widgets
 
