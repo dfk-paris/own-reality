@@ -41,12 +41,15 @@
           box-sizing: border-box;
           cursor: pointer;
           padding: 0.5rem;
-          padding-top: 1rem;
-          padding-bottom: 1rem;
-          background-color: #adadad;
+          padding-top: 0.8rem;
+          padding-bottom: 0.8rem;
+          background-color: #efefef;
+          border-radius: 3px;
 
           &.current {
-            background-color: grey; 
+            background-color: #ffffff;
+            border-top: 0.2rem solid #6e6e6e;
+            padding-top: 0.6rem;
           }
         }
       }

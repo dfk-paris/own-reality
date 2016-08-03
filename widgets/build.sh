@@ -7,8 +7,8 @@ function deps {
     widgets/vendor/jquery-ui.js \
     widgets/vendor/jquery.easyModal.js \
     node_modules/vis/dist/vis-timeline-graph2d.min.js \
-    node_modules/riot/riot.min.js \
-    -o tmp/deps.js
+    node_modules/riot/riot.js \
+    -o tmp/deps.js # -b
 
   cp node_modules/vis/dist/vis.css tmp/_vis.scss
   cp widgets/vendor/jquery-ui.css tmp/_jquery-ui.css

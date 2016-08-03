@@ -5,7 +5,7 @@
       <span if={!url()}>PDF</span>
     </a>
     <div class="or-download" if={download_url()}>
-      <a href={download_url()}>
+      <a href={download_url()} download="article.pdf">
         {or.i18n.t('download')}
       </a>
     </div>
