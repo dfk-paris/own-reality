@@ -45,7 +45,7 @@
       </strong>
     </a>
     <em>
-      {t('exhibition', {count: 1, capitalize: true})} {or.i18n.t('in')}
+      {t('exhibition', {count: 1, capitalize: true})} {or.i18n.t('in_country')}
       <or-attribute
         each={id in opts.item._source.attrs.ids[7][168]}
         key={id}

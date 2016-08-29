@@ -47,6 +47,7 @@
           border-radius: 3px;
           font-family: sans-serif;
           text-decoration: none;
+          font-size: 0.8rem;
 
           &.current {
             background-color: #ffffff;

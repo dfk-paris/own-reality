@@ -27,6 +27,10 @@ class OwnReality::ProwebReader
     @categories ||= OwnReality::AttributeCategoriesReader.from_file
   end
 
+  def translators
+    @translators ||= OwnReality::TranslatorsReader.from_file
+  end
+
   def require_attributes(a)
     if a.is_a?(Proweb::Attribute)
       @attribute_ids[a.id] = true
@@ -181,8 +185,18 @@ class OwnReality::ProwebReader
         "attrs" => attrs(o),
         "updated_by" => o.updated_by,
         "updated_at" => date_from(o.updated_on),
-        "created_by" => o.created_by
+        "created_by" => o.created_by,
+        'translators' => translators.by_id(o.id)
       }
+
+      unless data['translators']
+        OwnReality.log_anomaly(
+          "matching translators data to source entries",
+          "proweb-object",
+          o.id,
+          "doesn't have translators data"
+        )
+      end
 
       data["from_date"] ||= data["to_date"]
       data["to_date"] ||= data["from_date"]
@@ -469,20 +483,22 @@ class OwnReality::ProwebReader
           12066 => 12064,
           12067 => 12064,
           12068 => 12064,
-          12069 => 12064,
           12071 => 12064,
           12073 => 12064,
           13625 => 12064,
           13636 => 12064,
           16530 => 12064
-        }
+        },
+        drop_roles: [12069]
       )
 
       data = {}
       article.people_by_role_ids.each do |k, v|
-        role = options[:role_mapping][k] || k
-        data[role] ||= []
-        data[role] += v
+        unless options[:drop_roles].include?(k)
+          role = options[:role_mapping][k] || k
+          data[role] ||= []
+          data[role] += v
+        end
       end
 
       result = {}

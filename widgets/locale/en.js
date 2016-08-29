@@ -58,6 +58,7 @@ ownreality.i18n.translations.en = {
   "next_page": "next",
   "previous_page": "previous",
   "in": "in",
+  "in_country": "in",
   "too_much_data": "too much data",
   "no_data": "no data",
   "next": "next",
