@@ -56,7 +56,6 @@ class OwnReality::ProwebReader
         "id" => o.id,
         "title" => with_translations(o, :title),
         "short_title" => short_title(with_translations(o, :short_title)),
-        "url" => with_translations(o, :content),
         "people" => people_by_role(o),
         "attrs" => attrs(o),
         "updated_by" => o.updated_by,
@@ -67,7 +66,7 @@ class OwnReality::ProwebReader
       pfc = OwnReality::ProwebFileConverter.new(o.id)
       data["pdfs"] = pfc.pdfs_by_locale
 
-      add_lodel_html(data, o)
+      add_html(data, o)
 
       yield data
       bar.increment
@@ -82,7 +81,6 @@ class OwnReality::ProwebReader
         "id" => o.id,
         "title" => with_translations(o, :title),
         "short_title" => short_title(with_translations(o, :short_title)),
-        "url" => with_translations(o, :content),
         "people" => people_by_role(o),
         "attrs" => attrs(o),
         "updated_by" => o.updated_by,
@@ -93,7 +91,7 @@ class OwnReality::ProwebReader
       pfc = OwnReality::ProwebFileConverter.new(o.id)
       data["pdfs"] = pfc.pdfs_by_locale
 
-      add_lodel_html(data, o)
+      add_html(data, o)
 
       yield data
       bar.increment
@@ -108,7 +106,6 @@ class OwnReality::ProwebReader
         "id" => o.id,
         "title" => with_translations(o, :title),
         "short_title" => short_title(with_translations(o, :short_title)),
-        "url" => with_translations(o, :content),
         "people" => people_by_role(o),
         "attrs" => attrs(o),
         "updated_by" => o.updated_by,
@@ -119,7 +116,7 @@ class OwnReality::ProwebReader
       pfc = OwnReality::ProwebFileConverter.new(o.id)
       data["pdfs"] = pfc.pdfs_by_locale
 
-      add_lodel_html(data, o)
+      add_html(data, o)
 
       yield data
       bar.increment
@@ -326,20 +323,10 @@ class OwnReality::ProwebReader
       end
     end
 
-    def add_lodel_html(data, object)
-      data["url"].each do |lang, url|
-        html = OwnReality::LodelParser.new(url).parse
-        if html
-          data["html"] ||= {}
-          data["html"][lang] = html
-        else
-          OwnReality.log_anomaly(
-            "fetching HTML from lodel",
-            "proweb-object",
-            object.id,
-            "html for lang #{lang} from #{url} couldn't be fetched"
-          )
-        end
+    def add_html(data, object)
+      data['title'].keys.each do |lang|
+        data['html'] ||= {}
+        data['html'][lang] = OwnReality::TeiHtmlParser.new(object.id, lang).html
       end
     end
 
