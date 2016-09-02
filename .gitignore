@@ -11,3 +11,5 @@ public/files
 
 node_modules
 public/app.js
+
+deploy/config.sh
