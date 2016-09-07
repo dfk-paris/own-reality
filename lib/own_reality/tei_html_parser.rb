@@ -10,14 +10,17 @@ class OwnReality::TeiHtmlParser
 
   def base_path
     @base_path ||= begin
-      candidates = Dir["#{OwnReality.config['proweb']['files']['html']}/#{@id}_#{@lang}_*"]
+      candidates = (
+        Dir["#{OwnReality.config['proweb']['files']['html']}/#{@id}_#{@lang}_*"] + 
+        Dir["#{OwnReality.config['proweb']['files']['html']}/#{@id}_*"]
+      )
 
-      if candidates.size != 1
+      if candidates.empty?
         OwnReality.log_anomaly(
           "retrieving html (#{@lang})",
           "proweb-object",
           @id,
-          "there is more or less than one directory candidate (#{candidates.size})"
+          "there is no directory available to retrieve html from: #{@id}, #{@lang}"
         )
         nil
       else
@@ -29,14 +32,17 @@ class OwnReality::TeiHtmlParser
   def html_file
     if base_path
       @html_file ||= begin
-        candidates = Dir["#{base_path}/XML/HTML5/*.html"]
+        candidates = (
+          Dir["#{base_path}/XML/HTML5/*.html"] +
+          Dir["#{base_path}/XML/XHTML/*.html"]
+        )
 
-        if candidates.size != 1
+        if candidates.empty?
           OwnReality.log_anomaly(
             "retrieving html (#{@lang})",
             "proweb-object",
             @id,
-            "there is more or less than one html file candidate (#{candidates.size})"
+            "there is no html file available (#{base_path})"
           )
           nil
         else
