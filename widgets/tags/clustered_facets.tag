@@ -49,11 +49,11 @@
         <a
           href="#"
           class="or-show-all"
-          show={parent.many_buckets(opts.aggregations.journals)}
+          show={many_buckets(opts.aggregations.journals)}
           data-type="journals"
         >
           {parent.or.i18n.t('show_all')}
-          <span show={parent.countless_buckets(aggregation)}>(> 20)</span>
+          <span show={countless_buckets(aggregation)}>(> 20)</span>
         </a>
         <div class="or-custom-category">
           {parent.or.i18n.t('magazine', {count: 'other'})}
@@ -76,6 +76,7 @@
           class="or-show-all"
           show={parent.many_buckets(aggregation)}
           data-type="attribs"
+          key={key}
         >
           {parent.or.i18n.t('show_all')}
           <span show={parent.countless_buckets(aggregation)}>(> 20)</span>
@@ -137,6 +138,7 @@
       journals: []
     }
     self.expanded = {}
+    window.x = self
 
     self.or.bus.on 'packed-data', (data) ->
       self.keys.attribs = data['attribs'] || []
@@ -190,7 +192,6 @@
       for item in what.journals
         i = unpacked.journals.indexOf(item)
         unpacked.journals.splice(i, 1)
-      console.log 'remove:', unpacked
       ownreality.routing.pack(unpacked)
 
     self.reset = (what = {}, notify = true) ->
@@ -202,6 +203,15 @@
       )
 
     self.on 'mount', ->
+      self.bus = riot.observable()
+
+      self.bus.on 'person-clicked', (role_id, id) ->
+        what = {people: {}}
+        what.people[role_id] = [id]
+        self.add what
+
+      self.bus.on 'attrib-clicked', (id) ->
+        self.add attribs: [id]
 
       $(self.root).on 'click', '.or-bucket a.or-select', (event) ->
         event.preventDefault()
@@ -231,16 +241,21 @@
 
       $(self.root).on 'click', '.or-show-all', (event) ->
         event.preventDefault()
-        key = $(event.target).parents('.or-bucket').attr('data-id')
         type = $(event.target).attr('data-type')
+        key = $(event.target).parents('.or-bucket').attr('data-id')
         agg = self.opts.aggregations[type]
         agg = agg[parseInt(key)] if key
         if self.many_buckets(agg) 
           if self.countless_buckets(agg)
-            document.location.href = $(event.target).attr('href')
+            ownreality.bus.trigger('modal', 'or-attribute-selector',
+              orType: type
+              orCategory: key
+              bus: self.bus
+            )
+            # document.location.href = $(event.target).attr('href')
             # console.log 'dialog', agg.buckets.length
           else
-            self.expanded[key] = !self.expanded[key]
+            self.expanded[key || type] = !self.expanded[key || type]
             self.update()
         
     self.notify = ->

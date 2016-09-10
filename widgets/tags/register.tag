@@ -5,7 +5,7 @@
 
     <div each={bucket in ordered_buckets()} key={bucket.key}>
       <a>
-        {bucket.key} ({bucket.doc_count})
+        {bucket.key.toUpperCase()} ({bucket.doc_count})
       </a>
     </div>
   </div>
@@ -22,45 +22,36 @@
     self = this
 
     self.on 'mount', ->
-      self.fetch() unless self.opts.orType == 'attribs'
+      self.fetch(true)
 
       $(self.root).on 'click', 'a', (event) ->
         event.preventDefault()
         key = $(event.target).parents('div[key]').attr('key')
-        self.or.routing.set_packed initial: key
-
-      self.or.bus.on 'packed-data', (data) ->
-        console.log data
-        self.category_id = data['category_id']
-
-        if data['initial'] != self.initial || !self.buckets
-          self.initial = data['initial']
-          self.fetch(data['initial'])
-
-
-    self.or.bus.on 'locale-change', -> 
-      if self.opts.orType == 'attribs'
+        self.initial = key
         self.fetch()
-        self.fetch(self.initial) if self.initial
-      self.update()
 
-    self.fetch = (initial) ->
+      self.or.bus.on 'locale-change', -> 
+        if self.opts.orType == 'attribs'
+          self.fetch()
+        self.update()
+
+    self.fetch = (first = false) ->
       params = {
         type: self.opts.orType
         locale: self.or.config.locale
       }
-      
-      if initial
-        params['initial'] = initial
+
+      if first
         params['per_page'] = 1500
-      else
         params['register'] = true
+      else
+        params['initial'] = self.initial
 
       if self.opts.orType == 'attribs'
         params['sort'] = {"name.#{self.or.config.locale}": 'asc'}
         params['kind_id'] = 43
         params['klass_id'] = 6
-        params['category_id'] = self.category_id
+        params['category_id'] = self.opts.orCategory
 
       if self.opts.orType == 'people'
         params['sort'] = [{last_name: 'asc'}, {first_name: 'asc'}]
@@ -71,20 +62,21 @@
         data: JSON.stringify(params)
         contentType: "application/json; charset=utf-8"
         success: (data) ->
-          console.log data
-
-          if initial
-            self.or.bus.trigger 'register-results', data
-          else
+          if first
+            # console.log data
             self.buckets = data.aggregations.register.buckets
             self.update()
+            self.initial = 'a'
+            self.fetch()
+          else
+            self.opts.bus.trigger 'register-results', data
       )
 
     self.ordered_buckets = -> 
       self.buckets.sort (x, y) -> self.or.compare(x.key, y.key)
     self.category_label = ->
-      # console.log self.or.config.server.categories[self.category_id]
-      self.or.i18n.l(self.or.config.server.categories[self.category_id])
+      # console.log 'label', self.opts.orCategory
+      self.or.i18n.l(self.or.config.server.categories[self.opts.orCategory])
 
   </script>
 

@@ -42,7 +42,7 @@
       )
 
     self.or.bus.on 'modal', (url_or_tag, opts) ->
-      # console.log arguments
+      # console.log 'building modal with', arguments
       if opts
         self.src = null
         riot.mount $(self.root).find('.or-custom-tag')[0], url_or_tag, opts

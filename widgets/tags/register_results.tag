@@ -50,31 +50,18 @@
   <script type="text/coffee">
     self = this
 
-    self.or.bus.on 'register-results', (data) ->
+    self.opts.bus.on 'register-results', (data) ->
       # console.log data
       self.data = data
       self.update()
 
     self.person_click_handler = (item, role_id) ->
       (event) ->
-        base = self.opts.orBaseTargetUrl
-        data = {}
-        data[item._type] = {}
-        data[item._type][role_id] = [item._id]
-        q = ownreality.routing.pack_to_string(data)
-        href = "#{base}#/?q=#{q}"
-        document.location.href = href
+        self.opts.bus.trigger 'person-clicked', role_id, item._id
 
     self.attrib_click_handler = (item) ->
       (event) ->
-        base = self.opts.orBaseTargetUrl
-        data = {}
-        data[item._type] = []
-        data[item._type].push(item._id)
-        q = ownreality.routing.pack_to_string(data)
-        href = "#{base}#/?q=#{q}"
-        document.location.href = href
-
+        self.opts.bus.trigger 'attrib-clicked', item._id
 
     self.urlFor = (item) -> "#"
 
