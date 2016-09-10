@@ -83,7 +83,7 @@
     self.ordered_buckets = -> 
       self.buckets.sort (x, y) -> self.or.compare(x.key, y.key)
     self.category_label = ->
-      console.log self.or.config.server.categories[self.category_id]
+      # console.log self.or.config.server.categories[self.category_id]
       self.or.i18n.l(self.or.config.server.categories[self.category_id])
 
   </script>

@@ -51,7 +51,7 @@
     self = this
 
     self.or.bus.on 'register-results', (data) ->
-      console.log data
+      # console.log data
       self.data = data
       self.update()
 
