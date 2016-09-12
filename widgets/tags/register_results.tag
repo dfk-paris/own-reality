@@ -6,6 +6,7 @@
         if={result._type == 'attribs'}
         attrib={result._source}
         onclick={attrib_click_handler(result)}
+        shorten-to={300}
       ></or-attribute>
       <span if={result._type == 'people'}>
         <or-person
