@@ -115,6 +115,10 @@ class OwnReality::ProwebReader
 
       pfc = OwnReality::ProwebFileConverter.new(o.id)
       data["pdfs"] = pfc.pdfs_by_locale
+      data['journal_short'] = (
+        short_journal_name_map[data['title'].values.first] ||
+        data['title'].values.first
+      )
 
       add_html(data, o)
 

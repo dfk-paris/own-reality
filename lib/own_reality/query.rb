@@ -318,7 +318,6 @@ class OwnReality::Query
     end
 
     Rails.logger.debug data.inspect
-
     response = elastic.request "post", "_search", nil, data
     elastic.handle response
   end
