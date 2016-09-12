@@ -155,3 +155,11 @@ required on the same page
 results, required attributes: **id** (the id of the object to display, e.g.
 "23258") **type** (can have values "articles", "sources", "interviews" or
 "magazines")
+* `<or-item></or-item>` shows an individual item as inline as possible. required
+attributes: **id** (the id of the object to display), **type** (magazines or 
+articles or interviews). By default, the items title is shown as a link to a
+dialog that shows more detail. You may specify **label** which will show that
+information instead. If you set **or-search-url** to an url, then the widget
+will assume that there is a working search on that page; on click, the user will
+be switching to that search page with this item preconfigured as criterion
+(currently only works for the magazines type)

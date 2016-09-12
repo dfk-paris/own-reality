@@ -30,7 +30,7 @@
     packed: -> 
       ownreality.routing.query()['q']
     set_packed: (values = {}) ->
-      unpacked = self.ownreality.routing.unpack()
+      unpacked = ownreality.routing.unpack()
       for k, v of values
         if v then unpacked[k] = v else delete unpacked[k]
       if ownreality.routing.pack_to_string(unpacked) != ownreality.routing.packed()
@@ -43,8 +43,8 @@
         ownreality.routing.query(
           'q': ownreality.routing.pack_to_string(unpacked)
         )
-      # else
-        # ownreality.routing.query 'q': null
+      else
+        ownreality.routing.query 'q': null
     unpack: (packed = null) ->
       packed ||= ownreality.routing.packed()
       if packed
