@@ -10,7 +10,6 @@
         background-color: #ffffff;
         position: absolute;
         width: 60%;
-        height: 500px;
         overflow-y: auto;
 
         iframe {
@@ -41,6 +40,8 @@
           self.or.routing.set_packed modal: null, tag: null, id: null, clang: null
       )
 
+      $(window).on 'resize', fix_height
+
     self.or.bus.on 'modal', (url_or_tag, opts) ->
       # console.log 'building modal with', arguments
       if opts
@@ -50,11 +51,16 @@
         self.src = url_or_tag
       
       self.update()
+      fix_height()
       self.modal.trigger 'openModal'
 
     self.or.bus.on 'close-modal', -> self.modal.trigger 'closeModal'
 
     self.or.bus.on 'reset-search-with', -> self.modal.trigger('closeModal')
+
+    fix_height = ->
+      new_height = Math.max($(window).height() - 100, 500)
+      $(self.root).find('.or-modal').css 'height', new_height
 
   </script>
 </or-modal>
