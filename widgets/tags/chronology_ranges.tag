@@ -44,14 +44,17 @@
         url: "#{self.or.config.api_url}/api/entities/search"
         data: self.params
         success: (data) ->
-          console.log 'chrono', data
+          # console.log 'chrono', data
           unless self.initialized
             self.or.data = data
             self.initialized = true
-          self.or.data.records = data.records
-          self.or.cache_attributes(self.attribute_ids())
-          self.or.bus.trigger 'results'
-          self.update()
+            self.params.year_ranges = 1960
+            self.search()
+          else
+            self.or.data.records = data.records
+            self.or.cache_attributes(self.attribute_ids())
+            self.or.bus.trigger 'results'
+            self.update()
       )
 
     self.attribute_ids = ->
