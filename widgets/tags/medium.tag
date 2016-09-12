@@ -44,7 +44,8 @@
         "#{self.or.config.api_url}/files/#{self.hash()}/140.jpg"
     self.download_url = ->
       if self.has_preview()
-        "#{self.or.config.api_url}/api/entities/download/#{self.hash()}.pdf"
+        filename = "#{self.or.i18n.l(self.opts.item._source.title)}.pdf"
+        "#{self.or.config.api_url}/api/entities/download/#{self.hash()}.pdf?fn=#{filename}"
     self.pdf_url = ->
       if self.hash()
         "#{self.or.config.api_url}/files/#{self.hash()}/original.pdf"

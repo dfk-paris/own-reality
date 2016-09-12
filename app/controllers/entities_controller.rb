@@ -38,7 +38,7 @@ class EntitiesController < ApplicationController
     hash = params[:hash].gsub(/[\\\/]/, '')
     path = "#{Rails.root}/public/files/#{hash}/original.pdf"
     send_data(File.read(path),
-      :filename => "article.pdf",
+      :filename => params[:fn],
       :disposition => "attachment",
       :type => "application/pdf"
     )
