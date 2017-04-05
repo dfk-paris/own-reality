@@ -29,7 +29,6 @@
   <script type="text/coffee">
     self = this
     
-
     self.on 'mount', ->
       $(self.root).on 'click', '.or-modal', (event) ->
         event.preventDefault()

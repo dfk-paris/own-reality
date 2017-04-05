@@ -39,11 +39,12 @@
       params = {
         type: self.opts.orType
         locale: self.or.config.locale
+        per_page: 1500
       }
 
       if first
-        params['per_page'] = 1500
         params['register'] = true
+        params['per_page'] = 1500
       else
         params['initial'] = self.initial
 

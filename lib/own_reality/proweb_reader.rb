@@ -447,6 +447,7 @@ class OwnReality::ProwebReader
             when "Deutsch" then result['de'] = t.send(column)
             when "Französisch" then result['fr'] = t.send(column)
             when "Englisch" then result['en'] = t.send(column)
+            when "Neutral" then result['pl'] = t.send(column)
           end
         end
       end
