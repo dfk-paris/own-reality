@@ -1,0 +1,17 @@
+or-slider, [data-is=or-slider] {
+  .or-min {
+    float: left;
+  }
+
+  .or-max {
+    float: right;
+  }
+
+  .or-current {
+    text-align: center;
+  }
+
+  .or-clearfix {
+    clear: both;
+  }
+}

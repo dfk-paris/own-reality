@@ -11,26 +11,6 @@
     </span>
   </span>
 
-  <style type="text/scss">
-    or-journal-and-volume {
-      .or-list {
-        line-height: 1.5rem;
-        
-        .or-list-element {
-          padding-right: 0.2rem;
-
-          .or-journal {
-            font-size: 0.7rem;
-            border-radius: 3px;
-            padding: 0.2rem;
-            background-color: darken(#ffffff, 20%);
-            white-space: nowrap;
-          }
-        }
-      }
-    }
-  </style>
-
   <script type="text/coffee">
     self = this
 

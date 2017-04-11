@@ -1,0 +1,15 @@
+or-general-filters, [data-is=or-general-filters] {
+  .form-control {
+    margin-bottom: 1rem;
+
+    input[type=text] {
+      width: 100%;
+    }
+
+    input[type=checkbox] {
+      margin-right: 0.5rem;
+      position: relative;
+      top: 2px;
+    }
+  }
+}

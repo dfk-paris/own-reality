@@ -6,15 +6,29 @@ class OwnReality::ProwebFileConverter
 
   def pdfs_by_locale
     results = {}
-    Proweb::Object.find(@proweb_id).files.each do |file|
-      l = file.split(/[_\.]/)[-2].downcase
-      l = 'pl' if l == 'pol'
-      h = hash(File.stat(file).mtime.to_s + file)
-      dir = Pathname.new("#{Proweb.config['files']['public']}/#{h}")
-      system "mkdir -p #{dir}"
-      system "ln -sfn \"#{file}\" \"#{dir}/original.pdf\""
-      results[l] = h
+    ['fr', 'de', 'en', 'pl'].each do |lang|
+      if f = OwnReality.k_files["pdf_#{lang}_#{@proweb_id}"]
+        target = "#{original_dir}/original_#{lang}.pdf"
+        unless File.exists?(target)
+          system "cp \"#{f}\" #{target}"
+        end
+        public_target = "#{public_dir}/original_#{lang}.pdf"
+        unless File.exists?(public_target)
+          system "ln -sfn #{target} #{public_target}"
+        end
+        results[lang] = "files/#{hash}/original_#{lang}.pdf"
+      end
     end
+
+    if results.keys.empty?
+      OwnReality.log_anomaly(
+        "finding pdfs for paper",
+        "proweb-id",
+        @proweb_id,
+        "no pdfs found"
+      )
+    end
+
     results
   end
 
@@ -103,12 +117,13 @@ class OwnReality::ProwebFileConverter
     end
   end
 
-  def shrink
-    original = "#{public_dir}/original.pdf"
+  def shrink(lang = nil)
+    ls = (lang ? '_' + lang : nil)
+    original = "#{public_dir}/original#{ls}.pdf"
 
     if File.exists?(original)
       resolutions.each do |r|
-        target = "#{public_dir}/#{r}.jpg"
+        target = "#{public_dir}/#{r}#{ls}.jpg"
         unless File.exists?(target)
           command = "convert #{original}[0] -resize \"#{r}x#{r}>\" -alpha remove #{target}"
           result = run command
@@ -129,10 +144,11 @@ class OwnReality::ProwebFileConverter
     rout, wout = IO.pipe
     rerr, werr = IO.pipe
     pid = Process.spawn(command, out: wout, err: werr)
-    status = Process.wait(pid)
+    Process.wait(pid)
+    status = $?
     wout.close
     werr.close
-    {stdout: rout.read, stderr: rerr.read, status: status}
+    {stdout: rout.read, stderr: rerr.read, status: status.to_i}
   end
 
 end

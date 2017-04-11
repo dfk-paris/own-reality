@@ -1,30 +1,30 @@
 <or-article>
   
-<div>
+  <div>
     <or-item-metadata item={opts.item} />
     <or-paper item={opts.item} />
   </div>
 
   <script type="text/coffee">
-    self = this
+    tag = this
 
-    self.on 'mount', ->
-      if self.opts.item
-        self.cache_attributes()
+    tag.on 'mount', ->
+      if tag.opts.item
+        tag.cache_attributes()
       else
         $.ajax(
           type: 'GET'
-          url: "#{self.or.config.api_url}/api/items/articles/#{self.opts.id}"
+          url: "#{wApp.config.api_url}/api/items/articles/#{tag.opts.id}"
           success: (data) ->
-            # console.log data
-            self.opts.item = data.docs[0]
-            self.cache_attributes()
-            self.update()
+            console.log data
+            tag.opts.item = data.docs[0]
+            tag.cache_attributes()
+            tag.update()
         )
 
-    self.cache_attributes = ->
+    tag.cache_attributes = ->
       try
-        self.or.cache_attributes(self.opts.item._source.attrs.ids[6][43])
+        wApp.cache.attributes(tag.opts.item._source.attrs.ids[6][43])
       catch e
         console.log e
   </script>

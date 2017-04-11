@@ -1,0 +1,125 @@
+@import 'styles/palette';
+
+@import 'styles/w/app';
+@import 'styles/w/messaging';
+@import 'styles/w/modal';
+@import 'styles/w/bar_chart';
+
+@import 'styles/filtered_chronology';
+@import 'styles/general_filters';
+@import 'styles/clustered_facets';
+@import 'styles/slider';
+@import 'styles/results';
+@import 'styles/list_item';
+@import 'styles/item_metadata';
+@import 'styles/paper';
+
+or-pagination, [data-is=or-pagination] {
+  a {
+    cursor: pointer;
+  }
+}
+
+or-item-list, [data-is=or-item-list] {
+  or-pagination {
+    display: block;
+    text-align: right;
+  }
+}
+
+or-language-selector, [data-is=or-language-selector] {
+  line-height: 1.5rem;
+
+  a {
+    cursor: pointer;
+  }
+  
+  .or-list-element {
+    padding-right: 0.2rem;
+
+    & > span {
+      font-size: 0.7rem;
+      border-radius: 3px;
+      padding: 0.2rem;
+      background-color: darken(#ffffff, 20%);
+      white-space: nowrap;
+    }
+  }
+}
+
+or-busy-wheel, [data-is=or-busy-wheel] {
+  width: 64px;
+  height: 64px;
+  display: none;
+
+  img {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+or-medium, [data-is=or-medium] {
+  text-align: right;
+
+  img {
+    width: 140px !important;
+    border-radius: 6px;
+  }
+
+  .or-download {
+    margin-top: 1rem;
+  }
+}
+
+or-localized-value, [data-is=or-localized-value] {
+  display: inline;
+}
+
+or-attribute, [data-is=or-attribute] {
+  cursor: pointer;
+}
+
+or-iframe, [data-is=or-iframe] {
+  iframe {
+    display: block;
+    border: none;
+    width: 800px;
+    height: 100%;
+  }
+}
+
+or-people-list, [data-is=or-people-list] {
+  .or-list {
+    line-height: 1.5rem;
+    
+    .or-list-element {
+      padding-right: 0.2rem;
+
+      or-person {
+        font-size: 0.7rem;
+        border-radius: 3px;
+        padding: 0.2rem;
+        background-color: darken(#ffffff, 20%);
+        white-space: nowrap;
+      }
+    }
+  }
+}
+
+or-journal-and-volume, [data-is=or-journal-and-volume] {
+  .or-list {
+    line-height: 1.5rem;
+    
+    .or-list-element {
+      padding-right: 0.2rem;
+
+      .or-journal {
+        font-size: 0.7rem;
+        border-radius: 3px;
+        padding: 0.2rem;
+        background-color: darken(#ffffff, 20%);
+        white-space: nowrap;
+      }
+    }
+  }
+}

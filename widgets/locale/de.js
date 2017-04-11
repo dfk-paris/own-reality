@@ -1,4 +1,4 @@
-ownreality.i18n.translations.de = {
+wApp.i18n.translations.de = {
   "de": "deutsch",
   "fr": "französisch",
   "en": "englisch",

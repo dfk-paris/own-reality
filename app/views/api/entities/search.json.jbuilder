@@ -16,3 +16,5 @@ json.aggregations do
 end
 json.total @result["hits"]["total"]
 json.records @result["hits"]["hits"]
+json.page params[:page] || 1
+json.per_page params[:per_page] || 10

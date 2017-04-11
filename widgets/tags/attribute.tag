@@ -1,28 +1,27 @@
-<or-attribute key={attr().id} title={desc()}>
+<or-attribute title={desc()}>
 
-  <span>{short()}</span>
-
-  <style type="text/scss">
-    or-attribute {
-      cursor: pointer;
-    }
-  </style>
+  <span if={data()}>{short()}</span>
 
   <script type="text/coffee">
-    self = this
+    tag = this
+    tag.mixin(wApp.mixins.i18n)
 
-    self.attr = ->
-      self.opts.attrib || self.or.cache.attrs[self.opts.key]
-    self.full = -> self.or.i18n.l(self.attr().name)
-    self.short = ->
-      amount = self.opts.shortenTo || 30
-      result = self.full()
+    tag.data = ->
+      tag.opts.attrib || wApp.cache.data.attrs[tag.opts.key]
+    tag.full = -> 
+      tag.lv(tag.data().name)
+    tag.short = ->
+      amount = tag.opts.shortenTo || 30
+      result = tag.full()
       if result.length > amount
         result.substr(0, amount - 1) + '…'
       else
         result
-    self.desc = ->
-      "#{self.attr().id}: #{self.full()}"
+    tag.desc = ->
+      if tag.data()
+        "#{tag.data().id}: #{tag.full()}"
+      else
+        null
   </script>
 
 </or-attribute>

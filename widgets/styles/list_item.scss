@@ -1,0 +1,68 @@
+or-list-item, [data-is=or-list-item] {
+  & > div {
+    display: inline;
+  }
+
+  a {
+    cursor: pointer;
+  }
+
+  &:first-child {
+    border-top: 0px;
+  }
+
+  &:last-child {
+    border-bottom: 0px;
+  }
+
+  or-medium {
+    float: right;
+    margin-left: 1em;
+  }
+
+  or-person {
+    display: block;
+    font-size: 0.8rem;
+    line-height: 1rem;
+    color: grey;
+    margin-bottom: 0.3rem;
+  }
+
+  or-journal-and-volume {
+    display: block;
+    font-size: 0.8rem;
+    line-height: 1rem;
+    color: grey;
+    margin-bottom: 0.7em;
+  }
+
+  .or-text {
+    display: block;
+    font-size: 0.8rem;
+    line-height: 1rem;
+  }
+
+  .clearfix {
+    clear: both;
+  }
+}
+
+or-item-list, or-chronology-results {
+  or-list-item {
+    display: block;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    margin-bottom: -1px;
+    padding: 1em;
+    padding-top: 2em;
+    padding-bottom: 2em;
+
+    & > div {
+      display: block;
+    }
+
+    .or-title {
+      display: block;
+    }
+  }
+}

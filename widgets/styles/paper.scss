@@ -1,0 +1,41 @@
+or-paper, [data-is=or-paper] {
+  display: block;
+
+  h2 {
+    margin-bottom: 1.5rem;
+  }
+
+  #ariane, h2.publiParente, div.type {
+    display: none;
+  }
+
+  h3 {
+    font-weight: inherit;
+
+    .sousTitre {
+      font-style: italic;
+    }
+  }
+
+  div#texte {
+    p {
+      text-align: justify;
+
+      span.paranumber {
+        display: block;
+        float: left;
+        margin-left: -2em;
+        color: #aea79f;
+      }
+
+      a.footnotecall {
+        vertical-align: super;
+        font-size: 0.7em;
+      }
+
+      img {
+        max-width: 100%;
+      }
+    }
+  }
+}

@@ -27,14 +27,14 @@
   </style>
 
   <script type="text/coffee">
-    self = this
+    tag = this
 
-    self.on 'mount', ->
-      if self.opts.keys
-        self.or.cache_attributes(self.opts.keys).then -> console.log arguments
+    tag.on 'mount', ->
+      if tag.opts.keys
+        wApp.cache.attributes(tag.opts.keys).then -> console.log arguments
     
-    self.on 'updated', ->
-      list = $(self.root).find('.or-list')
+    tag.on 'updated', ->
+      list = $(tag.root).find('.or-list')
       items = list.children()
       items.detach().sort (x, y) -> 
         xt = $(x).text()

@@ -1,0 +1,47 @@
+or-results, [data-is=or-results] {
+  .controls {
+    margin-bottom: 1.5rem;
+
+
+    a {
+      display: block;
+      float: left;
+      width: 25%;
+      box-sizing: border-box;
+      cursor: pointer;
+      padding: 0.5rem;
+      padding-top: 0.8rem;
+      padding-bottom: 0.8rem;
+      background-color: #efefef;
+      border-radius: 3px;
+      font-family: sans-serif;
+      text-decoration: none;
+      font-size: 0.8rem;
+
+      &.current {
+        background-color: #ffffff;
+        border-top: 0.2rem solid #6e6e6e;
+        padding-top: 0.6rem;
+      }
+    }
+  }
+
+
+  ul li:before {
+    content: none !important;
+  }
+
+  .tab {
+    ul > li {
+      padding-bottom: 0px;
+
+      & > img.icon {
+        width: 1rem;
+      }
+    }
+  }
+
+  .clearfix {
+    clear: both;
+  }
+}

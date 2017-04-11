@@ -1,9 +1,24 @@
 <!DOCTYPE html>
+
 <html>
   <head>
     <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon" />
 
-    <title>Widget test page</title>
+    <title>OwnReality – Jedem seine Wirklichkeit</title>
+
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="<%= stylesheet_path('vendor.css') %>"
+    />
+
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="<%= stylesheet_path('app.css') %>"
+    />
 
     <style type="text/css">
       body {width: 100%; padding: 0px;}
@@ -38,6 +53,13 @@
       <or-busy-wheel></or-busy-wheel>
     </div>
 
-    <script type="text/javascript" src="/app.js"></script>
+    <script
+      type="text/javascript"
+      src="<%= script_path('app-noboot.js') %>"
+    ></script>
+    
+    <script type="text/javascript">
+      wApp.setup()
+    </script>
   </body>
 </html>

@@ -6,9 +6,10 @@ gem 'httpclient', '~> 2.6'
 gem 'puma'
 
 group :import do
-  source 'https://gems.dfkg.org' do
-    gem 'proweb'
-  end
+  # source 'https://gems.dfkg.org' do
+  #   gem 'proweb'
+  # end
+  gem 'proweb', path: '/home/schepp/Desktop/dev/proweb/src'
   gem 'ruby-progressbar'
 end
 

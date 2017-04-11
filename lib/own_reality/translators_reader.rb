@@ -1,57 +1,52 @@
-require "spreadsheet"
+# require "spreadsheet"
 
-class OwnReality::TranslatorsReader
+# class OwnReality::TranslatorsReader
 
-  def self.from_file
-    data = OwnReality.http_client.get_content(OwnReality.config["translators_file"])
-    book = ::Spreadsheet.open(StringIO.new(data))
+#   def initialize(file)
+#     @file = file
 
-    records = []
-    book.worksheets.each do |sheet|
-      sheet.each 1 do |row|
-        headers = sheet.first.to_a
-        record = {}
-        headers.each_with_index do |h, i|
-          value = row[i]
-          value = value.value if value.respond_to?(:value)
-          record[h] = value
-        end
+#     parse if File.exists?(file)
+#   end
 
-        if record['id'].present? && record['lang'].present?
-          records << record
-        end
-      end
-    end
+#   def parse
+#     book = ::Spreadsheet.open(@file)
 
-    data = {}
+#     records = []
+#     book.worksheets.each do |sheet|
+#       sheet.each 1 do |row|
+#         headers = sheet.first.to_a
+#         record = {}
+#         headers.each_with_index do |h, i|
+#           value = row[i]
+#           value = value.value if value.respond_to?(:value)
+#           record[h] = value
+#         end
 
-    records.each do |r|
-      data[r['id']] ||= {}
-      data[r['id']][r['lang'].downcase] = {
-        'description' => r['desc'],
-        'name' => r['name']
-      }
-    end
+#         if record['id'].present? && record['lang'].present?
+#           records << record
+#         end
+#       end
+#     end
 
-    new(data)
-  end
+#     data = {}
 
-  def initialize(data = {})
-    @data = data
-  end
+#     records.each do |r|
+#       data[r['id']] ||= {}
+#       data[r['id']][r['lang'].downcase] = {
+#         'description' => r['tr_desc'],
+#         'name' => r['tr_name']
+#       }
+#     end
 
-  def by_id(id)
-    @data[id]
-  end
+#     new(data)
+#   end
 
-  def list
-    @list
-  end
+#   def initialize(data = {})
+#     @data = data
+#   end
 
-  def for_config
-    list.map do |cat|
-      {"de" => cat}
-    end
-  end
+#   def by_id(id)
+#     @data[id]
+#   end
 
-end
+# end

@@ -2,15 +2,10 @@
 
   <span>{value()}</span>
 
-  <style type="text/scss">
-    or-localized-value {
-      display: inline;
-    }
-  </style>
-
   <script type="text/coffee">
-    self = this
+    tag = this
+    tag.mixin(wApp.mixins.i18n)
     
-    self.value = -> self.or.i18n.l(opts.value)
+    tag.value = -> tag.lv(opts.riotValue)
   </script>
 </or-localized-value>

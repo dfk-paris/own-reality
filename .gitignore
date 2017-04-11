@@ -7,9 +7,13 @@ config/app.yml
 config/secrets.yml
 *.sqlite3
 data
-public/files
-
-node_modules
-public/app.js
 
 deploy/config.sh
+
+node_modules
+public/*.html
+public/*.css
+public/*.js
+public/files
+public/images
+public/fonts

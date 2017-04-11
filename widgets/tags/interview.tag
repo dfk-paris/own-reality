@@ -6,26 +6,25 @@
   </div>
 
   <script type="text/coffee">
-    self = this
+    tag = this
 
-    self.on 'mount', ->
-      console.log 
-      if self.opts.item
-        self.cache_attributes()
+    tag.on 'mount', ->
+      if tag.opts.item
+        tag.cache_attributes()
       else
         $.ajax(
           type: 'GET'
-          url: "#{self.or.config.api_url}/api/items/interviews/#{self.opts.id}"
+          url: "#{wApp.config.api_url}/api/items/interviews/#{tag.opts.id}"
           success: (data) ->
             # console.log data
-            self.opts.item = data.docs[0]
-            self.cache_attributes()
-            self.update()
+            tag.opts.item = data.docs[0]
+            tag.cache_attributes()
+            tag.update()
         )
 
-    self.cache_attributes = ->
+    tag.cache_attributes = ->
       try
-        self.or.cache_attributes(self.opts.item._source.attrs.ids[6][43])
+        wApp.cache.attributes(tag.opts.item._source.attrs.ids[6][43])
       catch e
         console.log e
   </script>

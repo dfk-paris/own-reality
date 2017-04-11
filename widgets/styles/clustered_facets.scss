@@ -1,0 +1,34 @@
+or-clustered-facets, [data-is=or-clustered-facets] {
+  a {
+    cursor: pointer;
+  }
+
+  a.or-show-all {
+    font-size: 0.7rem;
+  }
+
+  .item {
+    cursor: pointer;
+    font-size: 0.7rem;
+    border-radius: 3px;
+    padding: 0.2rem;
+    background-color: darken(#ffffff, 20%);
+    white-space: nowrap;
+    display: inline-block;
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .or-bucket {
+    margin-top: 1rem;
+
+    .or-show-all {
+      display: block;
+      float: right;
+    }
+
+    .or-category, .or-role {
+      margin-bottom: 0.1rem;
+    }
+  }
+}

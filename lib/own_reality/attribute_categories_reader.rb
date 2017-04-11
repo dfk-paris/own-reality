@@ -2,32 +2,17 @@ require "spreadsheet"
 
 class OwnReality::AttributeCategoriesReader
 
-  def self.from_file
-    data = OwnReality.http_client.get_content(OwnReality.config["attribute_categories_file"])
-    book = ::Spreadsheet.open(StringIO.new(data))
-
-    records = []
-    book.worksheets.each do |sheet|
-      sheet.each 1 do |row|
-        headers = sheet.first.to_a
-        record = {}
-        headers.each_with_index do |h, i|
-          value = row[i]
-          value = value.value if value.respond_to?(:value)
-          record[h] = value
-        end
-        records << record if record['attribute_id'].present?
-      end
-    end
-
+  def self.from_old_data(old_data)
     categories = []
     lookup_data = {}
 
-    records.each do |r|
-      c = r["category_1"].strip
+    old_data.records.each do |r|
+      next if r['category_1'] == 'Not to be shown'
+
+      c = r["category_1"]
       attribute_id = r["attribute_id"]
 
-      if c.present?
+      if c.present? && (c = c.strip).present?
         if index = categories.index(c)
           lookup_data[attribute_id] = index
         else
@@ -35,6 +20,16 @@ class OwnReality::AttributeCategoriesReader
           lookup_data[attribute_id] = categories.size - 1
         end
       end
+    end
+
+    path = "#{Proweb.config['files']['supplements']}/attribute_category_translations.json"
+    translations = JSON.load(File.read path)
+    categories.map! do |c|
+      result = {
+        'en' => c,
+        'de' => translations[c]['de'],
+        'fr' => translations[c]['fr']
+      }
     end
 
     new(lookup_data, categories)
@@ -54,9 +49,7 @@ class OwnReality::AttributeCategoriesReader
   end
 
   def for_config
-    list.map do |cat|
-      {"de" => cat}
-    end
+    list
   end
 
 end

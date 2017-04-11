@@ -1,10 +1,12 @@
 <or-content-localized-value>
 
-  <span>{value()}</span>
+  <span if={opts.value}>{value()}</span>
 
   <script type="text/coffee">
-    self = this
+    tag = this
+    tag.mixin(wApp.mixins.i18n)
     
-    self.value = -> self.or.i18n.l(opts.value, content: true, notify: false)
+    tag.value = ->
+      tag.lv(tag.opts.value, content: true, notify: false)
   </script>
 </or-content-localized-value>

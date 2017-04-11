@@ -5,34 +5,34 @@
   />
 
   <script type="text/coffee">
-    self = this
+    tag = this
 
-    self.input = -> $(self.root).find('input')
+    tag.input = -> $(tag.root).find('input')
     
-    self.on 'mount', ->
+    tag.on 'mount', ->
       to = null
-      $(self.root).on 'keyup', ->
+      Zepto(tag.root).on 'keyup', ->
         clearTimeout(to)
-        to = setTimeout(self.notify, self.opts.timeout)
-      self.or.bus.on 'packed-data', self.from_packed_data
+        to = setTimeout(tag.notify, tag.opts.timeout)
+      wApp.bus.on 'packed-data', tag.from_packed_data
 
-    self.value = -> self.input().val()
-    self.reset = (notify = true) ->
-      self.input().val(null)
-      self.notify() if notify
-    self.notify = ->
-      self.to_packed_data()
+    tag.on 'unmount', ->
+      wApp.bus.off 'packed-data', tag.from_packed_data
+
+    tag.value = -> tag.input().val()
+    tag.reset = (notify = true) ->
+      tag.input().val(null)
+      tag.notify() if notify
+    tag.notify = ->
+      tag.to_packed_data()
 
 
-    self.from_packed_data = (data) ->
-      if data['terms'] != self.value()
-        self.input().val data['terms']
-        self.update()
-    self.to_packed_data = ->
-      self.or.routing.set_packed(
-        terms: self.value(),
-        page: 1
-      )
+    tag.from_packed_data = (data) ->
+      if data['terms'] != tag.value()
+        tag.input().val data['terms']
+        tag.update()
+    tag.to_packed_data = ->
+      wApp.routing.query terms: tag.value(), page: 1
 
   </script>
 </or-delayed-input>

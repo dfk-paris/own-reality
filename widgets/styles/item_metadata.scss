@@ -1,0 +1,39 @@
+or-item-metadata, [data-is=or-item-metadata] {
+  h2 {
+    margin-bottom: 1.5rem;
+  }
+
+  .or-subtitle {
+    margin-top: -1.5rem;
+    margin-bottom: 1.5rem;
+    font-style: italic;
+  }
+
+  .or-field {
+    margin-bottom: 1rem;
+
+    strong {
+      display: block;
+    }
+  }
+
+  .or-metadata {
+    float: left;
+    width: 30%;
+  }
+
+  .or-text {
+    float: left;
+    width: 70%;
+    box-sizing: border-box;
+    padding-left: 1rem;
+  }
+
+  .clearfix {
+    clear: both;
+  }
+
+  or-attribute, or-person, .or-journal {
+    cursor: pointer;
+  }
+}

@@ -45,7 +45,7 @@
       </strong>
     </a>
     <em>
-      {t('exhibition', {count: 1, capitalize: true})} {or.i18n.t('in_country')}
+      {t('exhibition', {count: 1, capitalize: true})} {t('in_country')}
       <or-attribute
         each={id in opts.item._source.attrs.ids[7][168]}
         key={id}
@@ -56,101 +56,31 @@
   </div>
   <div class="clearfix"></div>
 
-  <style type="text/scss">
-    or-list-item {
-      & > div {
-        display: inline;
-      }
-
-      a {
-        cursor: pointer;
-      }
-
-      &:first-child {
-        border-top: 0px;
-      }
-
-      &:last-child {
-        border-bottom: 0px;
-      }
-
-      or-medium {
-        float: right;
-        margin-left: 1em;
-      }
-
-      or-person {
-        display: block;
-        font-size: 0.8rem;
-        line-height: 1rem;
-        color: grey;
-        margin-bottom: 0.3rem;
-      }
-
-      or-journal-and-volume {
-        display: block;
-        font-size: 0.8rem;
-        line-height: 1rem;
-        color: grey;
-        margin-bottom: 0.7em;
-      }
-
-      .or-text {
-        display: block;
-        font-size: 0.8rem;
-        line-height: 1rem;
-      }
-
-      .clearfix {
-        clear: both;
-      }
-    }
-
-    or-item-list, or-chronology-results {
-      or-list-item {
-        display: block;
-        border-top: 1px solid black;
-        border-bottom: 1px solid black;
-        margin-bottom: -1px;
-        padding: 1em;
-        padding-top: 2em;
-        padding-bottom: 2em;
-
-        & > div {
-          display: block;
-        }
-
-        .or-title {
-          display: block;
-        }
-      }
-    }
-  </style>
-
   <script type="text/coffee">
-    self = this
+    tag = this
+    tag.mixin(wApp.mixins.i18n)
 
-    self.on 'mount', ->
-      unless self.opts.item
-        self.or.fetch_objects(self.opts.type)
-        self.or.bus.on 'object-data', ->
-          self.opts.item = self.or.cache.object_index[self.opts.type][self.opts.id]
-          self.update()
+    tag.on 'mount', ->
+      unless tag.opts.item
+        wApp.cache.objects(tag.opts.type)
+        wApp.bus.on 'object-data', ->
+          tag.opts.item = wApp.cache.data.object_index[tag.opts.type][tag.opts.id]
+          tag.update()
 
-      $(self.root).on 'click', 'a.or-modal-trigger', (event) ->
+      Zepto(tag.root).on 'click', 'a.or-modal-trigger', (event) ->
         event.preventDefault()
-        tag = $(event.currentTarget).attr('or-tag')
-        self.or.routing.set_packed(
+        tagName = Zepto(event.currentTarget).attr('or-tag')
+        wApp.routing.packed(
           modal: 'true',
-          tag: tag,
-          id: self.opts.item._id
-          clang: ownreality.config.locale
+          tag: tagName,
+          id: tag.opts.item._id
+          clang: wApp.config.locale
         )
 
-    self.range_label = -> self.or.range_label(self.opts.item)
+    tag.range_label = -> tag.or.range_label(tag.opts.item)
 
-    self.ld = self.or.i18n.ld
-    self.t = self.or.i18n.t
+    tag.ld = tag.ld
+    tag.t = tag.t
   </script>
 
 </or-list-item>

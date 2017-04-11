@@ -1,4 +1,6 @@
 (->
+  ownreality = ownreality || {}
+  
   ownreality.routing = {
     path_query: ->
       str = document.location.href.match(/\?([^#]+)/)[1] || ''

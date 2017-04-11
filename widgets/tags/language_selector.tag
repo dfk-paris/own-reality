@@ -1,17 +1,20 @@
 <or-language-selector>
 
   <div>
-    <select if={locales().length == 0}>
+    <select
+      onchange={newSelection}
+      ref="combo"
+    >
       <option
-        each={l in or.i18n.locales}
+        each={l in locales()}
         value={l}
-        selected={l == or.i18n.locale()}
+        selected={l == locale()}
       >
-        {or.i18n.t(l)}
+        {t(l)}
       </option>
     </select>
-    <span if={locales().length != 0}>
-      {or.i18n.t('also_available_in')}:
+    <!-- <span if={locales().length != 0}>
+      {t('also_available_in')}:
       <a
         each={locale in locales()}
         class="button or-list-element"
@@ -19,53 +22,34 @@
       >
         <span>{locale}</span>
       </a>
-    </span>
+    </span> -->
   </div>
 
-  <style type="text/scss">
-    or-language-selector {
-      line-height: 1.5rem;
-
-      a {
-        cursor: pointer;
-      }
-      
-      .or-list-element {
-        padding-right: 0.2rem;
-
-        & > span {
-          font-size: 0.7rem;
-          border-radius: 3px;
-          padding: 0.2rem;
-          background-color: darken(#ffffff, 20%);
-          white-space: nowrap;
-        }
-      }
-    }
-  </style>
-  
   <script type="text/coffee">
-    self = this
+    tag = this
+    tag.mixin(wApp.mixins.i18n)
     
-    self.on 'mount', ->
-      
-      $(self.root).find('select').on 'change', (event) ->
-        value = $(self.root).find('select').val()
-        self.or.routing.set_packed lang: value
+    tag.on 'mount', ->
+      # Zepto(tag.root).on 'click', '.button', (event) ->
+      #   event.preventDefault()
+      #   value = Zepto(event.target).parent().attr('data-locale')
+      #   wApp.routing.packed clang: value
 
-      $(self.root).on 'click', '.button', (event) ->
-        event.preventDefault()
-        value = $(event.target).parent().attr('data-locale')
-        self.or.routing.set_packed clang: value
+      wApp.bus.on 'routing:query', tag.from_packed_data
 
-      self.or.bus.on 'packed-data', self.from_packed_data
+    tag.on 'unmount', ->
+      wApp.bus.off 'routing:query', tag.from_packed_data
 
+    tag.newSelection = (event) ->
+      value = Zepto(tag.refs.combo).val()
+      wApp.routing.packed lang: value
 
-    self.locales = ->
-      (opts.locales || []).filter (e) -> e != self.or.i18n.locale(true)
+    tag.locales = ->
+      wApp.i18n.locales
+      # (opts.locales || []).filter (e) -> e != wApp.i18n.locale(true)
 
-    self.from_packed_data = (data) ->
-      value = $(self.root).find('select').val()
+    tag.from_packed_data = ->
+      value = Zepto(tag.root).find('select').val()
 
 
   </script>

@@ -1,46 +1,54 @@
 <or-person>
   
-  <span data-person-id={opts.person.id} >{label()}</span>
+  <span
+    if={person()}
+    data-person-id={person().id}
+  >{label()}</span>
 
   <script type="text/coffee">
-    self = this
+    tag = this
 
-    self.on 'update', ->
-      id = self.opts.personId
-      self.opts.person = self.or.cache.people[id]
-      self.update()
+    tag.person = ->
+      tag.opts.person || personById(tag.opts.personId)
 
-    # self.on 'mount', ->
-    #   id = self.opts.personId
-    #   self.opts.person = self.or.cache.people[id]
-    #   self.update()
+    personById = (id) ->
+      people = wApp.cache.data.people
+      if people && id
+        people[id]
+      else
+        {}
 
-      # unless self.opts.person
-      #   id = self.opts.personId
-      #   if self.opts.person = self.or.cache.people[id]
-      #     self.update()
+    # tag.on 'mount', ->
+    #   id = tag.opts.personId
+    #   tag.opts.person = tag.or.cache.people[id]
+    #   tag.update()
+
+      # unless tag.opts.person
+      #   id = tag.opts.personId
+      #   if tag.opts.person = tag.or.cache.people[id]
+      #     tag.update()
       #   else
       #     $.ajax(
       #       type: 'post'
-      #       url: "#{self.or.config.api_url}/api/entities/#{id}"
+      #       url: "#{tag.or.config.api_url}/api/entities/#{id}"
       #       data: {type: 'people'}
       #       success: (data) ->
-      #         self.opts.person = data.docs[0]._source
-      #         self.or.cache.people[id] = self.opts.person
-      #         self.update()
+      #         tag.opts.person = data.docs[0]._source
+      #         tag.or.cache.people[id] = tag.opts.person
+      #         tag.update()
       #     )
 
-    self.label = ->
-      result = if self.opts.person.first_name != null
-        if self.opts.machine
-          "#{self.opts.person.last_name}, #{self.opts.person.first_name}"
+    tag.label = ->
+      result = if tag.person().first_name != null
+        if tag.opts.machine
+          "#{tag.person().last_name}, #{tag.person().first_name}"
         else
-          "#{self.opts.person.first_name} #{self.opts.person.last_name}"
+          "#{tag.person().first_name} #{tag.person().last_name}"
       else
-        self.opts.person.last_name
+        tag.person().last_name
 
-      if self.opts.limitTo
-        self.or.i18n.limitTo(result, self.opts.limitTo)
+      if tag.opts.limitTo
+        wApp.utils.limitTo(result, tag.opts.limitTo)
       else
         result
   </script>

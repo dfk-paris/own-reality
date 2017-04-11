@@ -11,65 +11,50 @@
     <div class="or-clearfix"></div>
   </div>
 
-  <style type="text/scss">
-    or-slider 
-      .or-min {
-        float: left;
-      }
-
-      .or-max {
-        float: right;
-      }
-
-      .or-current {
-        text-align: center;
-      }
-
-      .or-clearfix {
-        clear: both;
-      }
-  </style>
-
   <script type="text/coffee">
-    self = this
+    tag = this
 
-    self.el = -> $(self.root).find('.or-slider')
+    tag.el = -> Zepto(tag.root).find('.or-slider')
     
-    self.min = -> parseInt(self.opts.min)
-    self.max = -> parseInt(self.opts.max)
+    tag.min = -> parseInt(tag.opts.min)
+    tag.max = -> parseInt(tag.opts.max)
 
-    self.on 'mount', ->
-      self.el().slider(
+    tag.on 'mount', ->
+      tag.el().slider(
         range: true
-        min: self.min()
-        max: self.max()
-        values: [self.min(), self.max()]
+        min: tag.min()
+        max: tag.max()
+        values: [tag.min(), tag.max()]
         slide: (event, ui) ->
-          self.lower = ui.values[0]
-          self.upper = ui.values[1]
-          self.update()
-        stop: (event, ui) -> self.notify()
+          tag.lower = ui.values[0]
+          tag.upper = ui.values[1]
+          tag.update()
+        stop: (event, ui) -> tag.notify()
       )
 
-      self.or.bus.on 'packed-data', self.from_packed_data
+      wApp.bus.on 'routing:query', tag.from_packed_data
 
-    self.value = -> [self.lower, self.upper]
-    self.reset = (notify = true) ->
-      self.el().slider 'values', [self.min(), self.max()]
-      self.notify() if notify
-    self.notify = -> self.to_packed_data()
+    tag.on 'unmount', ->
+      wApp.bus.off 'routing:query', tag.from_packed_data
 
-    self.from_packed_data = (data) ->
-      if data['lower'] != self.lower || data['upper'] != self.upper
-        self.el().slider 'values', [data['lower'], data['upper']]
-        self.lower = data['lower']
-        self.upper = data['upper']
-        self.update()
-    self.to_packed_data = ->
-      self.or.routing.set_packed(
+    tag.value = -> [tag.lower, tag.upper]
+    tag.reset = (notify = true) ->
+      tag.el().slider 'values', [tag.min(), tag.max()]
+      tag.notify() if notify
+    tag.notify = -> tag.to_packed_data()
+
+    tag.from_packed_data = ->
+      data = wApp.routing.packed()
+      if data['lower'] != tag.lower || data['upper'] != tag.upper
+        tag.el().slider 'values', [data['lower'], data['upper']]
+        tag.lower = data['lower']
+        tag.upper = data['upper']
+        tag.update()
+    tag.to_packed_data = ->
+      wApp.routing.packed(
         page: 1
-        lower: self.value()[0]
-        upper: self.value()[1]
+        lower: tag.value()[0]
+        upper: tag.value()[1]
       )
 
   </script>

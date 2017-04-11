@@ -1,47 +1,63 @@
 <or-clustered-facets>
   
-  <div>
+  <div if={opts.aggregations}>
     <div class="or-selected">
-      <span data-id={role_id} class="role" each={role_id, people in keys.people}>
-        <span class="item" each={key in people}>
-          {parent.or.i18n.l(parent.or.config.server.roles[role_id])}:
+      <span data-id={role_id} class="role" each={people, role_id in keys.people}>
+        <span
+          class="item"
+          each={key in people}
+          onclick={remove('people', role_id, key)}
+        >
+          {lv(wApp.config.server.roles[role_id])}:
           <or-person person-id={key} />
         </span>
       </span>
-      <span class="item" each={key in keys.journals} data-id={key}>
-        {or.filters.limitTo(key)}
+      <span
+        class="item"
+        each={key in keys.journals} data-id={key}
+        onclick={remove('journals', null, key)}
+      >
+        {wApp.utils.shorten(key)}
       </span>
-      <span class="item" each={key in keys.attribs}>
+      <span
+        class="item"
+        each={key in keys.attribs}
+        onclick={remove('attribs', null, key)}
+      >
         <or-attribute key={key} />
       </span>
     </div>
 
     <div class="or-buckets">
+
+      <!-- people bucket -->
       <div
         class="or-bucket"
-        each={key, aggregation in opts.aggregations.people}
+        each={aggregation, key in opts.aggregations.people}
         data-id={key}
-        if={aggregation.buckets.length > 0}
       >
-        <a
-          href={parent.opts.orBaseTargetPeopleUrl}
-          class="or-show-all"
-          show={parent.many_buckets(aggregation)}
-          data-type="people"
-        >
-          {parent.or.i18n.t('show_all')}
-          <span show={parent.countless_buckets(aggregation)}>(> 20)</span>
-        </a>
-        <div class="or-role">
-          {parent.or.i18n.l(parent.or.config.server.roles[key])}
-        </div>
-        <div class="or-value" each={bucket in limit_buckets(key, aggregation)}>
-          •
-          <a class="or-select"><or-person person-id={bucket.key} /></a>
-          ({bucket.doc_count})
-        </div>
+        <virtual if={aggregation.buckets.length > 0}>
+          <a
+            href={parent.opts.orBaseTargetPeopleUrl}
+            class="or-show-all"
+            show={parent.many_buckets(aggregation)}
+            data-type="people"
+          >
+            {t('show_all')}
+            <span show={parent.countless_buckets(aggregation)}>(> 20)</span>
+          </a>
+          <div class="or-role">
+            {lv(wApp.config.server.roles[key])}
+          </div>
+          <div class="or-value" each={bucket in limit_buckets(key, aggregation)}>
+            •
+            <a class="or-select"><or-person person-id={bucket.key} /></a>
+            ({bucket.doc_count})
+          </div>
+        </virtual>
       </div>
 
+      <!-- journal bucket -->
       <div
         class="or-bucket"
         if={opts.aggregations.journals.buckets.length > 0}
@@ -52,11 +68,11 @@
           show={many_buckets(opts.aggregations.journals)}
           data-type="journals"
         >
-          {parent.or.i18n.t('show_all')}
-          <span show={countless_buckets(aggregation)}>(> 20)</span>
+          {t('show_all')}
+          <span show={countless_buckets(opts.aggregations.journals)}>(> 20)</span>
         </a>
         <div class="or-custom-category">
-          {parent.or.i18n.t('magazine', {count: 'other'})}
+          {t('magazine', {count: 'other'})}
         </div>
         <div class="or-value" each={bucket in limit_buckets('journals', opts.aggregations.journals)}>
           •
@@ -65,24 +81,25 @@
         </div>
       </div>
 
+      <!-- keyword buckets -->
       <div
         class="or-bucket"
-        each={key, aggregation in opts.aggregations.attribs}
+        each={aggregation, key in opts.aggregations.attribs}
         if={aggregation.buckets.length > 0}
         data-id={key}
       >
         <a
-          href={parent.attribs_url(key)}
+          href={attribs_url(key)}
           class="or-show-all"
-          show={parent.many_buckets(aggregation)}
+          show={many_buckets(aggregation)}
           data-type="attribs"
           key={key}
         >
-          {parent.or.i18n.t('show_all')}
-          <span show={parent.countless_buckets(aggregation)}>(> 20)</span>
+          {t('show_all')}
+          <span show={countless_buckets(aggregation)}>(> 20)</span>
         </a>
         <div class="or-category">
-          {parent.or.i18n.l(parent.or.config.server.categories[key])}
+          {lv(wApp.config.server.categories[key])}
         </div>
         <div class="or-value" each={bucket in limit_buckets(key, aggregation)}>
           •
@@ -93,71 +110,41 @@
     </div>
   </div>
 
-  <style type="text/scss">
-    or-clustered-facets {
-      a {
-        cursor: pointer;
-      }
-
-      a.or-show-all {
-        font-size: 0.7rem;
-      }
-
-      .item {
-        cursor: pointer;
-        font-size: 0.7rem;
-        border-radius: 3px;
-        padding: 0.2rem;
-        background-color: darken(#ffffff, 20%);
-        white-space: nowrap;
-        display: inline-block;
-        margin-right: 0.5rem;
-        margin-bottom: 0.5rem;
-      }
-
-      .or-bucket {
-        margin-top: 1rem;
-
-        .or-show-all {
-          display: block;
-          float: right;
-        }
-
-        .or-category, .or-role {
-          margin-bottom: 0.1rem;
-        }
-      }
-    }
-  </style>
-
   <script type="text/coffee">
-    self = this
-    self.keys = {
+    tag = this
+    tag.mixin(wApp.mixins.i18n)
+
+    tag.keys = {
       attribs: []
       people: {}
       journals: []
     }
-    self.expanded = {}
-    window.x = self
+    tag.expanded = {}
 
-    self.or.bus.on 'packed-data', (data) ->
-      self.keys.attribs = data['attribs'] || []
-      self.keys.people = data['people'] || {}
-      self.keys.journals = data['journals'] || []
-      for attrib_id in self.keys.attribs
-        self.or.cache_attributes [attrib_id]
-      for role_id, people of self.keys.people
+    tag.on 'mount', ->
+      wApp.bus.on 'routing:query', tag.url_handler
+
+    tag.on 'unmount', ->
+      wApp.bus.off 'routing:query', tag.url_handler
+
+    tag.url_handler = ->
+      data = wApp.routing.packed()
+      tag.keys.attribs = data['attribs'] || []
+      tag.keys.people = data['people'] || {}
+      tag.keys.journals = data['journals'] || []
+      for attrib_id in tag.keys.attribs
+        wApp.cache.attributes [attrib_id]
+      for role_id, people of tag.keys.people
         for person_id in people
-          self.or.cache_people [person_id]
-      self.notify()
+          wApp.cache.people [person_id]
+      tag.notify()
 
-
-    self.add = (what = {}, notify = true) ->
+    tag.add = (what = {}, notify = true) ->
       what['attribs'] ||= []
       what['people'] ||= {}
       what['journals'] ||= []
 
-      unpacked = ownreality.routing.unpack()
+      unpacked = wApp.routing.packed()
       unpacked.page = 1
       for item in what.attribs
         unpacked.attribs ||= []
@@ -166,112 +153,115 @@
         for person in people
           unpacked['people'] ||= {}
           unpacked.people[role] ||= []
-          unpacked.people[role].push(person)
+          unpacked.people[role].push(parseInt(person))
       for item in what.journals
         unpacked.journals ||= []
         unpacked.journals.push(item)
-      ownreality.routing.pack(unpacked)
+      wApp.routing.packed(unpacked)
 
-    self.remove = (what = {}, notify = true) ->
-      what['attribs'] ||= []
-      what['people'] ||= {}
-      what['journals'] ||= []
+    tag.remove = (type, role_id, key) ->
+      (event) ->
+        event.preventDefault()
 
-      unpacked = ownreality.routing.unpack()
-      unpacked.page = 1
-      for item in what.attribs
-        i = unpacked.attribs.indexOf(item)
-        unpacked.attribs.splice(i, 1)
-      for role_id, people of what.people
-        role_id = parseInt(role_id)
-        for person in people
-          i = unpacked.people[role_id].indexOf(person)
-          unpacked.people[role_id].splice(i, 1)
-        delete unpacked.people[role_id] if unpacked.people[role_id].length == 0
-        delete unpacked['people'] if JSON.stringify(unpacked['people']) == '{}'
-      for item in what.journals
-        i = unpacked.journals.indexOf(item)
-        unpacked.journals.splice(i, 1)
-      ownreality.routing.pack(unpacked)
+        newPacked = wApp.routing.packed()
+        newPacked.page = 1
 
-    self.reset = (what = {}, notify = true) ->
-      ownreality.routing.set_packed(
+        switch type
+          when 'people'
+            role_id = parseInt(role_id)
+            i = newPacked.people[role_id].indexOf(key)
+            newPacked.people[role_id].splice(i, 1)
+            delete newPacked.people[role_id] if newPacked.people[role_id].length == 0
+            newPacked.people = null if JSON.stringify(newPacked['people']) == '{}'
+          when 'journals'
+            i = newPacked.journals.indexOf(key)
+            newPacked.journals.splice(i, 1)
+            newPacked.journals = null if newPacked.journals.length == 0
+          when 'attribs'
+            i = newPacked.attribs.indexOf(key)
+            newPacked.attribs.splice(i, 1)
+            newPacked.attribs = null if newPacked.attribs.length == 0
+
+        wApp.routing.packed(newPacked)
+
+    tag.reset = (what = {}, notify = true) ->
+      wApp.routing.packed(
         page: 1
         attribs: []
         people: {}
         journals: []
       )
 
-    self.on 'mount', ->
-      self.bus = riot.observable()
+    tag.on 'mount', ->
+      tag.bus = riot.observable()
 
-      self.bus.on 'person-clicked', (role_id, id) ->
+      tag.bus.on 'person-clicked', (role_id, id) ->
         what = {people: {}}
         what.people[role_id] = [id]
-        self.add what
+        tag.add what
 
-      self.bus.on 'attrib-clicked', (id) ->
-        self.add attribs: [id]
+      tag.bus.on 'attrib-clicked', (id) ->
+        tag.add attribs: [id]
 
-      $(self.root).on 'click', '.or-bucket a.or-select', (event) ->
+      Zepto(tag.root).on 'click', '.or-bucket a.or-select', (event) ->
         event.preventDefault()
-        if key = $(event.target).parents('or-attribute').attr('key')
-          self.add attribs: [key]
-        else if key = $(event.target).parents('or-person').attr('person-id')
-          role_id = $(event.target).parents('.or-bucket').attr('data-id')
+        if key = Zepto(event.target).parents('or-attribute').attr('key')
+          tag.add attribs: [key]
+        else if key = Zepto(event.target).parents('or-person').attr('person-id')
+          role_id = Zepto(event.target).parents('.or-bucket').attr('data-id')
           what = {people: {}}
           what.people[role_id] = [key]
-          self.add what
+          tag.add what
         else
-          key = $(event.target).text()
-          self.add journals: [key]
+          key = Zepto(event.target).text()
+          tag.add journals: [key]
 
-      $(self.root).on 'click', '.or-selected .item', (event) ->
-        event.preventDefault()
-        if key = $(event.target).parents('or-attribute').attr('key')
-          self.remove attribs: [key]
-        else if key = $(event.target).parents('or-person').attr('person-id')
-          role_id = $(event.target).parents('.role').attr('data-id')
-          what = {people: {}}
-          what.people[role_id] = [key]
-          self.remove what
-        else
-          key = $(event.target).attr('data-id')
-          self.remove journals: [key]
+      # Zepto(tag.root).on 'click', '.or-selected .item', (event) ->
+      #   event.preventDefault()
+      #   if key = Zepto(event.target).parents('or-attribute').attr('key')
+      #     tag.remove 'attribs', null, key
+      #   else if key = Zepto(event.target).parents('or-person').attr('person-id')
+      #     role_id = Zepto(event.target).parents('.role').attr('data-id')
+      #     what = {people: {}}
+      #     what.people[role_id] = [key]
+      #     tag.remove what
+      #   else
+      #     key = Zepto(event.target).attr('data-id')
+      #     tag.remove journals: [key]
 
-      $(self.root).on 'click', '.or-show-all', (event) ->
+      Zepto(tag.root).on 'click', '.or-show-all', (event) ->
         event.preventDefault()
-        type = $(event.target).attr('data-type')
-        key = $(event.target).parents('.or-bucket').attr('data-id')
-        agg = self.opts.aggregations[type]
+        type = Zepto(event.target).attr('data-type')
+        key = Zepto(event.target).parents('.or-bucket').attr('data-id')
+        agg = tag.opts.aggregations[type]
         agg = agg[parseInt(key)] if key
-        if self.many_buckets(agg) 
-          if self.countless_buckets(agg)
-            ownreality.bus.trigger('modal', 'or-attribute-selector',
+        if tag.many_buckets(agg) 
+          if tag.countless_buckets(agg)
+            wApp.bus.trigger('modal', 'or-attribute-selector',
               orType: type
               orCategory: key
-              bus: self.bus
+              bus: tag.bus
             )
             # document.location.href = $(event.target).attr('href')
             # console.log 'dialog', agg.buckets.length
           else
-            self.expanded[key || type] = !self.expanded[key || type]
-            self.update()
+            tag.expanded[key || type] = !tag.expanded[key || type]
+            tag.update()
         
-    self.notify = ->
-      if self.parent
-        self.parent.trigger('or-change', self)
-      self.update()
+    tag.notify = ->
+      if tag.parent
+        tag.parent.trigger('or-change', tag)
+      tag.update()
 
-    self.limit_buckets = (key, agg) ->
-      if self.expanded[key] then agg.buckets else agg.buckets.slice(0, 5)
-    self.many_buckets = (agg) -> agg.buckets.length > 5
-    self.countless_buckets = (agg) -> agg.buckets.length > 20
-    self.attribs_url = (key) ->
-      pack = self.or.routing.pack_to_string(category_id: key)
-      "#{self.opts.orBaseTargetAttribsUrl}#/?q=#{pack}"
+    tag.limit_buckets = (key, agg) ->
+      if tag.expanded[key] then agg.buckets else agg.buckets.slice(0, 5)
+    tag.many_buckets = (agg) -> agg.buckets.length > 5
+    tag.countless_buckets = (agg) -> agg.buckets.length > 20
+    tag.attribs_url = (key) ->
+      pack = wApp.routing.pack(category_id: key)
+      "#{tag.opts.orBaseTargetAttribsUrl}#/?q=#{pack}"
 
-    self.value = -> self.keys
+    tag.value = -> tag.keys
 
   </script>
 </or-clustered-facets>

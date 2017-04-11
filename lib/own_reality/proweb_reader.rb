@@ -3,12 +3,21 @@ class OwnReality::ProwebReader
   def initialize
     @sources = Proweb::Project.find(16).objects
     @chronos = Proweb::Project.find(31).objects
-    @archives = Proweb::Project.find(36).objects
     @articles = Proweb::Project.find(39).objects
     @interviews = Proweb::Project.find(40).objects
     @magazines = Proweb::Project.find(41).objects
     @attribute_ids = {}
     @people_ids = {}
+
+    old_dir = Proweb.config['files']['supplements']
+    @old_data = {
+      'attributes' => Proweb::OldDataMerger.new("#{old_dir}/proweb.attributes.all_or_projects.xls", 'attribute_id'),
+      'articles' => Proweb::OldDataMerger.new("#{old_dir}/proweb.ownreality_aufsätze.xls"),
+      'chronology' => Proweb::OldDataMerger.new("#{old_dir}/proweb.ownreality_chronologie.xls"),
+      'interviews' => Proweb::OldDataMerger.new("#{old_dir}/proweb.ownreality_interviews.xls"),
+      'magazines' => Proweb::OldDataMerger.new("#{old_dir}/proweb.ownreality_zeitschriften.xls"),
+      'sources' => Proweb::OldDataMerger.new("#{old_dir}/proweb.ownreality_datenbank.xls")
+    }
   end
 
   def config
@@ -24,12 +33,14 @@ class OwnReality::ProwebReader
   end
 
   def categories
-    @categories ||= OwnReality::AttributeCategoriesReader.from_file
+    @categories ||= OwnReality::AttributeCategoriesReader.from_old_data(
+      @old_data['attributes']
+    )
   end
 
-  def translators
-    @translators ||= OwnReality::TranslatorsReader.from_file
-  end
+  # def translators
+  #   @translators ||= OwnReality::OldDataMerger.from_file
+  # end
 
   def require_attributes(a)
     if a.is_a?(Proweb::Attribute)
@@ -187,10 +198,15 @@ class OwnReality::ProwebReader
         "updated_by" => o.updated_by,
         "updated_at" => date_from(o.updated_on),
         "created_by" => o.created_by,
-        'translators' => translators.by_id(o.id)
+        'translators' => {
+          'lang' => (@old_data['sources'].by_id[o.id] || {})['lang'],
+          'tr_desc' => (@old_data['sources'].by_id[o.id] || {})['tr_desc'],
+          'tr_name' => (@old_data['sources'].by_id[o.id] || {})['tr_name']
+        }
       }
 
       unless data['translators']
+        # binding.pry
         OwnReality.log_anomaly(
           "matching translators data to source entries",
           "proweb-object",
@@ -219,7 +235,7 @@ class OwnReality::ProwebReader
         'id' => attrib.id,
         'kind_id' => attrib.attribute_kind_id,
         'klass_id' => attrib.kind.attribute_klass_id,
-        'category_id' => categories.by_id(attrib.id),
+        'category_id' => @old_data['attributes'].by_id(attrib.id)['category_1'],
         'name' => with_translations(attrib),
         'initials' => {}
       }
@@ -266,7 +282,8 @@ class OwnReality::ProwebReader
   end
 
   def people
-    YAML.load OwnReality.http_client.get_content(OwnReality.config["users_file"])
+    path = "#{Proweb.config['files']['supplements']}/users.json"
+    YAML.load File.read(path)
   end
 
   def attribute_proweb_categories
@@ -290,8 +307,11 @@ class OwnReality::ProwebReader
       @journal_cache ||= begin
         result = {}
         @magazines.each do |mag|
-          mag.translations.map{|t| t.title}.uniq.each do |name|
+          mag.translations.map{|t| t.title.strip}.uniq.each do |name|
             result[name] = mag.id
+            if sn = short_journal_name_map[name]
+              result[sn] = mag.id
+            end
           end
         end
         result
@@ -302,13 +322,15 @@ class OwnReality::ProwebReader
         mag = nil
         names.each do |name|
           mag ||= @journal_cache[name]
+          mag ||= @journal_cache[short_journal_name_map[name]]
         end
 
         if mag
           mag
         else
+          # binding.pry
           OwnReality.log_anomaly(
-            "matchin sources to journals",
+            "matching sources to journals",
             "proweb-object",
             source.id,
             "the journal #{names.inspect} couldn't be found in #{@journal_cache.keys.inspect}"
@@ -318,7 +340,7 @@ class OwnReality::ProwebReader
         end
       else
         OwnReality.log_anomaly(
-          "matchin sources to journals",
+          "matching sources to journals",
           "proweb-object",
           source.id,
           "the source #{source.id} doesn't have a journal"
@@ -328,10 +350,7 @@ class OwnReality::ProwebReader
     end
 
     def add_html(data, object)
-      data['title'].keys.each do |lang|
-        data['html'] ||= {}
-        data['html'][lang] = OwnReality::TeiHtmlParser.new(object.id, lang).html
-      end
+      data['html'] = OwnReality::TeiHtmlParser.new(object.id).html
     end
 
     def attrs(object, options = {})
@@ -341,6 +360,8 @@ class OwnReality::ProwebReader
       }
       
       object.pw_attributes.each do |a|
+        next if attr_ignore_list.include?(a.id)
+
         klass_id = a.kind.attribute_klass_id
         kind_id = a.kind.id
         result["ids"][klass_id] ||= {}
@@ -436,7 +457,7 @@ class OwnReality::ProwebReader
       options.reverse_merge! :fill_with_nil => false
 
       result = if options[:fill_with_nil]
-        {"en" => nil, "de" => nil, "fr" => nil}
+        {"en" => nil, "de" => nil, "fr" => nil, 'pl' => nil}
       else
         {}
       end
@@ -544,6 +565,10 @@ class OwnReality::ProwebReader
         "Weltkunst" => "Weltkunst",
         "Wolkenkratzer Art Journal" => "Wolkenkratzer Art Journal"
       }
+    end
+
+    def attr_ignore_list
+      [15894, 8803, 13619, 9063, 12157]
     end
 
 end

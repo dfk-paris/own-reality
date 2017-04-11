@@ -1,11 +1,12 @@
 <or-item-metadata>
   
-  <div>
+  <div if={opts.item}>
     <h2>
       <or-content-localized-value value={opts.item._source.title} />
     </h2>
-    <div class="or-subtitle" show={opts.item._type == 'chronology'}>
-      {t('exhibition', {count: 1, capitalize: true})} {or.i18n.t('in')}
+
+    <div class="or-subtitle" if={opts.item._type == 'chronology'}>
+      {t('exhibition', {count: 1, capitalize: true})} {t('in')}
       <or-attribute
         each={id in opts.item._source.attrs.ids[7][168]}
         key={id}
@@ -17,11 +18,11 @@
     <div class="or-metadata">
       <div
         class="or-field"
-        each={role_id, people in opts.item._source.people}
+        each={people, role_id in opts.item._source.people}
         data-role-id={role_id}
       >
         <strong>
-          {parent.or.i18n.l(parent.or.config.server.roles[role_id])}:
+          {lv(wApp.config.server.roles[role_id])}:
         </strong>
         <or-people-list people={people} as-buttons={true} />
       </div>
@@ -32,21 +33,21 @@
       </div>
     </div>
 
-    <div class="or-text" show={opts.item._type == 'sources'}>
+    <div class="or-text" if={opts.item._type == 'sources'}>
       <div class="or-field">
         <or-content-localized-value value={opts.item._source.interpretation} />
       </div>
     </div>
 
-    <div class="or-text" show={opts.item._type == 'chronology'}>
+    <div class="or-text" if={opts.item._type == 'chronology'}>
       <div class="or-field">
         <or-content-localized-value value={opts.item._source.content} />
       </div>
     </div>
 
     <div
+      if={opts.item._type == 'sources' || opts.item._type == 'chronology'}
       class="clearfix"
-      show={opts.item._type == 'sources' || opts.item._type == 'chronology'}
     ></div>
     
     <div class="or-field">
@@ -54,7 +55,7 @@
       <or-attribute-list keys={opts.item._source.attrs.ids[6][43]} />
     </div>
 
-    <div class="or-field" show={opts.item._type == 'sources'}>
+    <div class="or-field" if={opts.item._type == 'sources'}>
       <strong>{t('recommended_citation_style', {count: 1, capitalize: true})}:</strong>
       <or-citation item={opts.item} />
     </div>
@@ -62,79 +63,37 @@
     <div class="clearfix"></div>
   </div>
 
-  <style type="text/scss">
-    or-item-metadata {
-      h2 {
-        margin-bottom: 1.5rem;
-      }
-
-      .or-subtitle {
-        margin-top: -1.5rem;
-        margin-bottom: 1.5rem;
-        font-style: italic;
-      }
-
-      .or-field {
-        margin-bottom: 1rem;
-
-        strong {
-          display: block;
-        }
-      }
-
-      .or-metadata {
-        float: left;
-        width: 30%;
-      }
-
-      .or-text {
-        float: left;
-        width: 70%;
-        box-sizing: border-box;
-        padding-left: 1rem;
-      }
-
-      .clearfix {
-        clear: both;
-      }
-
-      or-attribute, or-person, .or-journal {
-        cursor: pointer;
-      }
-    }
-  </style>
-
   <script type="text/coffee">
-    self = this
+    tag = this
+    tag.mixin(wApp.mixins.i18n)
 
-    self.on 'mount', ->
-      $(self.root).on 'click', 'or-attribute', (event) ->
+    tag.on 'mount', ->
+      $(tag.root).on 'click', 'or-attribute', (event) ->
         event.preventDefault()
-        if self.clickable_properties()
-          if window.confirm(self.or.i18n.t('confirm_replace_search'))
+        if tag.clickable_properties()
+          if window.confirm(tag.t('confirm_replace_search'))
             key = $(event.target).parents('or-attribute').attr('key')
-            self.or.bus.trigger 'reset-search-with', attribs: [key]
+            wApp.bus.trigger 'reset-search-with', attribs: [key]
 
-      $(self.root).on 'click', 'or-person', (event) ->
+      $(tag.root).on 'click', 'or-person', (event) ->
         event.preventDefault()
-        if self.clickable_properties()
-          if window.confirm(self.or.i18n.t('confirm_replace_search'))
+        if tag.clickable_properties()
+          if window.confirm(tag.t('confirm_replace_search'))
             role_id = $(event.target).parents('[data-role-id]').attr('data-role-id')
             key = $(event.target).attr('data-person-id')
             data = {people: {}}
             data.people[role_id] = [key]
-            self.or.bus.trigger 'reset-search-with', data
+            wApp.bus.trigger 'reset-search-with', data
 
-      $(self.root).on 'click', '.or-journal', (event) ->
+      $(tag.root).on 'click', '.or-journal', (event) ->
         event.preventDefault()
-        if self.clickable_properties()
-          if window.confirm(self.or.i18n.t('confirm_replace_search'))
+        if tag.clickable_properties()
+          if window.confirm(tag.t('confirm_replace_search'))
             key = $(event.target).attr('data-journal-name')
-            self.or.bus.trigger 'reset-search-with', journals: [key]
+            wApp.bus.trigger 'reset-search-with', journals: [key]
 
-    self.clickable_properties = -> self.or.config.is_search
-    self.t = self.or.i18n.t
-    self.range_label = -> self.or.range_label(self.opts.item)
+    tag.clickable_properties = -> wApp.config.is_search
+    tag.range_label = -> wApp.utils.range_label(tag.opts.item)
 
   </script>
 

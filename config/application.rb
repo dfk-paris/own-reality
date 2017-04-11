@@ -41,6 +41,21 @@ module OwnReality
     @anomaly_logger.info "#{process}: #{klass}: #{id}: #{description}"
   end
 
+  def self.k_files
+    @k_files ||= begin
+      results = {}
+      Dir.glob("#{config['proweb']['files']['supplements']}/**/*.{html,pdf}", File::FNM_CASEFOLD).each do |f|
+        unless f.match(/\/originaux\//)
+          if m = f.match(/^.*\/(\d+)_.+_(de|fr|en|pl)\.(html|pdf)$/i)
+            x, id, lang, ext = m.to_a
+            results["#{ext}_#{lang}_#{id}"] = f
+          end
+        end
+      end
+      results
+    end
+  end
+
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
