@@ -44,7 +44,7 @@ module OwnReality
   def self.k_files
     @k_files ||= begin
       results = {}
-      Dir.glob("#{config['proweb']['files']['supplements']}/**/*.{html,pdf}", File::FNM_CASEFOLD).each do |f|
+      Dir.glob("#{config['k_files']}/**/*.{html,pdf}", File::FNM_CASEFOLD).each do |f|
         unless f.match(/\/originaux\//)
           if m = f.match(/^.*\/(\d+)_.+_(de|fr|en|pl)\.(html|pdf)$/i)
             x, id, lang, ext = m.to_a
@@ -79,3 +79,4 @@ end
 # TODO: url on source detail modal view
 # TODO: add correct dating within citations
 # TODO: unify event naming, possibly with attributes on tags publish/subscribe
+# TODO: correct convention: (has_download -> hasDownload)

@@ -24,7 +24,8 @@
 
     tag.cache_attributes = ->
       try
-        wApp.cache.attributes(tag.opts.item._source.attrs.ids[6][43])
+        if category = tag.opts.item._source.attrs.ids[6]
+          wApp.cache.attributes(category[43])
       catch e
         console.log e
   </script>

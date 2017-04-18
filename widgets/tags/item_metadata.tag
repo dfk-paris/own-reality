@@ -52,7 +52,7 @@
     
     <div class="or-field">
       <strong>{t('keyword', {count: 'other', capitalize: true})}:</strong>
-      <or-attribute-list keys={opts.item._source.attrs.ids[6][43]} />
+      <or-attribute-list keys={attrs(6, 43)} />
     </div>
 
     <div class="or-field" if={opts.item._type == 'sources'}>
@@ -94,6 +94,8 @@
 
     tag.clickable_properties = -> wApp.config.is_search
     tag.range_label = -> wApp.utils.range_label(tag.opts.item)
+    tag.attrs = (klass, category) ->
+      (tag.opts.item._source.attrs.ids[6] || {})[43]
 
   </script>
 

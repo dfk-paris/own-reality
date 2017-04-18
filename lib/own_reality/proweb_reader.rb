@@ -9,14 +9,18 @@ class OwnReality::ProwebReader
     @attribute_ids = {}
     @people_ids = {}
 
-    old_dir = Proweb.config['files']['supplements']
-    @old_data = {
-      'attributes' => Proweb::OldDataMerger.new("#{old_dir}/proweb.attributes.all_or_projects.xls", 'attribute_id'),
-      'articles' => Proweb::OldDataMerger.new("#{old_dir}/proweb.ownreality_aufsätze.xls"),
-      'chronology' => Proweb::OldDataMerger.new("#{old_dir}/proweb.ownreality_chronologie.xls"),
-      'interviews' => Proweb::OldDataMerger.new("#{old_dir}/proweb.ownreality_interviews.xls"),
-      'magazines' => Proweb::OldDataMerger.new("#{old_dir}/proweb.ownreality_zeitschriften.xls"),
-      'sources' => Proweb::OldDataMerger.new("#{old_dir}/proweb.ownreality_datenbank.xls")
+    @old_dir = Proweb.config['files']['supplements']
+  end
+
+  def old_data
+
+    @old_data ||= {
+      'attributes' => Proweb::OldDataMerger.new("#{@old_dir}/proweb.attributes.all_or_projects.xls", 'attribute_id'),
+      'articles' => Proweb::OldDataMerger.new("#{@old_dir}/proweb.ownreality_aufsätze.xls"),
+      'chronology' => Proweb::OldDataMerger.new("#{@old_dir}/proweb.ownreality_chronologie.xls"),
+      'interviews' => Proweb::OldDataMerger.new("#{@old_dir}/proweb.ownreality_interviews.xls"),
+      'magazines' => Proweb::OldDataMerger.new("#{@old_dir}/proweb.ownreality_zeitschriften.xls"),
+      'sources' => Proweb::OldDataMerger.new("#{@old_dir}/proweb.ownreality_datenbank.xls")
     }
   end
 
@@ -34,7 +38,7 @@ class OwnReality::ProwebReader
 
   def categories
     @categories ||= OwnReality::AttributeCategoriesReader.from_old_data(
-      @old_data['attributes']
+      old_data['attributes']
     )
   end
 
@@ -199,9 +203,9 @@ class OwnReality::ProwebReader
         "updated_at" => date_from(o.updated_on),
         "created_by" => o.created_by,
         'translators' => {
-          'lang' => (@old_data['sources'].by_id[o.id] || {})['lang'],
-          'tr_desc' => (@old_data['sources'].by_id[o.id] || {})['tr_desc'],
-          'tr_name' => (@old_data['sources'].by_id[o.id] || {})['tr_name']
+          'lang' => (old_data['sources'].by_id[o.id] || {})['lang'],
+          'tr_desc' => (old_data['sources'].by_id[o.id] || {})['tr_desc'],
+          'tr_name' => (old_data['sources'].by_id[o.id] || {})['tr_name']
         }
       }
 
@@ -235,7 +239,7 @@ class OwnReality::ProwebReader
         'id' => attrib.id,
         'kind_id' => attrib.attribute_kind_id,
         'klass_id' => attrib.kind.attribute_klass_id,
-        'category_id' => @old_data['attributes'].by_id(attrib.id)['category_1'],
+        'category_id' => (old_data['attributes'].by_id[attrib.id] || {})['category_1'],
         'name' => with_translations(attrib),
         'initials' => {}
       }

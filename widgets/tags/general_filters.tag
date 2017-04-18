@@ -33,7 +33,7 @@
     tag.on 'mount', ->
       wApp.config.is_search = true
 
-      wApp.bus.one 'routing:path', tag.search
+      # wApp.bus.one 'routing:path', tag.search
       wApp.bus.on 'routing:query', tag.search
       wApp.bus.on 'reset-search-with', tag.reset_search
 

@@ -8,9 +8,6 @@
   <script type="text/coffee">
     tag = this
 
-    tag.on 'mount', ->
-      wApp.routing.setup()
-    
     wApp.bus.on 'routing:path', (parts) ->
       tagName = null
       opts = {}
