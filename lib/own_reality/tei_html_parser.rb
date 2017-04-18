@@ -14,6 +14,18 @@ class OwnReality::TeiHtmlParser
         copy_images(f)
         html = File.read(f)
         doc = Nokogiri::HTML(html)
+        doc.css('img').each do |img|
+          new_src = img['src'].gsub('../../icono/hr/', "images/#{@proweb_id}/")
+          unless File.exists?("#{Rails.root}/public/#{new_src}")
+            OwnReality.log_anomaly(
+              "images within papers",
+              "proweb-id",
+              @proweb_id,
+              "image #{new_src} not found"
+            )
+          end
+          img['src'] = new_src
+        end
         results[lang] = doc.css('article').to_s
       else
         results[lang] = nil
@@ -33,7 +45,7 @@ class OwnReality::TeiHtmlParser
   end
 
   def copy_images(html_file)
-    br = File.expand_path(File.dirname(html_file) + '../../icono/br')
+    br = File.expand_path(File.dirname(html_file) + '/../../icono/br')
     if File.exists?(br)
       target = "#{Rails.root}/public/images/#{@proweb_id}"
       system "rsync -aq #{br}/ #{target}/"

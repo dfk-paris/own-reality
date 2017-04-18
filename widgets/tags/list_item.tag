@@ -16,25 +16,52 @@
   <div if={opts.item._type == 'interviews'}>
     <or-medium item={opts.item} />
     <or-people-list people={opts.item._source.people[16530]} />
-    <a class="or-modal-trigger" or-tag="or-interview">
+    <a
+      if={hasHTML()}
+      class="or-modal-trigger"
+      or-tag="or-interview"
+    >
       <or-localized-value class="or-title" value={opts.item._source.title} />
     </a>
+    <or-localized-value
+      if={!hasHTML()}
+      class="or-title"
+      value={opts.item._source.title}
+    />
   </div>
 
   <div if={opts.item._type == 'articles'}>
     <or-medium item={opts.item} />
     <or-people-list people={opts.item._source.people[16530]} />
-    <a class="or-modal-trigger" or-tag="or-article">
+    <a
+      if={hasHTML()}
+      class="or-modal-trigger"
+      or-tag="or-article"
+    >
       <or-localized-value class="or-title" value={opts.item._source.title} />
     </a>
+    <or-localized-value
+      if={!hasHTML()}
+      class="or-title"
+      value={opts.item._source.title}
+    />
   </div>
 
   <div if={opts.item._type == 'magazines'}>
     <or-medium item={opts.item} />
     <or-people-list people={opts.item._source.people[16530]} />
-    <a class="or-modal-trigger" or-tag="or-magazine">
+    <a
+      if={hasHTML()}
+      class="or-modal-trigger"
+      or-tag="or-magazine"
+    >
       <or-localized-value class="or-title" value={opts.item._source.title} />
     </a>
+    <or-localized-value
+      if={!hasHTML()}
+      class="or-title"
+      value={opts.item._source.title}
+    />
   </div>
 
   <div if={opts.item._type == 'chronology'}>
@@ -76,6 +103,10 @@
           id: tag.opts.item._id
           clang: wApp.config.locale
         )
+
+    tag.hasHTML = ->
+      html = tag.opts.item._source.html
+      html && html[tag.locale()]
 
     tag.range_label = -> tag.or.range_label(tag.opts.item)
 

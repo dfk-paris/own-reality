@@ -1,44 +1,44 @@
 <or-register>
 
   <div>
-    <h3>{category_label()}</h3>
+    <h3 if={isCategory()}>{category_label()}</h3>
 
-    <div each={bucket in ordered_buckets()} key={bucket.key}>
-      <a>
-        {bucket.key.toUpperCase()} ({bucket.doc_count})
-      </a>
-    </div>
+    <virtual if={buckets}>
+      <div each={bucket in ordered_buckets()}>
+        <a onclick={bucketClicked(bucket.key)}>
+          {bucket.key.toUpperCase()} ({bucket.doc_count})
+        </a>
+      </div>
+    </virtual>
   </div>
 
-  <style type="text/scss">
-    or-register {
-      a {
-        cursor: pointer;
-      }
-    }
-  </style>
-
   <script type="text/coffee">
-    self = this
+    tag = this
+    tag.mixin(wApp.mixins.i18n)
+    window.t = tag
 
-    self.on 'mount', ->
-      self.fetch(true)
+    tag.on 'mount', ->
+      tag.fetch(true)
+      wApp.bus.on 'locale-change', onLocaleChange
 
-      $(self.root).on 'click', 'a', (event) ->
+    tag.on 'unmount', ->
+      wApp.bus.off 'locale-change', onLocaleChange
+
+    tag.bucketClicked = (key) ->
+      (event) ->
         event.preventDefault()
-        key = $(event.target).parents('div[key]').attr('key')
-        self.initial = key
-        self.fetch()
+        tag.initial = key
+        tag.fetch()
 
-      self.or.bus.on 'locale-change', -> 
-        if self.opts.orType == 'attribs'
-          self.fetch()
-        self.update()
+    onLocaleChange = ->
+      if tag.opts.orType == 'attribs'
+        tag.fetch()
+      tag.update()
 
-    self.fetch = (first = false) ->
+    tag.fetch = (first = false) ->
       params = {
-        type: self.opts.orType
-        locale: self.or.config.locale
+        type: tag.opts.orType
+        locale: tag.locale()
         per_page: 1500
       }
 
@@ -46,38 +46,41 @@
         params['register'] = true
         params['per_page'] = 1500
       else
-        params['initial'] = self.initial
+        params['initial'] = tag.initial
 
-      if self.opts.orType == 'attribs'
-        params['sort'] = {"name.#{self.or.config.locale}": 'asc'}
+      if tag.opts.orType == 'attribs'
+        params['sort'] = {"name.#{tag.locale()}": 'asc'}
         params['kind_id'] = 43
         params['klass_id'] = 6
-        params['category_id'] = self.opts.orCategory
+        params['category_id'] = tag.opts.orCategoryId
 
-      if self.opts.orType == 'people'
+      if tag.opts.orType == 'people'
         params['sort'] = [{last_name: 'asc'}, {first_name: 'asc'}]
 
+      console.log params
       $.ajax(
         type: 'post',
-        url: "#{self.or.config.api_url}/api/entities/search"
+        url: "#{wApp.config.api_url}/api/entities/search"
         data: JSON.stringify(params)
         contentType: "application/json; charset=utf-8"
         success: (data) ->
           if first
             # console.log data
-            self.buckets = data.aggregations.register.buckets
-            self.update()
-            self.initial = 'a'
-            self.fetch()
+            tag.buckets = data.aggregations.register.buckets
+            tag.update()
+            tag.initial = 'a'
+            tag.fetch()
           else
-            self.opts.bus.trigger 'register-results', data
+            tag.opts.bus.trigger 'register-results', data
       )
 
-    self.ordered_buckets = -> 
-      self.buckets.sort (x, y) -> self.or.compare(x.key, y.key)
-    self.category_label = ->
-      # console.log 'label', self.opts.orCategory
-      self.or.i18n.l(self.or.config.server.categories[self.opts.orCategory])
+    tag.ordered_buckets = -> 
+      tag.buckets.sort (x, y) -> wApp.utils.compare(x.key, y.key)
+    tag.isCategory = -> !!tag.opts.orType == 'attribs'
+    tag.category_label = ->
+      console.log 'label', tag.opts.orCategoryId
+      console.log wApp.config.server.categories
+      tag.lv(wApp.config.server.categories[tag.opts.orCategoryId])
 
   </script>
 

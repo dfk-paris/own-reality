@@ -4,15 +4,6 @@
     <or-item-metadata item={opts.item} />
   </div>
 
-  <style type="text/scss">
-    or-source, [riot-tag=or-source] {
-      or-language-selector {
-        display: block;
-        float: right;
-      }
-    }
-  </style>
-
   <script type="text/coffee">
     tag = this
 

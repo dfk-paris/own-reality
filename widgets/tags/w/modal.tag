@@ -31,8 +31,18 @@
       tag.active = true
       tag.update()
 
+    unlaunch = ->
+      if tag.active
+        tag.active = false
+        tag.triggeredByUrl = false
+        tag.mountedTag.unmount(true)
+        tag.update()
+
     close = ->
-      removeFromUrl()
+      if tag.triggeredByUrl
+        removeFromUrl()
+      else
+        unlaunch()
 
     closeOnEscape = (event) ->
       if tag.active && event.key == 'Escape'
@@ -50,12 +60,10 @@
       data = wApp.routing.packed()
 
       if data.modal
+        tag.triggeredByUrl = true
         launch data.tag, data
       else
-        if tag.active
-          tag.active = false
-          tag.mountedTag.unmount(true)
-          tag.update()
+        unlaunch()
 
     removeFromUrl = ->
       wApp.routing.packed modal: null, tag: null, id: null, src: null

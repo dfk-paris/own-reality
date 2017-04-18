@@ -123,3 +123,48 @@ or-journal-and-volume, [data-is=or-journal-and-volume] {
     }
   }
 }
+
+or-register-results, [data-is=or-register-results] {
+ .or-result {
+     margin-bottom: 0.5rem;
+  }
+
+  a {
+    cursor: pointer;
+  }
+
+  .or-role {
+    padding-right: 0.2rem;
+
+    .or-button {
+      font-size: 0.7rem;
+      border-radius: 3px;
+      padding: 0.2rem;
+      background-color: darken(#ffffff, 20%);
+      white-space: nowrap;
+    }
+  }
+}
+
+or-attribute-selector, [data-is=or-attribute-selector] {
+  display: block;
+  min-width: 60rem;
+
+  or-register {
+    display: block;
+    float: left;
+    width: 33.33%;
+  }
+  or-register-selector {
+    display: block;
+    float: left;
+    width: 66.66%;
+  }
+}
+
+or-source, [data-is=or-source] {
+  or-language-selector {
+    display: block;
+    float: right;
+  }
+}

@@ -239,7 +239,9 @@ class OwnReality::ProwebReader
         'id' => attrib.id,
         'kind_id' => attrib.attribute_kind_id,
         'klass_id' => attrib.kind.attribute_klass_id,
-        'category_id' => (old_data['attributes'].by_id[attrib.id] || {})['category_1'],
+        'category_id' => categories.position_for(
+          (old_data['attributes'].by_id[attrib.id] || {})['category_1']
+        ),
         'name' => with_translations(attrib),
         'initials' => {}
       }

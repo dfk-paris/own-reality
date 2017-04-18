@@ -52,4 +52,10 @@ class OwnReality::AttributeCategoriesReader
     list
   end
 
+  def position_for(str)
+    x = list.find{|e| e['en'] == str}
+    r = list.index(x)
+    r == -1 ? nil : r
+  end
+
 end

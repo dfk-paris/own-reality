@@ -40,8 +40,8 @@
           <a
             href={parent.opts.orBaseTargetPeopleUrl}
             class="or-show-all"
+            onclick={showAll('people', aggregation, key)}
             show={parent.many_buckets(aggregation)}
-            data-type="people"
           >
             {t('show_all')}
             <span show={parent.countless_buckets(aggregation)}>(> 20)</span>
@@ -66,7 +66,7 @@
           href="#"
           class="or-show-all"
           show={many_buckets(opts.aggregations.journals)}
-          data-type="journals"
+          onclick={showAll('journals', opts.aggregations.journals)}
         >
           {t('show_all')}
           <span show={countless_buckets(opts.aggregations.journals)}>(> 20)</span>
@@ -91,8 +91,8 @@
         <a
           href={attribs_url(key)}
           class="or-show-all"
+          onclick={showAll('attribs', aggregation, key)}
           show={many_buckets(aggregation)}
-          data-type="attribs"
           key={key}
         >
           {t('show_all')}
@@ -229,17 +229,14 @@
       #     key = Zepto(event.target).attr('data-id')
       #     tag.remove journals: [key]
 
-      Zepto(tag.root).on 'click', '.or-show-all', (event) ->
+    tag.showAll = (type, agg, key) ->
+      (event) ->
         event.preventDefault()
-        type = Zepto(event.target).attr('data-type')
-        key = Zepto(event.target).parents('.or-bucket').attr('data-id')
-        agg = tag.opts.aggregations[type]
-        agg = agg[parseInt(key)] if key
         if tag.many_buckets(agg) 
           if tag.countless_buckets(agg)
             wApp.bus.trigger('modal', 'or-attribute-selector',
               orType: type
-              orCategory: key
+              orCategoryId: key
               bus: tag.bus
             )
             # document.location.href = $(event.target).attr('href')
