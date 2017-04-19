@@ -1,9 +1,9 @@
 <or-chronology-ranges>
   
-  <span>
+  <span if={wApp.data.aggregations}>
     <ul>
       <li each={bucket in buckets()}>
-        <a data-year={parent.year_for_bucket(bucket)}>
+        <a data-year={year_for_bucket(bucket)}>
           {parent.year_for_bucket(bucket)} ({bucket.doc_count})
         </a>
       </li>
@@ -19,54 +19,55 @@
   </style>
 
   <script type="text/coffee">
-    self = this
+    tag = this
+    tag.mixin(wApp.mixins.i18n)
     
-    self.initialized = false
-    self.params = {
-      type: 'chronology'
-      year_ranges: true
-      per_page: 50
-    }
+    tag.on 'mount', ->
+      tag.initialized = false
+      tag.params = {
+        type: 'chronology'
+        year_ranges: true
+        per_page: 50
+      }
 
-    self.on 'mount', ->
-      $(self.root).on 'click', 'a[data-year]', (event) ->
+      Zepto(tag.root).on 'click', 'a[data-year]', (event) ->
         event.preventDefault()
         year = $(event.target).attr('data-year')
-        self.params.year_ranges = year
-        self.params.per_page = 500
-        self.search()
+        tag.params.year_ranges = year
+        tag.params.per_page = 500
+        tag.search()
 
-      self.search()
+      tag.search()
 
-    self.search = ->
-      $.ajax(
+    tag.search = ->
+      Zepto.ajax(
         type: 'POST'
-        url: "#{self.or.config.api_url}/api/entities/search"
-        data: self.params
+        url: "#{wApp.config.api_url}/api/entities/search"
+        data: JSON.stringify(tag.params)
         success: (data) ->
-          # console.log 'chrono', data
-          unless self.initialized
-            self.or.data = data
-            self.initialized = true
-            self.params.year_ranges = 1960
-            self.search()
+          console.log 'chrono', data
+          unless tag.initialized
+            wApp.data = data
+            tag.initialized = true
+            tag.params.year_ranges = 1960
+            tag.search()
           else
-            self.or.data.records = data.records
-            self.or.cache_attributes(self.attribute_ids())
-            self.or.bus.trigger 'results'
-            self.update()
+            wApp.cache.data.records = data.records
+            wApp.cache.attributes(tag.attribute_ids())
+            wApp.bus.trigger 'results'
+            tag.update()
       )
 
-    self.attribute_ids = ->
+    tag.attribute_ids = ->
       ids = []
-      for r in self.or.data.records
+      for r in wApp.data.records
         for id in r._source.attrs.ids[7][168]
           ids.push(id)
       ids
 
-    self.year_for_bucket = (bucket) ->
+    tag.year_for_bucket = (bucket) ->
       parseInt(bucket.from_as_string.split('-')[0])
-    self.buckets = -> self.or.data.aggregations.year_ranges.buckets
+    tag.buckets = -> wApp.data.aggregations.year_ranges.buckets
 
   </script>
 

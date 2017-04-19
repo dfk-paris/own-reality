@@ -1,17 +1,15 @@
 <or-chronology-results>
 
-  <div>
-    <or-list-item
-      each={item in or.data.records}
-      item={item}
-    />
-  </div>
+  <or-list-item
+    each={item in wApp.cache.data.records}
+    item={item}
+  />
 
   <script type="text/coffee">
-    self = this
+    tag = this
     
-    self.on 'mount', ->
-      self.or.bus.on 'results', -> self.update()
+    tag.on 'mount', ->
+      wApp.bus.on 'results', -> tag.update()
   </script>
 
 </or-chronology-results>

@@ -1,18 +1,16 @@
 <or-filtered-chronology>
   
-  <div>
-    <div show={!excess() && !trivial()} class="or-timeline" />
-    <div class="edge">
-      <div show={excess()} class="or-excess" style="display: none">
-        {t('chronology', {capitalize: true})}:
-        {t('too_much_data')} ({total()})
-        <div>
-          <button>{t('show_all')}</button>
-        </div>
+  <div show={!excess() && !trivial()} class="or-timeline" />
+  <div class="edge">
+    <div show={excess()} class="or-excess" style="display: none">
+      {t('chronology', {capitalize: true})}:
+      {t('too_much_data')} ({total()})
+      <div>
+        <button onclick={overrideExcess}>{t('show_all')}</button>
       </div>
-      <div show={trivial()}>
-        {t('no_data')}
-      </div>
+    </div>
+    <div show={trivial()}>
+      {t('no_data')}
     </div>
   </div>
 
@@ -25,32 +23,31 @@
 
     tag.on 'mount', ->
       tag.setup()
-      wApp.bus.on 'packed-data', tag.search
+      wApp.bus.on 'routing:query', tag.search
 
     tag.on 'unmount', ->
-      wApp.bus.off 'packed-data', tag.search
+      wApp.bus.off 'routing:query', tag.search
 
     tag.params = ->
       return {
         type: 'chronology'
         per_page: tag.default_params.per_page
-        terms: tag.or.routing.unpack()['terms']
-        lower: tag.or.routing.unpack()['lower'] || 1960
-        upper: tag.or.routing.unpack()['upper'] || 1989
-        attribute_ids: tag.or.routing.unpack()['attribs']
-        people_ids: tag.or.routing.unpack()['people']
+        terms: wApp.routing.packed()['terms']
+        lower: wApp.routing.packed()['lower'] || 1960
+        upper: wApp.routing.packed()['upper'] || 1989
+        attribute_ids: wApp.routing.packed()['attribs']
+        people_ids: wApp.routing.packed()['people']
       }
 
     tag.search = ->
       Zepto.ajax(
         type: 'POST'
-        url: "#{tag.or.config.api_url}/api/entities/search"
-        data: tag.params()
+        url: "#{wApp.config.api_url}/api/entities/search"
+        data: JSON.stringify(tag.params())
         success: (data) ->
           # console.log 'chrono data:', data
           tag.data = data
           tag.ready = true
-
           tag.new_data(tag.params()) unless tag.excess() || tag.trivial()
       )
 
@@ -58,10 +55,10 @@
       # console.log 'chrono params:', params
 
       tag.timeline.setOptions(
-        min: "#{params.lower - 1}-12"
-        max: "#{params.upper}-02"
-        start: "#{params.lower - 1}-12"
-        end: "#{params.upper}-02"
+        min: "#{params.lower - 1}-12-01"
+        max: "#{params.upper}-01-31"
+        start: "#{params.lower - 1}-12-01"
+        end: "#{params.upper}-01-31"
       )
 
       new_data = []
@@ -70,8 +67,8 @@
       for o in tag.data["records"]
         item = {
           id: o._source.id
-          start: o._source.from_date
-          title: o._source.title[tag.or.config.locale] || "Noname" 
+          start: new Date(o._source.from_date)
+          title: o._source.title[wApp.config.locale] || "Noname" 
           # "end": o._source.to_date
           # "content": "#{group_for(o)}"
           # "group": group_for(o)
@@ -95,12 +92,13 @@
       #   item = $(event.target).parents('.vis-point').data()
 
       tag.timeline = new vis.Timeline(tag.element()[0], [],
-        min: "1960"
-        max: "1990"
-        start: "1959-12"
+        min: "1959-12-01"
+        max: "1990-01-31"
+        start: "1959-12-01"
         # end: "1960-07"
-        end: "1990-01"
+        end: "1990-01-31"
         zoomable: true
+        zoomMin: 864000000
         stack: false
         # minHeight: "210px"
         height: "120px"
@@ -124,7 +122,7 @@
       )
 
       item_click = (id) ->
-        tag.or.routing.set_packed(
+        wApp.routing.packed(
           modal: true
           tag: 'or-chronology-detail'
           id: id
@@ -134,10 +132,11 @@
       tag.timeline.on 'click', (props) ->
         item_click(props.item) if props.what == 'item'
 
-      Zepto(tag.root).on 'click', '.or-excess button', (event) ->
-        tag.override_excess = true
-        tag.default_params.per_page = 5000
-        tag.search()
+    tag.overrideExcess = (event) ->
+      event.preventDefault()
+      tag.override_excess = true
+      tag.default_params.per_page = 5000
+      tag.search()
 
     tag.total = -> if tag.data then tag.data.total else 0
     tag.element = -> Zepto(tag.root).find('.or-timeline')

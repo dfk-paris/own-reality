@@ -108,10 +108,8 @@
       html = tag.opts.item._source.html
       html && html[tag.locale()]
 
-    tag.range_label = -> tag.or.range_label(tag.opts.item)
+    tag.range_label = -> wApp.utils.range_label(tag.opts.item)
 
-    tag.ld = tag.ld
-    tag.t = tag.t
   </script>
 
 </or-list-item>

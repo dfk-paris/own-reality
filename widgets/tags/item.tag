@@ -1,6 +1,6 @@
 <or-item>
 
-  <a href="#">
+  <a href="#" if={opts.item}>
     <or-localized-value
       if={!opts.label}
       class="or-title"
@@ -10,41 +10,40 @@
   </a>
 
   <script type="text/coffee">
-    self = this
+    tag = this
+    tag.mixin(wApp.mixins.i18n)
 
-    self.modal_tag = ->
+    tag.modal_tag = ->
       mapping = {
         'magazines': 'or-magazine',
         'articles': 'or-paper',
         'interviews': 'or-interview'
       }
-      mapping[self.opts.item._type]
+      mapping[tag.opts.item._type]
 
-    self.on 'mount', ->
-      unless self.opts.item
-        self.or.fetch_objects(self.opts.type)
-        self.or.bus.on 'object-data', ->
-          self.opts.item = self.or.cache.object_index[self.opts.type][self.opts.id]
-          self.update()
+    tag.on 'mount', ->
+      unless tag.opts.item
+        wApp.cache.objects(tag.opts.type)
+        wApp.bus.on 'object-data', ->
+          tag.opts.item = wApp.cache.data.objects[tag.opts.type][tag.opts.id]
+          tag.update()
 
-      $(self.root).on 'click', 'a', (event) ->
+      $(tag.root).on 'click', 'a', (event) ->
         event.preventDefault()
-        if base = self.opts.orSearchUrl
+        if base = tag.opts.orSearchUrl
           hash = ownreality.routing.pack_to_string(
-            journals: [self.opts.item._source.journal_short]
+            journals: [tag.opts.item._source.journal_short]
           )
           url = "#{base}/#?q=#{hash}"
           window.document.location = url
         else
-          self.or.routing.set_packed(
+          wApp.routing.packed(
             modal: 'true',
-            tag: self.modal_tag(),
-            id: self.opts.item._id
+            tag: tag.modal_tag(),
+            id: tag.opts.item._id
             clang: ownreality.config.locale
           )
 
-    self.ld = self.or.i18n.ld
-    self.t = self.or.i18n.t
   </script>
 
 </or-item>

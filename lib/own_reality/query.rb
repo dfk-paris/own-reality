@@ -87,7 +87,7 @@ class OwnReality::Query
         }
       }
 
-      if criteria['year_ranges'] != 'true'
+      if ![true, 'true'].include?(criteria['year_ranges'])
         conditions << {
           "range" => {
             "from_date" => {

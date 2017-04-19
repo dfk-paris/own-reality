@@ -9,7 +9,6 @@
   <script type="text/coffee">
     tag = this
     tag.mixin(wApp.mixins.i18n)
-    window.t = tag
 
     tag.on 'mount', ->
       $(tag.root).on 'click', 'a.previous', (event) ->
