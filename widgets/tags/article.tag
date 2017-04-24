@@ -7,18 +7,20 @@
       <a href="#"><or-icon which="doc" /></a>
       <a href="#"><or-icon which="print" /></a>
 
-      <div class="language-selector">
-        <a href="#">deutsch</a>
-        <a href="#">französisch</a>
-        <a href="#">englisch</a>
-        <a href="#">polnisch</a>
+      <div class="language-selector" if={opts.item}>
+        <a
+          each={lang in ['de', 'fr', 'en', 'pl']}
+          class={active: contentLocale() == lang}
+          if={opts.item._source.title[lang]}
+          onclick={switchContentLocale(lang)}
+        >{t(lang)}</a>
       </div>
     </div>
     <div class="navigation">
-      <a href="#">{t('article')}</a>
-      <a href="#">{t('people_involved')}</a>
-      <a href="#">{t('keyword', {count: 'other'})}</a>
-      <a href="#">{t('recommended_citation_style')}</a>
+      <a class="anchor" href="#or-article">{t('article')}</a>
+      <a class="anchor" href="#or-related-people">{t('people_involved')}</a>
+      <a class="anchor" href="#or-attributes">{t('keyword', {count: 'other'})}</a>
+      <a class="anchor" href="#or-citation">{t('recommended_citation_style')}</a>
     </div>
 
     <div class="w-clearfix"></div>
@@ -29,7 +31,7 @@
 
     <div class="or-related-people" each={people, role_id in opts.item._source.people}>
       <div class="or-metadata">
-        <h2>{lv(wApp.config.server.roles[role_id])}</h2>
+        <h2 name="or-related-people">{lv(wApp.config.server.roles[role_id])}</h2>
         <p>
           <or-people-list
             people={people}
@@ -43,13 +45,21 @@
 
     <div class="or-attributes">
       <div class="or-metadata">
-        <h2>{t('keyword', {count: 'other', capitalize: true})}</h2>
+        <h2 name="or-attributes">{t('keyword', {count: 'other', capitalize: true})}</h2>
         <p>
           <or-attribute-list
             keys={attrs(6, 43)}
             on-click-attribute={clickAttribute}
           />
         </p>
+      </div>
+      <or-icon which="up" />
+    </div>
+
+    <div class="or-citation">
+      <div class="or-metadata">
+        <h2>{t('recommended_citation_style', {count: 1, capitalize: true})}</h2>
+        <or-citation item={opts.item} />
       </div>
       <or-icon which="up" />
     </div>
@@ -64,6 +74,11 @@
       Zepto(tag.root).on 'click', 'or-icon[which=up] svg', (event) ->
         event.preventDefault()
         wApp.utils.scrollTo Zepto('body'), Zepto('.receiver')
+
+      Zepto(tag.root).on 'click', "a.suite, a.tonote, a.noteNum, a.tosub, a.anchor", (event) ->
+        event.preventDefault()
+        anchor = Zepto(event.currentTarget).attr('href').replace('#', '')
+        wApp.utils.scrollTo Zepto("[name=#{anchor}], anchor[id=#{anchor}]"), Zepto('.receiver')
 
       if tag.opts.item
         tag.cache.attributes()
@@ -103,6 +118,12 @@
         console.log e
 
     tag.onClickClose = -> wApp.bus.trigger 'close-modal'
+
+    tag.switchContentLocale = (lang) ->
+      (event) ->
+        event.preventDefault()
+        console.log lang
+        wApp.routing.packed(cl: lang)
 
     tag.attrs = (klass, category) ->
       (tag.opts.item._source.attrs.ids[6] || {})[43]

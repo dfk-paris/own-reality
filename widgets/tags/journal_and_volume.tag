@@ -12,11 +12,12 @@
   </span>
 
   <script type="text/coffee">
-    self = this
+    tag = this
 
-    self.journal = -> opts.item._source.journal
-    self.volume = -> opts.item._source.volume
-    self.label = -> "#{self.journal()}, #{self.volume()}"
+    tag.journal = -> tag.opts.item._source.journal
+    tag.volume = -> tag.opts.item._source.volume
+    tag.label = -> 
+      "#{tag.journal()}, #{tag.volume()}"
   </script>
 
 </or-journal-and-volume>

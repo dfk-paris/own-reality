@@ -2,6 +2,7 @@ wApp.i18n.translations.de = {
   "de": "deutsch",
   "fr": "französisch",
   "en": "englisch",
+  "pl": "polnisch",
   "download": "herunterladen",
   "amount_found": "%{o} gefunden",
   "summary": "Zusammenfassung",

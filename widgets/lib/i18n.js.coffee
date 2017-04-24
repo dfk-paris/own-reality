@@ -2,7 +2,10 @@ wApp.i18n = {
   translations: {}
   locales: ['fr', 'de', 'en']
   locale: -> 
-    wApp.routing.packed()['lang'] || 'de'
+    wApp.i18n.currentLocale = wApp.routing.packed()['lang'] || 'de'
+  contentLocale: ->
+    wApp.i18n.currentContentLocale = 
+      wApp.routing.packed()['cl'] || wApp.i18n.locale()
   translate: (locale, input, options = {}) ->
     try
       options.count ||= 1
@@ -45,10 +48,14 @@ wApp.i18n = {
       ""
   lv: (value, options = {}) ->
     options['notify'] = true unless options['notify'] == false
-    value[wApp.i18n.locale(options['content'])] ||
+    options['locale'] ||= wApp.i18n.locale()
+    value[options['locale']] ||
     value[wApp.i18n.locales[0]] || value[wApp.i18n.locales[1]] ||
     value[wApp.i18n.locales[2]] ||
     if options['notify'] then "*TRANSLATION MISSING*" else undefined
+  lcv: (value, options = {}) ->
+    options['locale'] = wApp.i18n.contentLocale()
+    wApp.i18n.lv value, options
   humanSize: (input) ->
     if input < 1024
       return "#{input} B"
@@ -62,7 +69,9 @@ wApp.i18n = {
 
 wApp.mixins.i18n = {
   locale: wApp.i18n.locale
+  contentLocale: wApp.i18n.contentLocale
   lv: wApp.i18n.lv
+  lcv: wApp.i18n.lcv
   t: (input, options = {}) ->
     wApp.i18n.translate this.locale(), input, options
   tcap: (input, options = {}) ->
@@ -75,6 +84,6 @@ wApp.mixins.i18n = {
 }
 
 wApp.bus.on 'routing:query', ->
-  l = wApp.routing.packed()['lang']
-  if l && l != wApp.i18n.locale
-    riot.update()
+  changes = (wApp.i18n.currentLocale != wApp.routing.packed()['lang'])
+  changes ||= (wApp.i18n.currentContentLocale != wApp.routing.packed()['cl'])
+  riot.update() if changes

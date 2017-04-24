@@ -1,6 +1,6 @@
 <or-paper>
   
-  <div class="body"></div>
+  <div class="body" name="or-article"></div>
   <div class="panel"></div>
   <div class="w-clearfix"></div>
   <or-icon which="up" />
@@ -19,11 +19,6 @@
         t = type.slice(0, type.length - 1)
         wApp.routing.packed(tag: "or-#{t}", type: type, id: id, lang: lang)
 
-      Zepto(tag.root).on 'click', "a.suite, a.tonote, a.noteNum, a.tosub", (event) ->
-        event.preventDefault()
-        anchor = Zepto(event.currentTarget).attr('href').replace('#', '')
-        wApp.utils.scrollTo Zepto("[name=#{anchor}], anchor[id=#{anchor}]"), Zepto('.receiver')
-
     tag.on 'updated', ->
       if tag.opts.item
         if html = tag.html()
@@ -33,7 +28,7 @@
           Zepto(tag.root).find('.body').html "NO CONTENT AVAILABLE"
 
     tag.html = ->
-      original = tag.lv(tag.opts.item._source.html)
+      original = tag.lcv(tag.opts.item._source.html)
       doc = Zepto(original)
 
       # add index

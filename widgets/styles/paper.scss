@@ -36,6 +36,10 @@
       .language-selector {
         display: inline-block;
         margin-left: 40px;
+
+        a.active {
+          text-decoration: underline;
+        }
       }
     }
 
@@ -50,7 +54,7 @@
 
 }
 
-.or-related-people, .or-attributes {
+.or-related-people, .or-attributes, .or-citation {
   display: block;
   background-color: white;
   margin-left: 75px;

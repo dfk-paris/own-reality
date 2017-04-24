@@ -2,6 +2,7 @@ wApp.i18n.translations.en = {
   "de": "german",
   "fr": "french",
   "en": "english",
+  "pl": "polish",
   "download": "download",
   "amount_found": "%{o} found",
   "summary": "summary",
