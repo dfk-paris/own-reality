@@ -9,12 +9,12 @@ w-messaging, [data-is=w-messaging] {
   }
 
   .error {
-    background-color: $color-secondary-2-4;
+    background-color: red;
     color: white;
   }
 
   .notice {
-    background-color: $color-secondary-1-4;
+    background-color: blue;
     color: white;
   }
 }

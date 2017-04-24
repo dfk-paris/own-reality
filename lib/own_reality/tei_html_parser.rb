@@ -15,7 +15,7 @@ class OwnReality::TeiHtmlParser
         html = File.read(f)
         doc = Nokogiri::HTML(html)
         doc.css('img').each do |img|
-          new_src = img['src'].gsub('../../icono/hr/', "images/#{@proweb_id}/")
+          new_src = img['src'].gsub(/\.\.\/\.\.\/icono\/(hr|br)\//, "images/#{@proweb_id}/")
           unless File.exists?("#{Rails.root}/public/#{new_src}")
             OwnReality.log_anomaly(
               "images within papers",

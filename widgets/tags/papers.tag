@@ -19,35 +19,6 @@
     </div>
   </div>
 
-  <style type="text/scss">
-    .or-papers .item {
-      ul#ariane {display: none;}
-      h2.publiParente {display: none;}
-
-      div#texte {
-        p {
-          text-align: justify;
-
-          span.paranumber {
-            display: block;
-            float: left;
-            margin-left: -2em;
-            color: #aea79f;
-          }
-
-          a.footnotecall {
-            vertical-align: super;
-            font-size: 0.7em;
-          }
-
-          img {
-            max-width: 100%;
-          }
-        }
-      }
-    }
-  </style>
-
   <script type="text/coffee">
     self = this
 

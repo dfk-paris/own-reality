@@ -2,6 +2,7 @@
   <input
     type={opts.type}
     placeholder={opts.placeholder}
+    onkeyup={console.log}
   />
 
   <script type="text/coffee">
@@ -14,11 +15,14 @@
       Zepto(tag.root).on 'keyup', ->
         clearTimeout(to)
         to = setTimeout(tag.notify, tag.opts.timeout)
-      wApp.bus.on 'packed-data', tag.from_packed_data
+      wApp.bus.on 'routing:query', tag.from_packed_data
 
     tag.on 'unmount', ->
-      wApp.bus.off 'packed-data', tag.from_packed_data
+      wApp.bus.off 'routing:query', tag.from_packed_data
 
+    tag.onKeyUp = (event) ->
+      clearTimeout(to)
+      to = setTimeout(tag.notify, tag.opts.timeout)
     tag.value = -> tag.input().val()
     tag.reset = (notify = true) ->
       tag.input().val(null)
@@ -32,7 +36,7 @@
         tag.input().val data['terms']
         tag.update()
     tag.to_packed_data = ->
-      wApp.routing.query terms: tag.value(), page: 1
+      wApp.routing.packed terms: tag.value(), page: 1
 
   </script>
 </or-delayed-input>

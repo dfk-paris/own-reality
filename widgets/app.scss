@@ -1,10 +1,11 @@
-@import 'styles/palette';
+@import 'styles/vars';
 
 @import 'styles/w/app';
 @import 'styles/w/messaging';
 @import 'styles/w/modal';
 @import 'styles/w/bar_chart';
 
+@import 'styles/paper';
 @import 'styles/filtered_chronology';
 @import 'styles/general_filters';
 @import 'styles/clustered_facets';
@@ -12,7 +13,6 @@
 @import 'styles/results';
 @import 'styles/list_item';
 @import 'styles/item_metadata';
-@import 'styles/paper';
 
 or-pagination, [data-is=or-pagination] {
   a {
@@ -171,4 +171,12 @@ or-source, [data-is=or-source] {
 
 or-chronology-results, [data-is=or-chronology-results] {
   display: block;
+}
+
+or-article, [data-is=or-article] {
+  @include or-paper;
+}
+
+or-icon, [data-is=or-icon] {
+  display: inline-block;
 }
