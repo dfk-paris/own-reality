@@ -5,7 +5,7 @@
 
     <span if={as_buttons()} class="or-list">
       <span each={person in sorted_people()} class="or-list-element">
-        <or-person person={person} />
+        <or-person person={person} onclick={clickPerson} />
       </span>
     </span>
   </virtual>
@@ -27,5 +27,8 @@
         else
           p.last_name
       results.join(', ')
+
+    tag.clickPerson = (event) ->
+      h(event) if h = tag.opts.onClickPerson
   </script>
 </or-people-list>

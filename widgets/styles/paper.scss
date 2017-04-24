@@ -1,13 +1,8 @@
-@mixin cera($s: 18px, $lh: 24px) {
-  font-family: cera-pro, Helvetica, Arial, sans-serif;
-  font-size: $s;
-  line-height: $lh;
-}
-
-@mixin lyon($s: 18, $lh: 24) {
-  font-family: lyon, Georgia, "Times New Roman", Times, serif;
-  font-size: $s;
-  line-height: $lh;
+@mixin index-nums {
+  @include cera(13px, 13px);
+  font-weight: bold;
+  color: #00A4A9;
+  text-decoration: none;
 }
 
 @mixin or-paper {
@@ -55,6 +50,27 @@
 
 }
 
+.or-related-people, .or-attributes {
+  display: block;
+  background-color: white;
+  margin-left: 75px;
+  margin-right: 75px;
+  padding: 80px;
+  width: 1120px;
+  border-top: 1px solid #8C9196;
+
+  h2 {
+    @include cera;
+    font-weight: bold;
+    margin-bottom: 40px;
+  }
+
+  .or-metadata {
+    margin-left: 210px;
+    width: 645px;
+  }
+}
+
 or-paper, [data-is=or-paper] {
   display: block;
   background-color: white;
@@ -75,29 +91,6 @@ or-paper, [data-is=or-paper] {
       margin-bottom: 30px;
     }
 
-    .docAuthor {
-      font-style: italic;
-      padding-bottom: 80px;
-      border-bottom: 1px solid #8C9196;
-      margin-bottom: 0px;
-    }
-
-    .index {
-      padding-top: 40px;
-      padding-bottom: 40px;
-      border-bottom: 1px solid #8C9196;
-
-      p {
-        font-style: italic;
-      }
-
-      a {
-        display: block;
-        color: #000000;
-        text-decoration: none;
-      }
-    }
-
     h2 {
       @include cera;
       font-weight: bold;
@@ -111,6 +104,45 @@ or-paper, [data-is=or-paper] {
       font-style: italic;
     }
 
+    figure {
+      margin: 0px;
+      margin-top: 80px;
+      margin-bottom: 80px;
+
+      img {
+        position: relative;
+        left: -210px;
+        display: block;
+        margin-bottom: 30px;
+        width: 1120px;
+      }
+    }
+
+    .docAuthor {
+      font-style: italic;
+      padding-bottom: 80px;
+      border-bottom: 1px solid #8C9196;
+      margin-bottom: 0px;
+    }
+
+    .index {
+      padding-top: 40px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid #8C9196;
+      margin-bottom: 80px;
+
+      p {
+        font-style: italic;
+      }
+
+      a {
+        display: block;
+        color: #000000;
+        text-decoration: none;
+      }
+    }
+
+    // paragraph numbering
     article {
       counter-reset: paragraph;
     }
@@ -133,13 +165,7 @@ or-paper, [data-is=or-paper] {
       }
     }
 
-    @mixin index-nums {
-      @include cera(13px, 13px);
-      font-weight: bold;
-      color: #00A4A9;
-      text-decoration: none;
-    }
-
+    // footnote teasers besides text
     .manchette {
       display: inline-block;
       position: absolute;
@@ -154,8 +180,13 @@ or-paper, [data-is=or-paper] {
         padding-right: 8px;
         @include index-nums;
       }
+
+      .suite {
+        text-decoration: none;
+      }
     }
 
+    // footnote references within text
     .tonote {
       @include index-nums;
       padding-left: 3px;
@@ -166,17 +197,20 @@ or-paper, [data-is=or-paper] {
       }
     }
 
-    figure {
-      margin: 0px;
-      margin-top: 80px;
-      margin-bottom: 80px;
+    // footnotes below text
+    .notes {
+      h2 {
+        margin-bottom: 60px;
+      }
 
-      img {
-        position: relative;
-        left: -210px;
+      .noteNum {
         display: block;
-        margin-bottom: 30px;
-        width: 1120px;
+        float: left;
+        margin-right: 8px;
+        @include cera(13px, 13px);
+        font-weight: bold;
+        color: #00A4A9;
+        text-decoration: none;
       }
     }
   }
@@ -186,29 +220,35 @@ or-paper, [data-is=or-paper] {
     margin-bottom: 80px;
   }
 
-  .notes {
-    @include cera(16px, 20px);
-    font-style: normal;
-
-    h2 {
-      margin-bottom: 60px;
-    }
-
-    .noteNum {
-      display: block;
-      float: left;
-      @include cera(13px, 13px);
-      font-weight: bold;
-      color: #00A4A9;
-      text-decoration: none;
-      margin-right: 10px;
-    }
-  }
-
   .panel {
     float: right;
     margin-left: 20px;
     width: 245px;
     min-height: 1px;
+  }
+}
+
+or-article, [data-is=or-article] {
+  @include or-paper;
+
+  or-icon[which=up] {
+    display: block;
+    text-align: right;
+
+    svg {
+      cursor: pointer;
+      margin-bottom: -6px;
+    }
+  }
+
+  or-icon[which=close] {
+    position: absolute;
+    right: 40px;
+    top: 40px;
+
+    svg {
+      cursor: pointer;
+      margin-bottom: -6px;
+    }
   }
 }

@@ -1,0 +1,11 @@
+@mixin cera($s: 18px, $lh: 24px) {
+  font-family: cera-pro, Helvetica, Arial, sans-serif;
+  font-size: $s;
+  line-height: $lh;
+}
+
+@mixin lyon($s: 18, $lh: 24) {
+  font-family: lyon, Georgia, "Times New Roman", Times, serif;
+  font-size: $s;
+  line-height: $lh;
+}

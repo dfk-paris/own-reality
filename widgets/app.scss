@@ -75,7 +75,7 @@ or-localized-value, [data-is=or-localized-value] {
   display: inline;
 }
 
-or-attribute, [data-is=or-attribute] {
+or-attribute, [data-is=or-attribute], or-person, [data-is=or-person] {
   cursor: pointer;
 }
 
@@ -88,36 +88,20 @@ or-iframe, [data-is=or-iframe] {
   }
 }
 
-or-people-list, [data-is=or-people-list] {
+or-people-list, [data-is=or-people-list], or-attribute-list, [data-is=or-attribute-list] {
   .or-list {
-    line-height: 1.5rem;
+    line-height: 42px;
     
     .or-list-element {
-      padding-right: 0.2rem;
+      padding-right: 10px;
 
-      or-person {
-        font-size: 0.7rem;
-        border-radius: 3px;
-        padding: 0.2rem;
-        background-color: darken(#ffffff, 20%);
-        white-space: nowrap;
-      }
-    }
-  }
-}
-
-or-journal-and-volume, [data-is=or-journal-and-volume] {
-  .or-list {
-    line-height: 1.5rem;
-    
-    .or-list-element {
-      padding-right: 0.2rem;
-
-      .or-journal {
-        font-size: 0.7rem;
-        border-radius: 3px;
-        padding: 0.2rem;
-        background-color: darken(#ffffff, 20%);
+      or-person, or-attribute, or-journal {
+        @include cera(16px, 24px);
+        border-radius: 10px;
+        padding: 10px;
+        padding-top: 8px;
+        padding-bottom: 8px;
+        background-color: #D8D8D8;
         white-space: nowrap;
       }
     }
@@ -171,10 +155,6 @@ or-source, [data-is=or-source] {
 
 or-chronology-results, [data-is=or-chronology-results] {
   display: block;
-}
-
-or-article, [data-is=or-article] {
-  @include or-paper;
 }
 
 or-icon, [data-is=or-icon] {

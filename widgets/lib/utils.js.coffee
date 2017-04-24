@@ -23,9 +23,13 @@ wApp.utils = {
       parseInt(value)
     else
       value
+  # TODO: remove this:
   scroll_to: (selector) -> 
     if element = $(selector)[0]
       element.scrollIntoView(true)
+  scrollTo: (element, ref = window) ->
+      y = Zepto(element)[0].offsetTop
+      ref.scrollTop y
   compare: (x, y) ->
     if x > y
       1
