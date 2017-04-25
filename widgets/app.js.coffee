@@ -5,6 +5,10 @@ Zepto.extend Zepto.ajaxSettings, {
   contentType: 'application/json'
 }
 
+riot.util.tmpl.errorHandler = (err) ->
+  console.error(err, err.riotData)
+  # console.error(err.message + ' in ' + err.riotData.tagName, err)
+
 window.wApp = {
   bus: riot.observable()
   config: {}

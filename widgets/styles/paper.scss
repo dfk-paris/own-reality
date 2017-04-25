@@ -26,7 +26,7 @@
   }
 }
 
-or-paper, [data-is=or-paper] {
+or-doc, [data-is=or-doc] {
   display: block;
   background-color: white;
   margin-left: 75px;
@@ -73,6 +73,10 @@ or-paper, [data-is=or-paper] {
       }
     }
 
+    .T_SousTitre {
+      margin-bottom: 40px;
+    }
+
     .docAuthor {
       font-style: italic;
       padding-bottom: 80px;
@@ -81,10 +85,8 @@ or-paper, [data-is=or-paper] {
     }
 
     .index {
-      padding-top: 40px;
-      padding-bottom: 40px;
+      padding: 40px;
       border-bottom: 1px solid #8C9196;
-      margin-bottom: 80px;
 
       p {
         font-style: italic;
@@ -103,6 +105,8 @@ or-paper, [data-is=or-paper] {
     }
 
     section {
+      margin-top: 80px;
+
       & > p:before, blockquote:before {
         position: absolute;
         margin-left: -65px;
@@ -183,7 +187,7 @@ or-paper, [data-is=or-paper] {
   }
 }
 
-or-article, [data-is=or-article] {
+or-paper, [data-is=or-paper] {
   display: block;
   background-color: #EBF5F4;
   width: (75px + 80px + 210px + 645px + 20px + 245px + 80px + 75px);
@@ -211,7 +215,7 @@ or-article, [data-is=or-article] {
         margin-right: 20px;
       }
 
-      .language-selector {
+      or-content-locale-selector {
         display: inline-block;
         margin-left: 40px;
 

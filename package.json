@@ -30,7 +30,7 @@
     "node-static": "^0.7.8",
     "onchange": "^3.2.1",
     "parallelshell": "^2.0.0",
-    "riot": "^3.2.1",
+    "riot": "3.4.2",
     "riot-route": "^3.1.0",
     "strftime": "^0.10.0",
     "uglifyjs": "^2.4.10",

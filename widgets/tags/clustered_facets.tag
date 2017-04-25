@@ -38,13 +38,13 @@
       >
         <virtual if={aggregation.buckets.length > 0}>
           <a
-            href={parent.opts.orBaseTargetPeopleUrl}
+            href={opts.orBaseTargetPeopleUrl}
             class="or-show-all"
             onclick={showAll('people', aggregation, key)}
-            show={parent.many_buckets(aggregation)}
+            show={many_buckets(aggregation)}
           >
             {t('show_all')}
-            <span show={parent.countless_buckets(aggregation)}>(> 20)</span>
+            <span show={countless_buckets(aggregation)}>(> 20)</span>
           </a>
           <div class="or-role">
             {lv(wApp.config.server.roles[key])}
@@ -259,6 +259,6 @@
       "#{tag.opts.orBaseTargetAttribsUrl}#/?q=#{pack}"
 
     tag.value = -> tag.keys
-
   </script>
+
 </or-clustered-facets>

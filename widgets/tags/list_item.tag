@@ -18,8 +18,7 @@
     <or-people-list people={opts.item._source.people[16530]} />
     <a
       if={hasHTML()}
-      class="or-modal-trigger"
-      or-tag="or-interview"
+      onclick={openPaper}
     >
       <or-localized-value class="or-title" value={opts.item._source.title} />
     </a>
@@ -35,8 +34,7 @@
     <or-people-list people={opts.item._source.people[16530]} />
     <a
       if={hasHTML()}
-      class="or-modal-trigger"
-      or-tag="or-article"
+      onclick={openPaper}
     >
       <or-localized-value class="or-title" value={opts.item._source.title} />
     </a>
@@ -52,8 +50,7 @@
     <or-people-list people={opts.item._source.people[16530]} />
     <a
       if={hasHTML()}
-      class="or-modal-trigger"
-      or-tag="or-magazine"
+      onclick={openPaper}
     >
       <or-localized-value class="or-title" value={opts.item._source.title} />
     </a>
@@ -66,7 +63,9 @@
 
   <div if={opts.item._type == 'chronology'}>
     <or-people-list people={opts.item._source.people[12064]} />
-    <a class="or-modal-trigger" or-tag="or-chronology-detail">
+    <a
+      onclick={openPaper}
+    >
       <strong>
         <or-localized-value class="or-title" value={opts.item._source.title} />
       </strong>
@@ -94,15 +93,14 @@
           tag.opts.item = wApp.cache.data.object_index[tag.opts.type][tag.opts.id]
           tag.update()
 
-      Zepto(tag.root).on 'click', 'a.or-modal-trigger', (event) ->
-        event.preventDefault()
-        tagName = Zepto(event.currentTarget).attr('or-tag')
-        wApp.routing.packed(
-          modal: 'true',
-          tag: tagName,
-          id: tag.opts.item._id
-          clang: wApp.config.locale
-        )
+    tag.openPaper = (event) ->
+      event.preventDefault()
+      wApp.routing.packed(
+        modal: 'true',
+        tag: 'or-paper',
+        id: tag.opts.item._id
+        clang: wApp.config.locale
+      )
 
     tag.hasHTML = ->
       html = tag.opts.item._source.html

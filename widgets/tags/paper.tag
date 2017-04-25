@@ -1,55 +1,78 @@
 <or-paper>
-  
-  <div class="body" name="or-article"></div>
-  <div class="panel"></div>
-  <div class="w-clearfix"></div>
-  <or-icon which="up" />
+
+  <virtual if={opts.item}>
+    <or-icon which="close" onclick={onClickClose} />
+
+    <or-article
+      item={opts.item}
+      if={opts.item._type == 'articles'}
+      handlers={handlers}
+    />
+
+    <or-interview
+      item={opts.item}
+      if={opts.item._type == 'interviews'}
+      handlers={handlers}
+    />
+  </virtual>
 
   <script type="text/coffee">
     tag = this
     tag.mixin(wApp.mixins.i18n)
-    window.t = tag
 
     tag.on 'mount', ->
-      Zepto(tag.root).on 'click', "a[href*='/resolve/']", (event) ->
+      fetch()
+      registerUpEvent()
+      fixAnchors()
+      tag.handlers = {
+        clickAttribute: clickAttribute
+        clickPerson: clickPerson
+      }
+
+    clickAttribute = (event) ->
+      event.preventDefault()
+      if window.confirm(tag.t('confirm_replace_search'))
+        key = event.item.key
+        wApp.bus.trigger 'close-modal'
+        wApp.bus.trigger 'reset-search-with', attribs: [key]
+
+    clickPerson = (role_id) ->
+      (event) ->
         event.preventDefault()
-        console.log 'clicked!', event
-        href = Zepto(event.currentTarget).attr('href')
-        [x, type, id, lang] = href.match(/\/resolve\/(\w+)\/(\d+)\/(\w+)$/)
-        t = type.slice(0, type.length - 1)
-        wApp.routing.packed(tag: "or-#{t}", type: type, id: id, lang: lang)
+        if window.confirm(tag.t('confirm_replace_search'))
+          key = event.item.person.id
+          data = {people: {}}
+          data.people[role_id] = [key]
+          wApp.bus.trigger 'close-modal'
+          wApp.bus.trigger 'reset-search-with', data
 
-    tag.on 'updated', ->
-      if tag.opts.item
-        if html = tag.html()
-          # insert html
-          Zepto(tag.root).find('.body').html(html)
-        else
-          Zepto(tag.root).find('.body').html "NO CONTENT AVAILABLE"
+    tag.onClickClose = -> wApp.bus.trigger 'close-modal'
 
-    tag.html = ->
-      original = tag.lcv(tag.opts.item._source.html)
-      doc = Zepto(original)
+    fixAnchors = ->
+      Zepto(tag.root).on 'click', "a.suite, a.tonote, a.noteNum, a.tosub, a.anchor", (event) ->
+        event.preventDefault()
+        anchor = Zepto(event.currentTarget).attr('href').replace('#', '')
+        wApp.utils.scrollTo Zepto("[name=#{anchor}], anchor[id=#{anchor}]"), Zepto('.receiver')
 
-      # add index
-      content = Zepto('<div class="index">')
-      content.append('<p>' + tag.t('content') + '</p>')
-      tpl = Zepto('<a class="tosub" href="#">')
-      for h2 in doc.find('h2')
-        h2 = Zepto(h2)
-        anchor = h2.find('anchor').attr('id')
-        h2.find('a.totdm, a.tonote, .manchette').remove()
-        l = tpl.clone()
-        l.html(h2.text())
-        l.attr 'href', "##{anchor}"
-        content.append(l)
-      doc.find('.docAuthor').after(content)
+    registerUpEvent = ->
+      Zepto(tag.root).on 'click', 'or-icon[which=up] svg', (event) ->
+        event.preventDefault()
+        wApp.utils.scrollTo Zepto('body'), Zepto('.receiver')
 
-      # add footnote header
-      doc.find('.notes').prepend("<hr /><h2>Notes</h2>")
+    fetch = ->
+      Zepto.ajax(
+        url: "#{wApp.config.api_url}/api/items/#{tag.opts.id}"
+        success: (data) ->
+          tag.opts.item = data.docs[0]
+          cacheAttributes()
+          tag.update()
+      )
 
-      doc
-
+    cacheAttributes = ->
+      try
+        wApp.cache.attributes(tag.opts.item._source.attrs.ids[6][43])
+      catch e
+        console.log e
   </script>
 
 </or-paper>

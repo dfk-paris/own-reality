@@ -1,33 +1,74 @@
 <or-interview>
-  
-  <div>
-    <or-item-metadata item={opts.item} />
-    <or-paper item={opts.item} />
+
+  <div class="header">
+    <div class="formats">
+      <a href="#"><or-icon which="doc" /></a>
+      <a href="#"><or-icon which="print" /></a>
+
+      <or-content-locale-selector item={opts.item} />
+    </div>
+
+    <div class="navigation">
+      <a class="anchor" href="#or-article">{tcap('interview')}</a>
+      <a class="anchor" href="#or-related-people">{tcap('people_involved')}</a>
+      <a class="anchor" href="#or-attributes">{tcap('keyword', {count: 'other'})}</a>
+      <a class="anchor" href="#or-citation">{tcap('recommended_citation_style')}</a>
+    </div>
+
+    <div class="w-clearfix"></div>
   </div>
 
+  <virtual if={opts.item}>
+    <or-doc item={opts.item} />
+
+    <div class="or-related-people" each={people, role_id in opts.item._source.people}>
+      <div class="or-metadata">
+        <h2 name="or-related-people">{lv(wApp.config.server.roles[role_id])}</h2>
+        <p>
+          <or-people-list
+            people={people}
+            as-buttons={true}
+            on-click-person={clickPerson(role_id)}
+          />
+        </p>
+      </div>
+      <or-icon which="up" />
+    </div>
+
+    <div class="or-attributes">
+      <div class="or-metadata">
+        <h2 name="or-attributes">{tcap('keyword', {count: 'other'})}</h2>
+        <p>
+          <or-attribute-list
+            keys={attrs(6, 43)}
+            on-click-attribute={clickAttribute}
+          />
+        </p>
+      </div>
+      <or-icon which="up" />
+    </div>
+
+    <div class="or-citation">
+      <div class="or-metadata">
+        <h2 name="or-citation">{tcap('recommended_citation_style', {count: 1})}</h2>
+        <or-citation item={opts.item} />
+      </div>
+      <or-icon which="up" />
+    </div>
+  </virtual>
+  
   <script type="text/coffee">
     tag = this
+    tag.mixin(wApp.mixins.i18n)
 
-    tag.on 'mount', ->
-      if tag.opts.item
-        tag.cache_attributes()
-      else
-        $.ajax(
-          type: 'GET'
-          url: "#{wApp.config.api_url}/api/items/interviews/#{tag.opts.id}"
-          success: (data) ->
-            # console.log data
-            tag.opts.item = data.docs[0]
-            tag.cache_attributes()
-            tag.update()
-        )
+    tag.clickAttribute = (event) ->
+      h(event) if h = tag.opts.handlers.clickAttribute
 
-    tag.cache_attributes = ->
-      try
-        if category = tag.opts.item._source.attrs.ids[6]
-          wApp.cache.attributes(category[43])
-      catch e
-        console.log e
+    tag.clickPerson = (role_id) ->
+      h(event) if h = tag.opts.handlers.clickPerson
+
+    tag.attrs = (klass, category) ->
+      (tag.opts.item._source.attrs.ids[6] || {})[43]
   </script>
 
 </or-interview>
