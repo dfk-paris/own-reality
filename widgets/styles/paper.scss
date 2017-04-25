@@ -5,55 +5,6 @@
   text-decoration: none;
 }
 
-@mixin or-paper {
-  display: block;
-  background-color: #EBF5F4;
-  width: (75px + 80px + 210px + 645px + 20px + 245px + 80px + 75px);
-  color: #000000;
-  padding-bottom: 80px;
-
-  .header {
-    height: 190px;
-    padding-top: 40px;
-    padding-left: 75px;
-    padding-right: 75px;
-    @include cera;
-
-    a {
-      display: inline-block;
-      color: #000000;
-      text-decoration: none;
-    }
-    
-    .formats {
-      float: right;
-      margin-right: 80px;
-
-      a {
-        margin-right: 20px;
-      }
-
-      .language-selector {
-        display: inline-block;
-        margin-left: 40px;
-
-        a.active {
-          text-decoration: underline;
-        }
-      }
-    }
-
-    .navigation {
-      float: left;
-
-      a {
-        display: block;
-      }
-    }
-  }
-
-}
-
 .or-related-people, .or-attributes, .or-citation {
   display: block;
   background-color: white;
@@ -233,7 +184,51 @@ or-paper, [data-is=or-paper] {
 }
 
 or-article, [data-is=or-article] {
-  @include or-paper;
+  display: block;
+  background-color: #EBF5F4;
+  width: (75px + 80px + 210px + 645px + 20px + 245px + 80px + 75px);
+  color: #000000;
+  padding-bottom: 80px;
+
+  .header {
+    height: 190px;
+    padding-top: 40px;
+    padding-left: 75px;
+    padding-right: 75px;
+    @include cera;
+
+    a {
+      display: inline-block;
+      color: #000000;
+      text-decoration: none;
+    }
+    
+    .formats {
+      float: right;
+      margin-right: 80px;
+
+      a {
+        margin-right: 20px;
+      }
+
+      .language-selector {
+        display: inline-block;
+        margin-left: 40px;
+
+        a.active {
+          text-decoration: underline;
+        }
+      }
+    }
+
+    .navigation {
+      float: left;
+
+      a {
+        display: block;
+      }
+    }
+  }
 
   or-icon[which=up] {
     display: block;

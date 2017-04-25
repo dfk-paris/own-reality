@@ -31,9 +31,10 @@
       tag.to_packed_data()
 
 
-    tag.from_packed_data = (data) ->
-      if data['terms'] != tag.value()
-        tag.input().val data['terms']
+    tag.from_packed_data = ->
+      terms = wApp.routing.packed()['terms']
+      if terms != tag.value()
+        tag.input().val terms
         tag.update()
     tag.to_packed_data = ->
       wApp.routing.packed terms: tag.value(), page: 1
