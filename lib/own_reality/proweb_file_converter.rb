@@ -32,6 +32,13 @@ class OwnReality::ProwebFileConverter
     results
   end
 
+  def cover
+    if cover = Dir["#{original_dir}/*Cover*.jpg"].first
+      system "cp #{cover} #{public_dir}/cover.jpg"
+      hash
+    end
+  end
+
   def merge_files
     if has_files?
       combine

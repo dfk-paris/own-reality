@@ -35,7 +35,7 @@
 
     tag.addIndex = (doc) ->
       content = Zepto('<div class="index">')
-      content.append('<p>' + tag.t('content') + '</p>')
+      content.append('<p>' + tag.tcap('content') + '</p>')
       tpl = Zepto('<a class="tosub" href="#">')
       if doc.find('h2').length > 0
         for h2 in doc.find('h2')

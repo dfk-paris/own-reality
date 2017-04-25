@@ -134,6 +134,7 @@ class OwnReality::ProwebReader
         short_journal_name_map[data['title'].values.first] ||
         data['title'].values.first
       )
+      data['cover'] = pfc.cover
 
       add_html(data, o)
 
