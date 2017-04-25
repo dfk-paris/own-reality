@@ -14,6 +14,12 @@
       if={opts.item._type == 'interviews'}
       handlers={handlers}
     />
+
+    <or-magazine
+      item={opts.item}
+      if={opts.item._type == 'magazines'}
+      handlers={handlers}
+    />
   </virtual>
 
   <script type="text/coffee">

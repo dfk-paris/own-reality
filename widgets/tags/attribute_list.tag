@@ -11,7 +11,7 @@
 
     tag.on 'mount', ->
       if tag.opts.keys
-        wApp.cache.attributes(tag.opts.keys).then -> console.log arguments
+        wApp.cache.attributes(tag.opts.keys)
     
     tag.on 'updated', ->
       list = $(tag.root).find('.or-list')

@@ -5,6 +5,8 @@
   text-decoration: none;
 }
 
+$line-color: #8D8D8D;
+
 .or-related-people, .or-attributes, .or-citation {
   display: block;
   background-color: white;
@@ -12,7 +14,7 @@
   margin-right: 75px;
   padding: 80px;
   width: 1120px;
-  border-top: 1px solid #8C9196;
+  border-top: 1px solid $line-color;
 
   h2 {
     @include cera;
@@ -80,13 +82,13 @@ or-doc, [data-is=or-doc] {
     .docAuthor {
       font-style: italic;
       padding-bottom: 80px;
-      border-bottom: 1px solid #8C9196;
+      border-bottom: 1px solid $line-color;
       margin-bottom: 0px;
     }
 
     .index {
       padding: 40px;
-      border-bottom: 1px solid #8C9196;
+      border-bottom: 1px solid $line-color;
 
       p {
         font-style: italic;
@@ -252,6 +254,19 @@ or-paper, [data-is=or-paper] {
     svg {
       cursor: pointer;
       margin-bottom: -6px;
+    }
+  }
+
+  or-magazine {
+    or-doc .body .docAuthor {
+      border-bottom: none;
+    }
+
+    .or-cover {
+      margin-right: -95px;
+      text-align: center;
+      padding-bottom: 80px;
+      border-bottom: 1px solid $line-color;
     }
   }
 }
