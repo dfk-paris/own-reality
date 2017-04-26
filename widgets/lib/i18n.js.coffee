@@ -80,7 +80,6 @@ wApp.mixins.i18n = {
   l: (input, format_name) ->
     wApp.i18n.localize this.locale(), input, format_name
   hs: (input) -> wApp.i18n.humanSize(input)
-
 }
 
 wApp.bus.on 'routing:query', ->

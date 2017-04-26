@@ -21,7 +21,7 @@
   <virtual if={opts.item}>
     <or-doc item={opts.item} />
 
-    <div class="or-related-people" each={people, role_id in opts.item._source.people}>
+    <div class="or-detail-section" each={people, role_id in opts.item._source.people}>
       <div class="or-metadata">
         <h2 name="or-related-people">{lv(wApp.config.server.roles[role_id])}</h2>
         <p>
@@ -35,7 +35,7 @@
       <or-icon which="up" />
     </div>
 
-    <div class="or-attributes">
+    <div class="or-detail-section">
       <div class="or-metadata">
         <h2 name="or-attributes">{t('keyword', {count: 'other', capitalize: true})}</h2>
         <p>
@@ -48,7 +48,7 @@
       <or-icon which="up" />
     </div>
 
-    <div class="or-citation">
+    <div class="or-detail-section">
       <div class="or-metadata">
         <h2>{t('recommended_citation_style', {count: 1, capitalize: true})}</h2>
         <or-citation item={opts.item} />

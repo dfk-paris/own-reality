@@ -7,7 +7,7 @@
 
 $line-color: #8D8D8D;
 
-.or-related-people, .or-attributes, .or-citation {
+.or-detail-section {
   display: block;
   background-color: white;
   margin-left: 75px;
@@ -29,6 +29,10 @@ $line-color: #8D8D8D;
   }
 }
 
+.or-main-section {
+  border-top: none;
+}
+
 or-doc, [data-is=or-doc] {
   display: block;
   background-color: white;
@@ -41,45 +45,6 @@ or-doc, [data-is=or-doc] {
     float: left;
     margin-left: 210px;
     width: 645px;
-    @include lyon(18px, 24px);
-
-    hr {
-      border-top-color: $line-color;
-      margin: 0px;
-    }
-
-    h1 {
-      @include lyon(44px, 48px);
-      color: #009bb5;
-      margin-bottom: 30px;
-    }
-
-    h2 {
-      @include cera;
-      font-weight: bold;
-      margin-top: 4rem;
-    }
-
-    blockquote {
-      margin: 40px;
-      margin-top: 60px;
-      margin-bottom: 60px;
-      font-style: italic;
-    }
-
-    figure {
-      margin: 0px;
-      margin-top: 80px;
-      margin-bottom: 80px;
-
-      img {
-        position: relative;
-        left: -210px;
-        display: block;
-        margin-bottom: 30px;
-        width: 1120px;
-      }
-    }
 
     .T_SousTitre {
       margin-bottom: 40px;
@@ -136,8 +101,9 @@ or-doc, [data-is=or-doc] {
     .manchette {
       display: inline-block;
       position: absolute;
-      width: 245px;
+      width: 225px;
       right: 155px;
+      padding-left: 20px;
       @include cera(16px, 20px);
       font-style: normal;
 
@@ -182,12 +148,12 @@ or-doc, [data-is=or-doc] {
     }
   }
 
-  .panel {
-    float: right;
-    margin-left: 20px;
-    width: 245px;
-    min-height: 1px;
-  }
+  // .panel {
+  //   float: right;
+  //   margin-left: 20px;
+  //   width: 245px;
+  //   min-height: 1px;
+  // }
 }
 
 or-paper, [data-is=or-paper] {
@@ -196,6 +162,49 @@ or-paper, [data-is=or-paper] {
   width: (75px + 80px + 210px + 645px + 20px + 245px + 80px + 75px);
   color: #000000;
   padding-bottom: 80px;
+  @include lyon(18px, 24px);
+
+  h1 {
+    @include lyon(44px, 48px);
+    color: #009bb5;
+    margin-bottom: 30px;
+  }
+
+  h2 {
+    @include cera;
+    font-weight: bold;
+    margin-top: 4rem;
+  }
+
+  h2:first-child {
+    margin-top: 0px;
+  }
+
+  blockquote {
+    margin: 40px;
+    margin-top: 60px;
+    margin-bottom: 60px;
+    font-style: italic;
+  }
+
+  figure {
+    margin: 0px;
+    margin-top: 80px;
+    margin-bottom: 80px;
+
+    img {
+      position: relative;
+      left: -210px;
+      display: block;
+      margin-bottom: 30px;
+      width: 1120px;
+    }
+  }
+
+  hr {
+    border-top-color: $line-color;
+    margin: 0px;
+  }
 
   .header {
     height: 190px;
@@ -258,7 +267,7 @@ or-paper, [data-is=or-paper] {
     }
   }
 
-  or-magazine, or-article, or-interview {
+  or-magazine, or-article, or-interview, or-source, or-chrono-item {
     position: relative;
     display: block;
   }
@@ -273,6 +282,20 @@ or-paper, [data-is=or-paper] {
       text-align: center;
       padding-bottom: 80px;
       border-bottom: 1px solid $line-color;
+    }
+  }
+
+  or-source {
+    or-people-list {
+      font-style: italic;
+    }
+
+    .in {
+      margin-top: 40px;
+    }
+
+    .journal {
+      font-style: italic;
     }
   }
 }

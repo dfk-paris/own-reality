@@ -20,6 +20,12 @@
       if={opts.item._type == 'magazines'}
       handlers={handlers}
     />
+
+    <or-source
+      item={opts.item}
+      if={opts.item._type == 'sources'}
+      handlers={handlers}
+    />
   </virtual>
 
   <script type="text/coffee">
