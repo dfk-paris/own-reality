@@ -258,6 +258,7 @@ or-paper, [data-is=or-paper] {
 
   or-icon[which=close] {
     position: absolute;
+    z-index: 10002;
     right: 40px;
     top: 40px;
 

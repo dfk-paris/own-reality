@@ -1,7 +1,7 @@
 <or-paper>
 
   <virtual if={opts.item}>
-    <or-icon which="close" onclick={onClickClose} />
+    <or-icon which="close" onclick={onClickClose} bla="asdfasfd" />
 
     <or-article
       item={opts.item}
@@ -58,7 +58,9 @@
           wApp.bus.trigger 'close-modal'
           wApp.bus.trigger 'reset-search-with', data
 
-    tag.onClickClose = -> wApp.bus.trigger 'close-modal'
+    tag.onClickClose = ->
+      console.log 'bla'
+      wApp.bus.trigger 'close-modal'
 
     fixAnchors = ->
       Zepto(tag.root).on 'click', "a.suite, a.tonote, a.noteNum, a.tosub, a.anchor", (event) ->

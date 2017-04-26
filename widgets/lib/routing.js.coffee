@@ -64,7 +64,7 @@ wApp.routing = {
     wApp.routing.route ->
       # console.log 'routing', arguments
 
-      oldParts = wApp.routing.parts_cache
+      oldParts = wApp.routing.parts_cache || {}
       wApp.routing.parts_cache = null
 
       if wApp.routing.parts()['href'] != oldParts['href']

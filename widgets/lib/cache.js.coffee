@@ -45,7 +45,7 @@ wApp.cache = {
       )
       error: -> console.log arguments
       success: (data) ->
-        console.log data
+        # console.log data
         wApp.cache.data.objects[type] = data.records
         wApp.cache.data.object_index ||= {}
         wApp.cache.data.object_index[type] ||= {}
