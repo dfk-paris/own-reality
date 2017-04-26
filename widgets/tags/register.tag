@@ -59,7 +59,7 @@
       console.log params
       $.ajax(
         type: 'post',
-        url: "#{wApp.config.api_url}/api/entities/search"
+        url: "#{wApp.api_url()}/api/entities/search"
         data: JSON.stringify(params)
         contentType: "application/json; charset=utf-8"
         success: (data) ->
@@ -77,8 +77,8 @@
       tag.buckets.sort (x, y) -> wApp.utils.compare(x.key, y.key)
     tag.isCategory = -> !!tag.opts.orType == 'attribs'
     tag.category_label = ->
-      console.log 'label', tag.opts.orCategoryId
-      console.log wApp.config.server.categories
+      # console.log 'label', tag.opts.orCategoryId
+      # console.log wApp.config.server.categories
       tag.lv(wApp.config.server.categories[tag.opts.orCategoryId])
 
   </script>

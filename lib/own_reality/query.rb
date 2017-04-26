@@ -266,10 +266,10 @@ class OwnReality::Query
     end
 
     if criteria['journals'].present?
-      criteria['journals'].each do |name|
+      criteria['journals'].each do |short|
         data['query']['bool']['must'] << {
           'term' => {
-            "journal_short" => name
+            "journal_short" => short
           }
         }
       end

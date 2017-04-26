@@ -3,9 +3,9 @@
   <virtual if={opts.people}>
     <span if={!as_buttons()}>{list()}</span>
 
-    <span if={as_buttons()} class="or-list">
-      <span each={person in sorted_people()} class="or-list-element">
-        <or-person person={person} onclick={clickPerson} />
+    <span if={as_buttons()} class="or-badge-list">
+      <span each={person in sorted_people()} class="or-item-wrapper">
+        <or-person person={person} onclick={clickPerson} class="or-item" />
       </span>
     </span>
   </virtual>

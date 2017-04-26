@@ -13,6 +13,7 @@ $line-color: #8D8D8D;
   margin-left: 75px;
   margin-right: 75px;
   padding: 80px;
+  box-sizing: content-box;
   width: 1120px;
   border-top: 1px solid $line-color;
 
@@ -135,8 +136,8 @@ or-doc, [data-is=or-doc] {
     .manchette {
       display: inline-block;
       position: absolute;
-      width: 225px;
-      right: 80px + 75px;
+      width: 245px;
+      right: 155px;
       @include cera(16px, 20px);
       font-style: normal;
 
@@ -255,6 +256,11 @@ or-paper, [data-is=or-paper] {
       cursor: pointer;
       margin-bottom: -6px;
     }
+  }
+
+  or-magazine, or-article, or-interview {
+    position: relative;
+    display: block;
   }
 
   or-magazine {

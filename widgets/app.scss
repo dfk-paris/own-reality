@@ -88,25 +88,45 @@ or-iframe, [data-is=or-iframe] {
   }
 }
 
-or-people-list, [data-is=or-people-list], or-attribute-list, [data-is=or-attribute-list] {
-  .or-list {
-    line-height: 42px;
-    
-    .or-list-element {
-      padding-right: 10px;
+.or-badge-list {
+  line-height: 42px;
 
-      or-person, or-attribute, or-journal {
-        @include cera(16px, 24px);
-        border-radius: 10px;
-        padding: 10px;
-        padding-top: 8px;
-        padding-bottom: 8px;
-        background-color: #D8D8D8;
-        white-space: nowrap;
-      }
+  .or-item-wrapper {
+    display: inline-block;
+    padding-right: 10px;
+    white-space: nowrap;
+
+    .or-item {
+      @include cera(16px, 24px);
+      border-radius: 10px;
+      padding: 10px;
+      padding-top: 8px;
+      padding-bottom: 8px;
+      background-color: #D8D8D8;
+      cursor: pointer;
     }
   }
 }
+
+// or-people-list, [data-is=or-people-list], or-attribute-list, [data-is=or-attribute-list] {
+//   .or-list {
+//     line-height: 42px;
+    
+//     .or-list-element {
+//       padding-right: 10px;
+
+//       or-person, or-attribute, or-journal {
+//         @include cera(16px, 24px);
+//         border-radius: 10px;
+//         padding: 10px;
+//         padding-top: 8px;
+//         padding-bottom: 8px;
+//         background-color: #D8D8D8;
+//         white-space: nowrap;
+//       }
+//     }
+//   }
+// }
 
 or-register-results, [data-is=or-register-results] {
  .or-result {

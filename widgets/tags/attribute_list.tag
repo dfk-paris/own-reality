@@ -1,8 +1,8 @@
 <or-attribute-list>
 
-  <span class="or-list">
-    <span each={key in opts.keys} class="or-list-element">
-      <or-attribute key={key} onclick={clickAttribute} />
+  <span class="or-badge-list">
+    <span each={key in opts.keys} class="or-item-wrapper">
+      <or-attribute key={key} onclick={clickAttribute} class="or-item" />
     </span>
   </span>
 

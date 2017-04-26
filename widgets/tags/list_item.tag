@@ -1,6 +1,6 @@
 <or-list-item>
 
-  <div if={opts.item._type == 'sources'}>
+  <div if={opts.item && opts.item._type == 'sources'}>
     <or-medium item={opts.item} />
     <or-people-list people={opts.item._source.people[12063]} />
     <a class="or-modal-trigger" or-tag="or-source">
@@ -13,7 +13,7 @@
     />
   </div>
 
-  <div if={opts.item._type == 'interviews'}>
+  <div if={opts.item && opts.item._type == 'interviews'}>
     <or-medium item={opts.item} />
     <or-people-list people={opts.item._source.people[16530]} />
     <a
@@ -29,7 +29,7 @@
     />
   </div>
 
-  <div if={opts.item._type == 'articles'}>
+  <div if={opts.item && opts.item._type == 'articles'}>
     <or-medium item={opts.item} />
     <or-people-list people={opts.item._source.people[16530]} />
     <a
@@ -45,7 +45,7 @@
     />
   </div>
 
-  <div if={opts.item._type == 'magazines'}>
+  <div if={opts.item && opts.item._type == 'magazines'}>
     <or-medium item={opts.item} />
     <or-people-list people={opts.item._source.people[16530]} />
     <a
@@ -61,7 +61,7 @@
     />
   </div>
 
-  <div if={opts.item._type == 'chronology'}>
+  <div if={opts.item && opts.item._type == 'chronology'}>
     <or-people-list people={opts.item._source.people[12064]} />
     <a
       onclick={openPaper}
@@ -80,6 +80,7 @@
       {range_label()}
     </em>
   </div>
+
   <div class="clearfix"></div>
 
   <script type="text/coffee">
@@ -88,10 +89,11 @@
 
     tag.on 'mount', ->
       unless tag.opts.item
-        wApp.cache.objects(tag.opts.type)
         wApp.bus.on 'object-data', ->
-          tag.opts.item = wApp.cache.data.object_index[tag.opts.type][tag.opts.id]
+          id = parseInt(tag.opts.id)
+          tag.opts.item = wApp.cache.data.object_index[tag.opts.type][id]
           tag.update()
+        wApp.cache.objects(tag.opts.type)
 
     tag.openPaper = (event) ->
       event.preventDefault()

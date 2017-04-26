@@ -142,6 +142,7 @@ class OwnReality::Import
             },
             "journal" => {"type" => "string", "index" => "not_analyzed"},
             "journal_short" => {"type" => "string", "index" => "not_analyzed"},
+            "journal_id" => {"type" => "long", "index" => "not_analyzed"},
             "volume" => {"type" => "string", "index" => "not_analyzed"},
             "from_date" => {"type" => "date", "format" => "date_hour_minute_second"},
             "to_date" => {"type" => "date", "format" => "date_hour_minute_second"},

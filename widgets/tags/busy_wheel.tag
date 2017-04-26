@@ -11,7 +11,7 @@
       Zepto(document).ajaxStop ->
         Zepto(tag.root).css('display', 'none')
 
-    tag.url = -> "#{wApp.config.api_url}/spinner.gif"
+    tag.url = -> "#{wApp.api_url()}/spinner.gif"
   </script>
 
 </or-busy-wheel>

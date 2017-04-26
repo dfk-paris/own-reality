@@ -11,7 +11,7 @@
     tag.on 'mount', ->
       $.ajax(
         type: 'GET'
-        url: "#{wApp.config.api_url}/api/items/chronology/#{tag.opts.id}"
+        url: "#{wApp.api_url()}/api/items/chronology/#{tag.opts.id}"
         success: (data) ->
           # console.log data
           tag.item = data.docs[0]

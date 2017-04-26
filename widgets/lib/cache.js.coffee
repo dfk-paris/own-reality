@@ -11,7 +11,7 @@ wApp.cache = {
       missing_ids = ids.filter (id) -> !wApp.cache.data.attrs[id]
       $.ajax(
         type: 'POST'
-        url: "#{wApp.config.api_url}/api/entities/lookup"
+        url: "#{wApp.api_url()}/api/entities/lookup"
         data: JSON.stringify(ids: missing_ids, type: 'attribs')
         success: (data) ->
           for a in data
@@ -24,9 +24,9 @@ wApp.cache = {
     # console.log ids
     if ids
       missing_ids = ids.filter (id) -> !wApp.cache.data.people[id]
-      $.ajax(
+      Zepto.ajax(
         type: 'POST'
-        url: "#{wApp.config.api_url}/api/entities/lookup"
+        url: "#{wApp.api_url()}/api/entities/lookup"
         data: JSON.stringify(ids: missing_ids, type: 'people')
         success: (data) ->
           for a in data
@@ -36,20 +36,26 @@ wApp.cache = {
       )
 
   objects: (type) ->
-    wApp.cache.data.objects[type] ||= $.ajax(
-      type: 'post'
-      url: "#{wApp.config.api_url}/api/entities/search"
+    d = {
+      type: 'POST'
+      url: "#{wApp.api_url()}/api/entities/search"
       data: JSON.stringify(
         type: type
         per_page: 100
       )
+      error: -> console.log arguments
       success: (data) ->
+        console.log data
         wApp.cache.data.objects[type] = data.records
         wApp.cache.data.object_index ||= {}
         wApp.cache.data.object_index[type] ||= {}
         for r in data.records
           wApp.cache.data.object_index[type][r['_id']] = r
         wApp.bus.trigger 'object-data'
-    )
+    }
+
+    unless wApp.cache.data.objects[type]
+      window.ata = d
+      wApp.cache.data.objects[type] = Zepto.ajax(d)
 
 }

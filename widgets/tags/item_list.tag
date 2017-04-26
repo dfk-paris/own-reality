@@ -14,7 +14,7 @@
       if tag.opts.type
         $.ajax(
           type: 'post'
-          url: "#{wApp.config.api_url}/api/entities/search"
+          url: "#{wApp.api_url()}/api/entities/search"
           data: JSON.stringify(
             type: tag.opts.type
             per_page: 100

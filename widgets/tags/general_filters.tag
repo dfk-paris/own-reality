@@ -65,7 +65,7 @@
 
       $.ajax(
         type: 'POST'
-        url: "#{wApp.config.api_url}/api/entities/search"
+        url: "#{wApp.api_url()}/api/entities/search"
         data: JSON.stringify($.extend({}, params, {
           search_type: 'count'
         }))
@@ -91,7 +91,7 @@
 
       $.ajax(
         type: 'POST'
-        url: "#{wApp.config.api_url}/api/entities/search"
+        url: "#{wApp.api_url()}/api/entities/search"
         data: JSON.stringify($.extend({}, params, {
           type: tag.type()
           page: wApp.routing.packed()['page'] || 1

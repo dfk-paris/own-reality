@@ -1,7 +1,7 @@
 <or-doc>
   
   <div class="body" name="or-article"></div>
-  <div class="panel"></div>
+  <!-- <div class="panel"></div> -->
   <div class="w-clearfix"></div>
   <or-icon which="up" />
 
@@ -31,6 +31,7 @@
       doc = Zepto(original)
       tag.addIndex(doc)
       tag.addFootNoteHeader(doc)
+      tag.fixImgSrc(doc)
       doc
 
     tag.addIndex = (doc) ->
@@ -51,12 +52,19 @@
     tag.addFootNoteHeader = (doc) ->
       doc.find('.notes').prepend("<hr /><h2>Notes</h2>")
 
+    tag.fixImgSrc = (doc) ->
+      for img in doc.find('img')
+        img = Zepto(img)
+        img.attr 'src', "#{wApp.api_url()}/#{img.attr('src')}"
+
     tag.fixManchettePositions = ->
       previousNote = null
       for manchette in Zepto(".manchette")
         manchette = Zepto(manchette)
-        if previousNote != null && (previousNote.offset().top + previousNote.height() + 15 >= manchette.offset().top)
-          manchette.css "top", (previousNote.offset().top + previousNote.height() + 6) + "px"
+        if previousNote != null
+          minTop = previousNote.position().top + previousNote.height() + 15
+          if manchette.position().top < minTop
+            manchette.css "top", "#{minTop}px"
         previousNote = manchette
 
   </script>

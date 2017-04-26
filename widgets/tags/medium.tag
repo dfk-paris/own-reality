@@ -28,7 +28,7 @@
     tag.hasPreview = -> !!tag.opts.item._source.file_base_hash
     tag.previewUrl = -> 
       hash = tag.opts.item._source.file_base_hash
-      "#{wApp.config.api_url}/files/#{hash}/140.jpg"
+      "#{wApp.api_url()}/files/#{hash}/140.jpg"
     tag.hasPdf = ->
       pdfs = tag.opts.item._source.pdfs
       tag.hasPreview() || (pdfs && pdfs[tag.locale()])
@@ -36,11 +36,11 @@
       if tag.hasPreview()
         filename = "#{tag.lv(tag.opts.item._source.title)}.pdf"
         hash = tag.opts.item._source.file_base_hash
-        base = "#{wApp.config.api_url}/api/entities/download"
+        base = "#{wApp.api_url()}/api/entities/download"
         if download
           "#{base}/#{hash}.pdf?fn=#{filename}"
         else
-          "#{wApp.config.api_url}/files/#{hash}/original.pdf"
+          "#{wApp.api_url()}/files/#{hash}/original.pdf"
       else
         tag.opts.item._source.pdfs[tag.locale()]
 

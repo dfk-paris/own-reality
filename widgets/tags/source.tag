@@ -13,7 +13,7 @@
       else
         $.ajax(
           type: 'GET'
-          url: "#{wApp.config.api_url}/api/items/sources/#{tag.opts.id}"
+          url: "#{wApp.api_url()}/api/items/sources/#{tag.opts.id}"
           success: (data) ->
             # console.log data
             tag.opts.item = data.docs[0]

@@ -66,7 +66,8 @@
       h(event) if h = tag.opts.handlers.clickAttribute
 
     tag.clickPerson = (role_id) ->
-      h(event) if h = tag.opts.handlers.clickPerson
+      (event) ->
+        h(event) if h = tag.opts.handlers.clickPerson
 
     tag.attrs = (klass, category) ->
       (tag.opts.item._source.attrs.ids[6] || {})[43]

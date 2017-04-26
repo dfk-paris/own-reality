@@ -16,10 +16,8 @@ window.wApp = {
   mixins: {}
 
   setup: ->
-    wApp.config.api_url = wApp.api_url()
-
     miscPromise = Zepto.ajax(
-      url: "#{wApp.config.api_url}/api/misc"
+      url: "#{wApp.api_url()}/api/misc"
       success: (data) ->
         wApp.config.server = data
         Zepto('body').append('<w-modal>')
@@ -32,12 +30,6 @@ window.wApp = {
       wApp.routing.setup()
 
   api_url: ->
-    if document.location.href.match(/^https:\/\/ownreality\.dfkg\.\org/)
-      'https://ownreality.dfkg.org'
-    else if document.location.href.match(/^http:\/\/dfk-stage/)
-      'https://ownreality.dfkg.org'
-    else if document.location.href.match(/^https:\/\/dfk-paris/)
-      'https://ownreality.dfkg.org'
-    else
-      $('script[or-api-url]').attr('or-api-url') || '' #'http://localhost:3000'
+    setting = Zepto('script[or-api-url]').attr('or-api-url')
+    setting || 'http://localhost:3000'
 }

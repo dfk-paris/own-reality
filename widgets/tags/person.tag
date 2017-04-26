@@ -30,7 +30,7 @@
       #   else
       #     $.ajax(
       #       type: 'post'
-      #       url: "#{tag.or.config.api_url}/api/entities/#{id}"
+      #       url: "#{wApp.api_url()}/api/entities/#{id}"
       #       data: {type: 'people'}
       #       success: (data) ->
       #         tag.opts.person = data.docs[0]._source

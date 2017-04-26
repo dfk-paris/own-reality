@@ -1,30 +1,36 @@
 <or-clustered-facets>
   
   <div if={opts.aggregations}>
-    <div class="or-selected">
-      <span data-id={role_id} class="role" each={people, role_id in keys.people}>
+    <div class="or-selected or-badge-list">
+      <virtual each={people, role_id in keys.people}>
         <span
-          class="item"
+          class="or-item-wrapper"
           each={key in people}
           onclick={remove('people', role_id, key)}
         >
-          {lv(wApp.config.server.roles[role_id])}:
-          <or-person person-id={key} />
+          <span class="or-item">
+            x
+            {lv(wApp.config.server.roles[role_id])}:
+            <or-person person-id={key} />
+          </span>
         </span>
-      </span>
+      </virtual>
       <span
-        class="item"
+        class="or-item-wrapper"
         each={key in keys.journals} data-id={key}
         onclick={remove('journals', null, key)}
       >
-        {wApp.utils.shorten(key)}
+        <span class="or-item">x {wApp.utils.shorten(key)}</span>
       </span>
       <span
-        class="item"
+        class="or-item-wrapper"
         each={key in keys.attribs}
         onclick={remove('attribs', null, key)}
       >
-        <or-attribute key={key} />
+        <span class="or-item">
+          x
+          <or-attribute key={key} />
+        </span>
       </span>
     </div>
 
@@ -50,7 +56,7 @@
             {lv(wApp.config.server.roles[key])}
           </div>
           <div class="or-value" each={bucket in limit_buckets(key, aggregation)}>
-            •
+            +
             <a class="or-select"><or-person person-id={bucket.key} /></a>
             ({bucket.doc_count})
           </div>
@@ -72,10 +78,10 @@
           <span show={countless_buckets(opts.aggregations.journals)}>(> 20)</span>
         </a>
         <div class="or-custom-category">
-          {t('magazine', {count: 'other'})}
+          {tcap('magazine', {count: 'other'})}
         </div>
         <div class="or-value" each={bucket in limit_buckets('journals', opts.aggregations.journals)}>
-          •
+          +
           <a class="or-select">{bucket.key}</a>
           ({bucket.doc_count})
         </div>
@@ -102,7 +108,7 @@
           {lv(wApp.config.server.categories[key])}
         </div>
         <div class="or-value" each={bucket in limit_buckets(key, aggregation)}>
-          •
+          +
           <a class="or-select"><or-attribute key={bucket.key} /></a>
           ({bucket.doc_count})
         </div>
@@ -113,6 +119,7 @@
   <script type="text/coffee">
     tag = this
     tag.mixin(wApp.mixins.i18n)
+    window.t = tag
 
     tag.keys = {
       attribs: []
