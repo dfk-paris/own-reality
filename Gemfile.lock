@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/dfk-paris/proweb
-  revision: 7695a0dcadbd96de0133ad9d2fbac352798ef596
+  revision: 0fad8cf928e9d628e80b9fe7883d57e9e899bbf4
   specs:
     proweb (1.0.0)
       activerecord
