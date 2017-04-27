@@ -10,7 +10,7 @@ group :import do
   # source 'https://gems.dfkg.org' do
   #   gem 'proweb'
   # end
-  gem 'proweb', path: '/home/schepp/Desktop/dev/proweb/src'
+  gem 'proweb', git: 'https://github.com/dfk-paris/proweb'
   gem 'ruby-progressbar'
 end
 
