@@ -1,90 +1,82 @@
 <or-list-item>
 
-  <div if={opts.item && opts.item._type == 'sources'}>
-    <or-medium item={opts.item} />
-    <or-people-list people={opts.item._source.people[12063]} />
-    <a
-      class="or-modal-trigger"
-      onclick={openPaper}
-    >
-      <or-localized-value class="or-title" value={opts.item._source.title} />
-    </a>
-    <or-journal-and-volume item={opts.item} />
-    <or-localized-value
-      class="or-text"
-      value={opts.item._source.interpretation}
-    />
-  </div>
+  <div class="or-item-frame">
+    <or-icon which="right" />
 
-  <div if={opts.item && opts.item._type == 'interviews'}>
-    <or-medium item={opts.item} />
-    <or-people-list people={opts.item._source.people[16530]} />
-    <a
-      if={hasHTML()}
-      onclick={openPaper}
-    >
-      <or-localized-value class="or-title" value={opts.item._source.title} />
-    </a>
-    <or-localized-value
-      if={!hasHTML()}
-      class="or-title"
-      value={opts.item._source.title}
-    />
-  </div>
+    <div class="or-item" onclick={openPaper}>
+      <virtual if={opts.item && opts.item._type == 'sources'}>
+        <or-medium item={opts.item} />
+        <or-people-list people={opts.item._source.people[12063]} />
+        <a
+          class="or-modal-trigger"
+        >
+          <or-localized-value class="or-title" value={opts.item._source.title} />
+        </a>
+        <or-journal-and-volume item={opts.item} />
+        <or-localized-value
+          class="or-text"
+          value={opts.item._source.interpretation}
+        />
+      </virtual>
 
-  <div if={opts.item && opts.item._type == 'articles'}>
-    <or-medium item={opts.item} />
-    <or-people-list people={opts.item._source.people[16530]} />
-    <a
-      if={hasHTML()}
-      onclick={openPaper}
-    >
-      <or-localized-value class="or-title" value={opts.item._source.title} />
-    </a>
-    <or-localized-value
-      if={!hasHTML()}
-      class="or-title"
-      value={opts.item._source.title}
-    />
-  </div>
+      <virtual if={opts.item && opts.item._type == 'interviews'}>
+        <or-medium item={opts.item} />
+        <or-people-list people={opts.item._source.people[16530]} />
+        <a
+          if={hasHTML()}
+        >
+          <or-localized-value class="or-title" value={opts.item._source.title} />
+        </a>
+        <or-localized-value
+          if={!hasHTML()}
+          class="or-title"
+          value={opts.item._source.title}
+        />
+      </virtual>
 
-  <div if={opts.item && opts.item._type == 'magazines'}>
-    <or-medium item={opts.item} />
-    <or-people-list people={opts.item._source.people[16530]} />
-    <a
-      if={hasHTML()}
-      onclick={openPaper}
-    >
-      <or-localized-value class="or-title" value={opts.item._source.title} />
-    </a>
-    <or-localized-value
-      if={!hasHTML()}
-      class="or-title"
-      value={opts.item._source.title}
-    />
-  </div>
+      <virtual if={opts.item && opts.item._type == 'articles'}>
+        <or-pdf-link item={opts.item} download={true} />
 
-  <div if={opts.item && opts.item._type == 'chronology'}>
-    <or-people-list people={opts.item._source.people[12064]} />
-    <a
-      onclick={openPaper}
-    >
-      <strong>
-        <or-localized-value class="or-title" value={opts.item._source.title} />
-      </strong>
-    </a>
-    <em>
-      {t('exhibition', {count: 1, capitalize: true})} {t('in_country')}
-      <or-attribute
-        each={id in opts.item._source.attrs.ids[7][168]}
-        key={id}
-        shorten-to={100}
-      />,
-      {range_label()}
-    </em>
-  </div>
+        <or-people-list people={opts.item._source.people[16530]} />
+        <a
+          class="or-title"
+          if={hasHTML()}
+        >{lv(opts.item._source.title)}</a>
+        <span if={!hasHTML()} class="or-title">
+          {lv(opts.item._source.title)}
+        </span>
+      </virtual>
 
-  <div class="clearfix"></div>
+      <virtual if={opts.item && opts.item._type == 'magazines'}>
+        <or-medium item={opts.item} />
+        <or-people-list people={opts.item._source.people[16530]} />
+        <a
+          if={hasHTML()}
+        >
+          <or-localized-value class="or-title" value={opts.item._source.title} />
+        </a>
+        <or-localized-value
+          if={!hasHTML()}
+          class="or-title"
+          value={opts.item._source.title}
+        />
+      </virtual>
+
+      <virtual if={opts.item && opts.item._type == 'chronology'}>
+        <or-people-list people={opts.item._source.people[12064]} />
+        <span class="or-title">{lv(opts.item._source.title)}</span>
+        <div class="or-location">
+          {t('exhibition', {count: 1, capitalize: true})} {t('in_country')}
+          <or-attribute
+            each={id in opts.item._source.attrs.ids[7][168]}
+            key={id}
+            shorten-to={100}
+          />,
+          {range_label()}
+        </div>
+      </virtual>
+    </div>
+  </div>
 
   <script type="text/coffee">
     tag = this

@@ -136,6 +136,10 @@ or-doc, [data-is=or-doc] {
         margin-bottom: 60px;
       }
 
+      .note {
+        margin-bottom: 18px;
+      }
+
       .noteNum {
         display: block;
         float: left;
@@ -168,6 +172,7 @@ or-paper, [data-is=or-paper] {
     @include lyon(44px, 48px);
     color: #009bb5;
     margin-bottom: 30px;
+    font-weight: normal;
   }
 
   h2 {
@@ -178,6 +183,10 @@ or-paper, [data-is=or-paper] {
 
   h2:first-child {
     margin-top: 0px;
+  }
+
+  p {
+    margin-bottom: 24px;
   }
 
   blockquote {

@@ -1,22 +1,15 @@
 <or-chronology-ranges>
-  
-  <span if={wApp.data.aggregations}>
-    <ul>
-      <li each={bucket in buckets()}>
-        <a data-year={year_for_bucket(bucket)}>
-          {parent.year_for_bucket(bucket)} ({bucket.doc_count})
-        </a>
-      </li>
-    </ul>
-  </span>
 
-  <style type="text/scss">
-    or-chronology-ranges {
-      a {
-        cursor: pointer;
-      }
-    }
-  </style>
+  <virtual if={wApp.data.aggregations}>
+    <select onchange={onChange}>
+      <option
+        each={bucket in buckets()}
+        value={yearForBucket(bucket)}
+      >
+        {yearForBucket(bucket)}
+      </option>
+    </select>
+  </span>
 
   <script type="text/coffee">
     tag = this
@@ -29,14 +22,12 @@
         year_ranges: true
         per_page: 50
       }
+      tag.search()
 
-      Zepto(tag.root).on 'click', 'a[data-year]', (event) ->
-        event.preventDefault()
-        year = $(event.target).attr('data-year')
-        tag.params.year_ranges = year
-        tag.params.per_page = 500
-        tag.search()
-
+    tag.onChange = (event) ->
+      year = Zepto(event.currentTarget).val()
+      tag.params.year_ranges = year
+      tag.params.per_page = 500
       tag.search()
 
     tag.search = ->
@@ -65,8 +56,9 @@
           ids.push(id)
       ids
 
-    tag.year_for_bucket = (bucket) ->
+    tag.yearForBucket = (bucket) ->
       parseInt(bucket.from_as_string.split('-')[0])
+
     tag.buckets = -> wApp.data.aggregations.year_ranges.buckets
 
   </script>

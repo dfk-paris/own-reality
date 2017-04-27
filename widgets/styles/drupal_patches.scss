@@ -1,0 +1,14 @@
+or-styles {
+  &.or-article-list {
+    .or-list-item {
+      border-bottom: 1px solid $line-color;
+      padding: 20px;
+      background-color: yellow;
+      background-clip: content-box;
+    }
+    
+    .or-list-item:first-child {
+      border-top: 1px solid $line-color;
+    }
+  }
+}

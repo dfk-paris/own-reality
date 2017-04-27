@@ -22,14 +22,14 @@
   <virtual if={opts.item}>
     <or-doc item={opts.item} />
 
-    <div class="or-detail-section" each={people, role_id in opts.item._source.people}>
+    <div class="or-detail-section">
       <div class="or-metadata">
-        <h2 name="or-related-people">{lv(wApp.config.server.roles[role_id])}</h2>
+        <h2 name="or-related-people">{lv(wApp.config.server.roles[12064])}</h2>
         <p>
           <or-people-list
-            people={people}
+            people={opts.item._source.people[12064]}
             as-buttons={true}
-            on-click-person={clickPerson(role_id)}
+            on-click-person={clickPerson(12064)}
           />
         </p>
       </div>

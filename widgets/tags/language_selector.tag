@@ -1,29 +1,27 @@
 <or-language-selector>
 
-  <div>
-    <select
-      onchange={newSelection}
-      ref="combo"
+  <select
+    onchange={newSelection}
+    ref="combo"
+  >
+    <option
+      each={l in locales()}
+      value={l}
+      selected={l == locale()}
     >
-      <option
-        each={l in locales()}
-        value={l}
-        selected={l == locale()}
-      >
-        {t(l)}
-      </option>
-    </select>
-    <!-- <span if={locales().length != 0}>
-      {t('also_available_in')}:
-      <a
-        each={locale in locales()}
-        class="button or-list-element"
-        data-locale={locale}
-      >
-        <span>{locale}</span>
-      </a>
-    </span> -->
-  </div>
+      {t(l)}
+    </option>
+  </select>
+  <!-- <span if={locales().length != 0}>
+    {t('also_available_in')}:
+    <a
+      each={locale in locales()}
+      class="button or-list-element"
+      data-locale={locale}
+    >
+      <span>{locale}</span>
+    </a>
+  </span> -->
 
   <script type="text/coffee">
     tag = this

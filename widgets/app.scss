@@ -13,6 +13,7 @@
 @import 'styles/results';
 @import 'styles/list_item';
 @import 'styles/item_metadata';
+@import 'styles/drupal_patches';
 
 or-pagination, [data-is=or-pagination] {
   a {
@@ -28,23 +29,29 @@ or-item-list, [data-is=or-item-list] {
 }
 
 or-language-selector, [data-is=or-language-selector] {
-  line-height: 1.5rem;
+  display: block;
 
-  a {
-    cursor: pointer;
+  select, select:hover, select:active, select:focus {
+    @include or-select;
   }
+
+  // line-height: 1.5rem;
+
+  // a {
+  //   cursor: pointer;
+  // }
   
-  .or-list-element {
-    padding-right: 0.2rem;
+  // .or-list-element {
+  //   padding-right: 0.2rem;
 
-    & > span {
-      font-size: 0.7rem;
-      border-radius: 3px;
-      padding: 0.2rem;
-      background-color: darken(#ffffff, 20%);
-      white-space: nowrap;
-    }
-  }
+  //   & > span {
+  //     font-size: 0.7rem;
+  //     border-radius: 3px;
+  //     padding: 0.2rem;
+  //     background-color: darken(#ffffff, 20%);
+  //     white-space: nowrap;
+  //   }
+  // }
 }
 
 or-busy-wheel, [data-is=or-busy-wheel] {
@@ -166,15 +173,91 @@ or-attribute-selector, [data-is=or-attribute-selector] {
   }
 }
 
-or-source, [data-is=or-source] {
-  or-language-selector {
-    display: block;
-    float: right;
+or-chronology-ranges, [data-is=or-chronology-ranges] {
+  display: block;
+  text-align: right;
+
+  select, select:hover, select:active, select:focus {
+    @include or-select;
   }
 }
 
 or-chronology-results, [data-is=or-chronology-results] {
   display: block;
+
+  hr {
+    border-top-color: $line-color;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+
+  hr:first-child {
+    margin-top: 0px;
+  }
+
+  hr:last-child {
+    margin-bottom: 80px;
+  }
+}
+
+or-list-item {
+  display: block;
+  @include lyon(18px, 24px);
+  padding: 20px;
+  padding-left: 0px;
+  padding-right: 0px;
+  cursor: pointer;
+  border-bottom: 1px solid $line-color; 
+
+  or-icon {
+    float: right;
+    width: 80px;
+    text-align: right;
+    margin-top: 20px;
+    margin-right: 20px;
+  }
+
+  or-pdf-link {
+    display: block;
+    float: right;
+    margin-top: 48px;
+
+    a {
+      // color: black;
+    }
+  }
+
+  .or-item {
+    margin-right: 80px;
+    padding: 20px;
+  }
+
+  or-people-list {
+    display: block;
+    font-style: italic;
+    margin-bottom: 24px;
+  }
+
+  .or-title {
+    display: block;
+    color: black;
+    font-weight: bold;
+    @include cera(18px, 24px);
+    margin-right: 160px;
+  }
+
+  .or-location {
+    margin-top: 24px;
+    @include cera(16px, 20px);
+  }
+}
+
+or-list-item:hover .or-item-frame {
+  background-color: #D9E6D9;
+}
+
+or-list-item:first-child {
+  border-top: 1px solid $line-color;
 }
 
 or-icon, [data-is=or-icon] {

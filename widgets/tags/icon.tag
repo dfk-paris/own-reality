@@ -48,4 +48,16 @@
     <path class="cls-1" d="M30 31.41l-14-14-14 14-1.41-1.41 14-14-14-14 1.41-1.41 14 14 14-14 1.41 1.41-14 14 14 14-1.41 1.41z"/>
   </svg>
 
+  <svg
+    if={opts.which == 'right'}
+    xmlns="http://www.w3.org/2000/svg"
+    width="19"
+    height="16"
+    viewBox="0 0 19 16"
+  >
+    <defs><style>.cls-1{fill:#8a8a8d;}</style></defs>
+    <title>Zeichenfläche 1</title>
+    <polygon class="cls-1" points="11.08 -0.13 10.37 0.58 16.79 7 0 7 0 8 16.79 8 10.37 14.42 11.08 15.13 18.71 7.5 11.08 -0.13" />
+  </svg>
+
 </or-icon>

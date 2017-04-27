@@ -1,11 +1,13 @@
 <or-item-list>
 
   <or-pagination total={opts.total} per-page={opts.perPage} />
-  
-  <or-list-item
-    each={item in opts.items}
-    item={item}
-  />
+
+  <div class="or-list">  
+    <or-list-item
+      each={item in opts.items}
+      item={item}
+    />
+  </div>
 
   <script type="text/coffee">
     tag = this

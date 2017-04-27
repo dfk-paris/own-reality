@@ -89,3 +89,5 @@ end
 # TODO: unify event naming, possibly with attributes on tags publish/subscribe
 # TODO: correct convention: (has_download -> hasDownload)
 # TODO: fix clustered_facets, eventhandlers attached but never detached
+# TODO: remove comments everywhere
+# TODO: move some css rules to more generic selectors or mixins 
