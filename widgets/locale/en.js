@@ -74,6 +74,9 @@ wApp.i18n.translations.en = {
     "one": "exhibition",
     "other": "exhibitions"
   },
+  "cc_license_label": "Content published under the licence CC-BY-NC-ND 4.0",
+  "cc_license_images": "Images are not available under Creative Commons, see copyright below each figure",
+  "license": "Copyright & Licence",
   "date": {
     "formats": {
       "default": "%d %B %Y",

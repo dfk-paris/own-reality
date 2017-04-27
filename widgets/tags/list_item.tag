@@ -3,7 +3,10 @@
   <div if={opts.item && opts.item._type == 'sources'}>
     <or-medium item={opts.item} />
     <or-people-list people={opts.item._source.people[12063]} />
-    <a class="or-modal-trigger" or-tag="or-source">
+    <a
+      class="or-modal-trigger"
+      onclick={openPaper}
+    >
       <or-localized-value class="or-title" value={opts.item._source.title} />
     </a>
     <or-journal-and-volume item={opts.item} />

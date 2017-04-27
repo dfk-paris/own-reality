@@ -74,6 +74,9 @@ wApp.i18n.translations.fr = {
     "one": "exposition",
     "other": "expositions"
   },
+  "cc_license_label": "Ce contenu est publié sous la licence CC-BY-NC-ND 4.0",
+  "cc_license_images": "Les images en sont exclues (voir le copyright sous chaque illustration)",
+  "license": "Droits de reproduction et licence",
   "date": {
     "formats": {
       "default": "%d %B %Y",

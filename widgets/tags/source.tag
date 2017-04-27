@@ -16,70 +16,81 @@
       <a class="anchor" href="#or-related-people">{tcap('people_involved')}</a>
       <a class="anchor" href="#or-attributes">{tcap('keyword', {count: 'other'})}</a>
       <a class="anchor" href="#or-citation">{tcap('recommended_citation_style')}</a>
+      <a class="anchor" href="#or-license">{tcap('license')}</a>
     </div>
 
     <div class="w-clearfix"></div>
   </div>
 
-  <div class="or-main-section or-detail-section">
-    <div class="or-metadata">
-      <h1 name="or-article">{lcv(opts.item._source.title)}</h1>
-      <or-people-list people={opts.item._source.people[12063]} />
-      <div class="in">{t('in')}:</div>
-      <or-journal-and-volume item={opts.item} />
-      
-      <div>IMAGE</div>
+  <virtual if={opts.item}>
+    <div class="or-main-section or-detail-section">
+      <div class="or-metadata">
+        <h1 name="or-article">{lcv(opts.item._source.title)}</h1>
+        <or-people-list people={opts.item._source.people[12063]} />
+        <div class="in">{t('in')}:</div>
+        <or-journal-and-volume item={opts.item} />
+        
+        <div>IMAGE</div>
+      </div>
     </div>
-  </div>
 
-  <div class="or-detail-section">
-    <div class="or-metadata">
-      <h2 name="or-summary">{tcap('summary')}</h2>
-      <p>{lcv(opts.item._source.interpretation)}</p>
+    <div class="or-detail-section">
+      <div class="or-metadata">
+        <h2 name="or-summary">{tcap('summary')}</h2>
+        <p>{lcv(opts.item._source.interpretation)}</p>
+      </div>
     </div>
-  </div>
 
-  <div class="or-detail-section" if={hasContent()}>
-    <div class="or-metadata">
-      <h2 name="or-content">{tcap('content')}</h2>
-      <p>{lcv(opts.item._source.content)}</p>
+    <div class="or-detail-section" if={hasContent()}>
+      <div class="or-metadata">
+        <h2 name="or-content">{tcap('content')}</h2>
+        <p>{lcv(opts.item._source.content)}</p>
+      </div>
     </div>
-  </div>
 
-  <div class="or-detail-section">
-    <div class="or-metadata">
-      <h2 name="or-related-people">{lv(wApp.config.server.roles[12064])}</h2>
-      <p>
-        <or-people-list
-          people={opts.item._source.people[12064]}
-          as-buttons={true}
-          on-click-person={clickPerson(12064)}
-        />
-      </p>
+    <div class="or-detail-section">
+      <div class="or-metadata">
+        <h2 name="or-related-people">{lv(wApp.config.server.roles[12064])}</h2>
+        <p>
+          <or-people-list
+            people={opts.item._source.people[12064]}
+            as-buttons={true}
+            on-click-person={clickPerson(12064)}
+          />
+        </p>
+      </div>
+      <or-icon which="up" />
     </div>
-    <or-icon which="up" />
-  </div>
 
-  <div class="or-detail-section">
-    <div class="or-metadata">
-      <h2 name="or-attributes">{tcap('keyword', {count: 'other'})}</h2>
-      <p>
-        <or-attribute-list
-          keys={attrs(6, 43)}
-          on-click-attribute={clickAttribute}
-        />
-      </p>
+    <div class="or-detail-section">
+      <div class="or-metadata">
+        <h2 name="or-attributes">{tcap('keyword', {count: 'other'})}</h2>
+        <p>
+          <or-attribute-list
+            keys={attrs(6, 43)}
+            on-click-attribute={clickAttribute}
+          />
+        </p>
+      </div>
+      <or-icon which="up" />
     </div>
-    <or-icon which="up" />
-  </div>
 
-  <div class="or-detail-section">
-    <div class="or-metadata">
-      <h2 name="or-citation">{tcap('recommended_citation_style', {count: 1})}</h2>
-      <or-citation item={opts.item} />
+    <div class="or-detail-section">
+      <div class="or-metadata">
+        <h2 name="or-citation">{tcap('recommended_citation_style', {count: 1})}</h2>
+        <or-citation item={opts.item} />
+      </div>
+      <or-icon which="up" />
     </div>
-    <or-icon which="up" />
-  </div>
+
+    <div class="or-detail-section">
+      <div class="or-metadata">
+        <h2 name="or-license">{tcap('license')}</h2>
+        <or-license />
+      </div>
+      <or-icon which="up" />
+    </div>
+  </virtual>
 
   <script type="text/coffee">
     tag = this

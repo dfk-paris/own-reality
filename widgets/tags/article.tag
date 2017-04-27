@@ -13,6 +13,7 @@
       <a class="anchor" href="#or-related-people">{tcap('people_involved')}</a>
       <a class="anchor" href="#or-attributes">{tcap('keyword', {count: 'other'})}</a>
       <a class="anchor" href="#or-citation">{tcap('recommended_citation_style')}</a>
+      <a class="anchor" href="#or-license">{tcap('license')}</a>
     </div>
 
     <div class="w-clearfix"></div>
@@ -52,6 +53,14 @@
       <div class="or-metadata">
         <h2>{t('recommended_citation_style', {count: 1, capitalize: true})}</h2>
         <or-citation item={opts.item} />
+      </div>
+      <or-icon which="up" />
+    </div>
+
+    <div class="or-detail-section">
+      <div class="or-metadata">
+        <h2 name="or-license">{tcap('license')}</h2>
+        <or-license />
       </div>
       <or-icon which="up" />
     </div>
