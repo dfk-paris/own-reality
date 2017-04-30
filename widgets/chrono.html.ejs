@@ -36,10 +36,10 @@
   </head>
   <body>
     <div class="left">
-      <or-chronology-ranges />
+      <or-chronology-ranges></or-chronology-ranges>
     </div>
     <div class="center">
-      <or-chronology-results />
+      <or-chronology-results></or-chronology-results>
     </div>
     <div class="right">
       <or-language-selector></or-language-selector>
@@ -49,6 +49,7 @@
     <script
       type="text/javascript"
       src="<%= script_path('app-noboot.js') %>"
+      or-api-url="http://192.168.0.171:3000"
     ></script>
     
     <script type="text/javascript">

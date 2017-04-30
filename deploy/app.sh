@@ -19,9 +19,12 @@ function deploy {
   task "ln -sfn $SHARED_PATH/secrets.yml $CURRENT_PATH/config/secrets.yml"
   task "ln -sfn $SHARED_PATH/data $CURRENT_PATH/data"
   task "ln -sfn $SHARED_PATH/public_files $CURRENT_PATH/public/files"
+  task "ln -sfn $SHARED_PATH/images $CURRENT_PATH/public/images"
 
   local "npm run build"
   local "rsync $RSYNC_OPTS public/app.js $HOST:$CURRENT_PATH/public/app.js"
+  local "rsync $RSYNC_OPTS public/app.css $HOST:$CURRENT_PATH/public/app.css"
+  local "rsync $RSYNC_OPTS public/vendor.css $HOST:$CURRENT_PATH/public/vendor.css"
   local "rsync $RSYNC_OPTS public/spinner.gif $HOST:$CURRENT_PATH/public/spinner.gif"
 
   task "touch tmp/restart.txt"
@@ -37,18 +40,3 @@ function configure {
 
 configure
 deploy
-
-
-
-########################
-
-
-  # within_do $CURRENT_PATH "RAILS_ENV=production bundle exec rake db:migrate"
-  # within_do $CURRENT_PATH "RAILS_ENV=production bundle exec rake assets:precompile"
-
-  # local "bundle exec rake assets:precompile"
-  # local "rsync --recursive --times --rsh=ssh --compress --human-readable --progress public/assets/* $HOST:$CURRENT_PATH/public/assets"
-  # remote "mkdir -p $CURRENT_PATH/public/assets/images"
-  # # remote "mv $CURRENT_PATH/public/assets/bootstrap/dist/fonts $DEPLOY_TO/current/public"
-  # # remote "mv $CURRENT_PATH/public/assets/jqueryui/themes/base/images/* $CURRENT_PATH/public/assets/images"
-  # local "bundle exec rake assets:clean"
