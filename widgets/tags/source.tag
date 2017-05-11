@@ -39,6 +39,7 @@
         <h2 name="or-summary">{tcap('summary')}</h2>
         <p>{lcv(opts.item._source.interpretation)}</p>
       </div>
+      <or-icon which="up" />
     </div>
 
     <div class="or-detail-section" if={hasContent()}>
@@ -46,6 +47,7 @@
         <h2 name="or-content">{tcap('content')}</h2>
         <p>{lcv(opts.item._source.content)}</p>
       </div>
+      <or-icon which="up" />
     </div>
 
     <div class="or-detail-section">
@@ -100,11 +102,13 @@
       tag.opts.item._source.content[tag.contentLocale()]
 
     tag.clickAttribute = (event) ->
-      h(event) if h = tag.opts.handlers.clickAttribute
+      key = event.item.key
+      h(key) if h = tag.opts.handlers.clickAttribute
 
     tag.clickPerson = (role_id) ->
       (event) ->
-        h(event) if h = tag.opts.handlers.clickPerson
+        key = event.item.person.id
+        h(role_id, key) if h = tag.opts.handlers.clickPerson
 
     tag.attrs = (klass, category) ->
       (tag.opts.item._source.attrs.ids[6] || {})[43]

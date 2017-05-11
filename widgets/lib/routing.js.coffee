@@ -57,12 +57,31 @@ wApp.routing = {
   pack: (unpacked = null) ->
     if unpacked
       btoa(JSON.stringify(unpacked))
+  redirects: () ->
+    oldCache = wApp.routing.parts_cache
+    wApp.routing.parts_cache = null
+    r = /^\/resolve\/(chronology|magazine|article|interview)\/([0-9]+)(?:\/(en|pl|fr|de))?(?:\/(en|pl|fr|de))?/
+    if hashPath = wApp.routing.parts()['hash_path']
+      if m = hashPath.match(r)
+        console.log 'REDIRECT'
+        hash = wApp.routing.pack(
+          modal: true
+          tag: 'or-paper'
+          id: m[2]
+          lang: m[3]
+          cl: m[4]
+        )
+        wApp.routing.parts_cache = oldCache
+        wApp.routing.route("#?q=#{hash}", null, true)
+    wApp.routing.parts_cache = oldCache
   setup: ->
     wApp.routing.route = route.create()
     route.base "#/"
     
     wApp.routing.route ->
-      # console.log 'routing', arguments
+      console.log 'routing', arguments
+
+      wApp.routing.redirects()
 
       oldParts = wApp.routing.parts_cache || {}
       wApp.routing.parts_cache = null

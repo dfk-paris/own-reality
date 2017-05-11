@@ -6,6 +6,7 @@ wApp.i18n.translations.en = {
   "download": "download",
   "amount_found": "%{o} found",
   "summary": "summary",
+  "comment": "comment",
   "people_involved": "people mentioned",
   "author": {
     "one": "author",
@@ -43,6 +44,7 @@ wApp.i18n.translations.en = {
     "one": "source",
     "other": "sources"
   },
+  "evaluated_articles": "evaluated articles",
   "information": "information",
   "search": "search",
   "database": "database",
@@ -59,6 +61,7 @@ wApp.i18n.translations.en = {
   "next_page": "next",
   "previous_page": "previous",
   "in": "in",
+  "by": "by",
   "in_country": "in",
   "too_much_data": "too much data",
   "no_data": "no data",

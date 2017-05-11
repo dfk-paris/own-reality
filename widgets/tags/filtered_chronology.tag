@@ -124,7 +124,7 @@
       item_click = (id) ->
         wApp.routing.packed(
           modal: true
-          tag: 'or-chronology-detail'
+          tag: 'or-paper'
           id: id
         )
         # console.log item

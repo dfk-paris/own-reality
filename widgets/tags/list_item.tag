@@ -1,10 +1,11 @@
 <or-list-item>
 
-  <div class="or-item-frame">
-    <or-icon which="right" />
+  <div class="or-item-frame" if={opts.item}>
 
-    <div class="or-item" onclick={openPaper}>
-      <virtual if={opts.item && opts.item._type == 'sources'}>
+    <virtual if={opts.item && opts.item._type == 'sources'}>
+      <or-icon which="right" />
+      
+      <div class="or-item" onclick={openPaper} or-type="sources">
         <or-medium item={opts.item} />
         <or-people-list people={opts.item._source.people[12063]} />
         <a
@@ -17,54 +18,69 @@
           class="or-text"
           value={opts.item._source.interpretation}
         />
-      </virtual>
+      </div>
+    </virtual>
 
-      <virtual if={opts.item && opts.item._type == 'interviews'}>
-        <or-medium item={opts.item} />
-        <or-people-list people={opts.item._source.people[16530]} />
+    <virtual if={opts.item && opts.item._type == 'interviews'}>
+      <or-icon which="right" />
+      
+      <div class="or-item" onclick={openPaper} or-type="interviews">
         <a
-          if={hasHTML()}
-        >
-          <or-localized-value class="or-title" value={opts.item._source.title} />
-        </a>
-        <or-localized-value
-          if={!hasHTML()}
           class="or-title"
-          value={opts.item._source.title}
-        />
-      </virtual>
+          if={hasHTML()}
+        >{label()}</a>
+        <span if={!hasHTML()} class="or-title">
+          {label()}
+        </span>
 
-      <virtual if={opts.item && opts.item._type == 'articles'}>
+        <div class="or-interviewer">
+          {tcap('interview')} {t('by')}
+          <or-people-list people={opts.item._source.people[16530]} />
+        </div>
+      </div>
+    </virtual>
+
+    <virtual if={opts.item && opts.item._type == 'articles'}>
+      <or-icon which="right" />
+      
+      <div class="or-item" onclick={openPaper} or-type="articles">
         <or-pdf-link item={opts.item} download={true} />
 
         <or-people-list people={opts.item._source.people[16530]} />
         <a
           class="or-title"
           if={hasHTML()}
-        >{lv(opts.item._source.title)}</a>
+        >{label()}</a>
         <span if={!hasHTML()} class="or-title">
-          {lv(opts.item._source.title)}
+          {label()}
         </span>
-      </virtual>
+      </div>
+    </virtual>
 
-      <virtual if={opts.item && opts.item._type == 'magazines'}>
-        <or-medium item={opts.item} />
-        <or-people-list people={opts.item._source.people[16530]} />
+    <virtual if={opts.item && opts.item._type == 'magazines'}>
+      <div class="or-item" or-type="magazines">
+        <!-- <or-medium item={opts.item} /> -->
+        <!-- <or-people-list people={opts.item._source.people[16530]} /> -->
+        <div class="or-title">
+          {lv(opts.item._source.title)}
+        </div>
+
         <a
-          if={hasHTML()}
-        >
-          <or-localized-value class="or-title" value={opts.item._source.title} />
-        </a>
-        <or-localized-value
-          if={!hasHTML()}
-          class="or-title"
-          value={opts.item._source.title}
-        />
-      </virtual>
+          onclick={openPaper}
+        ><span class="or-decorate-fix">{opts.label}</span></a>
 
-      <virtual if={opts.item && opts.item._type == 'chronology'}>
+        <a onclick={toJournalArticles}>
+          <span class="or-decorate-fix">{opts.label2}</span>
+        </a>
+      </div>
+    </virtual>
+
+    <virtual if={opts.item && opts.item._type == 'chronology'}>
+      <or-icon which="right" />
+      
+      <div class="or-item" onclick={openPaper} or-type="chronology">
         <or-people-list people={opts.item._source.people[12064]} />
-        <span class="or-title">{lv(opts.item._source.title)}</span>
+        <span class="or-title">{label()}</span>
         <div class="or-location">
           {t('exhibition', {count: 1, capitalize: true})} {t('in_country')}
           <or-attribute
@@ -74,8 +90,9 @@
           />,
           {range_label()}
         </div>
-      </virtual>
-    </div>
+      </div>
+    </virtual>
+    
   </div>
 
   <script type="text/coffee">
@@ -102,6 +119,17 @@
     tag.hasHTML = ->
       html = tag.opts.item._source.html
       html && html[tag.locale()]
+
+    tag.label = -> tag.opts.label || tag.lv(tag.opts.item._source.title)
+
+    tag.toJournalArticles = (event) ->
+      event.preventDefault()
+      base = tag.opts.orSearchUrl
+      hash = wApp.routing.pack(
+        type: 'sources'
+        journals: [tag.opts.item._source.journal_short]
+      )
+      window.location.href = "#{base}##{hash}"
 
     tag.range_label = -> wApp.utils.range_label(tag.opts.item)
 

@@ -6,6 +6,7 @@ wApp.i18n.translations.de = {
   "download": "herunterladen",
   "amount_found": "%{o} gefunden",
   "summary": "Zusammenfassung",
+  "comment": "Kommentar",
   "people_involved": "genannte Personen",
   "author": {
     "one": "Autor",
@@ -43,6 +44,7 @@ wApp.i18n.translations.de = {
     "one": "Quelle",
     "other": "Quellen"
   },
+  "evaluated_articles": "ausgewertete Artikel",
   "information": "Information",
   "search": "Suche",
   "database": "Datenbank",
@@ -59,6 +61,7 @@ wApp.i18n.translations.de = {
   "next_page": "nächste Seite",
   "previous_page": "vorherige Seite",
   "in": "in",
+  "by": "von",
   "in_country": "in",
   "too_much_data": "zu vielen Daten",
   "no_data": "keine Daten",

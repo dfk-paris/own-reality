@@ -1,16 +1,14 @@
-<or-interview>
+<or-chronology>
 
   <div class="header">
     <div class="formats">
-      <a href="#"><or-icon which="doc" /></a>
-      <a href="#"><or-icon which="print" /></a>
-
       <or-content-locale-selector item={opts.item} />
     </div>
 
     <div class="navigation">
-      <a class="anchor" href="#or-article">{tcap('interview')}</a>
-      <a class="anchor" href="#or-related-people">{tcap('people_involved')}</a>
+      <a class="anchor" href="#or-article">{tcap('exhibition')}</a>
+      <a class="anchor" href="#or-summary">{tcap('comment')}</a>
+      <a class="anchor" href="#or-related-people" if={hasPeople()}>{tcap('people_involved')}</a>
       <a class="anchor" href="#or-attributes">{tcap('keyword', {count: 'other'})}</a>
       <a class="anchor" href="#or-citation">{tcap('recommended_citation_style')}</a>
       <a class="anchor" href="#or-license">{tcap('license')}</a>
@@ -20,16 +18,37 @@
   </div>
 
   <virtual if={opts.item}>
-    <or-doc item={opts.item} />
-
-    <div class="or-detail-section" each={people, role_id in opts.item._source.people}>
+    <div class="or-main-section or-detail-section">
       <div class="or-metadata">
-        <h2 name="or-related-people">{lv(wApp.config.server.roles[role_id])}</h2>
+        <h1 name="or-article">{lcv(opts.item._source.title)}</h1>
+        <div class="or-subtitle" if={opts.item._type == 'chronology'}>
+          {t('exhibition', {count: 1, capitalize: true})} {t('in')}
+          <or-attribute
+            each={id in opts.item._source.attrs.ids[7][168]}
+            key={id}
+            shorten-to={100}
+          /><br />
+          {range_label()}
+        </div>
+      </div>
+    </div>
+
+    <div class="or-detail-section" if={hasContent()}>
+      <div class="or-metadata">
+        <h2 name="or-summary">{tcap('comment')}</h2>
+        <p>{lcv(opts.item._source.content)}</p>
+      </div>
+      <or-icon which="up" />
+    </div>
+
+    <div class="or-detail-section" if={hasPeople()}>
+      <div class="or-metadata">
+        <h2 name="or-related-people">{lv(wApp.config.server.roles[12064])}</h2>
         <p>
           <or-people-list
-            people={people}
+            people={opts.item._source.people[12064]}
             as-buttons={true}
-            on-click-person={clickPerson(role_id)}
+            on-click-person={clickPerson(12064)}
           />
         </p>
       </div>
@@ -79,6 +98,19 @@
 
     tag.attrs = (klass, category) ->
       (tag.opts.item._source.attrs.ids[6] || {})[43]
+
+    tag.range_label = -> wApp.utils.range_label(tag.opts.item)
+
+    tag.hasContent = ->
+      tag.opts.item._source.content[tag.contentLocale()]
+
+    tag.hasPeople = ->
+      if tag.opts.item
+        if people = tag.opts.item._source.people[12064]
+          if people.length > 0
+            return true
+      false
+
   </script>
 
-</or-interview>
+</or-chronology>

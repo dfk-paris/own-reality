@@ -22,14 +22,7 @@
 
     tag.url = -> 
       base = document.location.href.split('#')[0]
-      hash = wApp.routing.pack(
-        modal: true
-        tag: 'or-source'
-        id: tag.opts.item._id
-        lang: tag.locale()
-        cl: tag.contentLocale()
-      )
-      "#{base}#?q=#{hash}"
+      "#{base}#/resolve/#{tag.opts.item._type}/#{tag.opts.item._id}/#{tag.locale()}/#{tag.contentLocale()}"
     tag.date = ->
       ts = tag.opts.item._source.updated_at
       tag.l(ts)

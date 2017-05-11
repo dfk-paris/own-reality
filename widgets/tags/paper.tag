@@ -26,6 +26,12 @@
       if={opts.item._type == 'sources'}
       handlers={handlers}
     />
+
+    <or-chronology
+      item={opts.item}
+      if={opts.item._type == 'chronology'}
+      handlers={handlers}
+    ></or-chronology>
   </virtual>
 
   <script type="text/coffee">
@@ -41,22 +47,17 @@
         clickPerson: clickPerson
       }
 
-    clickAttribute = (event) ->
-      event.preventDefault()
+    clickAttribute = (key) ->
       if window.confirm(tag.t('confirm_replace_search'))
-        key = event.item.key
         wApp.bus.trigger 'close-modal'
         wApp.bus.trigger 'reset-search-with', attribs: [key]
 
-    clickPerson = (role_id) ->
-      (event) ->
-        event.preventDefault()
-        if window.confirm(tag.t('confirm_replace_search'))
-          key = event.item.person.id
-          data = {people: {}}
-          data.people[role_id] = [key]
-          wApp.bus.trigger 'close-modal'
-          wApp.bus.trigger 'reset-search-with', data
+    clickPerson = (role_id, key) ->
+      if window.confirm(tag.t('confirm_replace_search'))
+        data = {people: {}}
+        data.people[role_id] = [key]
+        wApp.bus.trigger 'close-modal'
+        wApp.bus.trigger 'reset-search-with', data
 
     tag.onClickClose = ->
       console.log 'bla'
