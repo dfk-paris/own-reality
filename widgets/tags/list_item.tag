@@ -129,7 +129,7 @@
         type: 'sources'
         journals: [tag.opts.item._source.journal_short]
       )
-      window.location.href = "#{base}##{hash}"
+      window.location.href = "#{base}#/?q=#{hash}"
 
     tag.range_label = -> wApp.utils.range_label(tag.opts.item)
 
