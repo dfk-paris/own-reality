@@ -124,8 +124,8 @@
         zoomable: true
         zoomMin: 864000000
         # stack: false
-        # minHeight: "210px"
-        # height: "120px"
+        # minHeight: "260px"
+        # height: "250px"
         # maxHeight: "200px"
         dataAttributes: "all"
         type: "point"

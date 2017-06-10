@@ -7,17 +7,22 @@
       
       <div class="or-item" onclick={openPaper} or-type="sources">
         <or-medium item={opts.item} />
-        <or-people-list people={opts.item._source.people[12063]} />
-        <a
-          class="or-modal-trigger"
-        >
-          <or-localized-value class="or-title" value={opts.item._source.title} />
-        </a>
-        <or-journal-and-volume item={opts.item} />
-        <or-localized-value
-          class="or-text"
-          value={opts.item._source.interpretation}
-        />
+
+        <div class="or-width-limit">
+          <or-people-list people={opts.item._source.people[12063]} />
+          <a
+            class="or-modal-trigger"
+          >
+            <or-localized-value class="or-title" value={opts.item._source.title} />
+          </a>
+          <or-journal-and-volume item={opts.item} />
+          <or-localized-value
+            class="or-text"
+            value={opts.item._source.interpretation}
+          />
+        </div>
+
+        <div class="w-clearfix"></div>
       </div>
     </virtual>
 

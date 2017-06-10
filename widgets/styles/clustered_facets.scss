@@ -7,6 +7,8 @@ or-clustered-facets, [data-is=or-clustered-facets] {
       .or-item {
         display: inline-block;
         white-space: normal;
+        padding-top: 5px;
+        padding-bottom: 5px;
 
         a {
           @include cera(16px, 20px);

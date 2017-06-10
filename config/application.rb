@@ -88,6 +88,8 @@ end
 # TODO: add missing translations
 # TODO: remove jquery ui since the slider is gone
 # TODO: check pdf downloads
+# TODO: fix "alle anzeigen" within db tool
+# TODO: what is the top margin for images?
 
 # TODO: url on source detail modal view
 # TODO: add correct dating within citations

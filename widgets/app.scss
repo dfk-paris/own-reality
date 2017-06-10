@@ -103,10 +103,8 @@ or-busy-wheel, [data-is=or-busy-wheel] {
 }
 
 or-medium, [data-is=or-medium] {
-  text-align: right;
-
   img {
-    width: 140px !important;
+    width: 160px !important;
     border-radius: 6px;
   }
 
@@ -306,6 +304,34 @@ or-list-item {
   .or-location {
     margin-top: 24px;
     @include cera(16px, 20px);
+  }
+
+  .or-item[or-type=sources] {
+    .or-width-limit {
+      padding-right: 180px;
+    }
+
+    or-journal-and-volume {
+      display: block;
+      @include cera(16px, 20px);
+      margin-bottom: 24px;
+    }
+
+    or-medium {
+      margin-top: 160px;
+      margin-right: -80px;
+      display: block;
+      float: right;
+    }
+
+    a {
+      display: block;
+      text-decoration: none;
+
+      .or-title {
+        margin-bottom: 24px;
+      }
+    }
   }
 
   .or-item[or-type=interviews] {
