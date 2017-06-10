@@ -60,6 +60,8 @@ wApp.i18n.translations.en = {
   },
   "next_page": "next",
   "previous_page": "previous",
+  "first_page": "first page",
+  "last_page": "last page",
   "in": "in",
   "by": "by",
   "in_country": "in",
@@ -80,6 +82,15 @@ wApp.i18n.translations.en = {
   "cc_license_label": "Content published under the licence CC-BY-NC-ND 4.0",
   "cc_license_images": "Images are not available under Creative Commons, see copyright below each figure",
   "license": "Copyright & Licence",
+  "search_result": {
+    "one": "search result",
+    "other": "search results"
+  },
+  "criterion": {
+    "one": "search criterion",
+    "other": "search criteria",
+  },
+  "your_selection": "your selection",
   "date": {
     "formats": {
       "default": "%d %B %Y",

@@ -1,27 +1,29 @@
 or-results, [data-is=or-results] {
-  .controls {
-    margin-bottom: 1.5rem;
+  @include cera(16px, 24px);
 
+  .controls {
+    margin-bottom: 30px;
 
     a {
+      @include cera(16px, 18px);
       display: block;
       float: left;
-      width: 25%;
+      width: 20%;
       box-sizing: border-box;
+      padding: 6px;
       cursor: pointer;
-      padding: 0.5rem;
-      padding-top: 0.8rem;
-      padding-bottom: 0.8rem;
-      background-color: #efefef;
-      border-radius: 3px;
-      font-family: sans-serif;
+      border: 2px solid $gray-darker;
+      border-left: none;
+      border-right: 1px solid $gray-darker;
       text-decoration: none;
-      font-size: 0.8rem;
+
+      &:first-child {
+        border-left: 1px solid $gray-darker;
+      }
 
       &.current {
-        background-color: #ffffff;
-        border-top: 0.2rem solid #6e6e6e;
-        padding-top: 0.6rem;
+        background-color: $gray-darker;
+        color: #ffffff;
       }
     }
   }

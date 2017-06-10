@@ -1,18 +1,52 @@
 or-clustered-facets, [data-is=or-clustered-facets] {
+  .or-badge-list {
+    .or-item-wrapper {
+      display: block;
+      margin-bottom: 5px;
+
+      .or-item {
+        display: inline-block;
+        white-space: normal;
+
+        a {
+          @include cera(16px, 20px);
+        }
+      }
+    }
+  }
+
   a {
     cursor: pointer;
   }
 
   a.or-show-all {
-    font-size: 0.7rem;
+    @include cera(16px, 20px);
+  }
+
+  .or-selected {
+    margin-bottom: 70px;
+  }
+
+  .or-buckets {
+
   }
 
   .or-bucket {
-    margin-top: 1rem;
+    margin-top: 30px;
+
+    a {
+      text-decoration: none;
+    }
+
+    .or-role, .or-category, .or-custom-category {
+      float: left;
+    }
 
     .or-show-all {
       display: block;
-      float: right;
+      text-align: right;
+      line-height: 42px;
+      text-decoration: underline;
     }
 
     .or-category, .or-role {

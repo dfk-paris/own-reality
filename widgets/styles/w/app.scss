@@ -1,9 +1,3 @@
-$blue: #1eaedb;
-$gray: #e1e1e1;
-$yellow: #dbaa1e;
-$pink: #db1e4f;
-$highlight: #f4f4f4;
-
 a {
   cursor: pointer;
 }
@@ -37,4 +31,9 @@ a {
 
 .w-clearfix {
   clear: both;
+}
+
+.or-search-header {
+  font-weight: bold;
+  margin-bottom: 10px;
 }

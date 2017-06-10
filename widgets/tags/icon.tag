@@ -49,6 +49,22 @@
   </svg>
 
   <svg
+    if={opts.which == 'left'}
+    xmlns="http://www.w3.org/2000/svg"
+    width="19"
+    height="16"
+    viewBox="0 0 19 16"
+  >
+    <defs><style>.cls-1{fill:#8a8a8d;}</style></defs>
+    <title>Zeichenfläche 1</title>
+    <polygon
+      class="cls-1"
+      points="11.08 -0.13 10.37 0.58 16.79 7 0 7 0 8 16.79 8 10.37 14.42 11.08 15.13 18.71 7.5 11.08 -0.13"
+      transform="translate(19) scale(-1, 1)"
+    />
+  </svg>
+
+  <svg
     if={opts.which == 'right'}
     xmlns="http://www.w3.org/2000/svg"
     width="19"
@@ -59,5 +75,31 @@
     <title>Zeichenfläche 1</title>
     <polygon class="cls-1" points="11.08 -0.13 10.37 0.58 16.79 7 0 7 0 8 16.79 8 10.37 14.42 11.08 15.13 18.71 7.5 11.08 -0.13" />
   </svg>
+
+  <svg
+    if={opts.which == 'next'}
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 18 42"
+    width="18"
+    height="42"
+  >
+    <defs><style>.cls-1{fill:#8d8d8d;}</style></defs>
+    <title>icon_seite-danach</title>
+    <path class="cls-1" d="M1.78 41.63l-1.56-1.25 15.5-19.38-15.5-19.37 1.56-1.25 16.5 20.62-16.5 20.63z" />
+  </svg>
+
+  <svg
+    if={opts.which == 'previous'}
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 18 42"
+    width="18"
+    height="42"
+  >
+    <defs><style>.cls-1{fill:#8d8d8d;}</style></defs>
+    <title>icon_seite-davor</title>
+    <path class="cls-1" d="M16.22 41.63l-16.5-20.63 16.5-20.62 1.56 1.25-15.5 19.37 15.5 19.38-1.56 1.25z" />
+  </svg>
+
+
 
 </or-icon>

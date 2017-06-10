@@ -60,6 +60,8 @@ wApp.i18n.translations.de = {
   },
   "next_page": "nächste Seite",
   "previous_page": "vorherige Seite",
+  "first_page": "erste Seite",
+  "last_page": "letzte Seite",
   "in": "in",
   "by": "von",
   "in_country": "in",
@@ -80,6 +82,15 @@ wApp.i18n.translations.de = {
   "cc_license_label": "Dieser Inhalt unterliegt der Lizenz CC-BY-NC-ND 4.0",
   "cc_license_images": "Die Bilder sind davon ausgeschlossen (siehe Copyright bei den Abbildungen)",
   "license": "Urheberrecht/Lizenz",
+  "search_result": {
+    "one": "Suchresultat",
+    "other": "Suchresultate"
+  },
+  "criterion": {
+    "one": "Suchkriterium",
+    "other": "Suchkriterien",
+  },
+  "your_selection": "Ihre Auswahl",
   "date": {
     "formats": {
       "default": "%d.%m.%Y",

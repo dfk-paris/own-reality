@@ -1,4 +1,6 @@
 <or-general-filters>
+
+  <div class="or-search-header">{tcap('criterion', {count: 'other'})}</div>
   
   <form>
     <div class="form-control">
@@ -10,9 +12,9 @@
       ></or-delayed-input>
     </div>
 
-    <div class="form-control">
+    <!-- <div class="form-control">
       <or-slider min="1960" max="1989" ref="date" />
-    </div>
+    </div> -->
 
     <div class="form-control">
       <or-clustered-facets
@@ -75,7 +77,8 @@
             articles: {doc_count: 0}
             magazines: {doc_count: 0}
             interviews: {doc_count: 0}
-            sources: {doc_count: 0}
+            sources: {doc_count: 0},
+            chronology: {doc_count: 0}
           }
           for bucket in data.aggregations.type.buckets
             wApp.data.aggregations[bucket.key] = bucket
@@ -86,6 +89,8 @@
         params.per_page = 10
         # params.people_ids = tag.people_ids
         # params.journal_names = tag.journal_names
+      else if tag.type() == 'chronology'
+        params.per_page = 20
       else
         params.per_page = 500
 

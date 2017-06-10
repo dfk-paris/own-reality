@@ -462,7 +462,7 @@ class OwnReality::ProwebReader
       else
         Time.mktime parts[0], parts[1], parts[2] + addition
       end
-      (result - addition.days).strftime("%Y-%m-%dT%H:%M:%S")
+      (result - addition.days).strftime("%Y-%m-%d")
     rescue ArgumentError => e
       OwnReality.log_anomaly(
         "caching",
@@ -475,7 +475,7 @@ class OwnReality::ProwebReader
 
     def date_from(value)
       if value.present? 
-        Time.parse(value).strftime("%Y-%m-%dT%H:%M:%S")
+        Time.parse(value).strftime("%Y-%m-%d")
       end
     end
 

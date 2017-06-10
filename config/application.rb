@@ -84,6 +84,11 @@ module OwnReality
   end
 end
 
+# TODO: timeline tooltips placement
+# TODO: add missing translations
+# TODO: remove jquery ui since the slider is gone
+# TODO: check pdf downloads
+
 # TODO: url on source detail modal view
 # TODO: add correct dating within citations
 # TODO: unify event naming, possibly with attributes on tags publish/subscribe

@@ -176,7 +176,7 @@ class OwnReality::Query
                 "filter" => {
                   "range" => {
                     "to_date" => {
-                      "gte" => Time.mktime(criteria["lower"]).strftime("%Y-%m-%dT%H:%M:%S")
+                      "gte" => Time.mktime(criteria["lower"]).strftime("%Y-%m-%d")
                     }
                   }
                 }
@@ -204,7 +204,7 @@ class OwnReality::Query
                 "filter" => {
                   "range" => {
                     "from_date" => {
-                      "lte" => Time.mktime(criteria["upper"], 12, 31).strftime("%Y-%m-%dT%H:%M:%S")
+                      "lte" => Time.mktime(criteria["upper"], 12, 31).strftime("%Y-%m-%d")
                     }
                   }
                 }
@@ -319,6 +319,7 @@ class OwnReality::Query
 
     Rails.logger.debug data.inspect
     response = elastic.request "post", "_search", nil, data
+    # binding.pry
     elastic.handle response
   end
 

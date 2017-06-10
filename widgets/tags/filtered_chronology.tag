@@ -23,52 +23,75 @@
 
     tag.on 'mount', ->
       tag.setup()
-      wApp.bus.on 'routing:query', tag.search
+      # wApp.bus.on 'routing:query', tag.search
+      wApp.bus.on 'results', newData
 
     tag.on 'unmount', ->
-      wApp.bus.off 'routing:query', tag.search
+      # wApp.bus.off 'routing:query', tag.search
+      wApp.bus.off 'results', newData
 
-    tag.params = ->
-      return {
-        type: 'chronology'
-        per_page: tag.default_params.per_page
-        terms: wApp.routing.packed()['terms']
-        lower: wApp.routing.packed()['lower'] || 1960
-        upper: wApp.routing.packed()['upper'] || 1989
-        attribute_ids: wApp.routing.packed()['attribs']
-        people_ids: wApp.routing.packed()['people']
-      }
+    # tag.params = ->
+    #   return {
+    #     type: 'chronology'
+    #     per_page: tag.default_params.per_page
+    #     terms: wApp.routing.packed()['terms']
+    #     lower: wApp.routing.packed()['lower'] || 1960
+    #     upper: wApp.routing.packed()['upper'] || 1989
+    #     attribute_ids: wApp.routing.packed()['attribs']
+    #     people_ids: wApp.routing.packed()['people']
+    #   }
 
-    tag.search = ->
-      Zepto.ajax(
-        type: 'POST'
-        url: "#{wApp.api_url()}/api/entities/search"
-        data: JSON.stringify(tag.params())
-        success: (data) ->
-          # console.log 'chrono data:', data
-          tag.data = data
-          tag.ready = true
-          tag.new_data(tag.params()) unless tag.excess() || tag.trivial()
-      )
+    newData = ->
+      tag.data = wApp.data
+      tag.data.results = tag.data.results.sort (x, y) ->
+        a = x._source.from_date
+        b = y._source.from_date
+        if a < b
+          -1
+        else if a > b
+          1
+        else
+          0
+
+      tag.new_data()
+
+
+    # tag.search = ->
+    #   Zepto.ajax(
+    #     type: 'POST'
+    #     url: "#{wApp.api_url()}/api/entities/search"
+    #     data: JSON.stringify(tag.params())
+    #     success: (data) ->
+    #       # console.log 'chrono data:', data
+    #       tag.data = data
+    #       tag.ready = true
+    #       tag.new_data(tag.params()) unless tag.excess() || tag.trivial()
+    #   )
 
     tag.new_data = (params) ->
       # console.log 'chrono params:', params
+      first = tag.data.results[0]
+      last = tag.data.results[tag.data.results.length - 1]
+      lower = new Date(first._source.from_date)
+      upper = new Date(last._source.from_date)
+
+      # console.log('---', new Date("#{lower.getYear() - 1}-12-01"), '---', new Date("#{upper.getYear() + 1}-01-31"))
 
       tag.timeline.setOptions(
-        min: "#{params.lower - 1}-12-01"
-        max: "#{params.upper}-01-31"
-        start: "#{params.lower - 1}-12-01"
-        end: "#{params.upper}-01-31"
+        min: new Date("#{lower.getYear() - 1}-12-01")
+        max: new Date("#{upper.getYear() + 1}-01-31")
+        start: new Date("#{lower.getYear() - 1}-12-01")
+        end: new Date("#{upper.getYear() + 1}-01-31")
       )
 
       new_data = []
       tag.item_lookup = {}
 
-      for o in tag.data["records"]
+      for o in tag.data["results"]
         item = {
           id: o._source.id
           start: new Date(o._source.from_date)
-          title: o._source.title[wApp.config.locale] || "Noname" 
+          title: tag.lv(o._source.title)
           # "end": o._source.to_date
           # "content": "#{group_for(o)}"
           # "group": group_for(o)
@@ -78,8 +101,9 @@
         if item.start
           tag.item_lookup[item.id] = o
           new_data.push item
+          # console.log item.start
         # else
-          # console.log item
+        #   console.log item
 
       # console.log 'tl data:', new_data
       tag.timeline.setItems new_data
@@ -99,21 +123,22 @@
         end: "1990-01-31"
         zoomable: true
         zoomMin: 864000000
-        stack: false
+        # stack: false
         # minHeight: "210px"
-        height: "120px"
+        # height: "120px"
         # maxHeight: "200px"
         dataAttributes: "all"
         type: "point"
         align: "center"
         # width: "800px"
         selectable: false
-        # 'timeAxis.scale': 'month'
+        timeAxis: {scale: 'year'}
         # autoResize: false
         # template: (item) ->
         #   console.log item
         #   "<div class='vis-dot' data-title='#{item.id}'></div>"
-        # showMajorLabels: false
+        showMajorLabels: false
+        tooltip: {overflowMethod: 'cap'}
         # showMinorLabels: false
         # groupOrder: (x, y) ->
         #   return -1 if x.position < y.position
@@ -129,8 +154,23 @@
         )
         # console.log item
 
+      item_hover = (props) ->
+        # TODO: fix tooltip placement
+        # dot = Zepto(props.event.target)
+        # tt = Zepto('.vis-tooltip')
+        # d = 20
+
+        # if dot.position().top - d - tt.height() > 0
+        #   tt.css 'top': dot.position().top - d - tt.height()
+        # else
+        #   tt.css 'top': dot.position().top + d
+
+        # tt.css 'left', tt.position().left + 20
+
       tag.timeline.on 'click', (props) ->
         item_click(props.item) if props.what == 'item'
+
+      tag.timeline.on 'itemover', item_hover
 
     tag.overrideExcess = (event) ->
       event.preventDefault()

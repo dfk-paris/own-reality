@@ -1,4 +1,6 @@
 <or-results>
+
+  <div class="or-search-header">{tcap('search_result', {count: 'other'})}</div>
   
   <div class="result-tabs">
     <div class="controls" if={wApp.data.aggregations}>
@@ -6,13 +8,17 @@
         {t('source', {count: 'other', capitalize: true})}
         ({wApp.data.aggregations['sources'].doc_count})
       </a>
-      <a name="magazines" class={current: (current_tab == 'magazines')}>
-        {t('magazine', {count: 'other', capitalize: true})}
-        ({wApp.data.aggregations['magazines'].doc_count})
+      <a name="chronology" class={current: (current_tab == 'chronology')}>
+        {t('exhibition', {count: 'other', capitalize: true})}
+        ({wApp.data.aggregations['chronology'].doc_count})
       </a>
       <a name="interviews" class={current: (current_tab == 'interviews')}>
         {t('interview', {count: 'other', capitalize: true})}
         ({wApp.data.aggregations['interviews'].doc_count})
+      </a>
+      <a name="magazines" class={current: (current_tab == 'magazines')}>
+        {t('magazine', {count: 'other', capitalize: true})}
+        ({wApp.data.aggregations['magazines'].doc_count})
       </a>
       <a name="articles" class={current: (current_tab == 'articles')}>
         {t('article', {count: 'other', capitalize: true})}
@@ -25,6 +31,7 @@
       items={wApp.data.results}
       total={wApp.data.total}
       per-page={wApp.data.per_page}
+      type={current_tab}
     />
   </div>
 
@@ -35,8 +42,8 @@
     tag.current_tab = 'sources'
 
     tag.on 'mount', ->
-      Zepto(tag.root).find('.tab').hide()
-      Zepto(tag.root).find('.tab.sources').show()
+      # Zepto(tag.root).find('.tab').hide()
+      # Zepto(tag.root).find('.tab.sources').show()
 
       Zepto(tag.root).on 'click', '.controls a', (event) ->
         event.preventDefault()

@@ -1,7 +1,12 @@
 <or-clustered-facets>
-  
+
   <div if={opts.aggregations}>
-    <div class="or-selected or-badge-list">
+    
+    <div
+      if={hasSelection()}
+      class="or-selected or-badge-list"
+    >
+      <div class="or-search-header">{tcap('your_selection')}</div>
       <virtual each={people, role_id in keys.people}>
         <span
           class="or-item-wrapper"
@@ -35,65 +40,83 @@
     </div>
 
     <div class="or-buckets">
+      <div class="or-search-header">{tcap('keyword', {count: 'other'})}</div>
 
       <!-- people bucket -->
       <div
-        class="or-bucket"
+        class="or-bucket or-badge-list"
         each={aggregation, key in opts.aggregations.people}
         data-id={key}
       >
         <virtual if={aggregation.buckets.length > 0}>
+          <div class="or-role">
+            {lv(wApp.config.server.roles[key])}
+          </div>
           <a
             href={opts.orBaseTargetPeopleUrl}
             class="or-show-all"
             onclick={showAll('people', aggregation, key)}
             show={many_buckets(aggregation)}
           >
-            {t('show_all')}
-            <span show={countless_buckets(aggregation)}>(> 20)</span>
+            <span class="w-nowrap">
+              {t('show_all')}
+              <span show={countless_buckets(aggregation)}>(> 20)</span>
+            </span>
           </a>
-          <div class="or-role">
-            {lv(wApp.config.server.roles[key])}
-          </div>
-          <div class="or-value" each={bucket in limit_buckets(key, aggregation)}>
-            +
-            <a class="or-select"><or-person person-id={bucket.key} /></a>
-            ({bucket.doc_count})
+
+          <div class="w-clearfix"></div>
+
+          <div class="or-item-wrapper" each={bucket in limit_buckets(key, aggregation)}>
+            <span class="or-value or-item">
+              +
+              <a class="or-select"><or-person person-id={bucket.key} /></a>
+              ({bucket.doc_count})
+            </span>
           </div>
         </virtual>
       </div>
 
       <!-- journal bucket -->
       <div
-        class="or-bucket"
+        class="or-bucket or-badge-list"
         if={opts.aggregations.journals.buckets.length > 0}
       >
+        <div class="or-custom-category">
+          {tcap('magazine', {count: 'other'})}
+        </div>
         <a
           href="#"
           class="or-show-all"
           show={many_buckets(opts.aggregations.journals)}
           onclick={showAll('journals', opts.aggregations.journals)}
         >
-          {t('show_all')}
-          <span show={countless_buckets(opts.aggregations.journals)}>(> 20)</span>
+          <span class="w-nowrap">
+            {t('show_all')}
+            <span show={countless_buckets(opts.aggregations.journals)}>(> 20)</span>
+          </span>
         </a>
-        <div class="or-custom-category">
-          {tcap('magazine', {count: 'other'})}
-        </div>
-        <div class="or-value" each={bucket in limit_buckets('journals', opts.aggregations.journals)}>
-          +
-          <a class="or-select">{bucket.key}</a>
-          ({bucket.doc_count})
+
+        <div class="w-clearfix"></div>
+
+        <div class="or-item-wrapper" each={bucket in limit_buckets('journals', opts.aggregations.journals)}>
+          <span class="or-value or-item">
+            +
+            <a class="or-select">{bucket.key}</a>
+            ({bucket.doc_count})
+          </span>
         </div>
       </div>
 
       <!-- keyword buckets -->
       <div
-        class="or-bucket"
+        class="or-bucket or-badge-list"
         each={aggregation, key in opts.aggregations.attribs}
         if={aggregation.buckets.length > 0}
         data-id={key}
       >
+        <div class="or-category">
+          {lv(wApp.config.server.categories[key])}
+        </div>
         <a
           href={attribs_url(key)}
           class="or-show-all"
@@ -101,16 +124,20 @@
           show={many_buckets(aggregation)}
           key={key}
         >
-          {t('show_all')}
-          <span show={countless_buckets(aggregation)}>(> 20)</span>
+          <span class="w-nowrap">
+            {t('show_all')}
+            <span show={countless_buckets(aggregation)}>(> 20)</span>
+          </span>
         </a>
-        <div class="or-category">
-          {lv(wApp.config.server.categories[key])}
-        </div>
-        <div class="or-value" each={bucket in limit_buckets(key, aggregation)}>
-          +
-          <a class="or-select"><or-attribute key={bucket.key} /></a>
-          ({bucket.doc_count})
+
+        <div class="w-clearfix"></div>
+
+        <div class="or-item-wrapper" each={bucket in limit_buckets(key, aggregation)}>
+          <span class="or-value or-item">
+            +
+            <a class="or-select"><or-attribute key={bucket.key} /></a>
+            ({bucket.doc_count})
+          </span>
         </div>
       </div>
     </div>
@@ -119,7 +146,6 @@
   <script type="text/coffee">
     tag = this
     tag.mixin(wApp.mixins.i18n)
-    window.t = tag
 
     tag.keys = {
       attribs: []
@@ -266,6 +292,12 @@
       "#{tag.opts.orBaseTargetAttribsUrl}#/?q=#{pack}"
 
     tag.value = -> tag.keys
+
+    tag.hasSelection = ->
+      !Zepto.isEmptyObject(tag.keys.people) ||
+      tag.keys.attribs.length > 0 ||
+      tag.keys.journals.length > 0
+
   </script>
 
 </or-clustered-facets>

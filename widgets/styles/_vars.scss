@@ -1,3 +1,14 @@
+$blue: #1eaedb;
+$turquoise: #009FB8;
+$gray: #e1e1e1;
+$gray-darker: #8C8D8F;
+$gray-dark: #464646;
+$gray-lighter: #EFEFEF;
+$gray-light: #D0D3D2;
+$yellow: #dbaa1e;
+$pink: #db1e4f;
+$highlight: #f4f4f4;
+
 @mixin cera($s: 18px, $lh: 24px) {
   font-family: cera-pro, Helvetica, Arial, sans-serif;
   font-size: $s;

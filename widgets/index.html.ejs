@@ -31,12 +31,14 @@
       .left {width: 25%;}
       .center {width: 50%;}
       .right {width: 25%;}
+      .center.right {width: 75%;}
       .full {float: none;}
     </style>
   </head>
   <body>
-    <div class="full">
-      <or-filtered-chronology />
+    <div class="full w-text-right">
+      <!-- <or-busy-wheel></or-busy-wheel> -->
+      <or-language-selector></or-language-selector>
     </div>
 
     <div class="left">
@@ -45,12 +47,8 @@
         or-base-target-attribs-url="/attribs.html"
       ></or-general-filters>
     </div>
-    <div class="center">
+    <div class="center right">
       <or-results></or-results>
-    </div>
-    <div class="right">
-      <or-language-selector></or-language-selector>
-      <or-busy-wheel></or-busy-wheel>
     </div>
 
     <script

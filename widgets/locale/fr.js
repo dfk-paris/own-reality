@@ -29,12 +29,12 @@ wApp.i18n.translations.fr = {
   "chronology": "chronologie",
   "papers": "essais",
   "interview": {
-    "one": "interview",
-    "other": "interviews",
+    "one": "entretien",
+    "other": "entretiens",
   },
   "article": {
-    "one": "essai",
-    "other": "essais"
+    "one": "article",
+    "other": "articles"
   },
   "magazine": {
     "one": "revue",
@@ -60,6 +60,8 @@ wApp.i18n.translations.fr = {
   },
   "next_page": "suivant",
   "previous_page": "précédant",
+  "first_page": "première page",
+  "last_page": "dernière page",
   "in": "dans",
   "by": "de",
   "in_country": "en",
@@ -80,6 +82,15 @@ wApp.i18n.translations.fr = {
   "cc_license_label": "Ce contenu est publié sous la licence CC-BY-NC-ND 4.0",
   "cc_license_images": "Les images en sont exclues (voir le copyright sous chaque illustration)",
   "license": "Droits de reproduction et licence",
+  "search_result": {
+    "one": "TRANSLATION MISSING",
+    "other": "TRANSLATION MISSING"
+  },
+  "criterion": {
+    "one": "TRANSLATION MISSING",
+    "other": "TRANSLATION MISSING",
+  },
+  "your_selection": "TRANSLATION MISSING",
   "date": {
     "formats": {
       "default": "%d %B %Y",
