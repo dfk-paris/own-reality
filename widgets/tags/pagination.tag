@@ -47,10 +47,10 @@
       event.preventDefault()
       wApp.routing.packed page: null
     tag.next = (event) ->
-      event.preventDefault()
+      event.preventDefault() if event
       wApp.routing.packed page: tag.page() + 1
     tag.previous = (event) ->
-      event.preventDefault()
+      event.preventDefault() if event
       wApp.routing.packed page: tag.page() - 1
     tag.last = (event) ->
       event.preventDefault()

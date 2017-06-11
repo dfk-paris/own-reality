@@ -163,7 +163,8 @@ or-doc, [data-is=or-doc] {
 or-paper, [data-is=or-paper] {
   display: block;
   background-color: #EBF5F4;
-  width: (75px + 80px + 210px + 645px + 20px + 245px + 80px + 75px);
+  // 20px for scroll:
+  width: (75px + 80px + 210px + 645px + 20px + 245px + 80px + 75px + 20px);
   color: #000000;
   padding-bottom: 80px;
   @include lyon(18px, 24px);
@@ -274,6 +275,28 @@ or-paper, [data-is=or-paper] {
     svg {
       cursor: pointer;
       margin-bottom: -6px;
+    }
+  }
+
+  or-icon[which=previous] {
+    position: absolute;
+    z-index: 10002;
+    left: 40px;
+    top: 190px;
+
+    svg {
+      cursor: pointer;
+    }
+  }
+
+  or-icon[which=next] {
+    position: absolute;
+    z-index: 10002;
+    right: 40px;
+    top: 190px;
+
+    svg {
+      cursor: pointer;
     }
   }
 

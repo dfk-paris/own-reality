@@ -80,6 +80,8 @@
     </virtual>
 
     <virtual if={opts.item && opts.item._type == 'magazines'}>
+      <or-icon which="right" />
+
       <div class="or-item" onclick={openPaper} or-type="magazines">
         <!-- <or-medium item={opts.item} /> -->
         <!-- <or-people-list people={opts.item._source.people[16530]} /> -->
@@ -152,6 +154,7 @@
         tag: 'or-paper',
         id: tag.opts.item._id
         clang: wApp.config.locale
+        searchContext: true
       )
 
     tag.hasHTML = ->

@@ -27,7 +27,11 @@
       <div class="clearfix"></div>
     </div>
 
-    <or-pagination total={wApp.data.total} per-page={wApp.data.per_page} />
+    <or-pagination
+      ref="pagination"
+      total={wApp.data.total}
+      per-page={wApp.data.per_page}
+    />
 
     <div class="or-list" if={current_tab != 'chronology'}>
       <or-list-item
@@ -61,9 +65,13 @@
       wApp.bus.on 'results', tag.update
       wApp.bus.on 'type-aggregations', tag.update
       wApp.bus.on 'routing:query', tag.from_packed_data
+      wApp.bus.on 'previous-result', onPreviousResult
+      wApp.bus.on 'next-result', onNextResult
       tag.from_packed_data()
 
     tag.on 'unmount', ->
+      wApp.bus.off 'next-result', onNextResult
+      wApp.bus.off 'previous-result', onPreviousResult
       wApp.bus.off 'results', tag.update
       wApp.bus.off 'type-aggregations', tag.update
       wApp.bus.off 'routing:query', tag.from_packed_data
@@ -71,6 +79,36 @@
     tag.from_packed_data = ->
       tag.current_tab = wApp.routing.packed()['type'] || 'sources'
       tag.update()
+
+    onPreviousResult = (oldId) ->
+      oldIndex = resultIndexById(oldId)
+      if oldIndex > 0
+        newId = wApp.data.results[oldIndex - 1]._id
+        wApp.routing.packed id: newId
+      else
+        if tag.refs.pagination.page() > 1
+          tag.refs.pagination.previous()
+          wApp.bus.one 'results', ->
+            newId = wApp.data.results[wApp.data.results.length - 1]._id
+            wApp.routing.packed id: newId
+
+    onNextResult = (oldId) ->
+      oldIndex = resultIndexById(oldId)
+      console.log oldIndex
+      if oldIndex < wApp.data.results.length - 1
+        newId = wApp.data.results[oldIndex + 1]._id
+        wApp.routing.packed id: newId
+      else
+        if tag.refs.pagination.page() < tag.refs.pagination.pages()
+          tag.refs.pagination.next()
+          wApp.bus.one 'results', ->
+            newId = wApp.data.results[0]._id
+            wApp.routing.packed id: newId
+
+    resultIndexById = (id) ->
+      for r, i in wApp.data.results
+        return i if r._id == id
+      return -1
 
   </script>
   

@@ -2,6 +2,8 @@
 
   <virtual if={opts.item}>
     <or-icon which="close" onclick={onClickClose} />
+    <or-icon if={searchContext()} which="previous" onclick={onPrevious} />
+    <or-icon if={searchContext()} which="next" onclick={onNext} />
 
     <or-article
       item={opts.item}
@@ -37,7 +39,6 @@
   <script type="text/coffee">
     tag = this
     tag.mixin(wApp.mixins.i18n)
-    window.t = tag
 
     tag.on 'mount', ->
       fetch()
@@ -61,6 +62,12 @@
         wApp.bus.trigger 'reset-search-with', data
 
     tag.onClickClose = -> wApp.bus.trigger 'close-modal'
+
+    tag.onPrevious = -> wApp.bus.trigger 'previous-result', opts.item._id
+    tag.onNext = -> wApp.bus.trigger 'next-result', opts.item._id
+
+    tag.searchContext = -> !!wApp.routing.packed()['searchContext']
+
 
     fixAnchors = ->
       Zepto(tag.root).on 'click', "a.suite, a.tonote, a.noteNum, a.tosub, a.anchor", (event) ->
