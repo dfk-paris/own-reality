@@ -27,11 +27,19 @@
       <div class="clearfix"></div>
     </div>
 
-    <or-item-list
+    <or-pagination total={wApp.data.total} per-page={wApp.data.per_page} />
+
+    <div class="or-list" if={current_tab != 'chronology'}>
+      <or-list-item
+        each={item in wApp.data.results}
+        item={item}
+        search-result={true}
+      />
+    </div>
+
+    <or-filtered-chronology
+      if={current_tab == 'chronology'}
       items={wApp.data.results}
-      total={wApp.data.total}
-      per-page={wApp.data.per_page}
-      type={current_tab}
     />
   </div>
 

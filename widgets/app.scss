@@ -58,7 +58,7 @@ or-pagination, [data-is=or-pagination] {
 
 }
 
-or-item-list, [data-is=or-item-list] {
+or-results, [data-is=or-results] {
   or-pagination {
     display: block;
     text-align: right;
@@ -190,44 +190,6 @@ or-general-filters, [data-is=or-general-filters] {
   }
 }
 
-or-register-results, [data-is=or-register-results] {
- .or-result {
-     margin-bottom: 0.5rem;
-  }
-
-  a {
-    cursor: pointer;
-  }
-
-  .or-role {
-    padding-right: 0.2rem;
-
-    .or-button {
-      font-size: 0.7rem;
-      border-radius: 3px;
-      padding: 0.2rem;
-      background-color: darken(#ffffff, 20%);
-      white-space: nowrap;
-    }
-  }
-}
-
-or-attribute-selector, [data-is=or-attribute-selector] {
-  display: block;
-  min-width: 60rem;
-
-  or-register {
-    display: block;
-    float: left;
-    width: 33.33%;
-  }
-  or-register-selector {
-    display: block;
-    float: left;
-    width: 66.66%;
-  }
-}
-
 or-chronology-ranges, [data-is=or-chronology-ranges] {
   display: block;
   text-align: right;
@@ -306,6 +268,10 @@ or-list-item {
     @include cera(16px, 20px);
   }
 
+  .or-teaser {
+    margin-top: 24px;
+  }
+
   .or-item[or-type=sources] {
     .or-width-limit {
       padding-right: 180px;
@@ -373,6 +339,36 @@ or-list-item {
       text-decoration: underline;
     }
   }
+
+  &.or-search-result {
+    .or-title {
+      text-decoration: none;
+    }
+
+    .or-item[or-type=articles] {
+      or-pdf-link {
+        display: none;
+      }
+    }
+
+    .or-item[or-type=interviews] {
+      a {
+        text-decoration: none;
+      }
+
+      .or-title {
+        @include cera(18px, 24px);
+        margin-top: 24px;
+        font-weight: bold;
+      }
+    }
+
+    .or-item[or-type=magazines] {
+      a.or-title:before {
+        content: "";
+      }
+    }
+  }
 }
 
 or-list-item:hover .or-item-frame {
@@ -390,4 +386,72 @@ or-icon, [data-is=or-icon] {
 or-citation {
   display: block;
   overflow-x: hidden;
+}
+
+// or-attribute-selector, [data-is=or-attribute-selector] {
+
+  // or-register-selector {
+  //   display: block;
+  //   float: left;
+  //   width: 66.66%;
+  // }
+// }
+
+or-attribute-selector, [data-is=or-attribute-selector] {
+  display: block;
+  min-width: 60rem;
+  background-color: white;
+
+  or-icon[which=close] {
+    position: absolute;
+    z-index: 10002;
+    right: 40px;
+    top: 40px;
+
+    svg {
+      cursor: pointer;
+      margin-bottom: -6px;
+    }
+  }
+
+  .or-frame {
+    margin: 80px;
+  }
+
+  .or-search-header {
+    margin-bottom: 24px;
+  }
+}
+
+or-register {
+  display: block;
+
+  select, select:hover, select:active, select:focus {
+    @include or-select;
+  }
+}
+
+or-register-results, [data-is=or-register-results] {
+  display: block;
+  margin-top: 48px;
+
+ // .or-result {
+ //     margin-bottom: 0.5rem;
+ //  }
+
+ //  a {
+ //    cursor: pointer;
+ //  }
+
+ //  .or-role {
+ //    padding-right: 0.2rem;
+
+ //    .or-button {
+ //      font-size: 0.7rem;
+ //      border-radius: 3px;
+ //      padding: 0.2rem;
+ //      background-color: darken(#ffffff, 20%);
+ //      white-space: nowrap;
+ //    }
+ //  }
 }

@@ -90,6 +90,13 @@ end
 # TODO: check pdf downloads
 # TODO: fix "alle anzeigen" within db tool
 # TODO: what is the top margin for images?
+# TODO: I need text for article teasers
+# TODO: interview search results: "geführt mit Micha Brendel [...]"
+# TODO: magazines search results: "in: Fotogeschichte [...]"
+# TODO: search tool Vermaßung
+# TODO: language selector in attribute selector?
+# TODO: attribute selector: Button »Auswahl ­bestätigen« leitet weiter zur kompletten Darstellung des Artikels
+
 
 # TODO: url on source detail modal view
 # TODO: add correct dating within citations

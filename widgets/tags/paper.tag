@@ -1,7 +1,7 @@
 <or-paper>
 
   <virtual if={opts.item}>
-    <or-icon which="close" onclick={onClickClose} bla="asdfasfd" />
+    <or-icon which="close" onclick={onClickClose} />
 
     <or-article
       item={opts.item}
@@ -37,6 +37,7 @@
   <script type="text/coffee">
     tag = this
     tag.mixin(wApp.mixins.i18n)
+    window.t = tag
 
     tag.on 'mount', ->
       fetch()
@@ -59,9 +60,7 @@
         wApp.bus.trigger 'close-modal'
         wApp.bus.trigger 'reset-search-with', data
 
-    tag.onClickClose = ->
-      console.log 'bla'
-      wApp.bus.trigger 'close-modal'
+    tag.onClickClose = -> wApp.bus.trigger 'close-modal'
 
     fixAnchors = ->
       Zepto(tag.root).on 'click', "a.suite, a.tonote, a.noteNum, a.tosub, a.anchor", (event) ->

@@ -1,27 +1,34 @@
 <or-register-results>
 
   <div if={data}>
-    <div each={result in data.records} class="or-result">
-      <or-attribute
-        if={result._type == 'attribs'}
-        attrib={result._source}
-        onclick={attrib_click_handler(result)}
-        shorten-to={300}
-      ></or-attribute>
-      <span if={result._type == 'people'}>
-        <or-person
-          person={result._source}
-          machine={true}
-        ></or-person>
+    <div class="or-search-header">Index {index}</div>
 
-        <span class="or-role" each={role_id in result._source.role_ids}>
-          <a class="or-button" onclick={person_click_handler(parent.result, role_id)}>
-            {t('search_as')}:
-            {lv(wApp.config.server.roles[role_id])}
-          </a>
+    <div class="or-badge-list">
+      <span each={result in data.records} class="or-result or-item-wrapper">
+        <span class="or-item">
+          <or-attribute
+            if={result._type == 'attribs'}
+            attrib={result._source}
+            onclick={attrib_click_handler(result)}
+            shorten-to={300}
+          ></or-attribute>
+          <span if={result._type == 'people'}>
+            <or-person
+              person={result._source}
+              machine={true}
+            ></or-person>
+
+            <span class="or-role" each={role_id in result._source.role_ids}>
+              <a class="or-button" onclick={person_click_handler(parent.result, role_id)}>
+                {t('search_as')}:
+                {lv(wApp.config.server.roles[role_id])}
+              </a>
+            </span>
+          </span>
         </span>
       </span>
     </div>
+
   </div>
 
   <script type="text/coffee">
@@ -34,7 +41,8 @@
     tag.on 'unmount', ->
       tag.opts.bus.off 'register-results', onResults
 
-    onResults = (data) ->
+    onResults = (data, index) ->
+      tag.index = index.toUpperCase()
       tag.data = data
       tag.update()
 

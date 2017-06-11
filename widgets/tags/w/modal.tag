@@ -13,11 +13,11 @@
       Zepto(tag.root).on 'click', closeOnBackClick
       Zepto(window).on 'resize', fixHeight
       wApp.bus.on 'modal', launch
-      wApp.bus.on 'close-modal', removeFromUrl
+      wApp.bus.on 'close-modal', close
       fixHeight()
 
     tag.on 'unmount', ->
-      wApp.bus.off 'close-modal', removeFromUrl
+      wApp.bus.off 'close-modal', close
       wApp.bus.off 'modal', launch
       Zepto(window).off 'resize', fixHeight
       Zepto(document).off 'keydown', closeOnEscape

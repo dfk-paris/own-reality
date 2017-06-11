@@ -1,20 +1,22 @@
 <or-register>
 
   <div>
-    <h3 if={isCategory()}>{category_label()}</h3>
+    <div if={isCategory()} class="or-search-header">{category_label()}</div>
 
     <virtual if={buckets}>
-      <div each={bucket in ordered_buckets()}>
-        <a onclick={bucketClicked(bucket.key)}>
-          {bucket.key.toUpperCase()} ({bucket.doc_count})
-        </a>
-      </div>
+      <select ref="currentBucket" onchange={bucketChanged}>
+        <option
+          each={bucket in ordered_buckets()}
+          value={bucket.key}
+        >{bucket.key.toUpperCase()} ({bucket.doc_count})</option>
+      </select>
     </virtual>
   </div>
 
   <script type="text/coffee">
     tag = this
     tag.mixin(wApp.mixins.i18n)
+    window.t = tag
 
     tag.on 'mount', ->
       tag.fetch(true)
@@ -23,11 +25,10 @@
     tag.on 'unmount', ->
       wApp.bus.off 'locale-change', onLocaleChange
 
-    tag.bucketClicked = (key) ->
-      (event) ->
-        event.preventDefault()
-        tag.initial = key
-        tag.fetch()
+    tag.bucketChanged = (event) ->
+      key = Zepto(tag.refs.currentBucket).val()
+      tag.initial = key
+      tag.fetch()
 
     onLocaleChange = ->
       if tag.opts.orType == 'attribs'
@@ -56,7 +57,7 @@
       if tag.opts.orType == 'people'
         params['sort'] = [{last_name: 'asc'}, {first_name: 'asc'}]
 
-      console.log params
+      # console.log params
       $.ajax(
         type: 'post',
         url: "#{wApp.api_url()}/api/entities/search"
@@ -70,12 +71,12 @@
             tag.initial = 'a'
             tag.fetch()
           else
-            tag.opts.bus.trigger 'register-results', data
+            tag.opts.bus.trigger 'register-results', data, tag.initial
       )
 
     tag.ordered_buckets = -> 
       tag.buckets.sort (x, y) -> wApp.utils.compare(x.key, y.key)
-    tag.isCategory = -> !!tag.opts.orType == 'attribs'
+    tag.isCategory = -> tag.opts.orType == 'attribs'
     tag.category_label = ->
       # console.log 'label', tag.opts.orCategoryId
       # console.log wApp.config.server.categories

@@ -1,15 +1,23 @@
 <or-attribute-selector>
 
-  <or-register
-    or-type={opts.orType}
-    or-category-id={opts.orCategoryId}
-    bus={opts.bus}
-  />
-  <or-register-results bus={opts.bus} />
-  <div class="clearfix"></div>
+  <or-icon which="close" onclick={onClickClose} />
+
+  <div class="or-frame">
+    <or-register
+      or-type={opts.orType}
+      or-category-id={opts.orCategoryId}
+      bus={opts.bus}
+    />
+
+    <or-register-results bus={opts.bus} />
+  </div>
 
   <script type="text/coffee">
     tag = this
+
+    tag.onClickClose = ->
+      console.log 'bla'
+      wApp.bus.trigger 'close-modal'
   </script>
 
 </or-attribute-selector>
