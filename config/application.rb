@@ -115,5 +115,4 @@ end
 # TODO: unify event naming, possibly with attributes on tags publish/subscribe
 # TODO: correct convention: (has_download -> hasDownload)
 # TODO: move some css rules to more generic selectors or mixins 
-# TODO: footnote placement:
-# https://dfk-paris.org/de/page/ownrealitydatenbank-und-recherche-1353.html#/?q=eyJzZWFyY2hDb250ZXh0Ijp0cnVlLCJ0ZXJtcyI6IjIzNTY4IiwicGFnZSI6MSwidHlwZSI6Im1hZ2F6aW5lcyIsIm1vZGFsIjoidHJ1ZSIsInRhZyI6Im9yLXBhcGVyIiwiaWQiOiIyMzU2OCJ9
+# TODO: where is the translation data supposed to come from .. for html and also for citations

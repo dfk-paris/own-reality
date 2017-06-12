@@ -229,7 +229,7 @@ class OwnReality::ProwebReader
         'attrs' => attrs(o),
         'updated_by' => o.updated_by,
         'updated_at' => date_from(o.updated_on),
-        'created_by' => o.created_by,
+        'created_by' => (old_data['sources'].by_id[o.id] || {})['created_by'],
         'scan_copyright' => (old_data['sources'].by_id[o.id] || {})['link'],
         'translators' => {
           'lang' => (old_data['sources'].by_id[o.id] || {})['lang'],

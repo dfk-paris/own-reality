@@ -22,7 +22,7 @@
         if html = tag.html()
           # insert html
           Zepto(tag.root).find('.body').html(html)
-          tag.fixManchettePositions()
+          window.setTimeout tag.fixManchettePositions, 200
         else
           Zepto(tag.root).find('.body').html "NO CONTENT AVAILABLE"
 
