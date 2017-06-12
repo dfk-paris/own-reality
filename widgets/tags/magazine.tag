@@ -85,8 +85,10 @@
 
     addCover = ->
       if tag.opts.item._source.cover
-        img = Zepto('<img src="/files/' + tag.opts.item._source.cover + '/cover.jpg">')
-        div = Zepto('<div class="or-cover"></div>')
+        hash = tag.opts.item._source.cover
+        url = "#{wApp.api_url()}/files/#{hash}/cover.jpg"
+        img = Zepto('<img src="' + url + '">')
+        div = Zepto('<div class="or-medium"></div>')
         div.append img
         Zepto('.docAuthor').after(div)
       else

@@ -91,6 +91,8 @@ wApp.i18n.translations.fr = {
     "other": "TRANSLATION MISSING",
   },
   "your_selection": "TRANSLATION MISSING",
+  "no_copyright": "Ce document ne peut être montré ici pour des raisons légales. Il est consultable au DFK Paris sur simple demande ou peut être trouvé dans d’autre bibliothèques spécialisées.",
+  "link_available": "Ce document est disponible en ligne sur",
   "date": {
     "formats": {
       "default": "%d %B %Y",

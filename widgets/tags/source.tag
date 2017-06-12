@@ -30,7 +30,19 @@
         <div class="in">{t('in')}:</div>
         <or-journal-and-volume item={opts.item} />
         
-        <div>IMAGE</div>
+        <div if={hasImage()} class="or-medium">
+          <div class="or-image">
+            <img if={linkType() == null} src={scanBlurredUrl()} />
+            <img if={linkType() != null} src={scanBlurredUrl()} />
+          </div>
+          <div class="or-caption">
+            <span if={linkType() == null}>{tcap('no_copyright')}</span>
+            <span if={linkType() == 'link'}>
+              {tcap('link_available')}
+              <a target="_blank" href={linkUrl()}>{linkUrl()}</a>
+            </span>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -112,6 +124,23 @@
 
     tag.attrs = (klass, category) ->
       (tag.opts.item._source.attrs.ids[6] || {})[43]
+
+    tag.hasImage = -> !!opts.item._source.file_base_hash
+
+    tag.linkType = ->
+      l = opts.item._source.scan_copyright
+      if l && l.match(/^http/) then 'link' else null
+
+    tag.linkUrl = ->
+      if tag.linkType() == 'link' then opts.item._source.scan_copyright else null
+
+    tag.scanUrl = -> 
+      hash = tag.opts.item._source.file_base_hash
+      "#{wApp.api_url()}/files/#{hash}/800.jpg"
+
+    tag.scanBlurredUrl = -> 
+      hash = tag.opts.item._source.file_base_hash
+      "#{wApp.api_url()}/files/#{hash}/blurred.jpg"
 
   </script>
 </or-source>

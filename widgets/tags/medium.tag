@@ -20,10 +20,19 @@
     tag.mixin(wApp.mixins.i18n)
     
     tag.on 'mount', ->
-      Zepto(tag.root).on 'click', '.or-modal', (event) ->
-        event.preventDefault()
-        url = Zepto(event.currentTarget).attr('href')
-        wApp.routing.packed modal: true, tag: 'or-iframe', src: url
+      Zepto(tag.root).on 'click', '.or-modal', onModalClick
+      Zepto(tag.root).on 'click', 'a', onClick
+
+    tag.on 'unmount', ->
+      Zepto(tag.root).off 'click', '.or-modal', onModalClick
+      Zepto(tag.root).off 'click', 'a', onClick
+
+    onModalClick = (event) ->
+      event.preventDefault()
+      url = Zepto(event.currentTarget).attr('href')
+      wApp.routing.packed modal: true, tag: 'or-iframe', src: url
+
+    onClick = (event) -> event.stopPropagation()
 
     tag.hasPreview = -> !!tag.opts.item._source.file_base_hash
     tag.previewUrl = -> 

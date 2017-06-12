@@ -33,7 +33,7 @@ class OwnReality::ProwebFileConverter
   end
 
   def cover
-    if cover = Dir["#{original_dir}/*Cover*.jpg"].first
+    if cover = OwnReality.k_files["cover_#{@proweb_id}"]
       system "cp #{cover} #{public_dir}/cover.jpg"
       hash
     end

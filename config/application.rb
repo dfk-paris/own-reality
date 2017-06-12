@@ -44,7 +44,9 @@ module OwnReality
   def self.k_files
     @k_files ||= begin
       results = {}
-      Dir.glob("#{config['k_files']}/**/*.{html,pdf}", File::FNM_CASEFOLD).each do |f|
+      
+      files = Dir.glob("#{config['k_files']}/**/*.{html,pdf}", File::FNM_CASEFOLD)
+      files.each do |f|
         unless f.match(/\/originaux\//)
           if m = f.match(/^.*\/(\d+)_.+_(de|fr|en|pl)\.(html|pdf)$/i)
             x, id, lang, ext = m.to_a
@@ -52,6 +54,17 @@ module OwnReality
           end
         end
       end
+
+      files = Dir.glob("#{config['k_files']}/**/*.{jpg,jpeg}", File::FNM_CASEFOLD)
+      files.each do |f|
+        unless f.match(/\/originaux\//)
+          if m = f.match(/^.*\/(\d+)_[^_]+_Cover.(jpg|jpeg)$/i)
+            x, id, ext = m.to_a
+            results["cover_#{id}"] = f
+          end
+        end
+      end
+
       results
     end
   end
@@ -102,3 +115,5 @@ end
 # TODO: unify event naming, possibly with attributes on tags publish/subscribe
 # TODO: correct convention: (has_download -> hasDownload)
 # TODO: move some css rules to more generic selectors or mixins 
+# TODO: footnote placement:
+# https://dfk-paris.org/de/page/ownrealitydatenbank-und-recherche-1353.html#/?q=eyJzZWFyY2hDb250ZXh0Ijp0cnVlLCJ0ZXJtcyI6IjIzNTY4IiwicGFnZSI6MSwidHlwZSI6Im1hZ2F6aW5lcyIsIm1vZGFsIjoidHJ1ZSIsInRhZyI6Im9yLXBhcGVyIiwiaWQiOiIyMzU2OCJ9

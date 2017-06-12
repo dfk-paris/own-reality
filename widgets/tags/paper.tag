@@ -49,6 +49,8 @@
         clickPerson: clickPerson
       }
 
+    tag.on 'updated', -> fixPagerPositions()
+
     clickAttribute = (key) ->
       if window.confirm(tag.t('confirm_replace_search'))
         wApp.bus.trigger 'close-modal'
@@ -94,6 +96,13 @@
         wApp.cache.attributes(tag.opts.item._source.attrs.ids[6][43])
       catch e
         console.log e
+
+    fixPagerPositions = ->
+      targetElement = Zepto('.or-main-section, or-doc')
+      if targetElement.length > 0
+        target = targetElement.position().top
+        Zepto('or-icon[which=next]').css 'top', target
+        Zepto('or-icon[which=previous]').css 'top', target
   </script>
 
 </or-paper>

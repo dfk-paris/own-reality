@@ -91,6 +91,8 @@ wApp.i18n.translations.en = {
     "other": "search criteria",
   },
   "your_selection": "your selection",
+  "no_copyright": "It is not possible to make this document available here for legal reasons. It may be consulted at DFK Paris on request or found in other specialized libraries.",
+  "link_available": "This document is available online at",
   "date": {
     "formats": {
       "default": "%d %B %Y",
