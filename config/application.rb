@@ -86,7 +86,6 @@ end
 
 # TODO: timeline tooltips placement
 # TODO: add missing translations
-# TODO: remove jquery ui since the slider is gone
 # TODO: check pdf downloads
 # TODO: fix "alle anzeigen" within db tool
 # TODO: what is the top margin for images?
@@ -96,12 +95,10 @@ end
 # TODO: search tool Vermaßung
 # TODO: language selector in attribute selector?
 # TODO: attribute selector: Button »Auswahl ­bestätigen« leitet weiter zur kompletten Darstellung des Artikels
-
-
+# TODO: put back time slider, or: remove jquery ui since the slider is gone
+# TODO: remove comments everywhere
 # TODO: url on source detail modal view
 # TODO: add correct dating within citations
 # TODO: unify event naming, possibly with attributes on tags publish/subscribe
 # TODO: correct convention: (has_download -> hasDownload)
-# TODO: fix clustered_facets, eventhandlers attached but never detached
-# TODO: remove comments everywhere
 # TODO: move some css rules to more generic selectors or mixins 

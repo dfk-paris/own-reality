@@ -43,6 +43,7 @@ class OwnReality::ProwebFileConverter
     if has_files?
       combine
       shrink
+      blur
       
       hash
     end
@@ -142,6 +143,26 @@ class OwnReality::ProwebFileConverter
               result[:stderr]
             )
           end
+        end
+      end
+    end
+  end
+
+  def blur
+    original = "#{public_dir}/original.pdf"
+    target = "#{public_dir}/blurred.jpg"
+
+    if File.exists?(original) && !File.exists?(target)
+      unless File.exists?(target)
+        command = "convert #{original}[0] -resize \"800x800>\" -alpha remove -blur 0x4 #{target}"
+        result = run command
+        unless result[:status] == 0
+          OwnReality.log_anomaly(
+            "blurring pdfs",
+            "command on file",
+            command,
+            result[:stderr]
+          )
         end
       end
     end
