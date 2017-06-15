@@ -84,7 +84,7 @@
 
     fetch = ->
       Zepto.ajax(
-        url: "#{wApp.api_url()}/api/items/#{tag.opts.id}"
+        url: "#{wApp.api_url()}/api/items/#{tag.opts.type}/#{tag.opts.id}"
         success: (data) ->
           tag.opts.item = data.docs[0]
           cacheAttributes()
