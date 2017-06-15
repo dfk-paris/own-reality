@@ -93,6 +93,7 @@ wApp.i18n.translations.de = {
   "your_selection": "Ihre Auswahl",
   "no_copyright": "Dieses Archivmaterial kann aus rechtlichen Gründen hier leider nicht gezeigt werden. Es im DFK Paris auf Anfrage einsehbar oder in anderen einschlägigen Bibliotheken zu finden.",
   "link_available": "Dieses Archivmaterial ist online verfügbar auf",
+  "perspectivia_ref": "Dieser Aufsatz ist in einer ersten Ausgabe als PDF erschienen auf",
   "date": {
     "formats": {
       "default": "%d.%m.%Y",

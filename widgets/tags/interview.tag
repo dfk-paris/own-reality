@@ -53,6 +53,14 @@
       <div class="or-metadata">
         <h2 name="or-citation">{tcap('recommended_citation_style', {count: 1})}</h2>
         <or-citation item={opts.item} />
+
+        <div class="or-perspectivia-ref">
+          {t('perspectivia_ref')}
+          <a
+            href="http://www.perspectivia.net/publikationen/ownreality">
+            http://www.perspectivia.net/publikationen/ownreality</a
+          >.
+        </div>
       </div>
       <or-icon which="up" />
     </div>

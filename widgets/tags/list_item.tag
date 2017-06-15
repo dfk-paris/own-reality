@@ -142,7 +142,8 @@
         wApp.cache.objects(tag.opts.type)
 
     tag.on 'updated', ->
-      Zepto(tag.root).find('.or-teaser').html(tag.lv(tag.opts.item._source.teaser))
+      if teaser = tag.opts.item._source.teaser
+        Zepto(tag.root).find('.or-teaser').html(tag.lv teaser)
 
     tag.openPaper = (event) ->
       event.preventDefault()
