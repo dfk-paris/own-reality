@@ -1,6 +1,6 @@
-<or-pdf-link if={hasPdf()}>
+<or-pdf-link>
 
-  <a href={pdfUrl()} onclick={onClick}>
+  <a if={hasPdf()} href={pdfUrl()} onclick={onClick}>
     {t('download')}
   </a>
 
@@ -12,7 +12,6 @@
       event.stopPropagation()
 
     tag.pdfUrl = ->
-      console.log tag.opts.item, tag.locale()
       result = tag.opts.item._source.pdfs[tag.locale()]
       if tag.opts.download
         "#{wApp.api_url()}/#{result}?fn=article.pdf"
