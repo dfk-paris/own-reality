@@ -44,6 +44,20 @@ class OwnReality::TeiHtmlParser
     results
   end
 
+  def teaser
+    results = {}
+    ['fr', 'de', 'en', 'pl'].each do |lang|
+      if f = OwnReality.k_files["html_#{lang}_#{@proweb_id}"]
+        html = File.read(f)
+        doc = Nokogiri::HTML(html)
+        results[lang] = doc.css('article p').text[0..1000]
+      else
+        results[lang] = nil
+      end
+    end
+    results
+  end
+
   def copy_images(html_file)
     br = File.expand_path(File.dirname(html_file) + '/../../icono/br')
     if File.exists?(br)

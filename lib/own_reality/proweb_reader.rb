@@ -91,6 +91,7 @@ class OwnReality::ProwebReader
       data["pdfs"] = pfc.pdfs_by_locale
 
       add_html(data, o)
+      add_teaser(data, o)
 
       yield data
       bar.increment
@@ -125,6 +126,7 @@ class OwnReality::ProwebReader
       data["pdfs"] = pfc.pdfs_by_locale
 
       add_html(data, o)
+      add_teaser(data, o)
 
       yield data
       bar.increment
@@ -164,6 +166,7 @@ class OwnReality::ProwebReader
       data['cover'] = pfc.cover
 
       add_html(data, o)
+      add_teaser(data, o)
 
       yield data
       bar.increment
@@ -386,6 +389,10 @@ class OwnReality::ProwebReader
 
     def add_html(data, object)
       data['html'] = OwnReality::TeiHtmlParser.new(object.id).html
+    end
+
+    def add_teaser(data, object)
+      data['teaser'] = OwnReality::TeiHtmlParser.new(object.id).teaser
     end
 
     def attrs(object, options = {})

@@ -91,8 +91,8 @@ class OwnReality::Query
         conditions << {
           "range" => {
             "from_date" => {
-              "lte" => Time.mktime(criteria["year_ranges"], 12, 31).strftime("%Y-%m-%dT%H:%M:%S"),
-              "gte" => Time.mktime(criteria["year_ranges"], 1, 1).strftime("%Y-%m-%dT%H:%M:%S")
+              "lte" => Time.mktime(criteria["year_ranges"], 12, 31).strftime("%Y-%m-%d"),
+              "gte" => Time.mktime(criteria["year_ranges"], 1, 1).strftime("%Y-%m-%d")
             }
           }
         }

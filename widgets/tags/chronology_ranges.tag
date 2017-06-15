@@ -36,7 +36,7 @@
         url: "#{wApp.api_url()}/api/entities/search"
         data: JSON.stringify(tag.params)
         success: (data) ->
-          console.log 'chrono', data
+          # console.log 'chrono', data
           unless tag.initialized
             wApp.data = data
             tag.initialized = true

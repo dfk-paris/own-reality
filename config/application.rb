@@ -116,3 +116,5 @@ end
 # TODO: correct convention: (has_download -> hasDownload)
 # TODO: move some css rules to more generic selectors or mixins 
 # TODO: where is the translation data supposed to come from .. for html and also for citations
+# TODO: sources not opening in production
+# TODO: what to do with sources thumbnails?
