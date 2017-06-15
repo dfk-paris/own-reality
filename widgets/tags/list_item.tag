@@ -48,9 +48,7 @@
           <a>
             <or-localized-value class="or-title" value={opts.item._source.title} />
           </a>
-          <div class="or-teaser" if={opts.searchResult}>
-            TEASER TEXT
-          </div>
+          <div class="or-teaser" if={opts.searchResult}></div>
         </virtual>
       </div>
 
@@ -73,9 +71,7 @@
           {label()}
         </span>
 
-        <div class="or-teaser" if={opts.searchResult}>
-          TEASER TEXT
-        </div>
+        <div class="or-teaser" if={opts.searchResult}></div>
       </div>
     </virtual>
 
@@ -108,9 +104,7 @@
           <span if={!hasHTML()} class="or-title">
             {label()}
           </span>
-          <div class="or-teaser" if={opts.searchResult}>
-            TEASER TEXT
-          </div>
+          <div class="or-teaser" if={opts.searchResult}></div>
         </virtual>
       </div>
     </virtual>
@@ -146,6 +140,9 @@
           tag.opts.item = wApp.cache.data.object_index[tag.opts.type][id]
           tag.update()
         wApp.cache.objects(tag.opts.type)
+
+    tag.on 'updated', ->
+      Zepto(tag.root).find('.or-teaser').html(tag.lv(tag.opts.item._source.teaser))
 
     tag.openPaper = (event) ->
       event.preventDefault()

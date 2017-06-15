@@ -50,7 +50,17 @@ class OwnReality::TeiHtmlParser
       if f = OwnReality.k_files["html_#{lang}_#{@proweb_id}"]
         html = File.read(f)
         doc = Nokogiri::HTML(html)
-        results[lang] = doc.css('article p').text[0..1000]
+        paragraphs = doc.css('article section p')
+        paragraphs.css('.tonote, .manchette').remove
+        teaser = []
+        count = 0
+        loop do
+          para = paragraphs.shift
+          teaser << para.to_html
+          count += para.text.size
+          break if count > 500
+        end
+        results[lang] = teaser.join
       else
         results[lang] = nil
       end
