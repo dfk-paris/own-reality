@@ -59,7 +59,7 @@
       <or-icon which="right" />
       
       <div class="or-item" onclick={openPaper} or-type="articles">
-        <or-pdf-link item={opts.item} download={true} />
+        <!-- <or-pdf-link item={opts.item} download={true} /> -->
 
         <or-people-list people={opts.item._source.people[16530]} />
 
@@ -87,10 +87,14 @@
           </div>
 
           <a
+            if={opts.label}
             onclick={openPaper}
           ><span class="or-decorate-fix">{opts.label}</span></a>
 
-          <a onclick={toJournalArticles}>
+          <a
+            if={opts.label2}
+            onclick={toJournalArticles}
+          >
             <span class="or-decorate-fix">{opts.label2}</span>
           </a>
         </virtual>
@@ -113,7 +117,7 @@
       <or-icon which="right" />
       
       <div class="or-item" onclick={openPaper} or-type="chronology">
-        <or-people-list people={opts.item._source.people[12064]} />
+        <!-- <or-people-list people={opts.item._source.people[12064]} /> -->
         <span class="or-title">{label()}</span>
         <div class="or-location">
           {t('exhibition', {count: 1, capitalize: true})} {t('in_country')}

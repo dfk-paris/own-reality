@@ -83,14 +83,14 @@ wApp.i18n.translations.fr = {
   "cc_license_images": "Les images en sont exclues (voir le copyright sous chaque illustration)",
   "license": "Droits de reproduction et licence",
   "search_result": {
-    "one": "TRANSLATION MISSING",
-    "other": "TRANSLATION MISSING"
+    "one": "résultat de la recherche",
+    "other": "résultats de la recherche"
   },
   "criterion": {
-    "one": "TRANSLATION MISSING",
-    "other": "TRANSLATION MISSING",
+    "one": "critère de recherche",
+    "other": "critères de recherche",
   },
-  "your_selection": "TRANSLATION MISSING",
+  "your_selection": "votre sélection",
   "no_copyright": "Ce document ne peut être montré ici pour des raisons légales. Il est consultable au DFK Paris sur simple demande ou peut être trouvé dans d’autre bibliothèques spécialisées.",
   "link_available": "Ce document est disponible en ligne sur",
   "perspectivia_ref": "Cet article est paru dans une première édition pdf sur",

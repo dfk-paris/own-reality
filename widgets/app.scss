@@ -10,7 +10,6 @@
 @import 'styles/clustered_facets';
 @import 'styles/slider';
 @import 'styles/results';
-// @import 'styles/list_item';
 @import 'styles/item_metadata';
 @import 'styles/drupal_patches';
 
@@ -272,6 +271,23 @@ or-list-item {
     margin-top: 24px;
   }
 
+  .or-text, .or-teaser {
+    display: block;
+    position: relative;
+    height: 100px;
+    overflow: hidden;
+
+    &:before {
+      content:'';
+      width:100%;
+      height:100%;    
+      position:absolute;
+      left:0;
+      top:0;
+      background:linear-gradient(rgba(255,255,255,0) 30px, white);
+    }
+  }
+
   .or-item[or-type=sources] {
     .or-width-limit {
       padding-right: 180px;
@@ -281,6 +297,10 @@ or-list-item {
       display: block;
       @include cera(16px, 20px);
       margin-bottom: 24px;
+
+      .journal {
+        font-style: italic;
+      }
     }
 
     or-medium {
@@ -373,6 +393,12 @@ or-list-item {
 
 or-list-item:hover .or-item-frame {
   background-color: #D9E6D9;
+
+  .or-text, .or-teaser {
+    &:before {
+      background:linear-gradient(rgba(255,255,255,0) 30px, #D9E6D9);
+    }
+  }
 }
 
 or-list-item:first-child {

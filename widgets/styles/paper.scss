@@ -68,7 +68,6 @@ or-doc, [data-is=or-doc] {
       a {
         display: block;
         color: #000000;
-        text-decoration: none;
       }
     }
 
@@ -214,6 +213,10 @@ or-paper, [data-is=or-paper] {
   hr {
     border-top-color: $line-color;
     margin: 0px;
+  }
+
+  a {
+    text-decoration: underline;
   }
 
   .header {

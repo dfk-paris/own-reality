@@ -18,7 +18,7 @@ wApp.i18n.translations.de = {
   },
   "keyword": {
     "one": "Schlagwort",
-    "other": "Schlagworte"
+    "other": "Schlagwörter"
   },
   "interpretation": "Interpretation",
   "content": "Inhalt",
@@ -83,8 +83,8 @@ wApp.i18n.translations.de = {
   "cc_license_images": "Die Bilder sind davon ausgeschlossen (siehe Copyright bei den Abbildungen)",
   "license": "Urheberrecht/Lizenz",
   "search_result": {
-    "one": "Suchresultat",
-    "other": "Suchresultate"
+    "one": "Suchergebniss",
+    "other": "Suchergebnisse"
   },
   "criterion": {
     "one": "Suchkriterium",

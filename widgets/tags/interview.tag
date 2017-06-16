@@ -2,9 +2,6 @@
 
   <div class="header">
     <div class="formats">
-      <a href="#"><or-icon which="doc" /></a>
-      <a href="#"><or-icon which="print" /></a>
-
       <or-content-locale-selector item={opts.item} />
     </div>
 

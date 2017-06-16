@@ -2,6 +2,7 @@
 
   <div>
     <div if={isCategory()} class="or-search-header">{category_label()}</div>
+    <div if={!isCategory()} class="or-search-header">{tcap('person', {count: 'other'})}</div>
 
     <virtual if={buckets}>
       <select ref="currentBucket" onchange={bucketChanged}>
