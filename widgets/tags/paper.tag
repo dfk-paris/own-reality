@@ -68,8 +68,7 @@
     tag.onPrevious = -> wApp.bus.trigger 'previous-result', opts.item._id
     tag.onNext = -> wApp.bus.trigger 'next-result', opts.item._id
 
-    tag.searchContext = -> !!wApp.routing.packed()['searchContext']
-
+    tag.searchContext = -> !!wApp.searchContext
 
     fixAnchors = ->
       Zepto(tag.root).on 'click', "a.suite, a.tonote, a.noteNum, a.tosub, a.anchor", (event) ->

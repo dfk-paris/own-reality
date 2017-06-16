@@ -311,10 +311,22 @@ class OwnReality::ProwebReader
   end
 
   def roles
+    rename_map = {
+      'Ersteller' => 'Autor',
+      'Créateur' => 'auteur',
+      'Creator' => 'author',
+      'Beteiligt' => 'Personen',
+      'Impliqué' => 'personnes',
+      'Involved' => 'persons'
+    }
+
     ids = Proweb::ObjectPerson.group(:kind_id).count.keys
     results = {}
     Proweb::Attribute.where(:id => ids).each do |a|
       results[a.id] = with_translations(a)
+      results[a.id].each do |k, v|
+        results[a.id][k] = rename_map[v] || results[a.id][k]
+      end
     end
     results
   end

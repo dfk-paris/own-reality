@@ -33,6 +33,7 @@
     tag.type = -> wApp.routing.packed()['type'] || 'sources'
     
     tag.on 'mount', ->
+      wApp.searchContext = true
       wApp.config.is_search = true
 
       # wApp.bus.one 'routing:path', tag.search
@@ -44,6 +45,7 @@
     tag.on 'unmount', ->
       wApp.bus.off 'reset-search-with', tag.reset_search
       wApp.bus.off 'routing:query', tag.search
+      wApp.searchContext = false
 
     tag.reset_search = (what = {}) ->
       tag.refs.terms.reset(false)

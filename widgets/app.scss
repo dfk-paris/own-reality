@@ -259,7 +259,6 @@ or-list-item {
     color: black;
     font-weight: bold;
     @include cera(18px, 24px);
-    margin-right: 160px;
   }
 
   .or-location {
@@ -289,10 +288,6 @@ or-list-item {
   }
 
   .or-item[or-type=sources] {
-    .or-width-limit {
-      padding-right: 180px;
-    }
-
     or-journal-and-volume {
       display: block;
       @include cera(16px, 20px);
@@ -304,7 +299,7 @@ or-list-item {
     }
 
     or-medium {
-      margin-top: 160px;
+      margin-top: 50px;
       margin-right: -80px;
       display: block;
       float: right;
@@ -361,8 +356,13 @@ or-list-item {
   }
 
   &.or-search-result {
+    .or-width-limit {
+      padding-right: 160px;
+    }
+
     .or-title {
       text-decoration: none;
+      margin-right: 160px;
     }
 
     .or-item[or-type=articles] {

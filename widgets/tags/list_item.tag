@@ -157,7 +157,6 @@
         tag: 'or-paper',
         id: tag.opts.item._id
         clang: wApp.config.locale
-        searchContext: true
         type: tag.opts.item._type
       )
 

@@ -15,11 +15,19 @@
     </span>
 
     <span class="pages">
-      <a
+      <virtual  each={pr in pageRanges()}>
+        <a
+          show={pr != '...'}
+          class="page {current: page() == pr}"
+          onclick={goto(pr)}
+        >{pr}</a>
+        <span show={pr == '...'}>...</span>
+      </virtual>
+      <!-- <a
         each={n in pageList()}
         class="page {current: page() == n}"
         onclick={goto(n)}
-      >{n}</a>
+      >{n}</a> -->
     </span>
 
     <span if={page() != pages()}>
@@ -39,6 +47,7 @@
   <script type="text/coffee">
     tag = this
     tag.mixin(wApp.mixins.i18n)
+    window.t = tag
 
     tag.on 'mount', ->
       tag.on 'results', -> tag.update()
@@ -65,6 +74,20 @@
     tag.pageList = ->
       base = [(tag.page() - 2)..(tag.page() + 2)]
       base.filter (e) -> e >= 1 && e <= tag.pages()
+    tag.pageRanges = ->
+      if tag.pages() < 7
+        [1..tag.pages()]
+      else
+        r = switch tag.page()
+          when 1 then [1, '...', tag.pages()]
+          when 2 then [1, 2, '...', tag.pages()]
+          when tag.pages() - 1 then [1, '...', tag.pages() - 1, tag.pages()]
+          when tag.pages() then [1, '...', tag.pages()]
+          else
+            [1, '...', tag.page(), '...', tag.pages()]
+        console.log r
+        r
+
     tag.page = -> wApp.routing.packed()['page'] || 1
   </script>
 

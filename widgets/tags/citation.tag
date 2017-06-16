@@ -32,21 +32,21 @@
   <virtual if={typeIsPaper()}>
     <virtual if={locale() == 'de'}>
       <or-people-list people={opts.item._source.people[16530]} />, 
-      „{lcv(opts.item._source.title)}“, auf der Projekt-Homepage 
+      „{paperTitles()}“, auf der Projekt-Homepage 
       <em>OwnReality</em>, hg. von Mathilde Arnoux und Clément Layet, 2017, URL: 
       <a href={url()}>{url()}</a>.
     </virtual>
 
     <virtual if={locale() == 'fr'}>
       <or-people-list people={opts.item._source.people[16530]} />, « 
-      {lcv(opts.item._source.title)} », sur le site du projet 
+      {paperTitles()} », sur le site du projet 
       <em>OwnReality</em>, éd. par Mathilde Arnoux et Clément Layet, 2017, URL :
       <a href={url()}>{url()}</a>.
     </virtual>
 
     <virtual if={locale() == 'en'}>
       <or-people-list people={opts.item._source.people[16530]} />, 
-      “{lcv(opts.item._source.title)}”, on the homepage of the project 
+      “{paperTitles()}”, on the homepage of the project 
       <em>OwnReality</em>, ed. by Mathilde Arnoux and Clément Layet, 2017, URL:
       <a href={url()}>{url()}</a>.
     </virtual>
@@ -81,6 +81,11 @@
       tag.opts.item._type == 'articles' ||
       tag.opts.item._type == 'magazines' ||
       tag.opts.item._type == 'interviews'
+
+    tag.paperTitles = ->
+      order = if tag.contentLocale() == 'en' then ['en', 'fr'] else ['fr', 'en']
+      titles = (tag.opts.item._source.title[l] for l in order when !!tag.opts.item._source.title[l])
+      titles.join('/')
 
     tag.url = -> 
       base = document.location.href.split('#')[0]

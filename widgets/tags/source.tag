@@ -33,7 +33,9 @@
         <div if={hasImage()} class="or-medium">
           <div class="or-image">
             <img if={linkType() == null} src={scanBlurredUrl()} />
-            <img if={linkType() != null} src={scanBlurredUrl()} />
+            <a if={linkType() != null} href={scanUrl()}>
+              <img src={scanUrl()} />
+            </a>
           </div>
           <div class="or-caption">
             <span if={linkType() == null}>{tcap('no_copyright')}</span>
