@@ -49,10 +49,14 @@ wApp.i18n = {
   lv: (value, options = {}) ->
     options['notify'] = true unless options['notify'] == false
     options['locale'] ||= wApp.i18n.locale()
-    value[options['locale']] ||
-    value[wApp.i18n.locales[0]] || value[wApp.i18n.locales[1]] ||
-    value[wApp.i18n.locales[2]] ||
-    if options['notify'] then "*TRANSLATION MISSING*" else undefined
+    result = value[options['locale']] ||
+      value[wApp.i18n.locales[0]] ||
+      value[wApp.i18n.locales[1]] ||
+      value[wApp.i18n.locales[2]] ||
+      if options['notify'] then "*TRANSLATION MISSING*" else undefined
+    if options['capitalize']
+        result = wApp.i18n.capitalize(result)
+    result
   lcv: (value, options = {}) ->
     options['locale'] = wApp.i18n.contentLocale()
     wApp.i18n.lv value, options
@@ -71,6 +75,9 @@ wApp.mixins.i18n = {
   locale: wApp.i18n.locale
   contentLocale: wApp.i18n.contentLocale
   lv: wApp.i18n.lv
+  lvcap: (value, options = {}) ->
+    options['capitalize'] = true
+    wApp.i18n.lv value, options
   lcv: wApp.i18n.lcv
   t: (input, options = {}) ->
     wApp.i18n.translate this.locale(), input, options
