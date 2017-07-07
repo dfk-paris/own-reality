@@ -89,6 +89,8 @@ or-doc, [data-is=or-doc] {
         @include lyon(18px, 18px);
         text-align: right;
         font-style: normal;
+        font-variant-numeric: normal;
+        font-feature-settings: normal;
       }
 
       blockquote:before {
@@ -200,6 +202,7 @@ or-paper, [data-is=or-paper] {
     margin: 0px;
     margin-top: 80px;
     margin-bottom: 80px;
+    @include cera(18px, 24px);
 
     img {
       position: relative;

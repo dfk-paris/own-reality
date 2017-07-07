@@ -56,6 +56,8 @@ class OwnReality::TeiHtmlParser
         count = 0
         loop do
           para = paragraphs.shift
+          break if para.nil?
+
           teaser << para.to_html
           count += para.text.size
           break if count > 500

@@ -16,7 +16,6 @@
     tag = this
 
     tag.onClickClose = ->
-      console.log 'bla'
       wApp.bus.trigger 'close-modal'
   </script>
 

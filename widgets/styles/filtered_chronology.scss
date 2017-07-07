@@ -49,9 +49,10 @@ or-filtered-chronology, [data-is=or-filtered-chronology] {
     padding: 20px;
     background-color: $gray-dark;
     white-space: inherit;
-    color: white;
     border: none;
     border-radius: 0px;
+    @include cera(14px, 20px);
+    color: white;
   }
 
   .vis-timeline.vis-bottom {

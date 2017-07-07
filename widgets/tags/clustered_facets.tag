@@ -14,7 +14,7 @@
           onclick={remove('people', role_id, key)}
         >
           <span class="or-item">
-            x
+            ×
             {lvcap(wApp.config.server.roles[role_id])}:
             <or-person person-id={key} />
           </span>
@@ -25,7 +25,7 @@
         each={key in keys.journals} data-id={key}
         onclick={remove('journals', null, key)}
       >
-        <span class="or-item">x {wApp.utils.shorten(key)}</span>
+        <span class="or-item">× {wApp.utils.shorten(key)}</span>
       </span>
       <span
         class="or-item-wrapper"
@@ -33,7 +33,7 @@
         onclick={remove('attribs', null, key)}
       >
         <span class="or-item">
-          x
+          ×
           <or-attribute key={key} />
         </span>
       </span>
@@ -60,14 +60,13 @@
           >
             <span class="w-nowrap">
               {t('show_all')}
-              <span show={countless_buckets(aggregation)}>(> 20)</span>
             </span>
           </a>
 
           <div class="w-clearfix"></div>
 
           <div class="or-item-wrapper" each={bucket in limit_buckets(key, aggregation)}>
-            <span class="or-value or-item">
+            <span class="or-value or-item" onclick={passthroughClick} >
               +
               <a class="or-select"><or-person person-id={bucket.key} /></a>
               ({bucket.doc_count})
@@ -92,14 +91,13 @@
         >
           <span class="w-nowrap">
             {t('show_all')}
-            <span show={countless_buckets(opts.aggregations.journals)}>(> 20)</span>
           </span>
         </a>
 
         <div class="w-clearfix"></div>
 
         <div class="or-item-wrapper" each={bucket in limit_buckets('journals', opts.aggregations.journals)}>
-          <span class="or-value or-item">
+          <span class="or-value or-item" onclick={passthroughClick}>
             +
             <a class="or-select">{bucket.key}</a>
             ({bucket.doc_count})
@@ -126,14 +124,13 @@
         >
           <span class="w-nowrap">
             {t('show_all')}
-            <span show={countless_buckets(aggregation)}>(> 20)</span>
           </span>
         </a>
 
         <div class="w-clearfix"></div>
 
         <div class="or-item-wrapper" each={bucket in limit_buckets(key, aggregation)}>
-          <span class="or-value or-item">
+          <span class="or-value or-item" onclick={passthroughClick}>
             +
             <a class="or-select"><or-attribute key={bucket.key} /></a>
             ({bucket.doc_count})
@@ -159,6 +156,11 @@
 
     tag.on 'unmount', ->
       wApp.bus.off 'routing:query', tag.url_handler
+
+    tag.passthroughClick = (event) ->
+      # TODO: this doesn't work, refactor whole clicking mechanism
+      # if event.target == event.currentTarget
+      #   Zepto(event.target).find('a').click()
 
     tag.url_handler = ->
       data = wApp.routing.packed()
@@ -248,19 +250,6 @@
         else
           key = Zepto(event.target).text()
           tag.add journals: [key]
-
-      # Zepto(tag.root).on 'click', '.or-selected .item', (event) ->
-      #   event.preventDefault()
-      #   if key = Zepto(event.target).parents('or-attribute').attr('key')
-      #     tag.remove 'attribs', null, key
-      #   else if key = Zepto(event.target).parents('or-person').attr('person-id')
-      #     role_id = Zepto(event.target).parents('.role').attr('data-id')
-      #     what = {people: {}}
-      #     what.people[role_id] = [key]
-      #     tag.remove what
-      #   else
-      #     key = Zepto(event.target).attr('data-id')
-      #     tag.remove journals: [key]
 
     tag.showAll = (type, agg, key) ->
       (event) ->

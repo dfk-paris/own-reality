@@ -11,7 +11,9 @@ or-clustered-facets, [data-is=or-clustered-facets] {
         padding-bottom: 5px;
 
         a {
-          @include cera(16px, 20px);
+          @include cera(14px, 16px);
+          font-size: 14px !important;
+          line-height: 16px !important;
         }
       }
     }

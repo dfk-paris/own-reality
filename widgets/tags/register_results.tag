@@ -20,8 +20,7 @@
 
             <span class="or-role" each={role_id in result._source.role_ids}>
               <a class="or-button" onclick={person_click_handler(parent.result, role_id)}>
-                {t('search_as')}:
-                {lv(wApp.config.server.roles[role_id])}
+                ({lv(wApp.config.server.roles[role_id])})
               </a>
             </span>
           </span>

@@ -290,7 +290,7 @@ or-list-item {
   .or-item[or-type=sources] {
     or-journal-and-volume {
       display: block;
-      @include cera(16px, 20px);
+      @include lyon(17px, 25px);
       margin-bottom: 24px;
 
       .journal {

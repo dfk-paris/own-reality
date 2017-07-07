@@ -315,9 +315,9 @@ class OwnReality::ProwebReader
       'Ersteller' => 'Autor',
       'Créateur' => 'auteur',
       'Creator' => 'author',
-      'Beteiligt' => 'Personen',
-      'Impliqué' => 'personnes',
-      'Involved' => 'persons'
+      'Beteiligt' => 'Person',
+      'Impliqué' => 'personne',
+      'Involved' => 'person'
     }
 
     ids = Proweb::ObjectPerson.group(:kind_id).count.keys
