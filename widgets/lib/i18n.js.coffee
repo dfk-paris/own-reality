@@ -2,7 +2,10 @@ wApp.i18n = {
   translations: {}
   locales: ['fr', 'de', 'en']
   locale: -> 
-    wApp.i18n.currentLocale = wApp.routing.packed()['lang'] || 'de'
+    wApp.i18n.currentLocale = 
+      wApp.routing.packed()['lang'] ||
+      document.location.href.match(/^https?:\/\/[^\/]+\/([a-z]{2})/)[1] ||
+      'de'
   contentLocale: ->
     wApp.i18n.currentContentLocale = 
       wApp.routing.packed()['cl'] || wApp.i18n.locale()
