@@ -33,16 +33,16 @@ wApp.i18n.translations.fr = {
     "other": "entretiens",
   },
   "article": {
-    "one": "article",
-    "other": "articles"
+    "one": "étude de cas",
+    "other": "études de cas"
   },
   "magazine": {
     "one": "revue",
     "other": "revues"
   },
   "source": {
-    "one": "source",
-    "other": "sources"
+    "one": "articles de revue",
+    "other": "article de revue"
   },
   "evaluated_articles": "TODO: translate",
   "information": "information",
@@ -91,7 +91,7 @@ wApp.i18n.translations.fr = {
     "other": "critères de recherche",
   },
   "your_selection": "votre sélection",
-  "no_copyright": "Ce document ne peut être montré ici pour des raisons légales. Il est consultable au DFK Paris sur simple demande ou peut être trouvé dans d’autre bibliothèques spécialisées.",
+  "no_copyright": "Ce document ne peut être montré ici pour des raisons légales.",
   "link_available": "Ce document est disponible en ligne sur",
   "perspectivia_ref": "Cet article est paru dans une première édition pdf sur",
   "date": {

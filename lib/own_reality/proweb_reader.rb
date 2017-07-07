@@ -29,6 +29,7 @@ class OwnReality::ProwebReader
       {
         "categories" => categories.for_config,
         "roles" => roles,
+        "plural_roles" => plural_roles,
         "people" => people,
         "chronolgy_categories" => chronology_categories,
         "klasses" => attribute_proweb_categories
@@ -329,6 +330,22 @@ class OwnReality::ProwebReader
       end
     end
     results
+  end
+
+  def plural_roles
+    return {
+      "12063": {"de":"Autoren", "fr":"auteurs", "en":"authors"},
+      "12064": {"de":"Personen", "fr":"personnes", "en":"persons"},
+      "12065": {"de":"Dargestellte", "fr":"Montrés", "en":"Shown"},
+      "12066": {"de":"Auftraggeber", "fr":"Clients", "en":"Clients"},
+      "12068": {"de":"Bearbeiter", "fr":"Editeurs", "en":"Editors"},
+      "12069": {"de":"Übersetzer", "fr":"Traducteurs", "en":"Translators"},
+      "12071": {"de":"Darsteller", "fr":"Acteurs", "en":"Actors"},
+      "12073": {"de":"Adressaten", "fr":"Destinataires", "en":"Addressees"},
+      "13625": {"de":"ausgestellte Künstler"},
+      "13636": {"de":"ausgestelle Künstler"},
+      "16530": {"de":"Autoren", "fr":"Auteurs", "en":"Authors"}
+    }
   end
 
   def people

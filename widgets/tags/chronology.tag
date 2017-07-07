@@ -43,7 +43,7 @@
 
     <div class="or-detail-section" if={hasPeople()}>
       <div class="or-metadata">
-        <h2 name="or-related-people">{lv(wApp.config.server.roles[12064])}</h2>
+        <h2 name="or-related-people">{lv(wApp.config.server.plural_roles[12064])}</h2>
         <p>
           <or-people-list
             people={opts.item._source.people[12064]}

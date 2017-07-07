@@ -15,7 +15,7 @@
         >
           <span class="or-item">
             ×
-            {lvcap(wApp.config.server.roles[role_id])}:
+            {lvcap(wApp.config.server.plural_roles[role_id])}:
             <or-person person-id={key} />
           </span>
         </span>
@@ -50,7 +50,7 @@
       >
         <virtual if={aggregation.buckets.length > 0}>
           <div class="or-role">
-            {lvcap(wApp.config.server.roles[key])}
+            {lvcap(wApp.config.server.plural_roles[key])}
           </div>
           <a
             href={opts.orBaseTargetPeopleUrl}

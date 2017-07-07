@@ -177,6 +177,9 @@
 
     tag.range_label = -> wApp.utils.range_label(tag.opts.item)
 
+    oldLocale = tag.locale
+    tag.locale = -> tag.opts.locale || oldLocale()
+
   </script>
 
 </or-list-item>

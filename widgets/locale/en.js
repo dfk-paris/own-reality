@@ -33,16 +33,16 @@ wApp.i18n.translations.en = {
     "other": "interviews",
   },
   "article": {
-    "one": "paper",
-    "other": "papers"
+    "one": "case study",
+    "other": "case studies"
   },
   "magazine": {
     "one": "journal",
     "other": "journals"
   },
   "source": {
-    "one": "source",
-    "other": "sources"
+    "one": "journal article",
+    "other": "journal articles"
   },
   "evaluated_articles": "evaluated articles",
   "information": "information",
@@ -91,7 +91,7 @@ wApp.i18n.translations.en = {
     "other": "search criteria",
   },
   "your_selection": "your selection",
-  "no_copyright": "It is not possible to make this document available here for legal reasons. It may be consulted at DFK Paris on request or found in other specialized libraries.",
+  "no_copyright": "It is not possible to make this document available here for legal reasons.",
   "link_available": "This document is available online at",
   "perspectivia_ref": "A former edition of this article first appeared as PDF on",
   "date": {

@@ -21,7 +21,7 @@
 
     <div class="or-detail-section" each={people, role_id in opts.item._source.people}>
       <div class="or-metadata">
-        <h2 name="or-related-people">{lv(wApp.config.server.roles[role_id])}</h2>
+        <h2 name="or-related-people">{lv(wApp.config.server.plural_roles[role_id])}</h2>
         <p>
           <or-people-list
             people={people}
