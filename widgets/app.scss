@@ -139,6 +139,7 @@ or-iframe, [data-is=or-iframe] {
 
     .or-item {
       @include cera(16px, 24px);
+      color: #000000;
       border-radius: 10px;
       padding: 10px;
       padding-top: 8px;

@@ -4,7 +4,7 @@ wApp.i18n = {
   locale: -> 
     wApp.i18n.currentLocale = 
       wApp.routing.packed()['lang'] ||
-      document.location.href.match(/^https?:\/\/[^\/]+\/([a-z]{2})/)[1] ||
+      (document.location.href.match(/^https?:\/\/[^\/]+\/([a-z]{2})\//) || [])[1] ||
       'de'
   contentLocale: ->
     wApp.i18n.currentContentLocale = 
@@ -44,7 +44,12 @@ wApp.i18n = {
       return "" unless input
       format = wApp.i18n.translate locale, "date.formats.#{format_name}"
       date = new Date(input)
-      strftime(format, date)
+      wApp.i18n.localizedStrftime ||= {
+        'de': strftime.localizeByIdentifier('de_DE')
+        'fr': strftime.localizeByIdentifier('fr_FR')
+        'en': strftime.localizeByIdentifier('en_US')
+      }
+      wApp.i18n.localizedStrftime[locale](format, date)
     catch error
       console.log arguments
       console.log error

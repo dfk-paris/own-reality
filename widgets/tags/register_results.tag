@@ -6,6 +6,7 @@
     <div class="or-badge-list">
       <span each={result in data.records} class="or-result or-item-wrapper">
         <span class="or-item">
+          +
           <or-attribute
             if={result._type == 'attribs'}
             attrib={result._source}

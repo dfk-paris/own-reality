@@ -85,7 +85,7 @@
           when tag.pages() then [1, '...', tag.pages()]
           else
             [1, '...', tag.page(), '...', tag.pages()]
-        console.log r
+        # console.log r
         r
 
     tag.page = -> wApp.routing.packed()['page'] || 1

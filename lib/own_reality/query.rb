@@ -165,7 +165,14 @@ class OwnReality::Query
           "value" => type
         }
       }
+
     end
+
+    # dirty fix: remove three specific magazines (only from search)
+    data['query']['bool']['must_not'] ||= []
+    data['query']['bool']['must_not'] << {
+      'ids' => {'values' => ['23572', '23573', '23571']}
+    }
 
     if criteria["lower"].present?
       data["query"]["bool"]["must"] << {

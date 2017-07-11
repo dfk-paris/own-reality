@@ -41,8 +41,8 @@ wApp.i18n.translations.de = {
     "other": "Zeitschriften"
   },
   "source": {
-    "one": "Zeitschriftenartikel",
-    "other": "Zeitschriftenartikel"
+    "one": "Artikel",
+    "other": "Artikel"
   },
   "evaluated_articles": "ausgewertete Artikel",
   "information": "Information",
@@ -96,7 +96,7 @@ wApp.i18n.translations.de = {
   "perspectivia_ref": "Dieser Aufsatz ist in einer ersten Ausgabe als PDF erschienen auf",
   "date": {
     "formats": {
-      "default": "%d.%m.%Y",
+      "default": "%-d.%-m.%Y",
       "hide_month": "%Y",
       "hide_day": "%m.%Y"
     },

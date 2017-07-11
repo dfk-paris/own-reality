@@ -41,8 +41,8 @@ wApp.i18n.translations.fr = {
     "other": "revues"
   },
   "source": {
-    "one": "articles de revue",
-    "other": "article de revue"
+    "one": "article",
+    "other": "articles"
   },
   "evaluated_articles": "TODO: translate",
   "information": "information",
@@ -96,7 +96,7 @@ wApp.i18n.translations.fr = {
   "perspectivia_ref": "Cet article est paru dans une première édition pdf sur",
   "date": {
     "formats": {
-      "default": "%d %B %Y",
+      "default": "%-d %B %Y",
       "hide_month": "%Y",
       "hide_day": "%B %Y"
     },

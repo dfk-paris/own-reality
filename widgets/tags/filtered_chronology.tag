@@ -78,10 +78,10 @@
       # console.log('---', new Date("#{lower.getYear() - 1}-12-01"), '---', new Date("#{upper.getYear() + 1}-01-31"))
 
       tag.timeline.setOptions(
-        min: new Date("#{lower.getYear() - 1}-12-01")
-        max: new Date("#{upper.getYear() + 1}-01-31")
-        start: new Date("#{lower.getYear() - 1}-12-01")
-        end: new Date("#{upper.getYear() + 1}-01-31")
+        min: new Date("#{lower.getFullYear() - 1}-12-01")
+        max: new Date("#{upper.getFullYear() + 1}-01-31")
+        start: new Date("#{lower.getFullYear() - 1}-12-01")
+        end: new Date("#{upper.getFullYear() + 1}-01-31")
       )
 
       new_data = []

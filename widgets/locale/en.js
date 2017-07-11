@@ -41,8 +41,8 @@ wApp.i18n.translations.en = {
     "other": "journals"
   },
   "source": {
-    "one": "journal article",
-    "other": "journal articles"
+    "one": "article",
+    "other": "articles"
   },
   "evaluated_articles": "evaluated articles",
   "information": "information",
@@ -96,14 +96,14 @@ wApp.i18n.translations.en = {
   "perspectivia_ref": "A former edition of this article first appeared as PDF on",
   "date": {
     "formats": {
-      "default": "%d %B %Y",
+      "default": "%-d %B %Y",
       "hide_month": "%Y",
       "hide_day": "%B %Y"
     },
     "names": {
       days: ['Sunday', 'Montag', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
       months: [
-        'january', 'February', 'March', 'April', 'May', 'June', 'July', 'August',
+        'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August',
         'September', 'October', 'November', 'December'
       ]
     }
