@@ -66,9 +66,9 @@
           <div class="w-clearfix"></div>
 
           <div class="or-item-wrapper" each={bucket in limit_buckets(key, aggregation)}>
-            <span class="or-value or-item" onclick={passthroughClick} >
+            <span class="or-value or-item or-select" >
               +
-              <a class="or-select"><or-person person-id={bucket.key} /></a>
+              <or-person person-id={bucket.key} />
               ({bucket.doc_count})
             </span>
           </div>
@@ -97,9 +97,9 @@
         <div class="w-clearfix"></div>
 
         <div class="or-item-wrapper" each={bucket in limit_buckets('journals', opts.aggregations.journals)}>
-          <span class="or-value or-item" onclick={passthroughClick}>
+          <span class="or-value or-item or-select">
             +
-            <a class="or-select">{bucket.key}</a>
+            {bucket.key}
             ({bucket.doc_count})
           </span>
         </div>
@@ -130,9 +130,9 @@
         <div class="w-clearfix"></div>
 
         <div class="or-item-wrapper" each={bucket in limit_buckets(key, aggregation)}>
-          <span class="or-value or-item" onclick={passthroughClick}>
+          <span class="or-value or-item or-select">
             +
-            <a class="or-select"><or-attribute key={bucket.key} /></a>
+            <or-attribute key={bucket.key} />
             ({bucket.doc_count})
           </span>
         </div>
@@ -156,11 +156,6 @@
 
     tag.on 'unmount', ->
       wApp.bus.off 'routing:query', tag.url_handler
-
-    tag.passthroughClick = (event) ->
-      # TODO: this doesn't work, refactor whole clicking mechanism
-      # if event.target == event.currentTarget
-      #   Zepto(event.target).find('a').click()
 
     tag.url_handler = ->
       data = wApp.routing.packed()
@@ -238,7 +233,7 @@
       tag.bus.on 'attrib-clicked', (id) ->
         tag.add attribs: [id]
 
-      Zepto(tag.root).on 'click', '.or-bucket a.or-select', (event) ->
+      Zepto(tag.root).on 'click', '.or-bucket .or-select', (event) ->
         event.preventDefault()
         if key = Zepto(event.target).parents('or-attribute').attr('key')
           tag.add attribs: [key]
