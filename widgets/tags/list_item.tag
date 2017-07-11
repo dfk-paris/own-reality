@@ -168,6 +168,7 @@
 
     tag.toJournalArticles = (event) ->
       event.preventDefault()
+      event.stopPropagation()
       base = tag.opts.orSearchUrl
       hash = wApp.routing.pack(
         type: 'sources'
