@@ -61,6 +61,7 @@
         attribute_ids: wApp.routing.packed()['attribs']
         people_ids: wApp.routing.packed()['people']
         journal_names: wApp.routing.packed()['journals']
+        exclude: ['23572', '23573', '23571']
       }
 
     tag.search = ->

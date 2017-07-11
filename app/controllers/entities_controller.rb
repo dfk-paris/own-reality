@@ -18,7 +18,8 @@ class EntitiesController < ApplicationController
       'register' => params[:register],
       'locale' => params[:locale],
       'initial' => params[:initial],
-      'sort' => params[:sort]
+      'sort' => params[:sort],
+      'exclude' => params[:exclude]
     ).last
     render :template => "api/entities/search"
   end
