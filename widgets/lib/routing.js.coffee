@@ -44,7 +44,7 @@ wApp.routing = {
     wApp.routing.parts_cache
   packed: (newValues) -> 
     raw = wApp.routing.query()['q']
-    oldValues = if raw then JSON.parse(atob(raw)) else {}
+    oldValues = if raw then JSON.parse(unescape(atob(raw))) else {}
 
     if newValues
       for k, v of newValues
@@ -56,7 +56,7 @@ wApp.routing = {
     oldValues
   pack: (unpacked = null) ->
     if unpacked
-      btoa(JSON.stringify(unpacked))
+      btoa(escape(JSON.stringify(unpacked)))
   redirects: () ->
     oldCache = wApp.routing.parts_cache
     wApp.routing.parts_cache = null
