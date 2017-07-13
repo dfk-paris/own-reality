@@ -8,7 +8,7 @@
     <div class="navigation">
       <a class="anchor" href="#or-article">{tcap('exhibition')}</a>
       <a class="anchor" href="#or-summary">{tcap('comment')}</a>
-      <a class="anchor" href="#or-related-people" if={hasPeople()}>{tcap('people_involved')}</a>
+      <a class="anchor" href="#or-related-people" if={hasPeople()}>{tcap('person', {count: 'other'})}</a>
       <a class="anchor" href="#or-attributes">{tcap('keyword', {count: 'other'})}</a>
       <a class="anchor" href="#or-citation">{tcap('recommended_citation_style')}</a>
       <a class="anchor" href="#or-license">{tcap('license')}</a>
@@ -43,7 +43,7 @@
 
     <div class="or-detail-section" if={hasPeople()}>
       <div class="or-metadata">
-        <h2 name="or-related-people">{lv(wApp.config.server.plural_roles[12064])}</h2>
+        <h2 name="or-related-people">{lvcap(wApp.config.server.plural_roles[12064])}</h2>
         <p>
           <or-people-list
             people={opts.item._source.people[12064]}

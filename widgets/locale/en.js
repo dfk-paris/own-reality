@@ -7,7 +7,7 @@ wApp.i18n.translations.en = {
   "amount_found": "%{o} found",
   "summary": "summary",
   "comment": "comment",
-  "people_involved": "people mentioned",
+  "people_involved": "persons mentioned",
   "author": {
     "one": "author",
     "other": "authors"
@@ -23,8 +23,8 @@ wApp.i18n.translations.en = {
   "interpretation": "summary",
   "content": "content",
   "recommended_citation_style": {
-    "one": "recommended citation style",
-    "other": "recommended citation styles"
+    "one": "citation",
+    "other": "citations"
   },
   "chronology": "timeline",
   "papers": "papers",
@@ -52,7 +52,7 @@ wApp.i18n.translations.en = {
   "country": "country",
   "person": {
     "one": "person",
-    "other": "people"
+    "other": "persons"
   },
   "page": {
     "one": "page",

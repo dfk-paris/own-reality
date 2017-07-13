@@ -23,8 +23,8 @@ wApp.i18n.translations.de = {
   "interpretation": "Interpretation",
   "content": "Inhalt",
   "recommended_citation_style": {
-    "one": "empfohlenes Zitationsformat",
-    "other": "empfohlene Zitationsformate"
+    "one": "Zitationsformat",
+    "other": "Zitationsformate"
   },
   "chronology": "Chronologie",
   "papers": "Aufsätze",

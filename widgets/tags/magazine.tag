@@ -7,7 +7,7 @@
 
     <div class="navigation">
       <a class="anchor" href="#or-article">{tcap('magazine')}</a>
-      <a class="anchor" href="#or-related-people">{tcap('people_involved')}</a>
+      <a class="anchor" href="#or-related-people">{tcap('person', {count: 'other'})}</a>
       <a class="anchor" href="#or-attributes">{tcap('keyword', {count: 'other'})}</a>
       <a class="anchor" href="#or-citation">{tcap('recommended_citation_style')}</a>
       <a class="anchor" href="#or-license">{tcap('license')}</a>
@@ -21,7 +21,7 @@
 
     <div class="or-detail-section" each={people, role_id in opts.item._source.people}>
       <div class="or-metadata">
-        <h2 name="or-related-people">{lv(wApp.config.server.plural_roles[role_id])}</h2>
+        <h2 name="or-related-people">{lvcap(wApp.config.server.plural_roles[role_id])}</h2>
         <p>
           <or-people-list
             people={people}

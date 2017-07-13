@@ -23,8 +23,8 @@ wApp.i18n.translations.fr = {
   "interpretation": "resumé",
   "content": "contenu",
   "recommended_citation_style": {
-    "one": "pour citer ce contenu",
-    "other": "pour citer ce contenu"
+    "one": "citation",
+    "other": "citations"
   },
   "chronology": "chronologie",
   "papers": "essais",
