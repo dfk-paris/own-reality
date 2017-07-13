@@ -9,14 +9,6 @@
     tag = this
     tag.mixin(wApp.mixins.i18n)
 
-    tag.on 'mount', ->
-      Zepto(tag.root).on 'click', "a[href*='/resolve/']", (event) ->
-        event.preventDefault()
-        href = Zepto(event.currentTarget).attr('href')
-        [x, type, id, lang] = href.match(/\/resolve\/(\w+)\/(\d+)\/(\w+)$/)
-        t = type.slice(0, type.length - 1)
-        wApp.routing.packed(tag: "or-paper", id: id, lang: lang)
-
     tag.on 'updated', ->
       if tag.opts.item
         if html = tag.html()
@@ -25,6 +17,11 @@
           window.setTimeout tag.fixManchettePositions, 200
         else
           Zepto(tag.root).find('.body').html "NO CONTENT AVAILABLE"
+
+        Zepto(tag.root).find("a[href*='../resolve/']").each (i, e) ->
+          e = Zepto(e)
+          href = e.attr('href').replace(/^[\.\/]+/, '#/')
+          e.attr('href', href)
 
     tag.html = ->
       original = tag.lcv(tag.opts.item._source.html)
