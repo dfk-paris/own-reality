@@ -60,12 +60,13 @@ wApp.routing = {
   redirects: () ->
     oldCache = wApp.routing.parts_cache
     wApp.routing.parts_cache = null
-    r = /^\/resolve\/(chronology|magazine|article|interview|sources|journals)\/([0-9]+)(?:\/(en|pl|fr|de))?(?:\/(en|pl|fr|de))?/
+    r = /^\/resolve\/(chronology|magazines|articles|interviews|sources)\/([0-9]+)(?:\/(en|pl|fr|de))?(?:\/(en|pl|fr|de))?/
     if hashPath = wApp.routing.parts()['hash_path']
       if m = hashPath.match(r)
         console.log 'REDIRECT'
         hash = wApp.routing.pack(
           modal: true
+          type: m[1]
           tag: 'or-paper'
           id: m[2]
           lang: m[3]

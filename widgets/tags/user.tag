@@ -1,6 +1,6 @@
 <or-user>
   <a
-    href={l(user().url)}
+    href={lv(user().url)}
     target="_blank"
   >{user().first_name} {user().last_name}</a>
 
