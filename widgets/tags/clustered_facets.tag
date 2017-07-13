@@ -99,7 +99,7 @@
         <div class="or-item-wrapper" each={bucket in limit_buckets('journals', opts.aggregations.journals)}>
           <span class="or-value or-item or-select">
             +
-            {bucket.key}
+            <span class="or-key">{bucket.key}</span>
             ({bucket.doc_count})
           </span>
         </div>
@@ -243,7 +243,7 @@
           what.people[role_id] = [key]
           tag.add what
         else
-          key = Zepto(event.target).text()
+          key = Zepto(event.target).select('.or-key').text()
           tag.add journals: [key]
 
     tag.showAll = (type, agg, key) ->
