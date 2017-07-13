@@ -81,6 +81,7 @@ or-doc, [data-is=or-doc] {
 
       & > p:before, blockquote:before {
         position: absolute;
+        margin-top: 3px;
         margin-left: -65px;
         color: black;
         content: counter(paragraph);

@@ -12,9 +12,9 @@
       ></or-delayed-input>
     </div>
 
-    <!-- <div class="form-control">
+    <div class="form-control">
       <or-slider min="1960" max="1989" ref="date" />
-    </div> -->
+    </div>
 
     <div class="form-control">
       <or-clustered-facets

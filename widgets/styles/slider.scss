@@ -14,4 +14,26 @@ or-slider, [data-is=or-slider] {
   .or-clearfix {
     clear: both;
   }
+
+  .ui-slider {
+    margin-bottom: 15px;
+  }
+
+  .ui-slider-horizontal {
+    height: 1px;
+    border: none;
+    background-color: #D4D6D5;
+  }
+
+  .ui-slider-range {
+    background-color: #8B8C8E;
+  }
+
+  .ui-slider-handle {
+    background-color: #8B8C8E !important;
+    border: none !important;
+    height: 11px !important;
+    width: 11px !important;
+    border-radius: 5.5px !important;
+  }
 }
