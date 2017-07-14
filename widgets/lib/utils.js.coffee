@@ -1,7 +1,7 @@
 wApp.utils = {
   shorten: (str, n = 30) ->
     if str && str.length > n
-      str.substr(0, n - 1) + '&hellip;'
+      str.substr(0, n - 1) + '…'
     else
       str
   in_groups_of: (per_row, array, dummy = null) ->
