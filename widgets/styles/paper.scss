@@ -52,13 +52,15 @@ or-doc, [data-is=or-doc] {
 
     .docAuthor {
       font-style: italic;
-      padding-bottom: 80px;
-      border-bottom: 1px solid $line-color;
+      padding-bottom: 10px;
+      // border-bottom: 1px solid $line-color;
       margin-bottom: 0px;
     }
 
     .index {
       padding: 40px;
+      margin-top: 70px;
+      border-top: 1px solid $line-color;
       border-bottom: 1px solid $line-color;
 
       p {

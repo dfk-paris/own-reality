@@ -71,7 +71,7 @@ wApp.i18n.translations.de = {
   "previous": "zurück",
   "more": "weitere",
   "full_text_search": "Volltextsuche",
-  "show_all": "alle anzeigen",
+  "show_all": "alle zeigen",
   "also_available_in": "auch verfügbar in",
   "confirm_replace_search": "Die anderen Suchkriterien werden ersetzt. Sind Sie sicher?",
   "search_as": "suchen als",

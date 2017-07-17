@@ -34,7 +34,7 @@
       >
         <span class="or-item">
           ×
-          <or-attribute key={key} />
+          <or-attribute key={key} shorten-to="40" />
         </span>
       </span>
     </div>
@@ -132,7 +132,7 @@
         <div class="or-item-wrapper" each={bucket in limit_buckets(key, aggregation)}>
           <span class="or-value or-item or-select">
             +
-            <or-attribute key={bucket.key} />
+            <or-attribute key={bucket.key} shorten-to="40" />
             ({bucket.doc_count})
           </span>
         </div>

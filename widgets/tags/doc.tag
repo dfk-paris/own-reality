@@ -44,7 +44,7 @@
           l.html(h2.text())
           l.attr 'href', "##{anchor}"
           content.append(l)
-        doc.find('.docAuthor').after(content)
+        doc.find('section.chapitre').before(content)
 
     tag.addFootNoteHeader = (doc) ->
       doc.find('.notes').prepend("<hr /><h2>Notes</h2>")
