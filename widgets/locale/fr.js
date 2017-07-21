@@ -90,6 +90,10 @@ wApp.i18n.translations.fr = {
     "one": "critère de recherche",
     "other": "critères de recherche",
   },
+  "note": {
+    "one": "note",
+    "other": "notes",
+  },
   "your_selection": "votre sélection",
   "no_copyright": "Ce document ne peut être montré ici pour des raisons légales.",
   "link_available": "Ce document est disponible en ligne sur",

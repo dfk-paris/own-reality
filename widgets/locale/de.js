@@ -90,6 +90,10 @@ wApp.i18n.translations.de = {
     "one": "Suchkriterium",
     "other": "Suchkriterien",
   },
+  "note": {
+    "one": "Anmerkung",
+    "other": "Anmerkungen",
+  },
   "your_selection": "Ihre Auswahl",
   "no_copyright": "Dieses Archivmaterial kann aus rechtlichen Gründen hier leider nicht gezeigt werden.",
   "link_available": "Dieses Archivmaterial ist online verfügbar auf",

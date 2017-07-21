@@ -90,6 +90,10 @@ wApp.i18n.translations.en = {
     "one": "search criterion",
     "other": "search criteria",
   },
+  "note": {
+    "one": "note",
+    "other": "notes",
+  },
   "your_selection": "your selection",
   "no_copyright": "It is not possible to make this document available here for legal reasons.",
   "link_available": "This document is available online at",

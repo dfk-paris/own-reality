@@ -52,16 +52,18 @@
     tag.on 'updated', -> fixPagerPositions()
 
     clickAttribute = (key) ->
-      if window.confirm(tag.t('confirm_replace_search'))
-        wApp.bus.trigger 'close-modal'
-        wApp.bus.trigger 'reset-search-with', attribs: [key]
+      if tag.searchContext()
+        if window.confirm(tag.t('confirm_replace_search'))
+          wApp.bus.trigger 'close-modal'
+          wApp.bus.trigger 'reset-search-with', attribs: [key]
 
     clickPerson = (role_id, key) ->
-      if window.confirm(tag.t('confirm_replace_search'))
-        data = {people: {}}
-        data.people[role_id] = [key]
-        wApp.bus.trigger 'close-modal'
-        wApp.bus.trigger 'reset-search-with', data
+      if tag.searchContext()
+        if window.confirm(tag.t('confirm_replace_search'))
+          data = {people: {}}
+          data.people[role_id] = [key]
+          wApp.bus.trigger 'close-modal'
+          wApp.bus.trigger 'reset-search-with', data
 
     tag.onClickClose = -> wApp.bus.trigger 'close-modal'
 
@@ -93,6 +95,9 @@
     cacheAttributes = ->
       try
         wApp.cache.attributes(tag.opts.item._source.attrs.ids[6][43])
+
+        if gr = tag.opts.item._source.attrs.ids[7]
+          wApp.cache.attributes(gr[168])
       catch e
         console.log e
 

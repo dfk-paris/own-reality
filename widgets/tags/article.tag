@@ -48,7 +48,7 @@
 
     <div class="or-detail-section">
       <div class="or-metadata">
-        <h2>{t('recommended_citation_style', {count: 1, capitalize: true})}</h2>
+        <h2 name="or-citation">{t('recommended_citation_style', {count: 1, capitalize: true})}</h2>
         <or-citation item={opts.item} />
         
         <div class="or-perspectivia-ref">

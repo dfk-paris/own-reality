@@ -47,7 +47,7 @@
         doc.find('section.chapitre').before(content)
 
     tag.addFootNoteHeader = (doc) ->
-      doc.find('.notes').prepend("<hr /><h2>Notes</h2>")
+      doc.find('.notes').prepend("<hr /><h2>#{tag.tcap('note', {count: 'other'})}</h2>")
 
     tag.fixImgSrc = (doc) ->
       for img in doc.find('img')

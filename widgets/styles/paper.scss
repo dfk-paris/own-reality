@@ -233,7 +233,7 @@ or-paper, [data-is=or-paper] {
   }
 
   .header {
-    min-height: 190px;
+    min-height: 208px;
     padding-top: 40px;
     padding-left: 75px;
     padding-right: 75px;
@@ -257,9 +257,9 @@ or-paper, [data-is=or-paper] {
         display: inline-block;
         margin-left: 40px;
 
-        a.active {
-          text-decoration: underline;
-        }
+        // a.active {
+        //   text-decoration: underline;
+        // }
       }
     }
 
