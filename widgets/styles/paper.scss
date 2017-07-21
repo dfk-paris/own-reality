@@ -82,7 +82,7 @@ or-doc, [data-is=or-doc] {
 
       & > p:before, blockquote:before {
         position: absolute;
-        margin-top: 1px;
+        margin-top: 4px;
         margin-left: -65px;
         color: black;
         content: counter(paragraph);
@@ -257,9 +257,9 @@ or-paper, [data-is=or-paper] {
         display: inline-block;
         margin-left: 40px;
 
-        // a.active {
-        //   text-decoration: underline;
-        // }
+        a.active {
+          text-decoration: underline;
+        }
       }
     }
 

@@ -66,7 +66,7 @@
           <div class="w-clearfix"></div>
 
           <div class="or-item-wrapper" each={bucket in limit_buckets(key, aggregation)}>
-            <span class="or-value or-item or-select" >
+            <span class="or-value or-item or-select" onclick={addClick('people', key, bucket.key)}>
               +
               <or-person person-id={bucket.key} />
               ({bucket.doc_count})
@@ -97,7 +97,7 @@
         <div class="w-clearfix"></div>
 
         <div class="or-item-wrapper" each={bucket in limit_buckets('journals', opts.aggregations.journals)}>
-          <span class="or-value or-item or-select">
+          <span class="or-value or-item or-select" onclick={addClick('journals', null, bucket.key)}>
             +
             <span class="or-key">{bucket.key}</span>
             ({bucket.doc_count})
@@ -130,7 +130,7 @@
         <div class="w-clearfix"></div>
 
         <div class="or-item-wrapper" each={bucket in limit_buckets(key, aggregation)}>
-          <span class="or-value or-item or-select">
+          <span class="or-value or-item or-select" onclick={addClick('attribs', key, bucket.key)}>
             +
             <or-attribute key={bucket.key} shorten-to="40" />
             ({bucket.doc_count})
@@ -233,18 +233,31 @@
       tag.bus.on 'attrib-clicked', (id) ->
         tag.add attribs: [id]
 
-      Zepto(tag.root).on 'click', '.or-bucket .or-select', (event) ->
+      # Zepto(tag.root).on 'click', '.or-bucket .or-select', (event) ->
+      #   event.preventDefault()
+      #   if key = Zepto(event.target).parents('or-attribute').attr('key')
+      #     tag.add attribs: [key]
+      #   else if key = Zepto(event.target).parents('or-person').attr('person-id')
+      #     role_id = Zepto(event.target).parents('.or-bucket').attr('data-id')
+      #     what = {people: {}}
+      #     what.people[role_id] = [key]
+      #     tag.add what
+      #   else
+      #     key = Zepto(event.target).find('.or-key').text()
+      #     tag.add journals: [key]
+
+    tag.addClick = (type, role_id, key) ->
+      (event) ->
         event.preventDefault()
-        if key = Zepto(event.target).parents('or-attribute').attr('key')
-          tag.add attribs: [key]
-        else if key = Zepto(event.target).parents('or-person').attr('person-id')
-          role_id = Zepto(event.target).parents('.or-bucket').attr('data-id')
-          what = {people: {}}
-          what.people[role_id] = [key]
-          tag.add what
-        else
-          key = Zepto(event.target).find('.or-key').text()
-          tag.add journals: [key]
+        switch type
+          when 'people'
+            people = {}
+            people[role_id] = [key]
+            tag.add {'people': people}
+          when 'attribs'
+            tag.add {'attribs': [key]}
+          when 'journals'
+            tag.add {'journals': [key]}
 
     tag.showAll = (type, agg, key) ->
       (event) ->

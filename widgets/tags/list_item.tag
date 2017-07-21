@@ -10,9 +10,7 @@
 
         <div class="or-width-limit">
           <or-people-list people={opts.item._source.people[12063]} />
-          <a>
-            <or-localized-value class="or-title" value={opts.item._source.title} />
-          </a>
+          <or-localized-value class="or-title" value={opts.item._source.title} />
           <or-journal-and-volume item={opts.item} />
           <or-localized-value
             class="or-text"
@@ -29,11 +27,7 @@
 
       <div class="or-item" onclick={openPaper} or-type="interviews">
         <virtual if={!opts.searchResult}>
-          <a
-            class="or-title"
-            if={hasHTML()}
-          >{label()}</a>
-          <span if={!hasHTML()} class="or-title">
+          <span class="or-title">
             {label()}
           </span>
 
@@ -45,9 +39,7 @@
 
         <virtual if={opts.searchResult}>
           <or-people-list people={opts.item._source.people[16530]} />
-          <a>
-            <or-localized-value class="or-title" value={opts.item._source.title} />
-          </a>
+          <or-localized-value class="or-title" value={opts.item._source.title} />
           <div class="or-teaser" if={opts.searchResult}></div>
         </virtual>
       </div>
@@ -63,11 +55,7 @@
 
         <or-people-list people={opts.item._source.people[16530]} />
 
-        <a
-          class="or-title"
-          if={hasHTML()}
-        >{label()}</a>
-        <span if={!hasHTML()} class="or-title">
+        <span class="or-title">
           {label()}
         </span>
 
@@ -86,26 +74,22 @@
             {lv(opts.item._source.title)}
           </div>
 
-          <a
+          <span
             if={opts.label}
             onclick={openPaper}
-          ><span class="or-decorate-fix">{opts.label}</span></a>
+            class="or-decorate-fix"
+          >{opts.label}</span>
 
-          <a
+                    <span
             if={opts.label2}
-            onclick={toJournalArticles}
-          >
-            <span class="or-decorate-fix">{opts.label2}</span>
-          </a>
+            onclick={openPaper}
+            class="or-decorate-fix"
+          >{opts.label2}</span>
         </virtual>
 
         <virtual if={opts.searchResult}>
           <or-people-list people={opts.item._source.people[16530]} />
-          <a
-            class="or-title"
-            if={hasHTML()}
-          >{label()}</a>
-          <span if={!hasHTML()} class="or-title">
+          <span class="or-title">
             {label()}
           </span>
           <div class="or-teaser" if={opts.searchResult}></div>
