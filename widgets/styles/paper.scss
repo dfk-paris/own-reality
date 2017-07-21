@@ -51,7 +51,6 @@ or-doc, [data-is=or-doc] {
     }
 
     .docAuthor {
-      font-style: italic;
       padding-bottom: 10px;
       // border-bottom: 1px solid $line-color;
       margin-bottom: 0px;
@@ -83,13 +82,13 @@ or-doc, [data-is=or-doc] {
 
       & > p:before, blockquote:before {
         position: absolute;
-        margin-top: 3px;
+        margin-top: 1px;
         margin-left: -65px;
         color: black;
         content: counter(paragraph);
         counter-increment: paragraph;
         width: 50px;
-        @include lyon(18px, 18px);
+        @include lyon(14px, 14px);
         text-align: right;
         font-style: normal;
         font-variant-numeric: normal;
@@ -188,6 +187,11 @@ or-paper, [data-is=or-paper] {
     @include cera;
     font-weight: bold;
     margin-top: 4rem;
+    margin-bottom: 2rem;
+
+    em {
+      font-style: normal;
+    }
   }
 
   h2:first-child {
@@ -202,7 +206,6 @@ or-paper, [data-is=or-paper] {
     margin: 40px;
     margin-top: 60px;
     margin-bottom: 60px;
-    font-style: italic;
   }
 
   figure {
