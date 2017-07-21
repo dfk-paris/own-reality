@@ -243,7 +243,7 @@
           what.people[role_id] = [key]
           tag.add what
         else
-          key = Zepto(event.target).select('.or-key').text()
+          key = Zepto(event.target).find('.or-key').text()
           tag.add journals: [key]
 
     tag.showAll = (type, agg, key) ->

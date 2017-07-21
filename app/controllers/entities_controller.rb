@@ -32,6 +32,7 @@ class EntitiesController < ApplicationController
 
   def show
     @record = OwnReality::Query.new.mget(params[:type], params[:id]).last
+    @record['external_request'] = external_request?
     render :json => @record
   end
 

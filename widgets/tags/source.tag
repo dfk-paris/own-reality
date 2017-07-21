@@ -32,8 +32,8 @@
         
         <div if={hasImage()} class="or-medium">
           <div class="or-image">
-            <img if={linkType() == null} src={scanBlurredUrl()} />
-            <a if={linkType() != null} href={scanUrl()}>
+            <img if={linkType() == null && !localRequest()} src={scanBlurredUrl()} />
+            <a if={linkType() != null || localRequest()} target="_blank" href={scanOriginalUrl()}>
               <img src={scanUrl()} />
             </a>
           </div>
@@ -143,6 +143,13 @@
     tag.scanBlurredUrl = -> 
       hash = tag.opts.item._source.file_base_hash
       "#{wApp.api_url()}/files/#{hash}/blurred.jpg"
+
+    tag.scanOriginalUrl = ->
+      hash = tag.opts.item._source.file_base_hash
+      "#{wApp.api_url()}/files/#{hash}/original.pdf"
+
+    tag.localRequest = ->
+      !tag.opts.item.external_request
 
   </script>
 </or-source>
