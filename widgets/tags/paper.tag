@@ -52,6 +52,7 @@
     tag.on 'updated', -> fixPagerPositions()
 
     clickAttribute = (key) ->
+      console.log 'p', key
       if tag.searchContext()
         if window.confirm(tag.t('confirm_replace_search'))
           wApp.bus.trigger 'close-modal'

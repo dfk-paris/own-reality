@@ -77,11 +77,13 @@
     tag.mixin(wApp.mixins.i18n)
 
     tag.clickAttribute = (event) ->
-      h(event) if h = tag.opts.handlers.clickAttribute
+      key = event.item.key
+      h(key) if h = tag.opts.handlers.clickAttribute
 
     tag.clickPerson = (role_id) ->
       (event) ->
-        h(event) if h = tag.opts.handlers.clickPerson
+        key = event.item.person.id
+        h(role_id, key) if h = tag.opts.handlers.clickPerson
 
     tag.attrs = (klass, category) ->
       (tag.opts.item._source.attrs.ids[6] || {})[43]

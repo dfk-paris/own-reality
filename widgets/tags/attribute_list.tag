@@ -26,6 +26,7 @@
       list.append(items)
 
     tag.clickAttribute = (event) ->
+      console.log 'al', event
       h(event) if h = tag.opts.onClickAttribute
 
   </script>
