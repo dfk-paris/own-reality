@@ -34,6 +34,7 @@ class OwnReality::ProwebFileConverter
 
   def cover
     if cover = OwnReality.k_files["cover_#{@proweb_id}"]
+      system "mkdir -p #{public_dir}"
       system "cp #{cover} #{public_dir}/cover.jpg"
       hash
     end
@@ -103,24 +104,43 @@ class OwnReality::ProwebFileConverter
     original = "#{public_dir}/original.pdf"
     unless File.exists?(original)
       system "mkdir -p #{public_dir}"
-      command = if original_files.all?{|f| f.match(/\.pdf$/i)}
-        if original_files.size == 1
-          "ln -sfn \"#{original_files.first}\" #{original}"
-        else
-          "pdftk #{safe_files original_files} cat output #{original}"  
+
+      Dir.mktmpdir do |dir|
+        original_files.each do |of|
+          if of.match(/\.pdf$/i)
+            command = "cp \"#{of}\" #{dir}/"
+          else
+            base_name = of.split('/').last.split('.').first
+
+            command = "convert \"#{of}\" \"#{dir}/#{base_name}.pdf\""
+            result = run command
+            unless result[:status] == 0
+              OwnReality.log_anomaly(
+                "combining pdf",
+                "converting to pdf",
+                command,
+                result[:stderr]
+              )
+            end
+          end
         end
-      else
-        "convert #{safe_files original_files} #{original}"
-      end
-      # puts command
-      result = run command
-      unless result[:status] == 0
-        OwnReality.log_anomaly(
-          "combining pdfs",
-          "command on file",
-          command,
-          result[:stderr]
-        )
+
+        pdfs = Dir["#{dir}/*.pdf"]
+        command = if pdfs.size == 1
+          "ln -sfn \"#{pdfs.first}\" #{original}"
+        else
+          "pdftk #{safe_files pdfs} cat output #{original}"
+        end
+
+        result = run command
+        unless result[:status] == 0
+          OwnReality.log_anomaly(
+            "combining pdfs",
+            "pdftk to combine",
+            command,
+            result[:stderr]
+          )
+        end
       end
     end
   end
