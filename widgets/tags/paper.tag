@@ -52,11 +52,13 @@
     tag.on 'updated', -> fixPagerPositions()
 
     clickAttribute = (key) ->
-      console.log 'p', key
       if tag.searchContext()
         if window.confirm(tag.t('confirm_replace_search'))
           wApp.bus.trigger 'close-modal'
           wApp.bus.trigger 'reset-search-with', attribs: [key]
+      else
+        q = wApp.routing.pack({attribs: [key]})
+        document.location.href = wApp.searchUrl() + '#/?q=' + q
 
     clickPerson = (role_id, key) ->
       if tag.searchContext()
@@ -65,6 +67,11 @@
           data.people[role_id] = [key]
           wApp.bus.trigger 'close-modal'
           wApp.bus.trigger 'reset-search-with', data
+      else
+        params = {people: {}}
+        params.people[role_id] = [key]
+        q = wApp.routing.pack(params)
+        document.location.href = wApp.searchUrl() + '#/?q=' + q
 
     tag.onClickClose = -> wApp.bus.trigger 'close-modal'
 

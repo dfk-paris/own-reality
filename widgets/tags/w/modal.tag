@@ -6,7 +6,6 @@
     tag = this
     tag.active = false
     tag.mountedTag = null
-    window.t = tag
 
     tag.on 'mount', ->
       wApp.bus.on 'routing:query', fromUrl

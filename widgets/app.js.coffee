@@ -32,4 +32,8 @@ window.wApp = {
   api_url: ->
     setting = Zepto('script[or-api-url]').attr('or-api-url')
     setting || 'http://localhost:3000'
+
+  searchUrl: ->
+    setting = Zepto('script[or-search-url]').attr('or-search-url')
+    setting || 'http://localhost:3000'
 }

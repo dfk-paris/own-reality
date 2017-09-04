@@ -18,24 +18,6 @@
 
   <script type="text/coffee">
     tag = this
-
-    tag.on 'mount', ->
-      console.log tag.opts
-
-      # probably not needed anymore
-      # if tag.opts.type
-      #   $.ajax(
-      #     type: 'post'
-      #     url: "#{wApp.api_url()}/api/entities/search"
-      #     data: JSON.stringify(
-      #       type: tag.opts.type
-      #       per_page: 100
-      #     )
-      #     success: (data) ->
-      #       # console.log data
-      #       tag.opts.items = data.records
-      #       tag.update()
-      #   )
   </script>
 
 </or-item-list>
