@@ -21,11 +21,16 @@
     />
 
     <style type="text/css">
-      body {width: 100%; padding: 0px;}
+      body {width: 100%; padding: 0px; position: relative; margin: 0px;}
       body > div {
         box-sizing: border-box;
         float: left;
         padding: 1rem;
+      }
+
+      body > div.w-clearfix {
+        clear: both !important;
+        float: initial !important;
       }
 
       .left {width: 25%;}
@@ -50,6 +55,8 @@
     <div class="center right">
       <or-results></or-results>
     </div>
+
+    <div class="w-clearfix"></div>
 
     <script
       type="text/javascript"
