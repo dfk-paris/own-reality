@@ -60,12 +60,9 @@
         new_height = Math.max($(window).height() - 100, 500)
         Zepto(tag.root).find('.receiver').css 'height', new_height
         Zepto(tag.root).css 'position', 'fixed'
-      #   Zepto(tag.root).css 'min-height', 'initial'
       else
         Zepto(tag.root).css 'position', 'absolute'
-      #   Zepto(tag.root).css 'height', 'initial'
-      #   Zepto(tag.root).css 'min-height', '100%'
-        # Zepto(tag.root).css 'max-height', 'initial'
+        Zepto('body, html').css 'height', 'initial'
 
     fromUrl = ->
       data = wApp.routing.packed()
