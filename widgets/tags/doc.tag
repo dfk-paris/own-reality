@@ -22,7 +22,7 @@
           e = Zepto(e)
 
           unless e.href.match(/^http/)
-            cleanResolvePath = e.href.replace(/^[\.\/]+/, '#/')
+            cleanResolvePath = e.attr('href').replace(/^[\.\/]+/, '#/')
             e.attr('href', cleanResolvePath)
             # href = e.attr('href').replace(/^[\.\/]+/, '#/')
             # e.attr('href', href)
