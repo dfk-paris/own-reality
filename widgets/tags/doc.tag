@@ -21,7 +21,7 @@
         Zepto(tag.root).find("a[href*='/resolve/']").each (i, e) ->
           e = Zepto(e)
 
-          unless e.href.match(/^http/)
+          unless e.attr('href').match(/^http/)
             cleanResolvePath = e.attr('href').replace(/^[\.\/]+/, '#/')
             e.attr('href', cleanResolvePath)
             # href = e.attr('href').replace(/^[\.\/]+/, '#/')
