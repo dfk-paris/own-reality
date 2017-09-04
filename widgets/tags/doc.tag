@@ -18,7 +18,7 @@
         else
           Zepto(tag.root).find('.body').html "NO CONTENT AVAILABLE"
 
-        Zepto(tag.root).find("a[href*='../resolve/']").each (i, e) ->
+        Zepto(tag.root).find("a[href*='/resolve/']").each (i, e) ->
           e = Zepto(e)
 
           unless e.href.match(/^http/)

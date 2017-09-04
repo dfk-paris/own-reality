@@ -84,7 +84,7 @@
       Zepto(tag.root).on 'click', "a.suite, a.tonote, a.noteNum, a.tosub, a.anchor", (event) ->
         event.preventDefault()
         anchor = Zepto(event.currentTarget).attr('href').replace('#', '')
-        wApp.utils.scrollTo Zepto("[name=#{anchor}], anchor[id=#{anchor}]"), Zepto('.receiver')
+        wApp.utils.scrollTo Zepto("[name=#{anchor}], anchor[id=#{anchor}]"), Zepto('body')
 
     registerUpEvent = ->
       Zepto(tag.root).on 'click', 'or-icon[which=up] svg', (event) ->
