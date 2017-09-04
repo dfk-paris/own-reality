@@ -51,7 +51,7 @@
         <h2 name="or-citation">{tcap('recommended_citation_style', {count: 1})}</h2>
         <or-citation item={opts.item} />
 
-        <div class="or-perspectivia-ref">
+        <div if={hasPDF()} class="or-perspectivia-ref">
           {t('perspectivia_ref')}
           <a
             href="http://www.perspectivia.net/publikationen/ownreality">
@@ -83,6 +83,9 @@
       (event) ->
         key = event.item.person.id
         h(role_id, key) if h = tag.opts.handlers.clickPerson
+
+    tag.hasPDF = ->
+      !!tag.opts.item._source.pdfs[tag.contentLocale()]
 
     tag.attrs = (klass, category) ->
       (tag.opts.item._source.attrs.ids[6] || {})[43]
