@@ -6,8 +6,8 @@ namespace :or do
     Proweb.config = YAML.load_file("#{Rails.root}/config/app.yml")["proweb"]
     Proweb.connect
     
-    Proweb::Import.new(Proweb.source, Proweb.target).run
-    Proweb::FileCleaner.new(OwnReality).run
+    # Proweb::Import.new(Proweb.source, Proweb.target).run
+    # Proweb::FileCleaner.new(OwnReality).run
     OwnReality::Import.new(OwnReality::ProwebReader.new).run
   end
 

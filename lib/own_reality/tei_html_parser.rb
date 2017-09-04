@@ -4,6 +4,7 @@ require 'nokogiri'
 class OwnReality::TeiHtmlParser
 
   def initialize(id)
+    system "mkdir -p #{Rails.root}/public/images"
     @proweb_id = id
   end
 

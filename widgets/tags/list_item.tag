@@ -80,9 +80,9 @@
             class="or-decorate-fix"
           >{opts.label}</span>
 
-                    <span
+          <span
             if={opts.label2}
-            onclick={openPaper}
+            onclick={toJournalArticles}
             class="or-decorate-fix"
           >{opts.label2}</span>
         </virtual>

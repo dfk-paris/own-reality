@@ -1,5 +1,38 @@
 elasticsearch:
-  host: 127.0.0.1
-  port: 9200
+  url: 127.0.0.1:9200
   index: or
   token: secret
+
+k_files: "/media/dfk/OWNREALITY/Additional_ProWeb_Files"
+
+proweb:
+  db:
+    source:
+      adapter: "tinytds"
+      user: "DFKG\\automator"
+      password: "Aiz7xie5"
+      host: "192.168.30.9"
+      database: "ProWeb"
+      encoding: "utf8"
+      timeout: 10000
+      tds_version: '7'
+    target:
+      adapter: "sqlite"
+      database: "/tmp/proweb.sqlite3"
+    clean: 
+      adapter: "sqlite3"
+      database: "/tmp/proweb.sqlite3"
+  project_ids: [16, 31, 39, 40, 41]
+  resolutions: [800, 140]
+  files:
+    sources:
+      - "/media/dfk/ProWeb/Doks/Ownreality"
+      - "/media/dfk/ProWeb/Doks/ChronoOR"
+      - "/media/dfk/ProWeb/Doks/OwnRealityInterviews"
+      - "/media/dfk/ProWeb/Doks/OwnRealityPublications"
+      - "/media/dfk/ProWeb/Doks/OwnRealityRevues"
+      - "/media/dfk/ProWeb/Doks/ORArchive"
+    intermediate: "../cache/raw_files"
+    target: "../cache/files"
+    public: "public/files"
+    supplements: "/media/data/OWNREALITY/Additional_ProWeb_Files/supplements"

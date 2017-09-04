@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.2.6'
+gem 'rails', '4.2.9'
 gem 'jbuilder', '~> 2.0'
 gem 'httpclient', '~> 2.6'
 gem 'puma'
