@@ -194,7 +194,7 @@ or-paper, [data-is=or-paper] {
 
   h2 {
     @include cera;
-    font-weight: bold;
+    font-weight: bold !important;
     margin-top: 4rem;
     margin-bottom: 2rem;
   }
