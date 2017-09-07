@@ -197,6 +197,10 @@ or-paper, [data-is=or-paper] {
     font-weight: bold !important;
     margin-top: 4rem;
     margin-bottom: 2rem;
+
+    em {
+      font-weight: bold;
+    }
   }
 
   h2:first-child {
