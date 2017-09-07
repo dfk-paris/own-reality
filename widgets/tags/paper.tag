@@ -89,7 +89,7 @@
     registerUpEvent = ->
       Zepto(tag.root).on 'click', 'or-icon[which=up] svg', (event) ->
         event.preventDefault()
-        wApp.utils.scrollTo Zepto('body'), Zepto('.receiver')
+        wApp.utils.scrollTo Zepto('body'), Zepto('body')
 
     fetch = ->
       Zepto.ajax(
