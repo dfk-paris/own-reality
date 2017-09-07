@@ -44,8 +44,10 @@
           h2 = Zepto(h2)
           anchor = h2.find('anchor').attr('id')
           h2.find('a.totdm, a.tonote, .manchette').remove()
+          h2Clone = h2.clone()
+          h2Clone.find('anchor').remove()
           l = tpl.clone()
-          l.html(h2.text())
+          l.html(h2Clone.html())
           l.attr 'href', "##{anchor}"
           content.append(l)
         doc.find('section.chapitre').before(content)
