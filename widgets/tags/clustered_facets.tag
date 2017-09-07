@@ -15,7 +15,7 @@
         >
           <span class="or-item">
             ×
-            {lvcap(wApp.config.server.plural_roles[role_id])}:
+            {lvcap(wApp.config.server.roles[role_id])}:
             <or-person person-id={key} />
           </span>
         </span>
