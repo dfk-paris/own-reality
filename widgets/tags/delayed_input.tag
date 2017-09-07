@@ -1,8 +1,12 @@
 <or-delayed-input>
-  <input
+  <!-- <input
     type={opts.type}
     placeholder={opts.placeholder}
     onkeyup={console.log}
+  /> -->
+  <input
+    type={opts.type}
+    placeholder={opts.placeholder}
   />
 
   <script type="text/coffee">

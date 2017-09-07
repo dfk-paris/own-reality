@@ -24,7 +24,7 @@ window.wApp = {
     )
 
     Zepto.when(miscPromise).then ->
-      console.log 'app loaded, mounting'
+      # console.log 'app loaded, mounting'
       
       riot.mount('*')
       wApp.routing.setup()

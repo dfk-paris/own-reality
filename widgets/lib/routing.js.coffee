@@ -63,7 +63,7 @@ wApp.routing = {
     r = /^\/?resolve\/(chronology|magazines|articles|interviews|sources)\/([0-9]+)(?:\/(en|pl|fr|de))?(?:\/(en|pl|fr|de))?/
     if hashPath = wApp.routing.parts()['hash_path']
       if m = hashPath.match(r)
-        console.log 'REDIRECT'
+        # console.log 'REDIRECT'
         hash = wApp.routing.pack(
           modal: true
           type: m[1]

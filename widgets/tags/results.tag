@@ -94,7 +94,7 @@
 
     onNextResult = (oldId) ->
       oldIndex = resultIndexById(oldId)
-      console.log oldIndex
+      # console.log oldIndex
       if oldIndex < wApp.data.results.length - 1
         newId = wApp.data.results[oldIndex + 1]._id
         wApp.routing.packed id: newId
