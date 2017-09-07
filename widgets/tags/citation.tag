@@ -83,7 +83,11 @@
       tag.opts.item._type == 'interviews'
 
     tag.paperTitles = ->
-      order = if tag.contentLocale() == 'en' then ['en', 'fr'] else ['fr', 'en']
+      order = switch
+        when 'en' then ['en', 'de', 'fr']
+        when 'de' then ['de', 'fr', 'en']
+        when 'fr' then ['fr', 'de', 'en']
+
       titles = (tag.opts.item._source.title[l] for l in order when !!tag.opts.item._source.title[l])
       titles.join('/')
 
