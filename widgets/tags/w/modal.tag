@@ -56,12 +56,12 @@
 
     fixHeight = ->
       if tag.mountedTag && tag.mountedTag.opts.tag != 'or-paper'
-        new_height = Math.max($(window).height() - 100, 500)
-        Zepto(tag.root).find('.receiver').css 'height', new_height
-        Zepto(tag.root).css 'position', 'fixed'
+        # new_height = Math.max($(window).height() - 100, 500)
+        # Zepto(tag.root).find('.receiver').css 'height', new_height
+        # Zepto(tag.root).css 'position', 'fixed'
       else
-        Zepto(tag.root).css 'position', 'absolute'
-        Zepto('body, html').css 'height', 'initial'
+        # Zepto(tag.root).css 'position', 'absolute'
+        # Zepto('body, html').css 'height', 'initial'
 
     fromUrl = ->
       data = wApp.routing.packed()

@@ -40,6 +40,7 @@ or-doc, [data-is=or-doc] {
   margin-right: 75px;
   padding: 80px;
   width: 1120px;
+  z-index: 15000;
 
   .body {
     float: left;
@@ -174,12 +175,13 @@ or-paper, [data-is=or-paper] {
   // 20px for scroll:
   // width: (75px + 80px + 210px + 645px + 20px + 245px + 80px + 75px + 20px);
   width: 100%;
-  max-height: initial !important;
-  min-height: 100%;
-  position: static !important;
-  transform: initial !important;
-  left: initial !important;
-  top: initial !important;
+  // overflow-y: scroll;
+  // max-height: initial !important;
+  // min-height: 100%;
+  // position: static !important;
+  // transform: initial !important;
+  // left: initial !important;
+  // top: initial !important;
 
   color: #000000;
   padding-bottom: 80px;

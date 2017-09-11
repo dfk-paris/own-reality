@@ -414,16 +414,13 @@ or-citation {
   overflow-x: hidden;
 }
 
-// or-attribute-selector, [data-is=or-attribute-selector] {
-
-  // or-register-selector {
-  //   display: block;
-  //   float: left;
-  //   width: 66.66%;
-  // }
-// }
-
 or-attribute-selector, [data-is=or-attribute-selector] {
+  width: 70%;
+  height: 80%;
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+
   display: block;
   min-width: 60rem;
   background-color: white;

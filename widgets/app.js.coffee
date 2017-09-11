@@ -2,7 +2,7 @@ Zepto = Zepto || jQuery
 
 Zepto.extend Zepto.ajaxSettings, {
   dataType: 'json'
-  contentType: 'application/json'
+  contentType: 'application/json; charset=utf-8'
 }
 
 # riot.util.tmpl.errorHandler = (err) ->
