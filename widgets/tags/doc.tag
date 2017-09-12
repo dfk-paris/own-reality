@@ -1,7 +1,6 @@
 <or-doc>
   
   <div class="body" name="or-article"></div>
-  <!-- <div class="panel"></div> -->
   <div class="w-clearfix"></div>
   <or-icon which="up" />
 
@@ -24,8 +23,6 @@
           unless e.attr('href').match(/^http/)
             cleanResolvePath = e.attr('href').replace(/^[\.\/]+/, '#/')
             e.attr('href', cleanResolvePath)
-            # href = e.attr('href').replace(/^[\.\/]+/, '#/')
-            # e.attr('href', href)
 
     tag.html = ->
       original = tag.lcv(tag.opts.item._source.html)
@@ -65,9 +62,10 @@
       for manchette in Zepto(".manchette")
         manchette = Zepto(manchette)
         if previousNote != null
-          minTop = previousNote.position().top + previousNote.height() + 15
-          if manchette.position().top < minTop
-            manchette.css "top", "#{minTop}px"
+          minTop = previousNote.offset().top + previousNote.height() + 15
+          if manchette.offset().top < minTop
+            newTop = minTop - manchette.offsetParent().offset().top
+            manchette.css "top", "#{newTop}px"
         previousNote = manchette
 
   </script>

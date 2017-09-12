@@ -20,7 +20,7 @@ function all {
 function watch {
   all || true
 
-  parallelshell \
+  parallelshell -v \
     "widgets/build.sh watch_vendor" \
     "widgets/build.sh watch_lib" \
     "widgets/build.sh watch_tags" \

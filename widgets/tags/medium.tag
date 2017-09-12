@@ -2,17 +2,7 @@
 
   <div if={hasPdf()}>
 
-    <!-- <a class="or-modal" href={pdfUrl()}> -->
-      <img if={hasPreview()} src={previewUrl()} />
-
-      <!-- <span if={!hasPreview()}>PDF</span> -->
-    <!-- </a> -->
-
-    <!-- <div class="or-download" if={hasPdf()}>
-      <a href={pdfUrl()} download="article.pdf">
-        {t('download')}
-      </a>
-    </div> -->
+    <img if={hasPreview()} src={previewUrl()} />
   </div>
 
   <script type="text/coffee">

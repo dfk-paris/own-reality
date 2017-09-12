@@ -5,10 +5,6 @@ Zepto.extend Zepto.ajaxSettings, {
   contentType: 'application/json; charset=utf-8'
 }
 
-# riot.util.tmpl.errorHandler = (err) ->
-#   console.error(err, err.riotData)
-  # console.error(err.message + ' in ' + err.riotData.tagName, err)
-
 window.wApp = {
   bus: riot.observable()
   config: {}
@@ -24,8 +20,6 @@ window.wApp = {
     )
 
     Zepto.when(miscPromise).then ->
-      # console.log 'app loaded, mounting'
-      
       riot.mount('*')
       wApp.routing.setup()
 

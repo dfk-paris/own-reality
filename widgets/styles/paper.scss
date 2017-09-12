@@ -53,7 +53,6 @@ or-doc, [data-is=or-doc] {
 
     .docAuthor {
       padding-bottom: 10px;
-      // border-bottom: 1px solid $line-color;
       margin-bottom: 0px;
     }
 
@@ -81,10 +80,14 @@ or-doc, [data-is=or-doc] {
     section {
       margin-top: 80px;
 
+      p, blockquote {
+        position: relative;
+      }
+
       & > p:before, blockquote:before {
         position: absolute;
-        margin-top: 4px;
-        margin-left: -65px;
+        top: 4px;
+        left: -65px;
         color: black;
         content: counter(paragraph);
         counter-increment: paragraph;
@@ -105,8 +108,10 @@ or-doc, [data-is=or-doc] {
     .manchette {
       display: inline-block;
       position: absolute;
+      margin-top: 4px;
       width: 225px;
-      right: 155px;
+      right: -200px;
+      text-align: right;
       padding-left: 20px;
       @include cera(16px, 20px);
       font-style: normal;
@@ -120,7 +125,12 @@ or-doc, [data-is=or-doc] {
 
       .suite {
         text-decoration: none;
+        color: rgb(0, 164, 169);
       }
+    }
+
+    blockquote .manchette {
+      right: -240px;
     }
 
     // footnote references within text
@@ -159,30 +169,12 @@ or-doc, [data-is=or-doc] {
       font-variant: small-caps;
     }
   }
-
-  // .panel {
-  //   float: right;
-  //   margin-left: 20px;
-  //   width: 245px;
-  //   min-height: 1px;
-  // }
 }
 
 or-paper, [data-is=or-paper] {
   display: block;
   background-color: #EBF5F4;
-  
-  // 20px for scroll:
-  // width: (75px + 80px + 210px + 645px + 20px + 245px + 80px + 75px + 20px);
   width: 100%;
-  // overflow-y: scroll;
-  // max-height: initial !important;
-  // min-height: 100%;
-  // position: static !important;
-  // transform: initial !important;
-  // left: initial !important;
-  // top: initial !important;
-
   color: #000000;
   padding-bottom: 80px;
   @include lyon(18px, 24px);

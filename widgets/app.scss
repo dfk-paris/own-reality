@@ -70,24 +70,6 @@ or-language-selector, [data-is=or-language-selector] {
   select, select:hover, select:active, select:focus {
     @include or-select;
   }
-
-  // line-height: 1.5rem;
-
-  // a {
-  //   cursor: pointer;
-  // }
-  
-  // .or-list-element {
-  //   padding-right: 0.2rem;
-
-  //   & > span {
-  //     font-size: 0.7rem;
-  //     border-radius: 3px;
-  //     padding: 0.2rem;
-  //     background-color: darken(#ffffff, 20%);
-  //     white-space: nowrap;
-  //   }
-  // }
 }
 
 or-busy-wheel, [data-is=or-busy-wheel] {
