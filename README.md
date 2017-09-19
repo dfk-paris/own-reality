@@ -1,6 +1,6 @@
 # README
 
-This repository contains the data platform for the research project [OwnReality. Jedem seine Wirklichkeit. Der Begriff der Wirklichkeit in der Bildenden Kunst in Frankreich, BRD, DDR und Polen der 1960er bis Ende der 1980er Jahre](https://dfk-paris.org/de/research-project/ownreality-jedem-seine-wirklichkeit-21.html) (website in German) by Dr. Mathilde Arnoux at the [German Centre for Art History Paris](https://dfk-paris.org). The project was funded by the European Research Council.
+This repository contains the data platform for the research project [OwnReality. Jedem seine Wirklichkeit. Der Begriff der Wirklichkeit in der Bildenden Kunst in Frankreich, BRD, DDR und Polen der 1960er bis Ende der 1980er Jahre](https://dfk-paris.org/de/ownreality) (website in German) by Dr. Mathilde Arnoux at the [German Centre for Art History Paris](https://dfk-paris.org). The project was funded by the European Research Council.
 
 During the course of the project, data was gathered and entered into a database.
 In general, this platform allows the integration of that data into web based
