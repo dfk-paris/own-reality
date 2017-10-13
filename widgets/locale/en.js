@@ -95,7 +95,7 @@ wApp.i18n.translations.en = {
     "other": "notes",
   },
   "your_selection": "your selection",
-  "no_copyright": "It is not possible to make this document available here for legal reasons.",
+  "no_copyright": "It is not possible to make this document available here for legal reasons. Some elements of our database are available in the DFK network and can be accessed by logged in users (see <a href=\"https://dfk-paris.org/fr/node/87\">opening hours of the library</a>)",
   "link_available": "This document is available online at",
   "perspectivia_ref": "A former edition of this article first appeared as PDF on",
   "date": {

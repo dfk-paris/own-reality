@@ -95,7 +95,7 @@ wApp.i18n.translations.fr = {
     "other": "notes",
   },
   "your_selection": "votre sélection",
-  "no_copyright": "Ce document ne peut être montré ici pour des raisons légales.",
+  "no_copyright": "Ce document ne peut être montré ici pour des raisons légales. Certaines données de la base sont toutefois accessibles depuis le réseau du DFK Paris (voir les <a href=\"https://dfk-paris.org/fr/node/87\">horaires d’ouverture de la bibliothèque</a>)",
   "link_available": "Ce document est disponible en ligne sur",
   "perspectivia_ref": "Cet article est paru dans une première édition pdf sur",
   "date": {

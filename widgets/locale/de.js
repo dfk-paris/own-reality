@@ -95,7 +95,7 @@ wApp.i18n.translations.de = {
     "other": "Anmerkungen",
   },
   "your_selection": "Ihre Auswahl",
-  "no_copyright": "Dieses Archivmaterial kann aus rechtlichen Gründen hier leider nicht gezeigt werden.",
+  "no_copyright": "Dieses Archivmaterial kann aus rechtlichen Gründen hier leider nicht gezeigt werden. Einige Dokumente unserer Datenbank sind hingegen im DFK-Netz verfügbar und dort eingeloggten Benutzern zugänglich (siehe die <a href=\"https://dfk-paris.org/de/node/87\">Öffnungszeiten der Bibliothek</a>)",
   "link_available": "Dieses Archivmaterial ist online verfügbar auf",
   "perspectivia_ref": "Dieser Aufsatz ist in einer ersten Ausgabe als PDF erschienen auf",
   "date": {

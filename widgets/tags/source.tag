@@ -38,7 +38,9 @@
             </a>
           </div>
           <div class="or-caption">
-            <span if={linkType() == null}>{tcap('no_copyright')}</span>
+            <span if={linkType() == null}>
+              <span class="no-copyright-target"></span>
+            </span>
             <span if={linkType() == 'link'}>
               {tcap('link_available')}
               <a target="_blank" href={linkUrl()}>{linkUrl()}</a>
@@ -111,6 +113,9 @@
   <script type="text/coffee">
     tag = this
     tag.mixin(wApp.mixins.i18n)
+
+    tag.on 'updated', ->
+      Zepto('.no-copyright-target').html(tag.tcap('no_copyright'))
 
     tag.hasContent = ->
       tag.opts.item._source.content[tag.contentLocale()]
