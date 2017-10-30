@@ -1,7 +1,10 @@
 <or-chronology>
 
-  <div class="header">
+  <div class="header no-print">
     <div class="formats">
+      <a href="#" onclick={print}>
+        <or-icon which="print" />
+      </a>
       <or-content-locale-selector item={opts.item} />
     </div>
 
@@ -112,6 +115,10 @@
           if people.length > 0
             return true
       false
+
+    tag.print = (event) ->
+      event.preventDefault();
+      wApp.utils.printElement(tag.root);
 
   </script>
 

@@ -1,7 +1,10 @@
 <or-source>
 
-  <div class="header">
+  <div class="header no-print">
     <div class="formats">
+      <a href="#" onclick={print}>
+        <or-icon which="print" />
+      </a>
       <or-content-locale-selector item={opts.item} />
     </div>
 
@@ -155,6 +158,10 @@
 
     tag.localRequest = ->
       !tag.opts.item.external_request
+
+    tag.print = (event) ->
+      event.preventDefault();
+      wApp.utils.printElement(tag.root);
 
   </script>
 </or-source>

@@ -254,6 +254,11 @@ or-paper, [data-is=or-paper] {
 
       a {
         margin-right: 20px;
+
+        or-icon {
+          position: relative;
+          top: 2px;
+        }
       }
 
       or-content-locale-selector {

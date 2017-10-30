@@ -1,7 +1,10 @@
 <or-magazine>
   
-  <div class="header">
+  <div class="header no-print">
     <div class="formats">
+      <a href="#" onclick={print}>
+        <or-icon which="print" />
+      </a>
       <or-content-locale-selector item={opts.item} />
     </div>
 
@@ -103,6 +106,10 @@
         Zepto('.docAuthor').after(div)
       else
         Zepto('.docAuthor').after('<hr />')
+
+    tag.print = (event) ->
+      event.preventDefault();
+      wApp.utils.printElement(tag.root);
 
   </script>
   

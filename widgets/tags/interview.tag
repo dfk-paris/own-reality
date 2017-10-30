@@ -1,7 +1,10 @@
 <or-interview>
 
-  <div class="header">
+  <div class="header no-print">
     <div class="formats">
+      <a href="#" onclick={print}>
+        <or-icon which="print" />
+      </a>
       <or-content-locale-selector item={opts.item} />
     </div>
 
@@ -94,6 +97,11 @@
 
     tag.attrs = (klass, category) ->
       (tag.opts.item._source.attrs.ids[6] || {})[43]
+
+    tag.print = (event) ->
+      event.preventDefault();
+      wApp.utils.printElement(tag.root);
+
   </script>
 
 </or-interview>

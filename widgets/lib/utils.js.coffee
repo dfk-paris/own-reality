@@ -44,4 +44,63 @@ wApp.utils = {
       from
     else
       "#{from} – #{to}"
+  printElement: (e) ->
+    mywindow = window.open('', 'PRINT', 'height=800,width=1024')
+
+    styles = "
+      h1 {
+        margin-top: 120px;
+      }
+
+      or-doc, .or-detail-section {
+        display: block;
+        padding-left: 60px;
+        padding-right: 60px;
+      }
+
+      h2 {
+        margin-top: 60px;
+      }
+
+      .no-print {
+        display: none
+      }
+
+      img {
+        max-width: 100%;
+      }
+
+      or-icon {
+        display: none;
+      }
+
+      a {
+        text-decoration: none;
+        color: black;
+      }
+
+      .manchette {
+        display: none;
+      }
+
+      or-attribute span::after {
+        content: \", \";
+      }
+
+      or-person span::after {
+        content: \", \";
+      }
+    "
+
+    mywindow.document.write('<html><head><title>' + document.title  + '</title>')
+    mywindow.document.write('<style type="text/css">' + styles + '</style>')
+    mywindow.document.write('</head><body>')
+    mywindow.document.write(e.innerHTML)
+    mywindow.document.write('</body></html>')
+
+    mywindow.document.close() # necessary for IE >= 10
+    mywindow.focus() # necessary for IE >= 10*/
+
+    mywindow.print()
+    mywindow.close()
 }
