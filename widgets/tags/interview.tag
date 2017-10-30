@@ -65,7 +65,12 @@
     <div class="or-detail-section">
       <div class="or-metadata">
         <h2 name="or-license">{tcap('license')}</h2>
-        <or-license />
+        <virtual if={opts.item._id != '23580'}>
+          <or-license />
+        </virtual>
+        <virtual if={opts.item._id == '23580'}>
+          © Copyright Jean-Jacques Lebel, 2015/2017 – Tous droits réservés, ADAGP
+        </virtual>
       </div>
       <or-icon which="up" />
     </div>
