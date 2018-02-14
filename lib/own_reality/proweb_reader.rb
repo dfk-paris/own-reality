@@ -32,7 +32,8 @@ class OwnReality::ProwebReader
         "plural_roles" => plural_roles,
         "people" => people,
         "chronolgy_categories" => chronology_categories,
-        "klasses" => attribute_proweb_categories
+        "klasses" => attribute_proweb_categories,
+        "perspectivia_link_map" => JSON.parse(File.read "#{@old_dir}/perspectivia_link_map.json")
       }
     ]
   end

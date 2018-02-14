@@ -56,10 +56,7 @@
         
         <div if={hasPDF()} class="or-perspectivia-ref">
           {t('perspectivia_ref')}
-          <a
-            href="http://www.perspectivia.net/publikationen/ownreality">
-            http://www.perspectivia.net/publikationen/ownreality</a
-          >.
+          <a href={perspectiviaLink()}>{perspectiviaLink()}</a>.
         </div>
       </div>
       <or-icon which="up" />
@@ -78,6 +75,7 @@
   <script type="text/coffee">
     tag = this
     tag.mixin(wApp.mixins.i18n)
+    window.t = tag
 
     tag.clickAttribute = (event) ->
       key = event.item.key
@@ -97,6 +95,10 @@
     tag.print = (event) ->
       event.preventDefault();
       wApp.utils.printElement(tag.root);
+
+    tag.perspectiviaLink = ->
+      m = wApp.config.server.perspectivia_link_map['articles'] || {}
+      m[tag.opts.item._id] || "http://www.perspectivia.net/publikationen/ownreality"
 
   </script>
   
