@@ -319,6 +319,14 @@ or-paper, [data-is=or-paper] {
       cursor: pointer;
       margin-bottom: -6px;
     }
+
+    &.or-bottom {
+      position: static;
+      display: block;
+      text-align: right;
+      margin-top: 40px;
+      margin-right: 40px;
+    }
   }
 
   or-icon[which=previous] {

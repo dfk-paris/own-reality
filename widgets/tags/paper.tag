@@ -34,6 +34,8 @@
       if={opts.item._type == 'chronology'}
       handlers={handlers}
     ></or-chronology>
+
+    <or-icon class="or-bottom" which="close" onclick={onClickClose} />
   </virtual>
 
   <script type="text/coffee">
