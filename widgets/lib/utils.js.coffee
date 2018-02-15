@@ -161,5 +161,5 @@ wApp.utils = {
     mywindow.focus() # necessary for IE >= 10*/
 
     mywindow.print()
-    # mywindow.close()
+    mywindow.close()
 }
