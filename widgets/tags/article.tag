@@ -75,7 +75,6 @@
   <script type="text/coffee">
     tag = this
     tag.mixin(wApp.mixins.i18n)
-    window.t = tag
 
     tag.clickAttribute = (event) ->
       key = event.item.key
@@ -94,7 +93,11 @@
 
     tag.print = (event) ->
       event.preventDefault();
-      wApp.utils.printElement(tag.root);
+      title = [
+        tag.opts.item._id,
+        tag.lcv(tag.opts.item._source.title).replace(/\s+/g, '_').toLowerCase()
+      ]
+      wApp.utils.printElement(tag.root, title.join('_'));
 
     tag.perspectiviaLink = ->
       m = wApp.config.server.perspectivia_link_map['articles'] || {}

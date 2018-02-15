@@ -44,7 +44,8 @@ wApp.utils = {
       from
     else
       "#{from} – #{to}"
-  printElement: (e) ->
+  printElement: (e, title = null) ->
+    title ||= document.title
     mywindow = window.open('', 'PRINT', 'height=800,width=1024')
 
     styles = "
@@ -90,9 +91,67 @@ wApp.utils = {
       or-person span::after {
         content: \", \";
       }
+
+      .index a {
+        display: block;
+      }
+
+      .tonote > sup {
+        vertical-align: top;
+        position: relative;
+        top: -2px;
+        font-size: 0.7em;
+      }
+
+      article {
+        counter-reset: paragraph;
+      }
+
+      section {
+        margin-top: 80px;
+      }
+
+      section p, section blockquote {
+        position: relative;
+      }
+
+      section > p:before, section > blockquote:before {
+        position: absolute;
+        left: -65px;
+        color: black;
+        content: counter(paragraph);
+        counter-increment: paragraph;
+        width: 50px;
+        @include lyon(14px, 14px);
+        text-align: right;
+        font-style: normal;
+        font-variant-numeric: normal;
+        font-feature-settings: normal;
+      }
+
+      section blockquote:before {
+        left: -105px;
+      }
+
+      figure {
+        page-break-inside: avoid;
+      }
+
+      figure figcaption {
+        margin-top: 1em;
+      }
+
+      .notes .noteNum {
+        float: left;
+        font-weight: bold;
+      }
+
+      .notes .note p {
+        margin-left: 2em;
+      }
     "
 
-    mywindow.document.write('<html><head><title>' + document.title  + '</title>')
+    mywindow.document.write('<html><head><title>' + title  + '</title>')
     mywindow.document.write('<style type="text/css">' + styles + '</style>')
     mywindow.document.write('</head><body>')
     mywindow.document.write(e.innerHTML)
@@ -102,5 +161,5 @@ wApp.utils = {
     mywindow.focus() # necessary for IE >= 10*/
 
     mywindow.print()
-    mywindow.close()
+    # mywindow.close()
 }
