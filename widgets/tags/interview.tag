@@ -56,7 +56,7 @@
 
         <div if={hasPDF()} class="or-perspectivia-ref">
           {t('perspectivia_ref')}
-          <a href={perspectiviaLink()}>{perspectiviaLink()}</a>.
+          <a href={perspectiviaLink()} target="_blank">{perspectiviaLink()}</a>.
         </div>
       </div>
       <or-icon which="up" />

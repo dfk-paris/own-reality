@@ -57,7 +57,9 @@
         <div if={hasPDF()} class="or-perspectivia-ref">
           {t('perspectivia_ref')}
           <a
-            href="http://www.perspectivia.net/publikationen/ownreality">
+            href="http://www.perspectivia.net/publikationen/ownreality"
+            target="_blank"
+          >
             http://www.perspectivia.net/publikationen/ownreality</a
           >.
         </div>
