@@ -59,7 +59,7 @@ wApp.i18n.translations.fr = {
     "other": "pages"
   },
   "next_page": "suivant",
-  "previous_page": "précédant",
+  "previous_page": "précédent",
   "first_page": "première page",
   "last_page": "dernière page",
   "in": "dans",
@@ -68,7 +68,7 @@ wApp.i18n.translations.fr = {
   "too_much_data": "trop de résultats",
   "no_data": "aucun résultat",
   "next": "suivant",
-  "previous": "précédant",
+  "previous": "précédent",
   "more": "plus",
   "full_text_search": "recherche plein texte",
   "show_all": "afficher tout",
