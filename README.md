@@ -146,7 +146,7 @@ or-general-filters is required on the same page
 results for the current search, the widget or-general-filters is required on the
 same page
 * `<or-item-list type="magazines"></or-item-list>`: shows the full list of
-magazines. You may also use "articles" or "interviews" instead of "magazines".
+magazines. You may also use “articles” or “interviews” instead of “magazines”.
 * `<or-chronology-ranges></or-chronology-ranges>`: shows a list of links (one
 for each year)
 * `<or-chronology-results></or-chronology-results>`: shows the chronology
@@ -154,7 +154,7 @@ results according to the selected year, the widget or-chronology-ranges is
 required on the same page
 * `<or-list-item></or-list-item>` shows an individual item as within the search
 results, required attributes: **id** (the id of the object to display, e.g.
-"23258") **type** (can have values "articles", "sources", "interviews" or
+“23258”) **type** (can have values “articles”, “sources”, “interviews” or
 "magazines")
 * `<or-item></or-item>` shows an individual item as inline as possible. required
 attributes: **id** (the id of the object to display), **type** (magazines or 
