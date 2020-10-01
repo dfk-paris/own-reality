@@ -63,6 +63,7 @@ wApp.i18n.translations.en = {
   "first_page": "first page",
   "last_page": "last page",
   "in": "in",
+  "in_country": "in",
   "by": "by",
   "in_country": "in",
   "too_much_data": "too much data",

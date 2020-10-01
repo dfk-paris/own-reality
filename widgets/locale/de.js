@@ -63,6 +63,7 @@ wApp.i18n.translations.de = {
   "first_page": "erste Seite",
   "last_page": "letzte Seite",
   "in": "in",
+  "in_country": "in",
   "by": "von",
   "in_country": "in",
   "too_much_data": "zu vielen Daten",

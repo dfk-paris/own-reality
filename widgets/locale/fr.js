@@ -63,6 +63,7 @@ wApp.i18n.translations.fr = {
   "first_page": "première page",
   "last_page": "dernière page",
   "in": "dans",
+  "in_country": "en",
   "by": "de",
   "in_country": "en",
   "too_much_data": "trop de résultats",
