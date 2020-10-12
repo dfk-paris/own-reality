@@ -47,7 +47,7 @@ sources there:
 
     mkdir -p /var/www/rack
     cd /var/www/rack
-    # download the source package here from heiDATA, then
+    # download the source package here from heiDATA (see below), then
     tar xzf master.tar.gz
     mv ownreality-master ownreality
     cd ownreality
@@ -79,8 +79,8 @@ The built version will be placed at public/app.js within the app's directory.
 
 ### Data import
 
-The json data is available at https://doi.org/10.11588/data/KZHLS8. Please
-download the archive to the application directory, e.g.
+The json data is available at https://doi.org/10.11588/data/ZMIHMY. Please
+download the archive to the application directory and then extract:
 
     tar xzf /root/json.data.tar.gz
 
