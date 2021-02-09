@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.2.11.3'
+gem 'rails', '5.0.7.2'
 gem 'jbuilder', '~> 2.0'
 gem 'httpclient', '~> 2.6'
 gem 'puma'
@@ -10,7 +10,8 @@ group :import do
   # source 'https://gems.dfkg.org' do
   #   gem 'proweb'
   # end
-  gem 'proweb', git: 'https://github.com/dfk-paris/proweb'
+  # gem 'proweb', git: 'https://github.com/dfk-paris/proweb'
+  gem 'proweb', path: '../../proweb/src'
   gem 'ruby-progressbar'
 end
 
