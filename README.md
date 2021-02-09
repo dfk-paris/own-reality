@@ -29,9 +29,9 @@ are documented nicely on their respective pages. The versions indicate tested
 compatibility.
 
 * linux (not a requirement but this howto assumes linux)
-* elasticsearch (2.2.3)
-* ruby (2.2.5)
-* nodejs (4.4.4), only for building
+* elasticsearch (7.10.2)
+* ruby (2.6.6)
+* nodejs (12.20.1), only for building
 
 ## Setup
 
