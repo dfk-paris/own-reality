@@ -87,7 +87,7 @@ module OwnReality
 
     # config.assets.precompile += ["dfk.css"]
 
-    config.middleware.insert_before 0, "Rack::Cors", :debug => true, :logger => (-> { Rails.logger }) do
+    config.middleware.insert_before 0, Rack::Cors, :debug => true, :logger => (-> { Rails.logger }) do
       allow do
         origins '*'
         resource '*', :headers => :any, :methods => :any
