@@ -1,4 +1,6 @@
 wApp.utils = {
+  isType: (item, type) ->
+    item._index == "#{wApp.config.server.prefix}-#{type}"
   shorten: (str, n = 30) ->
     if str && str.length > n
       str.substr(0, n - 1) + '…'

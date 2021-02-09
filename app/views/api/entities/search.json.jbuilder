@@ -10,7 +10,10 @@ json.aggregations do
     end
   end
   json.journals @result['aggregations']['journals']
-  json.type @result['aggregations']['type']
+  if @result['aggregations']['type']
+    @result['aggregations']['type']['buckets'].each{|b| b['key'] = b['key'].split('-').last}
+    json.type @result['aggregations']['type']
+  end
   json.year_ranges @result['aggregations']['year_ranges']
   json.register @result['aggregations']['register']
 end

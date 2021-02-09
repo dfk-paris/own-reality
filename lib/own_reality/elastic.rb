@@ -4,43 +4,54 @@ class OwnReality::Elastic
     OwnReality.config["elasticsearch"]
   end
 
-  def drop_index
-    if index_exists?
-      request 'delete'
+  def indices
+    return [
+      "sources", "magazines", "interviews", "articles", "chronology", 'attribs',
+      'people', 'config'
+    ]
+  end
+
+  def drop_indices
+    indices.each do |i|
+      if index_exists?(i)
+        request 'delete', i
+      end
     end
   end
 
-  def create_index
-    unless index_exists?
-      request 'put', nil, nil, {
-        "settings" => {
-          "number_of_shards" => 1,
-          'max_result_window' => 50000,
-          "analysis" => {
-            "analyzer" => {
-              "folding" => {
-                "tokenizer" => "standard",
-                "filter" => ["lowercase", "asciifolding"]
-              },
-              'case_insensitive_sort' => {
-                'tokenizer' => 'keyword',
-                'filter' => ['lowercase']
+  def create_indices
+    indices.each do |i|
+      unless index_exists?(i)
+        request 'put', i, nil, {
+          "settings" => {
+            "number_of_shards" => 1,
+            'max_result_window' => 50000,
+            "analysis" => {
+              "analyzer" => {
+                "folding" => {
+                  "tokenizer" => "standard",
+                  "filter" => ["lowercase", "asciifolding"]
+                },
+                'case_insensitive_sort' => {
+                  'tokenizer' => 'keyword',
+                  'filter' => ['lowercase']
+                }
               }
             }
           }
         }
-      }
+      end
     end
   end
 
-  def index_exists?
-    response = raw_request 'head'
+  def index_exists?(index)
+    response = raw_request 'head', index
     response.status != 404
   end
 
-  def reset_index
-    drop_index
-    create_index
+  def reset_indices
+    drop_indices
+    create_indices
   end
 
   def flush
@@ -71,17 +82,25 @@ class OwnReality::Elastic
   end
 
   def raw_request(method, path = nil, query = {}, body = nil, headers = {})
-    query ||= {}
-    query["token"] = config['token']
-    headers.reverse_merge 'content-type' => 'application/json', 'accept' => 'application/json'
-    url = if path.nil?
-      "#{config['url']}/#{config['index']}#{path}"
-    else
-      if path.match(/^\//)
-        "#{config['url']}#{path}"
-      else
-        "#{config['url']}/#{config['index']}/#{path}"
+    raise 'path cannot be nil' if path.nil?
+
+    # fix _mget requests to include index prefix
+    if path.match?((/^\/_mget/))
+      body['docs'].map! do |e|
+        e['_index'] = "#{config['prefix']}-#{e['_index']}"
+        e
       end
+    end
+
+    query ||= {}
+    if config['token']
+      query["token"] = config['token']
+    end
+    headers.reverse_merge! 'content-type' => 'application/json', 'accept' => 'application/json'
+    url = if path.match?(/^\//)
+      "#{config['url']}#{path}"
+    else
+      "#{config['url']}/#{config['prefix']}-#{path}"
     end
 
     if body && !body.is_a?(String)
@@ -117,6 +136,10 @@ class OwnReality::Elastic
 
   def to_array(value)
     value.is_a?(Array) ? value : [value]
+  end
+
+  def prefix_indices(names)
+    names.map{|n| "#{config['prefix']}-#{n}"}
   end
 
   def self.fetch(*args)

@@ -2,7 +2,7 @@
 
   <div class="or-item-frame" if={opts.item}>
 
-    <virtual if={opts.item && opts.item._type == 'sources'}>
+    <virtual if={opts.item && wApp.utils.isType(opts.item, 'sources')}>
       <or-icon which="right" />
       
       <div class="or-item" onclick={openPaper} or-type="sources">
@@ -22,7 +22,7 @@
       </div>
     </virtual>
 
-    <virtual if={opts.item && opts.item._type == 'interviews'}>
+    <virtual if={opts.item && wApp.utils.isType(opts.item, 'interviews')}>
       <or-icon which="right" />
 
       <div class="or-item" onclick={openPaper} or-type="interviews">
@@ -47,7 +47,7 @@
       </virtual>
     </virtual>
 
-    <virtual if={opts.item && opts.item._type == 'articles'}>
+    <virtual if={opts.item && wApp.utils.isType(opts.item, 'articles')}>
       <or-icon which="right" />
       
       <div class="or-item" onclick={openPaper} or-type="articles">
@@ -63,7 +63,7 @@
       </div>
     </virtual>
 
-    <virtual if={opts.item && opts.item._type == 'magazines'}>
+    <virtual if={opts.item && wApp.utils.isType(opts.item, 'magazines')}>
       <or-icon which="right" />
 
       <div class="or-item" onclick={openPaper} or-type="magazines">
@@ -97,7 +97,7 @@
       </div>
     </virtual>
 
-    <virtual if={opts.item && opts.item._type == 'chronology'}>
+    <virtual if={opts.item && wApp.utils.isType(opts.item, 'chronology')}>
       <or-icon which="right" />
       
       <div class="or-item" onclick={openPaper} or-type="chronology">

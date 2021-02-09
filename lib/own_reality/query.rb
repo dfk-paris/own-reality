@@ -2,7 +2,7 @@ class OwnReality::Query
 
   def get(type, id)
     response = elastic.request "get", "#{type}/#{id}"
-    elastic.handle resposne
+    elastic.handle response
   end
 
   def mget(type, ids)
@@ -12,7 +12,7 @@ class OwnReality::Query
           {'_index' => config['index'], '_type' => type, '_id' => i}
         }
     }
-    response = elastic.request 'get', "_mget", {}, data
+    response = elastic.request 'get', "/_mget", {}, data
   end
 
   def elastic
@@ -20,7 +20,7 @@ class OwnReality::Query
   end
 
   def config
-    @config ||= elastic.request("get", "config/complete").last['_source']
+    @config ||= elastic.request("get", "config/_doc/complete").last['_source']
   end
 
   def people(criteria = {})
@@ -56,7 +56,11 @@ class OwnReality::Query
     search_type = criteria['search_type'] || 'query_then_fetch'
     conditions = []
 
+    indices = ["sources", "magazines", "interviews", "articles", "chronology"]
+
     aggs = {}
+
+    # binding.pry
 
     if criteria['register']
       if type == 'people'
@@ -76,28 +80,28 @@ class OwnReality::Query
       end
     end
 
-    if criteria['year_ranges']
-      aggs['year_ranges'] = {
-        "date_range" => {
-          "field" => "from_date",
-          "format" => "YYYY-MM-dd",
-          "ranges" => (1960..1989).map{|i|
-            {"from" => "#{i}-01-01", "to" => "#{i}-12-31"}
-          }
-        }
-      }
-
-      if ![true, 'true'].include?(criteria['year_ranges'])
-        conditions << {
-          "range" => {
-            "from_date" => {
-              "lte" => Time.mktime(criteria["year_ranges"], 12, 31).strftime("%Y-%m-%d"),
-              "gte" => Time.mktime(criteria["year_ranges"], 1, 1).strftime("%Y-%m-%d")
+      if criteria['year_ranges']
+        aggs['year_ranges'] = {
+          "date_range" => {
+            "field" => "from_date",
+            "format" => "YYYY-MM-dd",
+            "ranges" => (1960..1989).map{|i|
+              {"from" => "#{i}-01-01", "to" => "#{i}-12-31"}
             }
           }
         }
+
+        if ![true, 'true'].include?(criteria['year_ranges'])
+          conditions << {
+            "range" => {
+              "from_date" => {
+                "lte" => Time.mktime(criteria["year_ranges"], 12, 31).strftime("%Y-%m-%d"),
+                "gte" => Time.mktime(criteria["year_ranges"], 1, 1).strftime("%Y-%m-%d")
+              }
+            }
+          }
+        end
       end
-    end
 
     config["categories"].each_with_index do |data, id|
       aggs["attribs.#{id}"] = {
@@ -128,7 +132,7 @@ class OwnReality::Query
     aggs['journals'] = {
       'terms' => {
         'field' => 'journal_short',
-        'size' => 0
+        'size' => 1000
       }
     }
 
@@ -139,8 +143,8 @@ class OwnReality::Query
     unless type.present?
       aggs['type'] = {
         'terms' => {
-          'field' => '_type',
-          'size' => 10
+          'field' => '_index',
+          'size' => 100
         }
       }
     end
@@ -154,48 +158,48 @@ class OwnReality::Query
       },
       "size" => (search_type == 'count' ? 0 : criteria["per_page"]),
       "from" => (criteria["page"] - 1) * criteria["per_page"],
-      "sort" => criteria['sort'] || {"date_from" => {'order' => 'asc', 'ignore_unmapped' => true}}
+      "sort" => criteria['sort'] || {"date_from" => {'order' => 'asc', 'unmapped_type' => 'date'}}
     }
 
-    # binding.pry
+    # # binding.pry
 
     if type.present?
-      data["query"]["bool"]["must"] << {
-        "type" => {
-          "value" => type
-        }
-      }
-
+      indices = [type]
+      # data["query"]["bool"]["must"] << {
+      #   "index" => {
+      #     "value" => type
+      #   }
+      # }
     end
 
     if criteria['exclude'].present?
       data['query']['bool']['must_not'] ||= []
       data['query']['bool']['must_not'] << {
-        'ids' => {'values' => criteria['exclude']}
+        'terms' => {'ids' => criteria['exclude']}
+        # 'ids' => {'values' => criteria['exclude']}
       }
     end
 
     if criteria["lower"].present?
       data["query"]["bool"]["must"] << {
         "bool" => {
-          "should" => [
+          'minimum_should_match': 1,
+          'should' => [
             {
-              "constant_score" => {
-                "filter" => {
-                  "range" => {
-                    "to_date" => {
-                      "gte" => Time.mktime(criteria["lower"]).strftime("%Y-%m-%d")
-                    }
-                  }
+              "range" => {
+                "to_date" => {
+                  "gte" => Time.mktime(criteria["lower"]).strftime("%Y-%m-%d")
                 }
               }
             },{
-              "constant_score" => {
-                "filter" => {
-                  "missing" => {
-                    "field" => "to_date"
+              'bool' => {
+                'must_not' => [
+                  {
+                    'exists' => {
+                      'field' => 'to_date'
+                    }
                   }
-                }
+                ]
               }
             }
           ]
@@ -206,24 +210,23 @@ class OwnReality::Query
     if criteria["upper"].present?
       data["query"]["bool"]["must"] << {
         "bool" => {
-          "should" => [
+          'minimum_should_match': 1,
+          'should' => [
             {
-              "constant_score" => {
-                "filter" => {
-                  "range" => {
-                    "from_date" => {
-                      "lte" => Time.mktime(criteria["upper"], 12, 31).strftime("%Y-%m-%d")
-                    }
-                  }
+              "range" => {
+                "from_date" => {
+                  "lte" => Time.mktime(criteria["upper"]).strftime("%Y-%m-%d")
                 }
               }
             },{
-              "constant_score" => {
-                "filter" => {
-                  "missing" => {
-                    "field" => "from_date"
+              'bool' => {
+                'must_not' => [
+                  {
+                    'exists' => {
+                      'field' => 'from_date'
+                    }
                   }
-                }
+                ]
               }
             }
           ]
@@ -325,19 +328,21 @@ class OwnReality::Query
       end
     end
 
-    Rails.logger.debug data.inspect
-    response = elastic.request "post", "_search", nil, data
+    indices = elastic.prefix_indices(indices)
+
+    Rails.logger.debug "Searching in indices #{indices.inspect}"
+    Rails.logger.debug JSON.pretty_generate(data)
+    response = elastic.request "post", "/#{indices.join(',')}/_search", nil, data
     # binding.pry
     elastic.handle response
   end
 
-  def lookup(type = "attribs", ids = [])
+  def lookup(index = "attribs", ids = [])
     ids ||= []
     
     docs = ids.map{|id|
       {
-        '_index' => config['index'],
-        '_type' => type,
+        '_index' => index,
         '_id' => "#{id}"
       }
     }
@@ -345,7 +350,7 @@ class OwnReality::Query
     if ids.empty?
       [[],[],[]]
     else
-      response = elastic.request "post", "_mget", nil, {'docs' => docs}
+      response = elastic.request "post", "/_mget", nil, {'docs' => docs}
       elastic.handle(response)
     end
   end
