@@ -7,31 +7,31 @@
 
     <or-article
       item={opts.item}
-      if={opts.item._type == 'articles'}
+      if={opts.item._index.match(/articles$/)}
       handlers={handlers}
     />
 
     <or-interview
       item={opts.item}
-      if={opts.item._type == 'interviews'}
+      if={opts.item._index.match(/interviews$/)}
       handlers={handlers}
     />
 
     <or-magazine
       item={opts.item}
-      if={opts.item._type == 'magazines'}
+      if={opts.item._index.match(/magazines$/)}
       handlers={handlers}
     />
 
     <or-source
       item={opts.item}
-      if={opts.item._type == 'sources'}
+      if={opts.item._index.match(/sources$/)}
       handlers={handlers}
     />
 
     <or-chronology
       item={opts.item}
-      if={opts.item._type == 'chronology'}
+      if={opts.item._index.match(/chronology$/)}
       handlers={handlers}
     ></or-chronology>
 

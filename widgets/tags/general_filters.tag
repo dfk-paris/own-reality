@@ -30,7 +30,9 @@
     tag = this
     tag.mixin(wApp.mixins.i18n)
 
-    tag.type = -> wApp.routing.packed()['type'] || 'sources'
+    tag.type = ->
+      r = wApp.routing.packed()['type'] || 'sources'
+      r.replace(/^[^-]+\-/, '')
     
     tag.on 'mount', ->
       wApp.searchContext = true

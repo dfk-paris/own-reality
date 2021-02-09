@@ -87,7 +87,9 @@ class OwnReality::Elastic
     # fix _mget requests to include index prefix
     if path.match?((/^\/_mget/))
       body['docs'].map! do |e|
-        e['_index'] = "#{config['prefix']}-#{e['_index']}"
+        unless e['_index'].match?(/^[^-]+\-/)
+          e['_index'] = "#{config['prefix']}-#{e['_index']}"
+        end
         e
       end
     end
@@ -139,7 +141,13 @@ class OwnReality::Elastic
   end
 
   def prefix_indices(names)
-    names.map{|n| "#{config['prefix']}-#{n}"}
+    names.map do |n|
+      # sometimes we get index names from search results where they are already
+      # prefixed
+      n.match(/^#{config['prefix']}/) ?
+        n :
+        "#{config['prefix']}-#{n}"
+    end
   end
 
   def self.fetch(*args)

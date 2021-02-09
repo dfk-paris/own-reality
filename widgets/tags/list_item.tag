@@ -141,7 +141,7 @@
         tag: 'or-paper',
         id: tag.opts.item._id
         clang: wApp.config.locale
-        type: tag.opts.item._type
+        type: tag.opts.item._index
       )
 
     tag.hasHTML = ->

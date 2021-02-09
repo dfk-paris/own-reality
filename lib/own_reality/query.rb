@@ -9,7 +9,7 @@ class OwnReality::Query
     ids = [ids] unless ids.is_a?(Array)
     data = {
         'docs' => ids.map{|i|
-          {'_index' => config['index'], '_type' => type, '_id' => i}
+          {'_index' => type, '_id' => i}
         }
     }
     response = elastic.request 'get', "/_mget", {}, data
