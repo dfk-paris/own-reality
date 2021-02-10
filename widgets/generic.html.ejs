@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon" />
+
+    <title>OwnReality – Jedem seine Wirklichkeit</title>
+
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="<%= stylesheet_path('vendor.css') %>"
+    />
+
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="<%= stylesheet_path('app.css') %>"
+    />
+
+    <style type="text/css">
+      body {width: 100%; padding: 0px;}
+      body > div {
+        box-sizing: border-box;
+      }
+
+      .widget {
+        padding: 1rem;
+        border: 1px solid gray;
+        margin: 0 auto;
+        margin-top: 5rem;
+      }
+
+      h1 {
+        text-align: center;
+      }
+
+      h2 {
+        border-bottom: 1px solid gray;
+      }
+
+      .w-300 {
+        width: 300px;
+      }
+
+      .w-600 {
+        width: 600px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Generic Widget Test Page</h1>
+
+    <div class="widget w-300">
+      <h2>or-list-item (magazines)</h2>
+
+      <or-list-item
+        id="23417"
+        label="Präsentation der Zeitschrift"
+        label2="ausgewertete Artikel"
+        or-search-url="https://dfk-paris.org/de/page/ownrealitydatenbank-und-recherche-1353.html"
+        type="magazines"
+      ></or-list-item>
+    </div>
+
+    <div class="widget w-600">
+      <h2>or-list-item (interviews)</h2>
+
+      <or-list-item
+        id="23329"
+        label="Auto-Perforations-Artisten (Micha Brendel, Elke Gabriel, Rainer Görß)"
+        type="interviews"
+      ></or-list-item>
+    </div>
+
+    <div class="widget w-600">
+      <h2>or-list-item (articles)</h2>
+
+      <or-list-item id="23647" type="articles"></or-list-item>
+    </div>
+
+    <div class="widget w-600">
+      <h2>or-chronology-ranges (controls or-chronology-results)</h2>
+
+      <or-chronology-ranges></or-chronology-ranges>
+    </div>
+
+    <div class="widget w-600">
+      <h2>or-chronology-results</h2>
+
+      <or-chronology-results></or-chronology-results>
+    </div>
+
+    <script
+      type="text/javascript"
+      src="<%= script_path('app-noboot.js') %>"
+    ></script>
+    
+    <script type="text/javascript">
+      wApp.setup()
+    </script>
+  </body>
+</html>
