@@ -1,5 +1,6 @@
-PATH
-  remote: ../../proweb/src
+GIT
+  remote: https://github.com/dfk-paris/proweb
+  revision: 5aadffcf0cfc5bab12e18a60b473c13cbbdc720c
   specs:
     proweb (1.2.0)
       activerecord (~> 6.1.1)
