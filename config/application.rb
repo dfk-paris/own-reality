@@ -17,6 +17,22 @@ require "action_view/railtie"
 Bundler.require(*Rails.groups)
 
 module OwnReality
+
+end
+
+# require './lib/own_reality/attribute_categories_reader'
+require './lib/own_reality/elastic'
+require './lib/own_reality/import'
+require './lib/own_reality/json_export'
+require './lib/own_reality/json_reader'
+# require './lib/own_reality/lodal_parser'
+require './lib/own_reality/proweb_file_converter'
+require './lib/own_reality/proweb_reader'
+require './lib/own_reality/query'
+require './lib/own_reality/tei_html_parser'
+require './lib/own_reality/translators_reader'
+
+module OwnReality
   
   def self.config
     @config ||= YAML.load(File.read "#{Rails.root}/config/app.yml")
