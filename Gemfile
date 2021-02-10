@@ -10,7 +10,7 @@ group :import do
   # source 'https://gems.dfkg.org' do
   #   gem 'proweb'
   # end
-  gem 'proweb', git: 'https://github.com/dfk-paris/proweb'
+  # gem 'proweb', git: 'https://github.com/dfk-paris/proweb'
 
   # alternative: use for development, e.g. when upgrading rails
   # gem 'proweb', path: '../../proweb/src'

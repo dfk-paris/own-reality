@@ -1,19 +1,3 @@
-GIT
-  remote: https://github.com/dfk-paris/proweb
-  revision: 5aadffcf0cfc5bab12e18a60b473c13cbbdc720c
-  specs:
-    proweb (1.2.0)
-      activerecord (~> 6.1.1)
-      activerecord-sqlserver-adapter
-      httpclient
-      mysql2
-      progressbar
-      pry
-      sequel
-      spreadsheet
-      sqlite3 (= 1.3.13)
-      tiny_tds
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -63,7 +47,6 @@ GEM
     activerecord (6.1.1)
       activemodel (= 6.1.1)
       activesupport (= 6.1.1)
-    activerecord-sqlserver-adapter (2.3.8)
     activestorage (6.1.1)
       actionpack (= 6.1.1)
       activejob (= 6.1.1)
@@ -160,12 +143,10 @@ GEM
     mini_portile2 (2.5.0)
     minitest (5.14.3)
     multi_test (0.1.2)
-    mysql2 (0.5.3)
     nio4r (2.5.5)
     nokogiri (1.11.1)
       mini_portile2 (~> 2.5.0)
       racc (~> 1.4)
-    progressbar (1.11.0)
     protobuf-cucumber (3.10.8)
       activesupport (>= 3.2)
       middleware
@@ -226,16 +207,12 @@ GEM
       rspec-mocks (~> 3.10)
       rspec-support (~> 3.10)
     rspec-support (3.10.2)
-    ruby-ole (1.2.12.2)
     ruby-progressbar (1.11.0)
     rubyzip (1.2.0)
     selenium-webdriver (2.53.0)
       childprocess (~> 0.5)
       rubyzip (~> 1.0)
       websocket (~> 1.0)
-    sequel (5.41.0)
-    spreadsheet (1.2.7)
-      ruby-ole
     spring (1.3.6)
     sprockets (4.0.2)
       concurrent-ruby (~> 1.0)
@@ -244,12 +221,10 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
-    sqlite3 (1.3.13)
     sys-uname (1.2.2)
       ffi (~> 1.1)
     thor (1.1.0)
     thread_safe (0.3.6)
-    tiny_tds (2.1.3)
     tzinfo (2.0.4)
       concurrent-ruby (~> 1.0)
     websocket (1.2.3)
@@ -269,7 +244,6 @@ DEPENDENCIES
   httpclient (~> 2.6)
   jbuilder (~> 2.0)
   method_profiler
-  proweb!
   pry
   puma
   rack-cors

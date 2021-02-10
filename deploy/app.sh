@@ -12,7 +12,11 @@ function deploy {
   # DFK_PATH="/home/schepp/Desktop/dev/dfk_scripts/src/dfk"
   # local "rsync $RSYNC_OPTS $DFK_PATH/ $HOST:$SHARED_PATH/dfk/"
 
-  task "bundle --clean --quiet --without test development --path /home/app/or_bundle"
+  task "bundle config set --local clean 'true'"
+  task "bundle config set --local path '/home/app/or_bundle.2.6.6'"
+  task "bundle config set --local without 'test development'"
+
+  task "bundle --quiet"
 
   # remote "ln -sfn $SHARED_PATH/database.yml $CURRENT_PATH/config/database.yml"
   task "ln -sfn $SHARED_PATH/app.yml $CURRENT_PATH/config/app.yml"
