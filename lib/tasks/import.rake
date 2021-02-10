@@ -1,8 +1,8 @@
-require "proweb"
-
 namespace :or do
   desc "import all OwnReality data"
   task :import => :environment do
+    require "proweb"
+    
     Proweb.config = YAML.load_file("#{Rails.root}/config/app.yml")["proweb"]
     Proweb.connect
     
