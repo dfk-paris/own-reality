@@ -30,9 +30,10 @@ function deploy {
   local "rsync $RSYNC_OPTS public/app.css $HOST:$CURRENT_PATH/public/app.css"
   local "rsync $RSYNC_OPTS public/vendor.css $HOST:$CURRENT_PATH/public/vendor.css"
   local "rsync $RSYNC_OPTS public/spinner.gif $HOST:$CURRENT_PATH/public/spinner.gif"
+  
   local "rsync $RSYNC_OPTS json/ $HOST:$CURRENT_PATH/json/"
 
-  task "cd $CURRENT_PATH && RAILS_ENV=production bundle exec rake or:from_json"
+  task "RAILS_ENV=production bundle exec rake or:from_json"
 
   task "touch tmp/restart.txt"
 
