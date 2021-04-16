@@ -24,7 +24,7 @@
     <div class="or-main-section or-detail-section">
       <div class="or-metadata">
         <h1 name="or-article">{lcv(opts.item._source.title)}</h1>
-        <div class="or-subtitle" if={opts.item._type == 'chronology'}>
+        <div class="or-subtitle" if={wApp.utils.isType(opts.item, 'chronology')}>
           {t('exhibition', {count: 1, capitalize: true})} {t('in_country')}
           <or-attribute
             each={id in opts.item._source.attrs.ids[7][168]}

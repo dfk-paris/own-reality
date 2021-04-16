@@ -1,6 +1,8 @@
 wApp.utils = {
   isType: (item, type) ->
     item._index == "#{wApp.config.server.prefix}-#{type}"
+  typeFor: (item) ->
+    item._index.replace(new RegExp("^#{wApp.config.server.prefix}-"), '')
   shorten: (str, n = 30) ->
     if str && str.length > n
       str.substr(0, n - 1) + '…'

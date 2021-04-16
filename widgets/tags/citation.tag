@@ -76,11 +76,12 @@
     tag = this
     tag.mixin(wApp.mixins.i18n)
 
-    tag.type = -> tag.opts.item._type
+    tag.type = ->
+      wApp.utils.typeFor(tag.opts.item)
     tag.typeIsPaper = ->
-      tag.opts.item._type == 'articles' ||
-      tag.opts.item._type == 'magazines' ||
-      tag.opts.item._type == 'interviews'
+      wApp.utils.isType(opts.item, 'articles') ||
+      wApp.utils.isType(opts.item, 'magazines') ||
+      wApp.utils.isType(opts.item, 'interviews')
 
     tag.paperTitles = ->
       order = switch
@@ -93,7 +94,8 @@
 
     tag.url = -> 
       base = document.location.href.split('#')[0]
-      "#{base}#/resolve/#{tag.opts.item._type}/#{tag.opts.item._id}/#{tag.locale()}/#{tag.contentLocale()}"
+      type = wApp.utils.typeFor(tag.opts.item)
+      "#{base}#/resolve/#{type}/#{tag.opts.item._id}/#{tag.locale()}/#{tag.contentLocale()}"
 
     tag.date = ->
       ts = tag.opts.item._source.updated_at

@@ -8,12 +8,12 @@
         <span class="or-item">
           +
           <or-attribute
-            if={result._type == 'attribs'}
+            if={wApp.utils.isType(result, 'attribs')}
             attrib={result._source}
             onclick={attrib_click_handler(result)}
             shorten-to={300}
           ></or-attribute>
-          <span if={result._type == 'people'}>
+          <span if={wApp.utils.isType(result, 'people')}>
             <or-person
               person={result._source}
               machine={true}

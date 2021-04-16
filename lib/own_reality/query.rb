@@ -66,15 +66,15 @@ class OwnReality::Query
       if type == 'people'
         aggs['register'] = {
           'terms' => {
-            'field' => 'initial',
-            'size' => 0
+            'field' => 'initial.raw',
+            'size' => 1000
           }
         }
       else
         aggs['register'] = {
           'terms' => {
-            'field' => "initials.#{criteria['locale']}",
-            'size' => 0
+            'field' => "initials.#{criteria['locale']}.raw",
+            'size' => 1000
           }
         }
       end
@@ -316,13 +316,13 @@ class OwnReality::Query
       if type == 'people'
         data['query']['bool']['must'] << {
           'term' => {
-            "initial" => criteria['initial']
+            "initial.raw" => criteria['initial']
           }
         }
       else
         data['query']['bool']['must'] << {
           'term' => {
-            "initials.#{criteria['locale']}" => criteria['initial']
+            "initials.#{criteria['locale']}.raw" => criteria['initial']
           }
         }
       end

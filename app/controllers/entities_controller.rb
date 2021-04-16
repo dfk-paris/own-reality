@@ -18,7 +18,7 @@ class EntitiesController < ApplicationController
       'register' => params[:register],
       'locale' => params[:locale],
       'initial' => params[:initial],
-      'sort' => params[:sort],
+      'sort' => sort_params,
       'exclude' => params[:exclude]
     ).last
     render :template => "api/entities/search"
@@ -45,5 +45,14 @@ class EntitiesController < ApplicationController
       :type => "application/pdf"
     )
   end
+
+
+  protected
+
+    def sort_params
+      return nil if params[:sort].blank?
+
+      params[:sort].map{|s| s.permit!.to_h}
+    end
 
 end

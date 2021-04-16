@@ -2,11 +2,11 @@
 <or-item-metadata>
   
   <virtual if={opts.item}>
-    <h2 if={opts.item._type == 'sources'}>
+    <h2 if={wApp.utils.isType(opts.item, 'sources')}>
       <or-content-localized-value value={opts.item._source.title} />
     </h2>
 
-    <div class="or-subtitle" if={opts.item._type == 'chronology'}>
+    <div class="or-subtitle" if={wApp.utils.isType(opts.item, 'chronology')}>
       {t('exhibition', {count: 1, capitalize: true})} {t('in_country')}
       <or-attribute
         each={id in opts.item._source.attrs.ids[7][168]}
@@ -22,26 +22,26 @@
         <or-people-list people={people} as-buttons={true} />
       </virtual>
 
-      <div class="or-field" show={opts.item._type == 'sources'}>
+      <div class="or-field" show={wApp.utils.isType(opts.item, 'sources')}>
         <strong>{t('source', {count: 1, capitalize: true})}:</strong>
         <or-journal-and-volume item={opts.item} as-button={true} />
       </div>
     </div>
 
-    <div class="or-text" if={opts.item._type == 'sources'}>
+    <div class="or-text" if={wApp.utils.isType(opts.item, 'sources')}>
       <div class="or-field">
         <or-content-localized-value value={opts.item._source.interpretation} />
       </div>
     </div>
 
-    <div class="or-text" if={opts.item._type == 'chronology'}>
+    <div class="or-text" if={wApp.utils.isType(opts.item, 'chronology')}>
       <div class="or-field">
         <or-content-localized-value value={opts.item._source.content} />
       </div>
     </div>
 
     <div
-      if={opts.item._type == 'sources' || opts.item._type == 'chronology'}
+      if={wApp.utils.isType(opts.item, 'sources') || wApp.utils.isType(opts.item, 'chronology')}
       class="clearfix"
     ></div>
     
@@ -50,7 +50,7 @@
       <or-attribute-list keys={attrs(6, 43)} />
     </div>
 
-    <div class="or-field" if={opts.item._type == 'sources'}>
+    <div class="or-field" if={wApp.utils.isType(opts.item, 'sources')}>
       <strong>{t('recommended_citation_style', {count: 1, capitalize: true})}:</strong>
       <or-citation item={opts.item} />
     </div>

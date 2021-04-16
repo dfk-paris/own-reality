@@ -49,13 +49,13 @@
         params['initial'] = tag.initial
 
       if tag.opts.orType == 'attribs'
-        params['sort'] = {"name.#{tag.locale()}": 'asc'}
+        params['sort'] = [{"name.#{tag.locale()}.raw": 'asc'}]
         params['kind_id'] = 43
         params['klass_id'] = 6
         params['category_id'] = tag.opts.orCategoryId
 
       if tag.opts.orType == 'people'
-        params['sort'] = [{last_name: 'asc'}, {first_name: 'asc'}]
+        params['sort'] = [{'last_name.raw': 'asc'}, {'first_name.raw': 'asc'}]
 
       # console.log params
       $.ajax(

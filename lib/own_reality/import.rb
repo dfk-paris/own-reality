@@ -161,16 +161,51 @@ class OwnReality::Import
         "name" => {
           "type" => "object",
           "properties" => {
-            'de' => {'type' => 'text', 'analyzer' => 'case_insensitive_sort'},
-            'fr' => {'type' => 'text', 'analyzer' => 'case_insensitive_sort'},
-            'en' => {'type' => 'text', 'analyzer' => 'case_insensitive_sort'}
+            'de' => {
+              'type' => 'text', 'analyzer' => 'case_insensitive_sort',
+              'fields' => {
+                'raw' => {'type' => 'keyword'}
+              }
+            },
+            'fr' => {
+              'type' => 'text',
+              'analyzer' => 'case_insensitive_sort',
+              'fields' => {
+                'raw' => {'type' => 'keyword'}
+              }
+            },
+            'en' => {
+              'type' => 'text',
+              'analyzer' => 'case_insensitive_sort',
+              'fields' => {
+                'raw' => {'type' => 'keyword'}
+              }
+            }
           }
         },
         'initials' => {
           'properties' => {
-            'de' => {'type' => 'text', 'index' => 'false'},
-            'fr' => {'type' => 'text', 'index' => 'false'},
-            'en' => {'type' => 'text', 'index' => 'false'}
+            'de' => {
+              'type' => 'text',
+              'index' => 'false',
+              'fields' => {
+                'raw' => {'type' => 'keyword'}
+              }
+            },
+            'fr' => {
+              'type' => 'text',
+              'index' => 'false',
+              'fields' => {
+                'raw' => {'type' => 'keyword'}
+              }
+            },
+            'en' => {
+              'type' => 'text',
+              'index' => 'false',
+              'fields' => {
+                'raw' => {'type' => 'keyword'}
+              }
+            }
           }
         }
       }
@@ -178,9 +213,27 @@ class OwnReality::Import
 
     elastic.request "put", "people/_mapping", nil, {
       "properties" => {
-        "first_name" => {"type" => "text", 'analyzer' => 'case_insensitive_sort'},
-        "last_name" => {"type" => "text", 'analyzer' => 'case_insensitive_sort'},
-        'initial' => {'type' => 'text', 'index' => 'false'}
+        "first_name" => {
+          "type" => "text",
+          'analyzer' => 'case_insensitive_sort',
+          'fields' => {
+            'raw' => {'type' => 'keyword'}
+          }
+        },
+        "last_name" => {
+          "type" => "text",
+          'analyzer' => 'case_insensitive_sort',
+          'fields' => {
+            'raw' => {'type' => 'keyword'}
+          }
+        },
+        'initial' => {
+          'type' => 'text',
+          'index' => 'false',
+          'fields' => {
+            'raw' => {'type' => 'keyword'}
+          }
+        }
       }
     }
   end
