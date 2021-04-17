@@ -2,7 +2,7 @@
 
   <div class="or-search-header">{tcap('criterion', {count: 'other'})}</div>
   
-  <form>
+  <form onSubmit={submit}>
     <div class="form-control">
       <or-delayed-input
         ref="terms"
@@ -131,6 +131,8 @@
         for bucket in aggregation.buckets
           results.push bucket.key
       results
+
+    tag.submit = (event) -> event.preventDefault()
 
   </script>
 

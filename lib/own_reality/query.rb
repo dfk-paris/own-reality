@@ -242,13 +242,18 @@ class OwnReality::Query
           "analyzer" => "folding",
           "analyze_wildcard" => true,
           "fields" => [
-            "title.de^20",
-            "title.fr^20",
-            "title.en^20",
-            'interpretation.de^10',
-            'interpretation.fr^10',
-            'interpretation.en^10',
-            '_all'
+            "title.*^20",
+            'interpretation.*^10',
+
+            'content',
+            'abstract',
+            'search_refs',
+
+            'people.*.first_name',
+            'people.*.last_name',
+            'attrs.search.*.*',
+
+            'html.*'
           ] 
         }
       }
