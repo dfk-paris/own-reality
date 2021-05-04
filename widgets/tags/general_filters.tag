@@ -113,7 +113,7 @@
           wApp.cache.attributes(tag.attribute_ids())
           wApp.cache.people(tag.people_ids())
           wApp.data.results = data.records
-          wApp.data.total = data.total
+          wApp.data.total = data.total.value
           wApp.data.per_page = data.per_page
           wApp.bus.trigger 'results'
       )

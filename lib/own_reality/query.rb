@@ -156,6 +156,7 @@ class OwnReality::Query
           "must" => conditions
         }
       },
+      "track_total_hits" => true,
       "size" => (search_type == 'count' ? 0 : criteria["per_page"]),
       "from" => (criteria["page"] - 1) * criteria["per_page"],
       "sort" => criteria['sort'] || {"date_from" => {'order' => 'asc', 'unmapped_type' => 'date'}}
