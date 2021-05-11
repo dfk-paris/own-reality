@@ -107,6 +107,14 @@ Now you can run the application:
 Simply go to http://127.0.0.1:9292 with your browser and you should see a demo
 page integrating a subset of the available widgets.
 
+### Running the tests
+
+The app comes with a small test suite. Since the behavior partly depends on how
+the app is integrated within the deployment environment, the test suite tests
+the production page by default. Run it like this:
+
+    bundle exec rails test -v test/system
+
 
 ## Using the widgets
 

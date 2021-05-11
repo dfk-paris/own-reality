@@ -1,13 +1,17 @@
-require File.expand_path('../boot', __FILE__)
+require_relative "boot"
 
 require "rails"
 # Pick the frameworks you want:
 # require "active_model/railtie"
 # require "active_job/railtie"
 # require "active_record/railtie"
+# require "active_storage/engine"
 require "action_controller/railtie"
 # require "action_mailer/railtie"
+# require "action_mailbox/engine"
+# require "action_text/engine"
 require "action_view/railtie"
+# require "action_cable/engine"
 # require "sprockets/railtie"
 
 require "rails/test_unit/railtie"
@@ -90,6 +94,9 @@ module OwnReality
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
     config.autoload_paths << "#{Rails.root}/lib"
+    
+    # Initialize configuration defaults for originally generated Rails version.
+    config.load_defaults 5.0
 
     # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
     # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.
@@ -109,15 +116,5 @@ module OwnReality
         resource '*', :headers => :any, :methods => :any
       end
     end
-
   end
 end
-
-# TODO: what is the top margin for images?
-# TODO: search tool Vermaßung
-# TODO: remove comments everywhere
-# TODO: url on source detail modal view
-# TODO: add correct dating within citations
-# TODO: correct convention: (has_download -> hasDownload)
-# TODO: move some css rules to more generic selectors or mixins 
-# TODO: what to do with sources thumbnails?

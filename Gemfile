@@ -25,8 +25,5 @@ end
 
 group :test do
   gem 'webdrivers', '~> 4.0'
-  # gem 'rspec-rails'
-  # gem 'cucumber-rails'
   gem 'capybara'
-  # gem 'selenium-webdriver'
 end
