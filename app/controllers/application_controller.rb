@@ -21,6 +21,9 @@ class ApplicationController < ActionController::Base
     def local_request?
       request.remote_ip == '127.0.0.1' ||
       request.remote_ip == '::1' ||
-      request.remote_ip.match(/^192\.168\.\d{1,3}\.\d{1,3}$/)
+      (
+        request.remote_ip.match(/^192\.168\.\d{1,3}\.\d{1,3}$/) &&
+        request.remote_ip != '192.168.30.1'
+      )
     end
 end
