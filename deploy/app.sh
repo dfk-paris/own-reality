@@ -15,7 +15,7 @@ function deploy {
   remote "echo $RUBY_VERSION > $CURRENT_PATH/.ruby-version"
 
   task "bundle config set --local clean 'true'"
-  task "bundle config set --local path '/home/app/or_bundle.2.6.6'"
+  task "bundle config set --local path '/home/app/or_bundle.$RUBY_VERSION'"
   task "bundle config set --local without 'test development'"
 
   task "bundle --quiet"
