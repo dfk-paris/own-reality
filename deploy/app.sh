@@ -12,6 +12,8 @@ function deploy {
   # DFK_PATH="/home/schepp/Desktop/dev/dfk_scripts/src/dfk"
   # local "rsync $RSYNC_OPTS $DFK_PATH/ $HOST:$SHARED_PATH/dfk/"
 
+  remote "echo $RUBY_VERSION > $CURRENT_PATH/.ruby-version"
+
   task "bundle config set --local clean 'true'"
   task "bundle config set --local path '/home/app/or_bundle.2.6.6'"
   task "bundle config set --local without 'test development'"

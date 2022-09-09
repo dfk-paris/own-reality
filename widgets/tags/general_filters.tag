@@ -63,6 +63,7 @@
         attribute_ids: wApp.routing.packed()['attribs']
         people_ids: wApp.routing.packed()['people']
         journal_names: wApp.routing.packed()['journals']
+        person_id: wApp.routing.packed()['person_id']
         exclude: ['23572', '23573', '23571']
       }
 

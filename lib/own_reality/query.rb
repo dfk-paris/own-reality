@@ -80,28 +80,28 @@ class OwnReality::Query
       end
     end
 
-      if criteria['year_ranges']
-        aggs['year_ranges'] = {
-          "date_range" => {
-            "field" => "from_date",
-            "format" => "YYYY-MM-dd",
-            "ranges" => (1960..1989).map{|i|
-              {"from" => "#{i}-01-01", "to" => "#{i}-12-31"}
+    if criteria['year_ranges']
+      aggs['year_ranges'] = {
+        "date_range" => {
+          "field" => "from_date",
+          "format" => "YYYY-MM-dd",
+          "ranges" => (1960..1989).map{|i|
+            {"from" => "#{i}-01-01", "to" => "#{i}-12-31"}
+          }
+        }
+      }
+
+      if ![true, 'true'].include?(criteria['year_ranges'])
+        conditions << {
+          "range" => {
+            "from_date" => {
+              "lte" => Time.mktime(criteria["year_ranges"], 12, 31).strftime("%Y-%m-%d"),
+              "gte" => Time.mktime(criteria["year_ranges"], 1, 1).strftime("%Y-%m-%d")
             }
           }
         }
-
-        if ![true, 'true'].include?(criteria['year_ranges'])
-          conditions << {
-            "range" => {
-              "from_date" => {
-                "lte" => Time.mktime(criteria["year_ranges"], 12, 31).strftime("%Y-%m-%d"),
-                "gte" => Time.mktime(criteria["year_ranges"], 1, 1).strftime("%Y-%m-%d")
-              }
-            }
-          }
-        end
       end
+    end
 
     config["categories"].each_with_index do |data, id|
       aggs["attribs.#{id}"] = {
@@ -280,6 +280,33 @@ class OwnReality::Query
           }
         end
       end
+    end
+
+    if criteria['person_id'].present?
+      id = criteria['person_id'].to_i
+
+      roles = [
+        12063,
+        12064,
+        12065,
+        12066,
+        12068,
+        12069,
+        12071,
+        12073,
+        13625,
+        13636,
+        16530
+      ]
+
+      data['query']['bool']['must'] << {
+        'bool' => {
+          'should' => roles.map{|r|
+            {'term' => {"people.#{r}.id" => id}}
+          },
+          'minimum_should_match' => 1
+        }
+      }
     end
 
     if criteria['journals'].present?

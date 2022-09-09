@@ -13,6 +13,7 @@ class EntitiesController < ApplicationController
       'category_id' => params[:category_id],
       "page" => params[:page],
       'people' => params[:people_ids],
+      'person_id' => params[:person_id],
       'journals' => params[:journal_names],
       'year_ranges' => params[:year_ranges],
       'register' => params[:register],

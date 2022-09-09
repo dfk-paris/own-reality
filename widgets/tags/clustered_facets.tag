@@ -22,6 +22,16 @@
       </virtual>
       <span
         class="or-item-wrapper"
+        if={keys.person_id && wApp.cache.data.people[keys.person_id]}
+        onclick={remove('person_id')}
+      >
+        <span class="or-item">
+          × {wApp.cache.data.people[keys.person_id]['first_name']}
+          {wApp.cache.data.people[keys.person_id]['last_name']}
+        </span>
+      </span>
+      <span
+        class="or-item-wrapper"
         each={key in keys.journals} data-id={key}
         onclick={remove('journals', null, key)}
       >
@@ -147,7 +157,8 @@
     tag.keys = {
       attribs: []
       people: {}
-      journals: []
+      journals: [],
+      person_id: null
     }
     tag.expanded = {}
 
@@ -162,11 +173,14 @@
       tag.keys.attribs = data['attribs'] || []
       tag.keys.people = data['people'] || {}
       tag.keys.journals = data['journals'] || []
+      tag.keys.person_id = data['person_id']
       for attrib_id in tag.keys.attribs
         wApp.cache.attributes [attrib_id]
       for role_id, people of tag.keys.people
         for person_id in people
           wApp.cache.people [person_id]
+      if tag.person_id
+        wApp.cache.people [person_id]
       tag.notify()
 
     tag.add = (what = {}, notify = true) ->
@@ -211,6 +225,8 @@
             i = newPacked.attribs.indexOf(key)
             newPacked.attribs.splice(i, 1)
             newPacked.attribs = null if newPacked.attribs.length == 0
+          when 'person_id'
+            newPacked.person_id = null
 
         wApp.routing.packed(newPacked)
 
@@ -219,7 +235,8 @@
         page: 1
         attribs: []
         people: {}
-        journals: []
+        journals: [],
+        person_id: null
       )
 
     tag.on 'mount', ->
@@ -293,7 +310,8 @@
     tag.hasSelection = ->
       !Zepto.isEmptyObject(tag.keys.people) ||
       tag.keys.attribs.length > 0 ||
-      tag.keys.journals.length > 0
+      tag.keys.journals.length > 0 ||
+      !!tag.keys.person_id
 
   </script>
 
