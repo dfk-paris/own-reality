@@ -4,23 +4,23 @@
   
   <div class="result-tabs">
     <div class="controls" if={wApp.data.aggregations}>
-      <a name="sources" class={current: (current_tab == 'sources')}>
+      <a name="sources" class={current: (currentTab() == 'sources')}>
         {t('source', {count: 'other', capitalize: true})}
         ({wApp.data.aggregations['sources'].doc_count})
       </a>
-      <a name="chronology" class={current: (current_tab == 'chronology')}>
+      <a name="chronology" class={current: (currentTab() == 'chronology')}>
         {t('exhibition', {count: 'other', capitalize: true})}
         ({wApp.data.aggregations['chronology'].doc_count})
       </a>
-      <a name="interviews" class={current: (current_tab == 'interviews')}>
+      <a name="interviews" class={current: (currentTab() == 'interviews')}>
         {t('interview', {count: 'other', capitalize: true})}
         ({wApp.data.aggregations['interviews'].doc_count})
       </a>
-      <a name="magazines" class={current: (current_tab == 'magazines')}>
+      <a name="magazines" class={current: (currentTab() == 'magazines')}>
         {t('magazine', {count: 'other', capitalize: true})}
         ({wApp.data.aggregations['magazines'].doc_count})
       </a>
-      <a name="articles" class={current: (current_tab == 'articles')}>
+      <a name="articles" class={current: (currentTab() == 'articles')}>
         {t('article', {count: 'other', capitalize: true})}
         ({wApp.data.aggregations['articles'].doc_count})
       </a>
@@ -33,7 +33,7 @@
       per-page={wApp.data.per_page}
     />
 
-    <div class="or-list" if={current_tab != 'chronology'}>
+    <div class="or-list" if={currentTab() != 'chronology'}>
       <or-list-item
         each={item in wApp.data.results}
         item={item}
@@ -42,7 +42,7 @@
     </div>
 
     <or-filtered-chronology
-      if={current_tab == 'chronology'}
+      if={currentTab() == 'chronology'}
       items={wApp.data.results}
     />
   </div>
@@ -53,10 +53,22 @@
     
     tag.current_tab = 'sources'
 
-    tag.on 'mount', ->
-      # Zepto(tag.root).find('.tab').hide()
-      # Zepto(tag.root).find('.tab.sources').show()
+    tag.currentTab = ->
+      tabs = ['sources', 'chronology', 'interviews', 'magazines', 'articles']
+      index = tabs.indexOf(tag.current_tab)
+      for i in [index..(index + 5)]
+        candidate = tabs[i]
+        aggs = wApp.data.aggregations
+        break if !aggs
+        agg = aggs[candidate]
+        continue if !agg
+        if agg && agg.doc_count > 0
+          wApp.routing.packed type: candidate, page: 1
+          return candidate
 
+      return tag.current_tab
+
+    tag.on 'mount', ->
       Zepto(tag.root).on 'click', '.controls a', (event) ->
         event.preventDefault()
         name = Zepto(event.target).attr('name')
@@ -94,7 +106,6 @@
 
     onNextResult = (oldId) ->
       oldIndex = resultIndexById(oldId)
-      # console.log oldIndex
       if oldIndex < wApp.data.results.length - 1
         newId = wApp.data.results[oldIndex + 1]._id
         wApp.routing.packed id: newId

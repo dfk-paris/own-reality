@@ -55,19 +55,6 @@
 
       tag.new_data()
 
-
-    # tag.search = ->
-    #   Zepto.ajax(
-    #     type: 'POST'
-    #     url: "#{wApp.api_url()}/api/entities/search"
-    #     data: JSON.stringify(tag.params())
-    #     success: (data) ->
-    #       # console.log 'chrono data:', data
-    #       tag.data = data
-    #       tag.ready = true
-    #       tag.new_data(tag.params()) unless tag.excess() || tag.trivial()
-    #   )
-
     tag.new_data = (params) ->
       # console.log 'chrono params:', params
       first = tag.data.results[0]

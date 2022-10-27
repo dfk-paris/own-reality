@@ -179,7 +179,7 @@
       for role_id, people of tag.keys.people
         for person_id in people
           wApp.cache.people [person_id]
-      if tag.person_id
+      if person_id = tag.keys.person_id
         wApp.cache.people [person_id]
       tag.notify()
 
@@ -249,19 +249,6 @@
 
       tag.bus.on 'attrib-clicked', (id) ->
         tag.add attribs: [id]
-
-      # Zepto(tag.root).on 'click', '.or-bucket .or-select', (event) ->
-      #   event.preventDefault()
-      #   if key = Zepto(event.target).parents('or-attribute').attr('key')
-      #     tag.add attribs: [key]
-      #   else if key = Zepto(event.target).parents('or-person').attr('person-id')
-      #     role_id = Zepto(event.target).parents('.or-bucket').attr('data-id')
-      #     what = {people: {}}
-      #     what.people[role_id] = [key]
-      #     tag.add what
-      #   else
-      #     key = Zepto(event.target).find('.or-key').text()
-      #     tag.add journals: [key]
 
     tag.addClick = (type, role_id, key) ->
       (event) ->
