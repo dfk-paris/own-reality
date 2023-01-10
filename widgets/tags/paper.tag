@@ -102,7 +102,7 @@
           tag.opts.item = data.docs[0]
           tag.opts.item.external_request = data.external_request
           cacheAttributes()
-          #tag.update()
+          tag.update()
       )
 
     cacheAttributes = ->
