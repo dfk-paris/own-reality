@@ -63,7 +63,8 @@
         agg = aggs[candidate]
         continue if !agg
         if agg && agg.doc_count > 0
-          wApp.routing.packed type: candidate, page: 1
+          page = wApp.routing.packed()['page'] || 1
+          wApp.routing.packed type: candidate, page: page
           return candidate
 
       return tag.current_tab

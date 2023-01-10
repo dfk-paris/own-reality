@@ -43,6 +43,8 @@
     tag.mixin(wApp.mixins.i18n)
 
     tag.on 'mount', ->
+      # console.log(tag)
+
       fetch()
       registerUpEvent()
       fixAnchors()
@@ -100,7 +102,7 @@
           tag.opts.item = data.docs[0]
           tag.opts.item.external_request = data.external_request
           cacheAttributes()
-          tag.update()
+          #tag.update()
       )
 
     cacheAttributes = ->

@@ -42,7 +42,11 @@ wApp.routing = {
             result.hash_query[kv[0]] = kv[1]
       wApp.routing.parts_cache = result
     wApp.routing.parts_cache
-  packed: (newValues) -> 
+  packed: (newValues) ->
+    if (newValues && newValues['type'] && newValues['type'].match(/^or/))
+      console.log(newValues)
+      console.trace()
+
     raw = wApp.routing.query()['q']
     oldValues = if raw then JSON.parse(unescape(atob(raw))) else {}
 

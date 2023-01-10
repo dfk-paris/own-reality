@@ -78,7 +78,7 @@
           search_type: 'count'
         }))
         success: (data) ->
-          console.log 'aggs:', params, data
+          # console.log 'aggs:', params, data
           
           wApp.data.aggregations = {
             articles: {doc_count: 0}

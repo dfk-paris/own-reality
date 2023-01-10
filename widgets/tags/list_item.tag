@@ -136,12 +136,13 @@
 
     tag.openPaper = (event) ->
       event.preventDefault()
+
       wApp.routing.packed(
         modal: 'true',
         tag: 'or-paper',
         id: tag.opts.item._id
         clang: wApp.config.locale
-        type: tag.opts.item._index
+        type: wApp.utils.typeFor(tag.opts.item)
       )
 
     tag.hasHTML = ->

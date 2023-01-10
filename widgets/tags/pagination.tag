@@ -69,7 +69,7 @@
         wApp.routing.packed page: newPage
 
     tag.per_page = -> tag.opts.perPage || 10
-    tag.pages = -> Math.floor(tag.opts.total / tag.per_page()) + 1
+    tag.pages = -> Math.ceil(tag.opts.total / tag.per_page())
     tag.pageList = ->
       base = [(tag.page() - 2)..(tag.page() + 2)]
       base.filter (e) -> e >= 1 && e <= tag.pages()
