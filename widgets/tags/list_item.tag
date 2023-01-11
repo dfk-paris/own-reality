@@ -132,7 +132,7 @@
     tag.on 'updated', ->
       if tag.opts.item
         if teaser = tag.opts.item._source.teaser
-          Zepto(tag.root).find('.or-teaser').html(tag.lv teaser)
+          Zepto(tag.root).find('.or-teaser').html(tag.lv teaser, notify: false)
 
     tag.openPaper = (event) ->
       event.preventDefault()
