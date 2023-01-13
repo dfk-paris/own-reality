@@ -13,7 +13,6 @@ class OwnReality::ProwebReader
   end
 
   def old_data
-
     @old_data ||= {
       'attributes' => Proweb::OldDataMerger.new("#{@old_dir}/proweb.attributes.all_or_projects.xls", 'attribute_id'),
       'articles' => Proweb::OldDataMerger.new("#{@old_dir}/proweb.ownreality_aufsätze.xls"),

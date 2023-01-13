@@ -74,17 +74,17 @@
             {lv(opts.item._source.title)}
           </div>
 
-          <span
+          <div
             if={opts.label}
             onclick={openPaper}
             class="or-decorate-fix"
-          >{opts.label}</span>
+          >🡢 {opts.label}</div>
 
-          <span
+          <div
             if={opts.label2}
             onclick={toJournalArticles}
             class="or-decorate-fix"
-          >{opts.label2}</span>
+          >🡢 {wApp.i18n.capitalize(opts.label2)}</div>
         </virtual>
 
         <virtual if={opts.searchResult}>
@@ -131,8 +131,22 @@
 
     tag.on 'updated', ->
       if tag.opts.item
-        if teaser = tag.opts.item._source.teaser
-          Zepto(tag.root).find('.or-teaser').html(tag.lv teaser, notify: false)
+        element = Zepto(tag.root).find('.or-teaser')
+        element.empty()
+
+        text = tag.teaserText()
+        element.html(text)
+
+    tag.teaserText = ->
+      teaser = tag.opts.item._source.teaser
+      if teaser
+        translation = tag.lv(teaser, notify: false)
+        if translation
+          return translation
+
+      a = document.createElement('em')
+      a.textContent = tag.t('no_text_prompt')
+      return a
 
     tag.openPaper = (event) ->
       event.preventDefault()

@@ -112,5 +112,6 @@ wApp.i18n.translations.de = {
         'September', 'Oktober', 'November', 'Dezember'
       ]
     }
-  }
+  },
+  "no_text_prompt": "Zu dieser Zeitschrift gibt es keinen Präsentationstext; die ausgewerteten Artikel sind zu finden unter dem Tab \"Artikel\" nach Auswahl des Namens in der linken Spalte unter Schlagwörter > Zeitschriften."
 };

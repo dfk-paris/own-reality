@@ -69,5 +69,4 @@
         previousNote = manchette
 
   </script>
-
 </or-doc>

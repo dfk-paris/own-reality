@@ -10,6 +10,8 @@ wApp.i18n = {
     wApp.i18n.currentContentLocale = 
       wApp.routing.packed()['cl'] || wApp.i18n.locale()
   translate: (locale, input, options = {}) ->
+    # console.log(arguments)
+
     try
       options.count ||= 1
       parts = input.split(".")

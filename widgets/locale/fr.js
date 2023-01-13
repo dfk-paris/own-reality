@@ -112,5 +112,6 @@ wApp.i18n.translations.fr = {
         'septembre', 'octobre', 'novembre', 'décrembre'
       ]
     }
-  }
+  },
+  "no_text_prompt": "Il n'y a pas de présentation synthétique pour cette revue, mais les articles retenus lors du dépouillement se trouvent sous l'onglet \"Articles\" après sélection du nom dans la colonne à gauche sous Mots-clés > Revues."
 };

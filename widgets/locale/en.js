@@ -112,5 +112,6 @@ wApp.i18n.translations.en = {
         'September', 'October', 'November', 'December'
       ]
     }
-  }
+  },
+  "no_text_prompt": "There is no summary presentation of this journal, but the articles selected are to be found under the tab \"Articles\" after selection of the name in the left column under Keywords > Journals."
 };
