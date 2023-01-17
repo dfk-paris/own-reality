@@ -20,6 +20,7 @@ wApp.i18n.translations.de = {
     "one": "Schlagwort",
     "other": "Schlagwörter"
   },
+  "filters": "Suchfilter",
   "interpretation": "Interpretation",
   "content": "Inhalt",
   "recommended_citation_style": {
@@ -113,5 +114,5 @@ wApp.i18n.translations.de = {
       ]
     }
   },
-  "no_text_prompt": "Zu dieser Zeitschrift gibt es keinen Präsentationstext; die ausgewerteten Artikel sind zu finden unter dem Tab \"Artikel\" nach Auswahl des Namens in der linken Spalte unter Schlagwörter > Zeitschriften."
+  "no_text_prompt": "Zu dieser Zeitschrift gibt es keinen Präsentationstext. Die ausgewerteten Artikel sind zu finden unter dem Tab »Artikel«; wählen Sie hierfür den Namen der Zeitschrift unter den Suchfiltern in der linken Spalte aus."
 };

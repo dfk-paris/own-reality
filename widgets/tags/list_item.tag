@@ -1,4 +1,7 @@
-<or-list-item class={'or-search-result': opts.searchResult}>
+<or-list-item
+  class={'or-search-result': opts.searchResult}
+  data-id={opts.item._id}
+>
 
   <div class="or-item-frame" if={opts.item}>
 
@@ -64,7 +67,7 @@
     </virtual>
 
     <virtual if={opts.item && wApp.utils.isType(opts.item, 'magazines')}>
-      <or-icon which="right" />
+      <!-- or-icon which="right" / -->
 
       <div class="or-item" onclick={openPaper} or-type="magazines">
         <!-- <or-medium item={opts.item} /> -->
@@ -151,9 +154,13 @@
     tag.openPaper = (event) ->
       event.preventDefault()
 
+      noOpenList = ['23572', '23571', '23573']
+      if noOpenList.indexOf(tag.opts.item._id) != -1
+        return
+
       wApp.routing.packed(
-        modal: 'true',
-        tag: 'or-paper',
+        modal: 'true'
+        tag: 'or-paper'
         id: tag.opts.item._id
         clang: wApp.config.locale
         type: wApp.utils.typeFor(tag.opts.item)

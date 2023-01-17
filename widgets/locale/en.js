@@ -20,6 +20,7 @@ wApp.i18n.translations.en = {
     "one": "keyword",
     "other": "keywords"
   },
+  "filters": "search filters",
   "interpretation": "summary",
   "content": "content",
   "recommended_citation_style": {
@@ -113,5 +114,5 @@ wApp.i18n.translations.en = {
       ]
     }
   },
-  "no_text_prompt": "There is no summary presentation of this journal, but the articles selected are to be found under the tab \"Articles\" after selection of the name in the left column under Keywords > Journals."
+  "no_text_prompt": "There is no summary presentation of this journal. The articles selected can be found under the tab “Articles” after selecting the name of the journal in the left column (see Search filters > Journals)."
 };

@@ -20,6 +20,7 @@ wApp.i18n.translations.fr = {
     "one": "mot-clé",
     "other": "mots-clés"
   },
+  "filters": "filtres",
   "interpretation": "resumé",
   "content": "contenu",
   "recommended_citation_style": {
@@ -113,5 +114,5 @@ wApp.i18n.translations.fr = {
       ]
     }
   },
-  "no_text_prompt": "Il n'y a pas de présentation synthétique pour cette revue, mais les articles retenus lors du dépouillement se trouvent sous l'onglet \"Articles\" après sélection du nom dans la colonne à gauche sous Mots-clés > Revues."
+  "no_text_prompt": "Il n’y a pas de présentation synthétique pour cette revue. Les articles retenus lors du dépouillement se trouvent sous l’onglet « Articles » ; pour y avoir accès, sélectionner le nom de la revue parmi les filtres dans la colonne de gauche."
 };

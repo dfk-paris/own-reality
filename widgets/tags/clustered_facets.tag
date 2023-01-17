@@ -50,7 +50,7 @@
     </div>
 
     <div class="or-buckets">
-      <div class="or-search-header">{tcap('keyword', {count: 'other'})}</div>
+      <div class="or-search-header">{tcap('filters')}</div>
 
       <!-- people bucket -->
       <div

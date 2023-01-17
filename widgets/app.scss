@@ -335,6 +335,10 @@ or-list-item {
     .or-decorate-fix {
       text-decoration: underline;
       font-size: 0.96em;
+
+      &:hover {
+        color: #000000;
+      }
     }
   }
 
@@ -386,6 +390,12 @@ or-list-item:hover .or-item-frame {
 
 or-list-item:first-child {
   border-top: 1px solid $line-color;
+}
+
+or-list-item[data-id='23572'],
+or-list-item[data-id='23571'],
+or-list-item[data-id='23573'] {
+  cursor: initial;
 }
 
 or-icon, [data-is=or-icon] {
